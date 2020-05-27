@@ -2,7 +2,7 @@ import english from '../languages/english';
 import persian from '../languages/persian';
 
 export const getLanguage = () => {
-  return 'ENGLISH';
+  return 'PERSIAN';
 };
 
 export const getStrings = () => {

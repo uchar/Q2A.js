@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Tag from './Tag';
+import { getStrings } from '../utilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,10 +71,10 @@ export default function QuestionItem() {
                 <Typography
                   variant="body2"
                   color="textSecondary"
-                  style={{ fontSize: 15, color: 'black' }}
+                  style={{ fontSize: 15, color: 'black', marginRight: '12px' }}
                   component="p"
                 >
-                  Asked 2 hours ago
+                  {getStrings().DEMO_TIME_AGO}
                 </Typography>
               </div>
             </Grid>
@@ -90,7 +91,7 @@ export default function QuestionItem() {
                   style={{ fontSize: 12, color: 'black' }}
                   component="p"
                 >
-                  25 upvote
+                  {getStrings().DEMO_UP_VOTE}
                 </Typography>
               </div>
               <div style={{ marginLeft: 10 }}>
@@ -103,7 +104,7 @@ export default function QuestionItem() {
                   style={{ fontSize: 12, color: 'black' }}
                   component="p"
                 >
-                  25 Views
+                  {getStrings().DEMO_VIEWS}
                 </Typography>
               </div>
               <div style={{ marginLeft: 10 }}>
@@ -116,7 +117,7 @@ export default function QuestionItem() {
                   style={{ fontSize: 12, color: 'black' }}
                   component="p"
                 >
-                  0 Answers
+                  {getStrings().DEMO_ANSWERS}
                 </Typography>
               </div>
             </Grid>
@@ -131,12 +132,11 @@ export default function QuestionItem() {
             color: 'black',
             marginTop: '30px',
             marginBottom: '-15px',
-            textAlign: 'left',
+            textAlign: 'initial ',
           }}
           component="p"
         >
-          How to make the allowed Values of a parameter depend on the selected value of another parameter in
-          AWS Cloudformarion
+          {getStrings().DEMO_QUESTION}
         </Typography>
       </CardContent>
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
@@ -171,13 +171,8 @@ export default function QuestionItem() {
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography style={{ textAlign: 'left' }} paragraph>
-            I am very new to aws Cloud and CloudFormation. I am trying to write a CloudFormation Template
-            where a user can choose the DB Engine through a parameter. Depending on the choice made by the
-            user I would like the instance type to change accordingly. For example: Say part of my template
-            looks like this: Is this posible? Is it also posible to use that technique multiple times in a
-            template? I have searched for a solution for this for a few days with no luck and decided to ask
-            the more advanced developers. I hope that someone can clear this up for me. Thanks in advance.
+          <Typography style={{ textAlign: 'initial ' }} paragraph>
+            {getStrings().DEMO_QUESTION_DETAIL}
           </Typography>
         </CardContent>
       </Collapse>
