@@ -14,6 +14,8 @@ import AnswersIcon from '@material-ui/icons/QuestionAnswer';
 import Avatar from '@material-ui/core/Avatar';
 import Layout from '../common/components/Layout/Layout';
 import ProfileTab from '../common/components/ProfileTab';
+import ChartTab from '../common/components/ChartTab';
+import QuestionItem from '../common/components/QuestionItem';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -104,7 +106,7 @@ export default function FullWidthTabs() {
             <Tab label="پروفایل" icon={<PersonIcon />} {...a11yProps(0)} />
             <Tab label="آمارها" icon={<StatsIcon />} {...a11yProps(1)} />
             <Tab label="سوالات" icon={<QuestionsIcon />} {...a11yProps(2)} />
-            <Tab label="جواب ها" icon={<AnswersIcon />} {...a11yProps(4)} />
+            <Tab label="جواب ها" icon={<AnswersIcon />} {...a11yProps(3)} />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -116,10 +118,23 @@ export default function FullWidthTabs() {
             <ProfileTab />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
+            <ChartTab />
           </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
+          <TabPanel value={value} index={2}>
+            <div style={{}} dir={'rtl'}>
+              <QuestionItem />
+              <QuestionItem />
+              <QuestionItem />
+              <QuestionItem />
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <div style={{}} dir={'rtl'}>
+              <QuestionItem />
+              <QuestionItem />
+              <QuestionItem />
+              <QuestionItem />
+            </div>
           </TabPanel>
         </SwipeableViews>
       </div>
