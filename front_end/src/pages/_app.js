@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../common/theme';
-import '../common/globalStyles.css';
 import 'rc-footer/assets/index.css';
 
 export default function MyApp(props) {

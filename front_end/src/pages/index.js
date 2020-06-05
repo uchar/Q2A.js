@@ -2,8 +2,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 import Box from '@material-ui/core/Box';
+import { useQuery } from '@apollo/react-hooks';
 import QuestionItem from '../common/components/QuestionItem';
 import Layout from '../common/components/Layout/Layout';
+import { withApollo } from '../libs/apollo';
+import { ALL_QUESTIONS } from '../API/queries';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,22 +32,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainPage() {
+function MainPage() {
   const classes = useStyles();
+  const { loading, error, data } = useQuery(ALL_QUESTIONS);
+  if (error) return <h1>Error</h1>;
+  if (loading) return <h1>Loading...</h1>;
+  const { questions } = data;
   return (
     <Layout>
       <Box className={classes.paper}>
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem style={{ marginTop: 15 }} />
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
+        {questions &&
+          questions.map((question) => {
+            return <QuestionItem key={question.id} {...question} />;
+          })}
       </Box>
     </Layout>
   );
 }
+
+export default withApollo({ ssr: true })(MainPage);

@@ -40,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QuestionItem() {
+export default function QuestionItem(props) {
   const classes = useStyles();
+  const { title, content } = props;
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -136,7 +137,7 @@ export default function QuestionItem() {
           }}
           component="p"
         >
-          {getStrings().DEMO_QUESTION}
+          {title}
         </Typography>
       </CardContent>
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
@@ -172,7 +173,7 @@ export default function QuestionItem() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography style={{ textAlign: 'initial ' }} paragraph>
-            {getStrings().DEMO_QUESTION_DETAIL}
+            {content}
           </Typography>
         </CardContent>
       </Collapse>

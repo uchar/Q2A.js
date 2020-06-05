@@ -1,11 +1,16 @@
-
 {
   "name": "7khatcode_backend",
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
-    "eslint-plugin-jest": "^23.13.1"
+    "apollo-server": "^2.14.2",
+    "apollo-server-express": "^2.14.2",
+    "eslint-plugin-jest": "^23.13.1",
+    "express": "^4.17.1",
+    "graphql": "^15.0.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -39,4 +44,3 @@
     "*.js": "npm run lint"
   }
 }
-
