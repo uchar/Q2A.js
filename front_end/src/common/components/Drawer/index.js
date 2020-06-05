@@ -12,8 +12,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
+import Translate from '@material-ui/icons/Translate';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { getStrings } from '../../utilities';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -27,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    margin: '0px 12px 0px 12px',
   },
   search: {
     position: 'relative',
@@ -51,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    left: 0,
   },
   inputRoot: {
     color: 'inherit',
@@ -82,17 +86,26 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [languageAnchorEl, setLanguageAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isLanguageMenuOpen = Boolean(languageAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleLanguageMenuOpen = (event) => {
+    setLanguageAnchorEl(event.currentTarget);
+  };
+
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
+  };
+  const handleLanguageMenuClose = () => {
+    setLanguageAnchorEl(null);
   };
 
   const handleMenuClose = () => {
@@ -105,6 +118,15 @@ export default function PrimarySearchAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
+  const languageMenuId = 'language-menu';
+
+  const handlePersianClicked = () => {
+    handleLanguageMenuClose();
+  };
+
+  const handleEnglishClicked = () => {
+    handleLanguageMenuClose();
+  };
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -120,6 +142,21 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  const renderLanguageMenu = (
+    <Menu
+      anchorEl={languageAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={languageMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isLanguageMenuOpen}
+      onClose={handleLanguageMenuClose}
+    >
+      <MenuItem onClick={handleEnglishClicked}>English</MenuItem>
+      <MenuItem onClick={handlePersianClicked}>فارسی</MenuItem>
+    </Menu>
+  );
+
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -131,6 +168,12 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem onClick={handleLanguageMenuOpen}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Translate />
+        </IconButton>
+        <p>Language</p>
+      </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
@@ -163,20 +206,20 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ background: '#577d4d' }} position="static">
+      <AppBar style={{ background: '#504e68' }} position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            7khatcode
+            {getStrings().TITLE}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder={getStrings().SEARCH_HINT}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -186,6 +229,9 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
+              <Translate />
+            </IconButton>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -222,6 +268,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {renderLanguageMenu}
     </div>
   );
 }

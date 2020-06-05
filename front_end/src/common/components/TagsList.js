@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TagsList() {
   const classes = useStyles();
   return (
-    <Grid container justify={'center'}  border={1} spacing={2} className={classes.root}>
+    <Grid container justify={'center'} border={1} spacing={2} className={classes.root}>
       <Grid item>
         <Tag tag="C++" count={1345} />
       </Grid>

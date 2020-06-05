@@ -16,10 +16,17 @@
     "babel-eslint": "10.1.0",
     "ckeditor5-build-7khatcode": "0.0.7",
     "clsx": "1.1.0",
+    "jss": "^10.1.1",
+    "jss-rtl": "^0.3.0",
     "next": "9.4.2-canary.5",
+    "prop-types": "^15.7.2",
     "raw-loader": "3",
+    "rc-footer": "^0.6.3",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-jss": "^10.1.1",
+    "react-swipeable-views": "^0.13.9",
+    "recharts": "^1.8.5"
   },
   "devDependencies": {
     "@types/next": "9.0.0",
