@@ -14,6 +14,15 @@ const STRINGS = {
   DEMO_UP_VOTE: '25 upvote',
   DEMO_VIEWS: '25 Views',
   DEMO_ANSWERS: '0 Answers',
+  SIGN_IN_TITLE: 'Login',
+  SIGN_IN_EMAIL: 'Email',
+  SIGN_IN_PASSWORD: 'Password',
+  FORGET_PASSWORD: 'Did you forget your password?',
+  Register: 'Register',
+  Register_TITLE: 'Register',
+  Register_EMAIL: 'Email',
+  Register_PASSWORD: 'Password',
+  Register_NAME: 'User name',
 };
 
 export default STRINGS;

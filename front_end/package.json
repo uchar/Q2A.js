@@ -21,6 +21,7 @@
     "babel-eslint": "10.1.0",
     "ckeditor5-build-7khatcode": "0.0.7",
     "clsx": "1.1.0",
+    "formik": "2.1.4",
     "graphql": "15.3.0",
     "graphql-tag": "2.10.4",
     "isomorphic-unfetch": "3.0.0",
@@ -34,7 +35,8 @@
     "react-dom": "16.13.1",
     "react-jss": "10.3.0",
     "react-swipeable-views": "0.13.9",
-    "recharts": "1.8.5"
+    "recharts": "1.8.5",
+    "yup": "0.29.1"
   },
   "devDependencies": {
     "@types/next": "^9.0.0",

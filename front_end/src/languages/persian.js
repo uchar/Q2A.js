@@ -7,6 +7,15 @@ const STRINGS = {
   DEMO_UP_VOTE: '25 مثبت',
   DEMO_VIEWS: '25 بازدید',
   DEMO_ANSWERS: '0 جواب',
+  SIGN_IN_TITLE: 'ورود',
+  SIGN_IN_EMAIL: 'ایمیل',
+  SIGN_IN_PASSWORD: 'پسورد',
+  FORGET_PASSWORD: 'پسوردتون رو فراموش کردید؟',
+  Register: 'ثبت نام',
+  Register_TITLE: 'ثبت نام',
+  Register_EMAIL: 'ایمیل',
+  Register_PASSWORD: 'پسورد',
+  Register_NAME: 'نام کاربری',
 };
 
 export default STRINGS;
