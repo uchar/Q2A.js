@@ -1,9 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
 import { faIR } from '@material-ui/core/locale';
 
 // Create a theme instance.
-const theme = createMuiTheme(
+export const lightTheme = createMuiTheme(
   {
     typography: {
       fontFamily: [
@@ -21,22 +20,31 @@ const theme = createMuiTheme(
       ].join(','),
     },
     palette: {
-      primary: {
-        main: '#f72865',
-      },
-      secondary: {
-        main: '#000000',
-      },
-      error: {
-        main: red.A400,
-      },
-      background: {
-        default: '#fff',
-      },
-      direction: 'rtl',
+      type: 'light',
     },
   },
   faIR
 );
-
-export default theme;
+export const darkTheme = createMuiTheme(
+  {
+    typography: {
+      fontFamily: [
+        'persian-font',
+        'Arial',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+    },
+    palette: {
+      type: 'dark',
+    },
+  },
+  faIR
+);

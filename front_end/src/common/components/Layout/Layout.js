@@ -7,7 +7,7 @@ import Footer from './Footer';
 import TagsList from '../TagsList';
 import RTL from './RTL';
 import News from '../News';
-import { ALL_QUESTIONS, ALL_TAGS } from '../../../API/queries';
+import { ALL_TAGS } from '../../../API/queries';
 import { withApollo } from '../../../libs/apollo';
 
 const layoutStyle = {

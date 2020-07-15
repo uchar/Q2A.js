@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AskQuestion() {
+export default function Ask() {
   const classes = useStyles();
   const [titleQuestion, setTitleQuestion] = React.useState({ TitleQuestion: '' });
   const [open, setOpen] = React.useState(false);

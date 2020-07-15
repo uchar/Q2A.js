@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography, Grid } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { darkTheme, lightTheme } from '../../theme';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -8,20 +10,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     textAlign: 'center',
     alignItems: 'center',
-    padding: '20px 0px 20px 0px',
+    padding: '50px 25px 25px 25px',
   },
 }));
 
 const getFooterText = (text) => {
   return (
-    <Typography style={{ fontSize: 13, textAlign: 'right', color: 'white', marginBottom: '5px' }}>
+    <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'right', marginBottom: '5px' }}>
       {text}
     </Typography>
   );
 };
 const getFooterTitle = (text) => {
   return (
-    <Typography style={{ fontSize: 20, textAlign: 'right', color: 'white', marginBottom: '15px' }}>
+    <Typography color="textSecondary" style={{ fontSize: 20, textAlign: 'right', marginBottom: '15px' }}>
       {text}
     </Typography>
   );
@@ -29,9 +31,16 @@ const getFooterTitle = (text) => {
 
 export default function Footer() {
   const classes = useStyles();
-
+  const selector = useSelector((state) => state);
+  const { themeType } = selector.client;
   return (
-    <Box className={classes.root} style={{ backgroundColor: '#242729', padding: '50px 25px 25px 25px' }}>
+    <Box
+      className={classes.root}
+      style={{
+        backgroundColor:
+          themeType === 'dark' ? darkTheme.palette.background.default : lightTheme.palette.background.default,
+      }}
+    >
       <Grid direction="row" justify={'center'} container spacing={2}>
         <Grid item md={2} xs={0}></Grid>
         <Grid item md={2} xs={7}>

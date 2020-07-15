@@ -6,7 +6,6 @@ import Box from '@material-ui/core/Box';
 const useStyles = makeStyles(() => ({
   root: {
     padding: '5px 10px 5px 10px',
-    backgroundColor: '#f2f2f2',
   },
 }));
 

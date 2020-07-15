@@ -42,7 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QuestionItem({id, title, content, tags, profileImage, creator, createdAt, isExpanded }) {
+export default function QuestionItem({
+  id,
+  title,
+  content,
+  tags,
+  profileImage,
+  creator,
+  createdAt,
+  isExpanded,
+}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
 
@@ -60,18 +69,13 @@ export default function QuestionItem({id, title, content, tags, profileImage, cr
                 <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
               </Avatar>
               <div>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 22, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 22,textAlign:"right",marginRight:"15px" }} component="p">
                   {creator}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
-                  style={{ fontSize: 15, color: 'black', marginRight: '12px' }}
+                  style={{ fontSize: 15, marginRight: '12px' }}
                   component="p"
                 >
                   {getStrings().DEMO_TIME_AGO}
@@ -85,12 +89,7 @@ export default function QuestionItem({id, title, content, tags, profileImage, cr
                 <IconButton aria-label="add to favorites">
                   <ViewIcon />
                 </IconButton>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
                   {getStrings().DEMO_UP_VOTE}
                 </Typography>
               </div>
@@ -98,12 +97,7 @@ export default function QuestionItem({id, title, content, tags, profileImage, cr
                 <IconButton aria-label="add to favorites">
                   <UpVoteIcon />
                 </IconButton>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
                   {getStrings().DEMO_VIEWS}
                 </Typography>
               </div>
@@ -111,12 +105,7 @@ export default function QuestionItem({id, title, content, tags, profileImage, cr
                 <IconButton aria-label="add to favorites">
                   <AnswerIcon />
                 </IconButton>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
                   {getStrings().DEMO_ANSWERS}
                 </Typography>
               </div>
@@ -127,10 +116,9 @@ export default function QuestionItem({id, title, content, tags, profileImage, cr
         <Link href={`/${id}/${title}`}>
           <Typography
             variant="body2"
-            color="textSecondary"
+            color="textPrimary"
             style={{
               fontSize: 18,
-              color: 'black',
               marginTop: '30px',
               marginBottom: '-15px',
               textAlign: 'initial ',
