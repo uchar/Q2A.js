@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QuestionItem() {
+export default function News() {
   return (
     <div>
       <Box

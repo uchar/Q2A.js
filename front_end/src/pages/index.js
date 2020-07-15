@@ -4,10 +4,11 @@ import { red } from '@material-ui/core/colors';
 import { Typography, Box } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
 import QuestionItem from '../common/components/QuestionItem';
-import AskQuestion from '../common/components/AskQuestion';
 import Layout from '../common/components/Layout/Layout';
 import { withApollo } from '../libs/apollo';
 import { ALL_QUESTIONS } from '../API/queries';
+import CardButton from '../common/components/CardButton/CardButton';
+import { getStrings } from '../common/utilities';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,19 +37,32 @@ const useStyles = makeStyles((theme) => ({
 function MainPage() {
   const classes = useStyles();
   const { loading, error, data } = useQuery(ALL_QUESTIONS);
-  if (error) return <h1>Error</h1>;
+  if (error) {
+    console.error(error);
+    return <h1> error </h1>;
+  }
   if (loading) return <h1>Loading...</h1>;
   const { questions } = data;
   return (
     <Layout>
       <Box className={classes.paper}>
-        <div style={{ flex: 'row' }}></div>
-        <AskQuestion/>
-        {/* <Typography style={{ marginTop: 25, fontSize: 25 }}>آخرین سوالات</Typography> */}
-        {/* {questions && */}
-        {/*  questions.map((question) => { */}
-        {/*    return <QuestionItem key={question.id} {...question} />; */}
-        {/*  })} */}
+        <div
+          style={{
+            flex: 'row',
+            display: 'flex',
+            justifyContent: 'space-between',
+            margin: '20px 25px 0px 25px',
+          }}
+        >
+          <Typography style={{ marginTop: 25, fontSize: 32 }}>
+            {getStrings().MAIN_PAGE_QUESTIONS_TITLE}
+          </Typography>
+          <CardButton text={getStrings().ASK_QUESTION_BUTTON}></CardButton>
+        </div>
+        {questions &&
+          questions.map((question) => {
+            return <QuestionItem key={question.id} {...question} />;
+          })}
       </Box>
     </Layout>
   );

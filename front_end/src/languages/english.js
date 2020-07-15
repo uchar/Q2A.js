@@ -23,6 +23,8 @@ const STRINGS = {
   Register_EMAIL: 'Email',
   Register_PASSWORD: 'Password',
   Register_NAME: 'User name',
+  ASK_QUESTION_BUTTON: 'Ask Question',
+  MAIN_PAGE_QUESTIONS_TITLE: 'Latest Questions',
 };
 
 export default STRINGS;

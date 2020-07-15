@@ -16,6 +16,8 @@ const STRINGS = {
   Register_EMAIL: 'ایمیل',
   Register_PASSWORD: 'پسورد',
   Register_NAME: 'نام کاربری',
+  ASK_QUESTION_BUTTON: 'پرسیدن سوال',
+  MAIN_PAGE_QUESTIONS_TITLE: 'آخرین سوالات',
 };
 
 export default STRINGS;

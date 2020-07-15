@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import Translate from '@material-ui/icons/Translate';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Link from 'next/link';
 import { getStrings } from '../../utilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: fade(theme.palette.common.white, 0.25),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.white, 0.30),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -206,14 +207,17 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ background: '#504e68' }} position="static">
+      <AppBar style={{ backgroundColor: 'black' }} position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            {getStrings().TITLE}
-          </Typography>
+          <Link href="/">
+            <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h6" noWrap>
+              {getStrings().TITLE}
+            </Typography>
+          </Link>
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -232,13 +236,8 @@ export default function PrimarySearchAppBar() {
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
               <Translate />
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+              <Badge badgeContent={17} color="primary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
