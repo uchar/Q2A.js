@@ -2,3 +2,6 @@
 {
     display:block !important;
 }
+.ck-editor__editable {
+    min-height: 200px;
+}

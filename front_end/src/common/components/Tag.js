@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 export default function Tag(props) {
   const classes = useStyles();
   const { tag, count } = props;
-  const label = count ? `${tag} x ${count}` : tag;
+  const label = count ? `${tag}  ${count}` : tag;
   return (
     <Box boxShadow={1} borderColor="#f2f2f2" border={1} className={classes.root}>
       <Typography style={{ fontSize: 10 }}>{label}</Typography>

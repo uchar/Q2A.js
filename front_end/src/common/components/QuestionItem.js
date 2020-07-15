@@ -1,20 +1,22 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
+import {
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  IconButton,
+  Typography,
+  Box,
+  Grid,
+  makeStyles,
+} from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import Link from 'next/link';
 import Tag from './Tag';
 import { getStrings } from '../utilities';
 
@@ -33,17 +35,16 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: 'white',
     width: 70,
     height: 70,
     marginRight: '15px',
   },
 }));
 
-export default function QuestionItem(props) {
+export default function QuestionItem({id, title, content, tags, profileImage, creator, createdAt, isExpanded }) {
   const classes = useStyles();
-  const { title, content } = props;
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(isExpanded === true);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -55,11 +56,9 @@ export default function QuestionItem(props) {
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar
-                aria-label="recipe"
-                className={classes.avatar}
-                src="/images/sample_profile.jpg"
-              ></Avatar>
+              <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
+                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+              </Avatar>
               <div>
                 <Typography
                   variant="body2"
@@ -67,7 +66,7 @@ export default function QuestionItem(props) {
                   style={{ fontSize: 22, color: 'black' }}
                   component="p"
                 >
-                  Farnoosh
+                  {creator}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -125,34 +124,30 @@ export default function QuestionItem(props) {
           </Box>
         </Grid>
 
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          style={{
-            fontSize: 18,
-            color: 'black',
-            marginTop: '30px',
-            marginBottom: '-15px',
-            textAlign: 'initial ',
-          }}
-          component="p"
-        >
-          {title}
-        </Typography>
+        <Link href={`/${id}/${title}`}>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            style={{
+              fontSize: 18,
+              color: 'black',
+              marginTop: '30px',
+              marginBottom: '-15px',
+              textAlign: 'initial ',
+              cursor: 'pointer',
+            }}
+            component="p"
+          >
+            {title}
+          </Typography>
+        </Link>
       </CardContent>
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
-        <Grid item>
-          <Tag tag={'C++'} />
-        </Grid>
-        <Grid item>
-          <Tag tag={'Algorithm'} />
-        </Grid>
-        <Grid item>
-          <Tag tag={'AI'} />
-        </Grid>
-        <Grid item>
-          <Tag tag={'Programming'} />
-        </Grid>
+        {tags.map((tag) => (
+          <Grid item key={tag.id}>
+            <Tag tag={tag.title} />
+          </Grid>
+        ))}
       </Grid>
       <CardActions disableSpacing>
         <IconButton aria-label="share">

@@ -35,16 +35,18 @@ const useStyles = makeStyles((theme) => ({
 function MainPage() {
   const classes = useStyles();
   const { loading, error, data } = useQuery(ALL_QUESTIONS);
-  if (error) return <h1>Error</h1>;
+  if (error) {
+    console.error(error);
+    return <h1> error </h1>;
+  }
   if (loading) return <h1>Loading...</h1>;
   const { questions } = data;
   return (
     <Layout>
       <Box className={classes.paper}>
-        <div style={{flex:"row"}}>
-
+        <div style={{ flex: 'row' }}>
+          <Typography style={{ marginTop: 25, fontSize: 25 }}>آخرین سوالات</Typography>
         </div>
-        <Typography style={{ marginTop: 25, fontSize: 25 }}>آخرین سوالات</Typography>
         {questions &&
           questions.map((question) => {
             return <QuestionItem key={question.id} {...question} />;

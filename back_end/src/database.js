@@ -6,6 +6,8 @@ const config = {
   user: 'root',
   password: '',
   database: '7khatcode',
+  supportBigNumbers: true,
+  bigNumberStrings: true,
 };
 
 const query = (connection, sql, args) => {
@@ -18,15 +20,25 @@ const convertToJson = (results) => {
   });
 };
 
-module.exports.database = () => {
-  let db = null;
+let db = null;
 
+module.exports.database = () => {
   const makeDb = () => {
     const connection = mysql.createConnection(config);
     return {
       doQuery: async (sql, args) => {
         const result = await query(connection, sql, args);
         return convertToJson(result);
+      },
+      withTransaction: async (runMethod) => {
+        try {
+          await db.beginTransaction();
+          await runMethod();
+          await db.commit();
+        } catch (err) {
+          await db.rollback();
+          throw err;
+        }
       },
       close() {
         return util.promisify(connection.end).call(connection);
@@ -42,15 +54,4 @@ module.exports.database = () => {
       return db;
     },
   };
-};
-
-module.exports.withTransaction = async (db, callback) => {
-  try {
-    await db.beginTransaction();
-    await callback();
-    await db.commit();
-  } catch (err) {
-    await db.rollback();
-    throw err;
-  }
 };

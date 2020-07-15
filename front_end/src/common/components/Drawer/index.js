@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import Translate from '@material-ui/icons/Translate';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Link from 'next/link';
 import { getStrings } from '../../utilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -211,9 +212,12 @@ export default function PrimarySearchAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            {getStrings().TITLE}
-          </Typography>
+          <Link href="/">
+            <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h6" noWrap>
+              {getStrings().TITLE}
+            </Typography>
+          </Link>
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
