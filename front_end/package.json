@@ -21,7 +21,7 @@
     "babel-eslint": "10.1.0",
     "ckeditor5-build-7khatcode": "0.0.7",
     "clsx": "1.1.0",
-    "formik": "2.1.4",
+    "formik": "2.1.5",
     "graphql": "15.3.0",
     "graphql-tag": "2.10.4",
     "isomorphic-unfetch": "3.0.0",
@@ -30,7 +30,6 @@
     "next": "9.4.4",
     "prop-types": "15.7.2",
     "raw-loader": "4.0.1",
-    "rc-footer": "0.6.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-jss": "10.3.0",
@@ -50,7 +49,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
-    "node-sass": "^4.14.1",
+    "gulp-sass": "^4.1.0",
     "prettier": "^2.0.5"
   }
 }

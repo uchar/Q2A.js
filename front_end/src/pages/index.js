@@ -7,6 +7,8 @@ import QuestionItem from '../common/components/QuestionItem';
 import Layout from '../common/components/Layout/Layout';
 import { withApollo } from '../libs/apollo';
 import { ALL_QUESTIONS } from '../API/queries';
+import CardButton from '../common/components/CardButton/CardButton';
+import { getStrings } from '../common/utilities';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,8 +46,18 @@ function MainPage() {
   return (
     <Layout>
       <Box className={classes.paper}>
-        <div style={{ flex: 'row' }}>
-          <Typography style={{ marginTop: 25, fontSize: 25 }}>آخرین سوالات</Typography>
+        <div
+          style={{
+            flex: 'row',
+            display: 'flex',
+            justifyContent: 'space-between',
+            margin: '20px 25px 0px 25px',
+          }}
+        >
+          <Typography style={{ marginTop: 25, fontSize: 32 }}>
+            {getStrings().MAIN_PAGE_QUESTIONS_TITLE}
+          </Typography>
+          <CardButton text={getStrings().ASK_QUESTION_BUTTON}></CardButton>
         </div>
         {questions &&
           questions.map((question) => {

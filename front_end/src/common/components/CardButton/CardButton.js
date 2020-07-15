@@ -8,8 +8,8 @@ import { green } from '@material-ui/core/colors';
 const useStyles = makeStyles((theme) => ({
   viewCourseButton: {
     color: '#ffffff',
-    padding: '15px 40px 15px 40px',
-    fontSize: 14,
+    padding: '12px 30px 12px 30px',
+    fontSize: 18,
   },
   wrapper: {
     margin: theme.spacing(1),
