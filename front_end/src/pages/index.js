@@ -4,6 +4,7 @@ import { red } from '@material-ui/core/colors';
 import { Typography, Box } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
 import QuestionItem from '../common/components/QuestionItem';
+import AskQuestion from '../common/components/AskQuestion';
 import Layout from '../common/components/Layout/Layout';
 import { withApollo } from '../libs/apollo';
 import { ALL_QUESTIONS } from '../API/queries';
@@ -41,14 +42,13 @@ function MainPage() {
   return (
     <Layout>
       <Box className={classes.paper}>
-        <div style={{flex:"row"}}>
-
-        </div>
-        <Typography style={{ marginTop: 25, fontSize: 25 }}>آخرین سوالات</Typography>
-        {questions &&
-          questions.map((question) => {
-            return <QuestionItem key={question.id} {...question} />;
-          })}
+        <div style={{ flex: 'row' }}></div>
+        <AskQuestion/>
+        {/* <Typography style={{ marginTop: 25, fontSize: 25 }}>آخرین سوالات</Typography> */}
+        {/* {questions && */}
+        {/*  questions.map((question) => { */}
+        {/*    return <QuestionItem key={question.id} {...question} />; */}
+        {/*  })} */}
       </Box>
     </Layout>
   );
