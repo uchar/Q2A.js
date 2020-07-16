@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
 export default function CommentItem({ content, creator }) {
   const classes = useStyles();
   return (
-    <div style={{ margin: '20px 0px 10px 0px', flex: 1, textAlign: 'right', flexDirection: 'row' }}>
-      <Typography color="textPrimary" display="inline" style={{ fontSize: '16px', marginRight: '15px' }}>
+    <div style={{ margin: '20px 15px 10px 15px', flex: 1, textAlign: 'right', flexDirection: 'row' }}>
+      <Typography color="textPrimary" display="inline" style={{ fontSize: '16px' }}>
         {`${content} - `}
       </Typography>
       <Typography

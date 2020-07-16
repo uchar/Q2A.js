@@ -30,7 +30,7 @@ export const unescapeCode = (escapedHTML) => {
 export const replacePTagWithTypoGraphy = (valueToParse, isMainPage = false) => {
   return (
     <Typography
-      color={isMainPage ? 'textPrimary' : 'textSecondary'}
+      color={isMainPage ? 'textSecondary' : 'textPrimary'}
       style={{ textAlign: 'right', marginTop: '15px' }}
     >
       {render7khatcodeHtml(valueToParse)}
@@ -48,14 +48,13 @@ export const parseContent = (valueToParse, isMainPage = false) => {
       const code = unescapeCode(valueToParse.substring(endOfBeginTag + 1, startOfEndTag));
       if (startOfBeginTag > 0) {
         elements = elements.concat(
-          replacePTagWithTypoGraphy(valueToParse.substr(0, startOfBeginTag)),
-          isMainPage
+          replacePTagWithTypoGraphy(valueToParse.substr(0, startOfBeginTag), isMainPage)
         );
       }
       elements.push(<CodeBlock code={code}></CodeBlock>);
       valueToParse = valueToParse.substr(startOfEndTag + 6);
     } else {
-      elements = elements.concat(replacePTagWithTypoGraphy(valueToParse), isMainPage);
+      elements = elements.concat(replacePTagWithTypoGraphy(valueToParse, isMainPage));
       break;
     }
   }

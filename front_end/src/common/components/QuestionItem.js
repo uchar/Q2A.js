@@ -60,7 +60,6 @@ export default function QuestionItem({
   isExpanded,
   isMainPage,
 }) {
-  console.log('COMMENTS : ', comments);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
 
@@ -154,7 +153,7 @@ export default function QuestionItem({
       >
         {(expanded || content.length < 400) && parseContent(content, isMainPage)}
 
-        {!expanded && content.length >= 400 && replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`)}
+        {!expanded && content.length >= 400 && replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`,isMainPage)}
         <CardActions disableSpacing>
           {content.length >= 400 && (
             <IconButton

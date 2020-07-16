@@ -60,7 +60,7 @@ export default function AnswerItem({
   };
 
   return (
-    <Box boxShadow={3} className={classes.root}>
+    <Box boxShadow={4} className={classes.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>

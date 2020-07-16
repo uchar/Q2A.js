@@ -35,7 +35,7 @@ function Post() {
   return (
     <Layout>
       <Box className={classes.paper}>
-        <QuestionItem {...question} />
+        <QuestionItem isMainPage={false} {...question} />
         {question.answers.map((answer) => {
           return <AnswerItem style={{ width: '80%' }} key={answer.id} {...answer}></AnswerItem>;
         })}
