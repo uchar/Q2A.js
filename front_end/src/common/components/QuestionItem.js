@@ -24,7 +24,7 @@ import CommentItem from './CommentItem';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
-    paddingBottom: '10px',
+    paddingBottom: '15px',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -68,7 +68,7 @@ export default function QuestionItem({
   };
 
   return (
-    <Box boxShadow={1} className={classes.root}>
+    <Box boxShadow={2} className={classes.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>

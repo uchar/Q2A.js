@@ -34,7 +34,7 @@ export default function Footer(props) {
     <Paper
       className={classes.root}
       style={{
-        marginTop: '150px',
+        marginTop: '100px',
       }}
     >
       <Grid direction="row" justify={'center'} container spacing={2}>
