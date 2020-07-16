@@ -1,11 +1,56 @@
 import gql from 'graphql-tag';
 
 export const ALL_QUESTIONS = gql`
-  query q {
-    questions {
+  query getAllQuestions($tag: String) {
+    latestQuestions(tag: $tag) {
       id
       title
       content
+      viewsCount
+      votesCount
+      answersCount
+      profileImage
+      creator
+      createdAt
+      tags {
+        title
+      }
+    }
+    popularQuestions(tag: $tag) {
+      id
+      title
+      content
+      viewsCount
+      votesCount
+      answersCount
+      profileImage
+      creator
+      createdAt
+      tags {
+        title
+      }
+    }
+    mostViewsQuestions(tag: $tag) {
+      id
+      title
+      content
+      viewsCount
+      votesCount
+      answersCount
+      profileImage
+      creator
+      createdAt
+      tags {
+        title
+      }
+    }
+    noAnswersQuestions(tag: $tag) {
+      id
+      title
+      content
+      viewsCount
+      votesCount
+      answersCount
       profileImage
       creator
       createdAt
@@ -23,6 +68,9 @@ export const GET_QUESTION = gql`
       title
       content
       profileImage
+      viewsCount
+      votesCount
+      answersCount
       creator
       createdAt
       tags {
@@ -32,6 +80,7 @@ export const GET_QUESTION = gql`
         id
         content
         profileImage
+        votesCount
         creator
         createdAt
         comments {

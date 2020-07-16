@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '25px 15px 0px 25px',
   },
   button: {
-    margin: '30px 52px 40px 20px',
+    margin: '20px 52px 30px 20px',
     padding: '10px 80px 10px 80px',
   },
 }));
@@ -64,15 +64,17 @@ export default function Ask() {
             <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
               {getStrings().ASK_SUBTITLE}
             </Typography>
-            <FormControl className={classes.margin} variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-amount">{getStrings().ASK_INPUT_LABEL} </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                value={titleQuestion.TitleQuestion}
-                onChange={handleChangeTitle('TitleQuestion')}
-                labelWidth={50}
-              />
-            </FormControl>
+            <div style={{ marginLeft: '15px' }}>
+              <FormControl className={classes.margin} variant="outlined" fullWidth>
+                <InputLabel htmlFor="outlined-adornment-amount">{getStrings().ASK_INPUT_LABEL} </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
+                  value={titleQuestion.TitleQuestion}
+                  onChange={handleChangeTitle('TitleQuestion')}
+                  labelWidth={50}
+                />
+              </FormControl>
+            </div>
           </div>
           <div style={{ margin: '30px 25px 0px 25px' }}>
             <Typography className={classes.title} gutterBottom style={{ marginRight: '20px' }}>
@@ -103,18 +105,20 @@ export default function Ask() {
             <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
               {getStrings().ASK_TAGS}
             </Typography>
-            <Autocomplete
-              fullWidth
-              className={classes.margin}
-              multiple
-              id="tags-outlined"
-              options={tags}
-              getOptionLabel={(option) => option.title}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
-              )}
-            />
+            <div style={{ marginLeft: '15px' }}>
+              <Autocomplete
+                fullWidth
+                className={classes.margin}
+                multiple
+                id="tags-outlined"
+                options={tags}
+                getOptionLabel={(option) => option.title}
+                filterSelectedOptions
+                renderInput={(params) => (
+                  <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
+                )}
+              />
+            </div>
           </div>
           <div style={{ display: 'inline', margin: '30px 35px 0px 25px' }}>
             <Checkbox
