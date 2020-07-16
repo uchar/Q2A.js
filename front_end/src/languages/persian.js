@@ -18,6 +18,26 @@ const STRINGS = {
   Register_NAME: 'نام کاربری',
   ASK_QUESTION_BUTTON: 'پرسیدن سوال',
   MAIN_PAGE_QUESTIONS_TITLE: 'آخرین سوالات',
+  ASK_TITLE: 'عنوان',
+  ASK_SUBTITLE: '  لطفا عنوان سوال خود را وارد کنید.',
+  ASK_INPUT_LABEL: 'سوال',
+  ASK_DESCRIPTION_TITLE: 'متن سوال',
+  ASK_DESCRIPTION_SUBTITLE: 'اطلاعات بیشتر درباره سوال:',
+  ASK_TAGS: 'حداکثر 5 تگ را اضافه کنید.',
+  ASK_TAG_LABEL: 'تگها',
+  ASK_CHECKOUT: '  اگر سوال من پاسخ داده شد یا دیدگاهی دریافت کردم،ایمیل بزنید.',
+  ASK_BUTTON_SENDING: 'ارسال',
+  ASK_Expansion_TITLE: 'سؤال خود را مطرح کنید.',
+  ASK_Expansion_SUBTITLE: 'سوالات برنامه نویسی و الگوریتمی خود را از ما بپرسید ;)',
+  ASK_Expansion_PANEL1_TITLE: 'خلاصه سوال',
+  ASK_Expansion_PANEL1_SUBTITLE1: '1. جزئیات مساله خود را بیان کنید',
+  ASK_Expansion_PANEL1_SUBTITLE2: '2. نتایج مورد انتظار',
+  ASK_Expansion_PANEL1_SUBTITLE3: '3. خطاها',
+  ASK_Expansion_PANEL2_TITLE: 'توضیح',
+  ASK_Expansion_PANEL2_SUBTITLE1: 'کارهایی که برای حل مشکل خود انجام داده اید و اینکه چرا جواب نگرفتید.',
+  ASK_Expansion_PANEL3_TITLE: 'نشان دادن کد',
+  ASK_Expansion_PANEL3_SUBTITLE1:
+    'در صورت نیاز ، حداقل کدی را که دیگران برای حل مشکل شما نیاز دارند را به اشتراک بگذارید.',
 };
 
 export default STRINGS;
