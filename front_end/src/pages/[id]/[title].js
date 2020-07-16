@@ -8,6 +8,7 @@ import Layout from '../../common/components/Layout/Layout';
 import TextEditor from '../../common/components/TextEditor';
 import { withApollo } from '../../libs/apollo';
 import { GET_QUESTION } from '../../API/queries';
+import Loading from '../../common/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,15 +22,13 @@ function Post() {
   const router = useRouter();
 
   const { id } = router.query;
-  console.log('ID : ', id);
 
   const { loading, error, data } = useQuery(GET_QUESTION, { variables: { id } });
   if (error) {
     console.error(error);
     return <h1> error </h1>;
   }
-  if (loading) return <h1>Loading...</h1>;
-  console.log('DATA : ', data);
+  if (loading) return <Loading />;
   const question = data.getQuestion;
   question.isExpanded = true;
   return (

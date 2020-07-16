@@ -73,8 +73,8 @@ export default function Footer() {
         </Grid>
         <Grid item md={2} xs={0}></Grid>
       </Grid>
-      <Typography style={{ fontSize: 13, textAlign: 'center', color: 'white', marginTop: '50px' }}>
-        {'ساخته شده با عشق توسط فرم سازی اختصاصی هفت خط کد'}
+      <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center', marginTop: '50px' }}>
+        {'ساخته شده با عشق توسط فرم ساز اختصاصی هفت خط کد'}
       </Typography>
     </Box>
   );

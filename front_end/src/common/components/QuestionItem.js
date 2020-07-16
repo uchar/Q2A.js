@@ -17,12 +17,16 @@ import AnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
+import renderHTML from 'react-render-html';
+import { execute } from 'graphql';
 import Tag from './Tag';
 import { getStrings } from '../utilities';
+import CodeBlock from './CodeBlock';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
+    paddingBottom: '15px',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -59,8 +63,44 @@ export default function QuestionItem({
     setExpanded(!expanded);
   };
 
+  const unescapeHTML = (escapedHTML) => {
+    return renderHTML(escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/<\/?[^>]+>/ig, ""))
+  };
+  const replacePTagWithTypoGraphy = (valueToParse) => {
+    console.log('VALue after unescape : ', unescapeHTML(valueToParse));
+    return (
+      <Typography style={{ textAlign: 'right', marginTop: '15px' }}>{unescapeHTML(valueToParse)}</Typography>
+    );
+  };
+  const parseContent = (valueToParse) => {
+    console.log(valueToParse);
+    console.log(title);
+    let elements = [];
+    while (true) {
+      const startOfBeginTag = `${valueToParse}`.indexOf('<pre');
+
+      if (startOfBeginTag !== -1) {
+        const endOfBeginTag = `${valueToParse}`.indexOf('>', startOfBeginTag);
+        const startOfEndTag = `${valueToParse}`.indexOf('</pre>', endOfBeginTag);
+        const code = unescapeHTML(valueToParse.substring(endOfBeginTag + 1, startOfEndTag));
+        console.log('Code : ', code);
+        if (startOfBeginTag > 0) {
+          elements = elements.concat(replacePTagWithTypoGraphy(valueToParse.substr(0, startOfBeginTag)));
+        }
+        elements.push(<CodeBlock code={code}></CodeBlock>);
+        valueToParse = valueToParse.substr(startOfEndTag + 6);
+      } else {
+        elements = elements.concat(replacePTagWithTypoGraphy(valueToParse));
+        break;
+      }
+    }
+
+    const parseResult = <div style={{ flex: 1 }}>{elements.map((element) => element)}</div>;
+    return parseResult;
+  };
+
   return (
-    <Box boxShadow={1} borderColor="#f2f2f2" border={1} className={classes.root}>
+    <Box boxShadow={1} className={classes.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
@@ -69,7 +109,12 @@ export default function QuestionItem({
                 <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
               </Avatar>
               <div>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 22,textAlign:"right",marginRight:"15px" }} component="p">
+                <Typography
+                  variant="body2"
+                  color="textPrimary"
+                  style={{ fontSize: 22, textAlign: 'right', marginRight: '15px' }}
+                  component="p"
+                >
                   {creator}
                 </Typography>
                 <Typography
@@ -130,6 +175,43 @@ export default function QuestionItem({
           </Typography>
         </Link>
       </CardContent>
+      <div
+        style={{
+          flex: 'row',
+          display: 'flex',
+          justifyContent: 'space-between',
+          margin: '0px 15px 0px 25px',
+        }}
+      >
+        {/* <CodeBlock /> */}
+        {(expanded || content.length < 250) && parseContent(content)}
+        <Typography
+          color="textSecondary"
+          style={{ textAlign: 'right', margin: '15px 0px 5px 0px', fontSize: '15px' }}
+        >
+          {!expanded && content.length >= 250 && renderHTML(content.substring(0, 250))}
+          {!expanded && content.length >= 250 ? ' ...' : ' '}
+        </Typography>
+        <CardActions disableSpacing>
+          {content.length >= 250 && (
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          )}
+
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+      </div>
+
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
         {tags.map((tag) => (
           <Grid item key={tag.id}>
@@ -137,29 +219,6 @@ export default function QuestionItem({
           </Grid>
         ))}
       </Grid>
-      <CardActions disableSpacing>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography style={{ textAlign: 'initial ' }} paragraph>
-            {content}
-          </Typography>
-        </CardContent>
-      </Collapse>
     </Box>
   );
 }

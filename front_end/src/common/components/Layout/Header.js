@@ -203,6 +203,14 @@ export default function Header({ store }) {
     </Menu>
   );
 
+  const handleDarkChange = () => {
+    if (themeType === 'dark') {
+      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'light' });
+    } else {
+      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'dark' });
+    }
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar color="background.default" position="static">
@@ -234,17 +242,10 @@ export default function Header({ store }) {
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
               <Translate />
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleDarkChange}>
               {
                 <img
-                  onClick={() => {
-                    console.log('Theme type : ', themeType);
-                    if (themeType === 'dark') {
-                      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'light' });
-                    } else {
-                      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'dark' });
-                    }
-                  }}
+                  onClick={handleDarkChange}
                   style={{ width: '24px', height: '24px' }}
                   src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
                 />

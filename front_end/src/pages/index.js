@@ -9,6 +9,7 @@ import { withApollo } from '../libs/apollo';
 import { ALL_QUESTIONS } from '../API/queries';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
+import Loading from '../common/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,7 +42,7 @@ function MainPage() {
     console.error(error);
     return <h1> error </h1>;
   }
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loading />;
   const { questions } = data;
   return (
     <Layout>

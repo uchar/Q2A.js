@@ -9,6 +9,7 @@ import RTL from './RTL';
 import News from '../News';
 import { ALL_TAGS } from '../../../API/queries';
 import { withApollo } from '../../../libs/apollo';
+import Loading from '../Loading';
 
 const layoutStyle = {
   display: 'flex',
@@ -31,7 +32,7 @@ const Layout = (props) => {
     console.error(error);
     return <h1>Error</h1>;
   }
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loading />;
   const { tags } = data;
   return (
     <RTL>

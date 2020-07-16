@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
   const selector = useSelector((state) => state);
-  console.log('WHAT IS SELECTOR : ', selector);
   const { themeType } = selector.client;
   React.useEffect(() => {
     // Remove the server-side injected CSS.
