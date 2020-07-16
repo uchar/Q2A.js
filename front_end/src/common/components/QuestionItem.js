@@ -20,7 +20,7 @@ import Link from 'next/link';
 import renderHTML from 'react-render-html';
 import { execute } from 'graphql';
 import Tag from './Tag';
-import { getStrings } from '../utilities';
+import {getStrings, parseContent, replacePTagWithTypoGraphy} from '../utilities';
 import CodeBlock from './CodeBlock';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,46 +63,7 @@ export default function QuestionItem({
     setExpanded(!expanded);
   };
 
-  const unescapeHTML = (escapedHTML) => {
-    return renderHTML(
-      escapedHTML
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&amp;/g, '&')
-        .replace(/<\/?[^>]+>/gi, '')
-    );
-  };
-  const unescapeCode = (escapedHTML) => {
-    return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-  };
-  const replacePTagWithTypoGraphy = (valueToParse) => {
-    return (
-      <Typography style={{ textAlign: 'right', marginTop: '15px' }}>{unescapeHTML(valueToParse)}</Typography>
-    );
-  };
-  const parseContent = (valueToParse) => {
-    let elements = [];
-    while (true) {
-      const startOfBeginTag = `${valueToParse}`.indexOf('<pre');
 
-      if (startOfBeginTag !== -1) {
-        const endOfBeginTag = `${valueToParse}`.indexOf('>', startOfBeginTag);
-        const startOfEndTag = `${valueToParse}`.indexOf('</pre>', endOfBeginTag);
-        const code = unescapeCode(valueToParse.substring(endOfBeginTag + 1, startOfEndTag));
-        if (startOfBeginTag > 0) {
-          elements = elements.concat(replacePTagWithTypoGraphy(valueToParse.substr(0, startOfBeginTag)));
-        }
-        elements.push(<CodeBlock code={code}></CodeBlock>);
-        valueToParse = valueToParse.substr(startOfEndTag + 6);
-      } else {
-        elements = elements.concat(replacePTagWithTypoGraphy(valueToParse));
-        break;
-      }
-    }
-
-    const parseResult = <div style={{ flex: 1 }}>{elements.map((element) => element)}</div>;
-    return parseResult;
-  };
 
   return (
     <Box boxShadow={1} className={classes.root}>
