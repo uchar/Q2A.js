@@ -9,6 +9,7 @@ import TextEditor from '../../common/components/TextEditor';
 import { withApollo } from '../../libs/apollo';
 import { GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
+import AnswerItem from '../../common/components/AnswerItem';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,7 +36,9 @@ function Post() {
     <Layout>
       <Box className={classes.paper}>
         <QuestionItem {...question} />
-
+        {question.answers.map((answer) => {
+          return <AnswerItem style={{ width: '80%' }} key={answer.id} {...answer}></AnswerItem>;
+        })}
         <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
           <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
             {'پاسخ شما : '}

@@ -25,7 +25,7 @@ export const render7khatcodeHtml = (html) => {
   );
 };
 export const unescapeCode = (escapedHTML) => {
-  return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  return renderHTML(escapedHTML).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 };
 export const replacePTagWithTypoGraphy = (valueToParse) => {
   return (

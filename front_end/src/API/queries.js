@@ -6,6 +6,9 @@ export const ALL_QUESTIONS = gql`
       id
       title
       content
+      viewsCount
+      votesCount
+      answersCount
       profileImage
       creator
       createdAt
@@ -23,6 +26,9 @@ export const GET_QUESTION = gql`
       title
       content
       profileImage
+      viewsCount
+      votesCount
+      answersCount
       creator
       createdAt
       tags {
@@ -32,6 +38,7 @@ export const GET_QUESTION = gql`
         id
         content
         profileImage
+        votesCount
         creator
         createdAt
         comments {

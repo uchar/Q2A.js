@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QuestionItem({
+export default function AnswerItem({
   id,
   title,
   content,
@@ -50,11 +50,7 @@ export default function QuestionItem({
   profileImage,
   creator,
   createdAt,
-  viewsCount,
   votesCount,
-  answersCount,
-  anwers,
-  comments,
   isExpanded,
 }) {
   const classes = useStyles();
@@ -65,7 +61,7 @@ export default function QuestionItem({
   };
 
   return (
-    <Box boxShadow={1} className={classes.root}>
+    <Box boxShadow={3} className={classes.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
@@ -103,22 +99,6 @@ export default function QuestionItem({
                   {votesCount}
                 </Typography>
               </div>
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <UpVoteIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {viewsCount}
-                </Typography>
-              </div>
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <AnswerIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {answersCount}
-                </Typography>
-              </div>
             </Grid>
           </Box>
         </Grid>
@@ -149,37 +129,14 @@ export default function QuestionItem({
         }}
       >
         {/* <CodeBlock /> */}
-        {(expanded || content.length < 250) && parseContent(content)}
+        {parseContent(content)}
 
-        {!expanded && content.length >= 250 && replacePTagWithTypoGraphy(content.substring(0, 250))}
-        {!expanded && content.length >= 250 ? ' ...' : ' '}
         <CardActions disableSpacing>
-          {content.length >= 250 && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
         </CardActions>
       </div>
-
-      <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
-        {tags.map((tag) => (
-          <Grid item key={tag.id}>
-            <Tag tag={tag.title} />
-          </Grid>
-        ))}
-      </Grid>
     </Box>
   );
 }

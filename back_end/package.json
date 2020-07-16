@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
     "test": "./node_modules/.bin/jest --coverage",
     "lint": "./node_modules/.bin/eslint --fix src/**/*.js src/**/*.test.js --no-error-on-unmatched-pattern"
   },

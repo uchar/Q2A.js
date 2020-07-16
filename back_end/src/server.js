@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
-const { getQuestions, getQuestion, getAnswers, getComments } = require('./post');
+const { getQuestions, getQuestion, getAnswers, getAnswersCount, getComments } = require('./post');
 const { getAllTags, getQuestionTags } = require('./tag');
 
 const port = 4000;
@@ -13,6 +13,9 @@ const typeDefs = gql`
     profileImage: String
     creator: String
     createdAt: Int
+    viewsCount: Int
+    votesCount: Int
+    answersCount: Int
     tags: [Tag]
     answers: [Answer]
     comments: [Comment]
@@ -23,6 +26,7 @@ const typeDefs = gql`
     content: String
     profileImage: String
     creator: String
+    votesCount: Int
     createdAt: Int
     comments: [Comment]
   }
@@ -58,6 +62,7 @@ const resolvers = {
     tags: getQuestionTags,
     answers: getAnswers,
     comments: getComments,
+    answersCount: getAnswersCount,
   },
   Answer: {
     comments: getComments,
