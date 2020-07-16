@@ -10,40 +10,17 @@ import { ALL_QUESTIONS } from '../API/queries';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
 import Loading from '../common/components/Loading';
+import LatestQuestion from '../common/components/LatestQuestion';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
 
 function MainPage() {
   const classes = useStyles();
-  const { loading, error, data } = useQuery(ALL_QUESTIONS);
-  if (error) {
-    console.error(error);
-    return <h1> error </h1>;
-  }
-  if (loading) return <Loading />;
-  const { questions } = data;
   return (
     <Layout>
       <Box className={classes.paper}>
@@ -58,16 +35,9 @@ function MainPage() {
           <Typography style={{ marginTop: 25, fontSize: 32 }}>
             {getStrings().MAIN_PAGE_QUESTIONS_TITLE}
           </Typography>
-          <CardButton
-            url={'/ask'}
-            shouldShowLoading={false}
-            text={getStrings().ASK_QUESTION_BUTTON}
-          ></CardButton>
+          <CardButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />
         </div>
-        {questions &&
-          questions.map((question) => {
-            return <QuestionItem key={question.id} {...question} />;
-          })}
+        <LatestQuestion />
       </Box>
     </Layout>
   );

@@ -20,7 +20,7 @@ import Link from 'next/link';
 import renderHTML from 'react-render-html';
 import { execute } from 'graphql';
 import Tag from './Tag';
-import {getStrings, parseContent, replacePTagWithTypoGraphy} from '../utilities';
+import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
 import CodeBlock from './CodeBlock';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +62,6 @@ export default function QuestionItem({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-
 
   return (
     <Box boxShadow={1} className={classes.root}>
