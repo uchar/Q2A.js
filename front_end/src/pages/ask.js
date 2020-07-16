@@ -12,11 +12,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextEditor from '../common/components/TextEditor';
-import Layout from '../common/components/Layout/Layout';
+import { getStrings } from '../common/utilities';
+import AskLayout from '../common/components/Layout/AskLayout';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 275,
     marginTop: 25,
     textAlign: 'right',
   },
@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 26,
   },
   margin: {
-    margin: theme.spacing(2),
+    marginTop: 15,
   },
   button: {
-    margin: '20px',
+    margin: '30px 52px 100px 20px',
     padding: '10px 80px 10px 80px',
   },
 }));
@@ -54,18 +54,22 @@ export default function Ask() {
     setChecked(event.target.checked);
   };
   return (
-    <Layout>
+    <AskLayout>
       <Card className={classes.root}>
         <CardContent>
-          <Typography className={classes.title} gutterBottom>
-            عنوان
-          </Typography>
-          <Typography variant="body2" component="p">
-            لطفا عنوان سوال خود را وارد کنید.
-          </Typography>
           <div style={{ margin: '0px 25px 0px 25px' }}>
-            <FormControl fullWidth className={classes.margin} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount"> سوال</InputLabel>
+            <Typography className={classes.title} gutterBottom style={{ marginRight: '20px' }}>
+              {getStrings().ASK_TITLE}
+            </Typography>
+            <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
+              {getStrings().ASK_SUBTITLE}
+            </Typography>
+            <FormControl
+              className={classes.margin}
+              variant="outlined"
+              style={{ marginRight: '20px', width: '840px' }}
+            >
+              <InputLabel htmlFor="outlined-adornment-amount">{getStrings().ASK_INPUT_LABEL} </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-amount"
                 value={titleQuestion.TitleQuestion}
@@ -74,15 +78,15 @@ export default function Ask() {
               />
             </FormControl>
           </div>
-
-          <Typography className={classes.title} gutterBottom>
-            متن سوال
-          </Typography>
-          <Typography variant="body2" component="p" className={classes.margin}>
-            اطلاعات بیشتر درباره سوال:
-          </Typography>
-          <div style={{ margin: '0px 25px 0px 25px' }}>
+          <div style={{ margin: '30px 25px 0px 25px' }}>
+            <Typography className={classes.title} gutterBottom style={{ marginRight: '20px' }}>
+              {getStrings().ASK_DESCRIPTION_TITLE}
+            </Typography>
+            <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
+              {getStrings().ASK_DESCRIPTION_SUBTITLE}
+            </Typography>
             <TextEditor
+              className={classes.margin}
               data=""
               onInit={(editor) => {
                 console.log('Editor is ready to use!', editor);
@@ -99,40 +103,41 @@ export default function Ask() {
               }}
             />
           </div>
-          <Typography variant="body2" component="p">
-            حداکثر 5 تگ را اضافه کنید.
-          </Typography>
-          <Autocomplete
-            className={classes.margin}
-            multiple
-            id="tags-outlined"
-            options={tags}
-            getOptionLabel={(option) => option.title}
-            filterSelectedOptions
-            renderInput={(params) => <TextField {...params} variant="outlined" label="تگها" />}
-          />
-          <div style={{ display: 'inlineBlock', marginTop: '30px' }}>
+          <div style={{ margin: '30px 25px 30px 25px' }}>
+            <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
+              {getStrings().ASK_TAGS}
+            </Typography>
+            <Autocomplete
+              style={{ marginRight: '20px', width: '840px' }}
+              className={classes.margin}
+              multiple
+              id="tags-outlined"
+              options={tags}
+              getOptionLabel={(option) => option.title}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
+              )}
+            />
+          </div>
+          <div style={{ display: 'inline', margin: '30px 35px 0px 25px' }}>
             <Checkbox
               checked={checked}
               onChange={handleChange}
               inputProps={{ 'aria-label': 'uncontrolled-checkbox' }}
-              style={{}}
+              style={{ display: 'inlineBlock' }}
             />
-            <Typography variant="body2" component="p" style={{}}>
-              ایمیل بزن (hasanpour.narges8@gmail.com) اگر سوال من پاسخ داده شد یا دیدگاهی دریافت کردم.
+            <Typography variant="body2" component="p" style={{ display: 'inline' }}>
+              {getStrings().ASK_CHECKOUT}
             </Typography>
           </div>
         </CardContent>
-
         <CardActions>
           <Button onClick={handleClose} variant="contained" color="primary" className={classes.button}>
-            کنسل
-          </Button>
-          <Button onClick={handleClose} variant="contained" color="secondary" className={classes.button}>
-            ارسال
+            {getStrings().ASK_BUTTON_SENDING}
           </Button>
         </CardActions>
       </Card>
-    </Layout>
+    </AskLayout>
   );
 }

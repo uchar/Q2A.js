@@ -25,6 +25,15 @@ const STRINGS = {
   Register_NAME: 'User name',
   ASK_QUESTION_BUTTON: 'Ask Question',
   MAIN_PAGE_QUESTIONS_TITLE: 'Latest Questions',
+  ASK_TITLE: 'Title',
+  ASK_SUBTITLE: 'Be specific and imagine you’re asking a question to another person',
+  ASK_INPUT_LABEL: 'ASK',
+  ASK_DESCRIPTION_TITLE: 'Body',
+  ASK_DESCRIPTION_SUBTITLE: 'Include all the information someone would need to answer your question',
+  ASK_TAGS: 'Add up to 5 tags to describe what your question is about',
+  ASK_TAG_LABEL: 'Tags',
+  ASK_CHECKOUT: '  Email me if my question was answered or I received a comment.',
+  ASK_BUTTON_SENDING: 'Sending',
 };
 
 export default STRINGS;

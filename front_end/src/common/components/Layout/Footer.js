@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography, Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { darkTheme, lightTheme } from '../../theme';
+import { Paper, Typography, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,16 +27,14 @@ const getFooterTitle = (text) => {
   );
 };
 
-export default function Footer() {
+export default function Footer(props) {
   const classes = useStyles();
-  const selector = useSelector((state) => state);
-  const { themeType } = selector.client;
+
   return (
-    <Box
+    <Paper
       className={classes.root}
       style={{
-        backgroundColor:
-          themeType === 'dark' ? darkTheme.palette.background.default : lightTheme.palette.background.default,
+        marginTop: '150px',
       }}
     >
       <Grid direction="row" justify={'center'} container spacing={2}>
@@ -76,6 +72,6 @@ export default function Footer() {
       <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center', marginTop: '50px' }}>
         {'ساخته شده با عشق توسط فرم ساز اختصاصی هفت خط کد'}
       </Typography>
-    </Box>
+    </Paper>
   );
 }
