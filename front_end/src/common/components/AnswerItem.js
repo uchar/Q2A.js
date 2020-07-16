@@ -12,19 +12,15 @@ import {
   Divider,
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
-import UpVoteIcon from '@material-ui/icons/Visibility';
-import AnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
-import Tag from './Tag';
-import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import { getStrings, parseContent } from '../utilities';
 import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
-    paddingBottom: '15px',
+    paddingBottom: '10px',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -44,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QuestionItem({
+export default function AnswerItem({
   id,
   title,
   content,
@@ -52,12 +48,9 @@ export default function QuestionItem({
   profileImage,
   creator,
   createdAt,
-  viewsCount,
   votesCount,
-  answersCount,
-  comments,
   isExpanded,
-  isMainPage,
+  comments,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -67,7 +60,7 @@ export default function QuestionItem({
   };
 
   return (
-    <Box boxShadow={2} className={classes.root}>
+    <Box boxShadow={4} className={classes.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
@@ -105,22 +98,6 @@ export default function QuestionItem({
                   {votesCount}
                 </Typography>
               </div>
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <UpVoteIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {viewsCount}
-                </Typography>
-              </div>
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <AnswerIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {answersCount}
-                </Typography>
-              </div>
             </Grid>
           </Box>
         </Grid>
@@ -150,38 +127,15 @@ export default function QuestionItem({
           margin: '0px 15px 0px 25px',
         }}
       >
-        {(expanded || content.length < 400) && parseContent(content, isMainPage)}
+        {/* <CodeBlock /> */}
+        {parseContent(content)}
 
-        {!expanded &&
-          content.length >= 400 &&
-          replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`, isMainPage)}
         <CardActions disableSpacing>
-          {content.length >= 400 && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
         </CardActions>
       </div>
-
-      <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
-        {tags.map((tag) => (
-          <Grid item key={tag.id}>
-            <Tag tag={tag.title} />
-          </Grid>
-        ))}
-      </Grid>
       {comments &&
         comments.map((comment) => {
           return (
