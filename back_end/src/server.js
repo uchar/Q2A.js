@@ -1,6 +1,15 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
-const { getQuestions, getQuestion, getAnswers, getComments } = require('./post');
+const {
+  getLatestQuestions,
+  getPopularQuestions,
+  getMostViewsQuestions,
+  getNoAnswersQuestions,
+  getQuestion,
+  getAnswersCount,
+  getAnswers,
+  getComments,
+} = require('./post');
 const { getAllTags, getQuestionTags } = require('./tag');
 
 const port = 4000;
@@ -13,6 +22,9 @@ const typeDefs = gql`
     profileImage: String
     creator: String
     createdAt: Int
+    viewsCount: Int
+    votesCount: Int
+    answersCount: Int
     tags: [Tag]
     answers: [Answer]
     comments: [Comment]
@@ -23,6 +35,7 @@ const typeDefs = gql`
     content: String
     profileImage: String
     creator: String
+    votesCount: Int
     createdAt: Int
     comments: [Comment]
   }
@@ -42,7 +55,10 @@ const typeDefs = gql`
   }
 
   type Query {
-    questions: [Question]
+    latestQuestions(tag: String): [Question]
+    popularQuestions(tag: String): [Question]
+    mostViewsQuestions(tag: String): [Question]
+    noAnswersQuestions(tag: String): [Question]
     tags: [Tag]
     getQuestion(id: String!): Question
   }
@@ -50,7 +66,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    questions: getQuestions,
+    latestQuestions: getLatestQuestions,
+    popularQuestions: getPopularQuestions,
+    mostViewsQuestions: getMostViewsQuestions,
+    noAnswersQuestions: getNoAnswersQuestions,
     tags: getAllTags,
     getQuestion,
   },
@@ -58,6 +77,7 @@ const resolvers = {
     tags: getQuestionTags,
     answers: getAnswers,
     comments: getComments,
+    answersCount: getAnswersCount,
   },
   Answer: {
     comments: getComments,
