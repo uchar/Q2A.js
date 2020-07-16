@@ -1,26 +1,32 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
+import {
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  IconButton,
+  Typography,
+  Box,
+  Grid,
+  makeStyles,
+} from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import Link from 'next/link';
+import renderHTML from 'react-render-html';
+import { execute } from 'graphql';
 import Tag from './Tag';
-import { getStrings } from '../utilities';
+import {getStrings, parseContent, replacePTagWithTypoGraphy} from '../utilities';
+import CodeBlock from './CodeBlock';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
+    paddingBottom: '15px',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -33,45 +39,54 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: 'white',
     width: 70,
     height: 70,
     marginRight: '15px',
   },
 }));
 
-export default function QuestionItem() {
+export default function QuestionItem({
+  id,
+  title,
+  content,
+  tags,
+  profileImage,
+  creator,
+  createdAt,
+  isExpanded,
+}) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(isExpanded === true);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+
+
   return (
-    <Box boxShadow={1} borderColor="#f2f2f2" border={1} className={classes.root}>
+    <Box boxShadow={1} className={classes.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar
-                aria-label="recipe"
-                className={classes.avatar}
-                src="/images/sample_profile.jpg"
-              ></Avatar>
+              <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
+                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+              </Avatar>
               <div>
                 <Typography
                   variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 22, color: 'black' }}
+                  color="textPrimary"
+                  style={{ fontSize: 22, textAlign: 'right', marginRight: '15px' }}
                   component="p"
                 >
-                  Farnoosh
+                  {creator}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
-                  style={{ fontSize: 15, color: 'black', marginRight: '12px' }}
+                  style={{ fontSize: 15, marginRight: '12px' }}
                   component="p"
                 >
                   {getStrings().DEMO_TIME_AGO}
@@ -85,12 +100,7 @@ export default function QuestionItem() {
                 <IconButton aria-label="add to favorites">
                   <ViewIcon />
                 </IconButton>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
                   {getStrings().DEMO_UP_VOTE}
                 </Typography>
               </div>
@@ -98,12 +108,7 @@ export default function QuestionItem() {
                 <IconButton aria-label="add to favorites">
                   <UpVoteIcon />
                 </IconButton>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
                   {getStrings().DEMO_VIEWS}
                 </Typography>
               </div>
@@ -111,12 +116,7 @@ export default function QuestionItem() {
                 <IconButton aria-label="add to favorites">
                   <AnswerIcon />
                 </IconButton>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, color: 'black' }}
-                  component="p"
-                >
+                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
                   {getStrings().DEMO_ANSWERS}
                 </Typography>
               </div>
@@ -124,58 +124,63 @@ export default function QuestionItem() {
           </Box>
         </Grid>
 
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          style={{
-            fontSize: 18,
-            color: 'black',
-            marginTop: '30px',
-            marginBottom: '-15px',
-            textAlign: 'initial ',
-          }}
-          component="p"
-        >
-          {getStrings().DEMO_QUESTION}
-        </Typography>
-      </CardContent>
-      <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
-        <Grid item>
-          <Tag tag={'C++'} />
-        </Grid>
-        <Grid item>
-          <Tag tag={'Algorithm'} />
-        </Grid>
-        <Grid item>
-          <Tag tag={'AI'} />
-        </Grid>
-        <Grid item>
-          <Tag tag={'Programming'} />
-        </Grid>
-      </Grid>
-      <CardActions disableSpacing>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography style={{ textAlign: 'initial ' }} paragraph>
-            {getStrings().DEMO_QUESTION_DETAIL}
+        <Link href={`/${id}/${title}`}>
+          <Typography
+            variant="body2"
+            color="textPrimary"
+            style={{
+              fontSize: 18,
+              marginTop: '30px',
+              marginBottom: '-15px',
+              textAlign: 'initial ',
+              cursor: 'pointer',
+            }}
+            component="p"
+          >
+            {title}
           </Typography>
-        </CardContent>
-      </Collapse>
+        </Link>
+      </CardContent>
+      <div
+        style={{
+          flex: 'row',
+          display: 'flex',
+          justifyContent: 'space-between',
+          margin: '0px 15px 0px 25px',
+        }}
+      >
+        {/* <CodeBlock /> */}
+        {(expanded || content.length < 250) && parseContent(content)}
+
+        {!expanded && content.length >= 250 && replacePTagWithTypoGraphy(content.substring(0, 250))}
+        {!expanded && content.length >= 250 ? ' ...' : ' '}
+        <CardActions disableSpacing>
+          {content.length >= 250 && (
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          )}
+
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+      </div>
+
+      <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
+        {tags.map((tag) => (
+          <Grid item key={tag.id}>
+            <Tag tag={tag.title} />
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 }

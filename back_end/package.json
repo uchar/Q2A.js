@@ -1,11 +1,16 @@
-
 {
   "name": "7khatcode_backend",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/server.js",
   "license": "MIT",
   "dependencies": {
-    "eslint-plugin-jest": "^23.13.1"
+    "apollo-server": "^2.14.2",
+    "apollo-server-express": "^2.14.2",
+    "aws-sdk": "^2.713.0",
+    "eslint-plugin-jest": "^23.13.1",
+    "express": "^4.17.1",
+    "graphql": "^15.0.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -26,6 +31,7 @@
     "prettier": "^2.0.5"
   },
   "scripts": {
+    "start": "node ./src/server.js",
     "test": "./node_modules/.bin/jest --coverage",
     "lint": "./node_modules/.bin/eslint --fix src/**/*.js src/**/*.test.js --no-error-on-unmatched-pattern"
   },
@@ -39,4 +45,3 @@
     "*.js": "npm run lint"
   }
 }
-

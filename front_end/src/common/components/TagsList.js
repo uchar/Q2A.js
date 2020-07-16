@@ -7,121 +7,15 @@ const useStyles = makeStyles((theme) => ({
   root: { padding: '10px' },
 }));
 
-export default function TagsList() {
+export default function TagsList({ tags }) {
   const classes = useStyles();
   return (
     <Grid container justify={'center'} border={1} spacing={2} className={classes.root}>
-      <Grid item>
-        <Tag tag="C++" count={1345} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Java" count={135} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C#" count={755} />
-      </Grid>
-      <Grid item>
-        <Tag tag="OpenCV" count={45} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Python" count={215} />
-      </Grid>
-      <Grid item>
-        <Tag tag="JavaScripts" count={124} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Optimization" count={125} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C++" count={1345} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Java" count={135} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C#" count={755} />
-      </Grid>
-      <Grid item>
-        <Tag tag="OpenCV" count={45} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Python" count={215} />
-      </Grid>
-      <Grid item>
-        <Tag tag="JavaScripts" count={124} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C++" count={1345} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Java" count={135} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C#" count={755} />
-      </Grid>
-      <Grid item>
-        <Tag tag="OpenCV" count={45} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Python" count={215} />
-      </Grid>
-      <Grid item>
-        <Tag tag="JavaScripts" count={124} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C++" count={1345} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Java" count={135} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C#" count={755} />
-      </Grid>
-      <Grid item>
-        <Tag tag="OpenCV" count={45} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Python" count={215} />
-      </Grid>
-      <Grid item>
-        <Tag tag="JavaScripts" count={124} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C++" count={1345} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Java" count={135} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C#" count={755} />
-      </Grid>
-      <Grid item>
-        <Tag tag="OpenCV" count={45} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Python" count={215} />
-      </Grid>
-      <Grid item>
-        <Tag tag="JavaScripts" count={124} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C++" count={1345} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Java" count={135} />
-      </Grid>
-      <Grid item>
-        <Tag tag="C#" count={755} />
-      </Grid>
-      <Grid item>
-        <Tag tag="OpenCV" count={45} />
-      </Grid>
-      <Grid item>
-        <Tag tag="Python" count={215} />
-      </Grid>
-      <Grid item>
-        <Tag tag="JavaScripts" count={124} />
-      </Grid>
+      {tags.map((tag) => (
+        <Grid item key={tag.id}>
+          <Tag tag={tag.title} count={tag.count} />
+        </Grid>
+      ))}
     </Grid>
   );
 }
