@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 26,
   },
   margin: {
-    marginTop: 15,
+    margin: '25px 15px 0px 25px',
   },
   button: {
-    margin: '30px 52px 100px 20px',
+    margin: '30px 52px 40px 20px',
     padding: '10px 80px 10px 80px',
   },
 }));
@@ -64,11 +64,7 @@ export default function Ask() {
             <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
               {getStrings().ASK_SUBTITLE}
             </Typography>
-            <FormControl
-              className={classes.margin}
-              variant="outlined"
-              style={{ marginRight: '20px', width: '840px' }}
-            >
+            <FormControl className={classes.margin} variant="outlined" fullWidth>
               <InputLabel htmlFor="outlined-adornment-amount">{getStrings().ASK_INPUT_LABEL} </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-amount"
@@ -82,7 +78,7 @@ export default function Ask() {
             <Typography className={classes.title} gutterBottom style={{ marginRight: '20px' }}>
               {getStrings().ASK_DESCRIPTION_TITLE}
             </Typography>
-            <Typography variant="body2" component="p" style={{ marginRight: '20px' }}>
+            <Typography variant="body2" component="p" style={{ marginRight: '20px', marginBottom: '15px' }}>
               {getStrings().ASK_DESCRIPTION_SUBTITLE}
             </Typography>
             <TextEditor
@@ -108,7 +104,7 @@ export default function Ask() {
               {getStrings().ASK_TAGS}
             </Typography>
             <Autocomplete
-              style={{ marginRight: '20px', width: '840px' }}
+              fullWidth
               className={classes.margin}
               multiple
               id="tags-outlined"

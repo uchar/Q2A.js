@@ -64,17 +64,23 @@ export default function QuestionItem({
   };
 
   const unescapeHTML = (escapedHTML) => {
-    return renderHTML(escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/<\/?[^>]+>/ig, ""))
+    return renderHTML(
+      escapedHTML
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/<\/?[^>]+>/gi, '')
+    );
+  };
+  const unescapeCode = (escapedHTML) => {
+    return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   };
   const replacePTagWithTypoGraphy = (valueToParse) => {
-    console.log('VALue after unescape : ', unescapeHTML(valueToParse));
     return (
       <Typography style={{ textAlign: 'right', marginTop: '15px' }}>{unescapeHTML(valueToParse)}</Typography>
     );
   };
   const parseContent = (valueToParse) => {
-    console.log(valueToParse);
-    console.log(title);
     let elements = [];
     while (true) {
       const startOfBeginTag = `${valueToParse}`.indexOf('<pre');
@@ -82,8 +88,7 @@ export default function QuestionItem({
       if (startOfBeginTag !== -1) {
         const endOfBeginTag = `${valueToParse}`.indexOf('>', startOfBeginTag);
         const startOfEndTag = `${valueToParse}`.indexOf('</pre>', endOfBeginTag);
-        const code = unescapeHTML(valueToParse.substring(endOfBeginTag + 1, startOfEndTag));
-        console.log('Code : ', code);
+        const code = unescapeCode(valueToParse.substring(endOfBeginTag + 1, startOfEndTag));
         if (startOfBeginTag > 0) {
           elements = elements.concat(replacePTagWithTypoGraphy(valueToParse.substr(0, startOfBeginTag)));
         }
@@ -185,13 +190,9 @@ export default function QuestionItem({
       >
         {/* <CodeBlock /> */}
         {(expanded || content.length < 250) && parseContent(content)}
-        <Typography
-          color="textSecondary"
-          style={{ textAlign: 'right', margin: '15px 0px 5px 0px', fontSize: '15px' }}
-        >
-          {!expanded && content.length >= 250 && renderHTML(content.substring(0, 250))}
-          {!expanded && content.length >= 250 ? ' ...' : ' '}
-        </Typography>
+
+        {!expanded && content.length >= 250 && replacePTagWithTypoGraphy(content.substring(0, 250))}
+        {!expanded && content.length >= 250 ? ' ...' : ' '}
         <CardActions disableSpacing>
           {content.length >= 250 && (
             <IconButton
