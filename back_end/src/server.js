@@ -1,6 +1,14 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
-const { getQuestions, getQuestion, getAnswers, getComments } = require('./post');
+const {
+  getLatestQuestions,
+  getPopularQuestions,
+  getMostViewsQuestions,
+  getNoAnswersQuestions,
+  getQuestion,
+  getAnswers,
+  getComments,
+} = require('./post');
 const { getAllTags, getQuestionTags } = require('./tag');
 
 const port = 4000;
@@ -42,7 +50,10 @@ const typeDefs = gql`
   }
 
   type Query {
-    questions: [Question]
+    getLatestQuestions(tag: String): [Question]
+    getPopularQuestions(tag: String): [Question]
+    getMostViewsQuestions(tag: String): [Question]
+    getNoAnswersQuestions(tag: String): [Question]
     tags: [Tag]
     getQuestion(id: String!): Question
   }
@@ -50,7 +61,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    questions: getQuestions,
+    getLatestQuestions,
+    getPopularQuestions,
+    getMostViewsQuestions,
+    getNoAnswersQuestions,
     tags: getAllTags,
     getQuestion,
   },

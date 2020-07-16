@@ -18,10 +18,34 @@ const getPostQuery = (
   if (haveOffset) query += `offset ? `;
   return query;
 };
-module.exports.getQuestions = async () => {
+module.exports.getLatestQuestions = async () => {
   const db = await database().getInstance();
   const query = getPostQuery('Q', undefined, 'order by UNIX_TIMESTAMP(qa_posts.created) desc', true, true);
-  const questions = await db.doQuery(query, [100, 0]);
+  const questions = await db.doQuery(query, [30, 0]);
+  return questions;
+};
+module.exports.getPopularQuestions = async () => {
+  const db = await database().getInstance();
+  const query = getPostQuery('Q', undefined, 'order by qa_posts.netvotes desc', true, true);
+  const questions = await db.doQuery(query, [30, 0]);
+  return questions;
+};
+module.exports.getMostViewsQuestions = async () => {
+  const db = await database().getInstance();
+  const query = getPostQuery('Q', undefined, 'order by qa_posts.views desc', true, true);
+  const questions = await db.doQuery(query, [30, 0]);
+  return questions;
+};
+module.exports.getNoAnswersQuestions = async () => {
+  const db = await database().getInstance();
+  const query = getPostQuery(
+    'Q',
+    '(SELECT Count(*) from qa_posts as qa_posts_inner where qa_posts.postid=qa_posts_inner.parentid)>0',
+    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
+    true,
+    true
+  );
+  const questions = await db.doQuery(query, [30, 0]);
   return questions;
 };
 

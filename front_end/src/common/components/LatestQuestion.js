@@ -76,9 +76,15 @@ function LatestQuestion() {
     <div className={classes.root}>
       <AppBar
         position="static"
-        fullWidth
         color="default"
-        style={{ margin: '20px 50px 5px 0px', width: '870px', textAlign: 'center' }}
+        style={{
+          alignItems: 'center',
+          justifyItems: 'center',
+          justifyContent: 'center',
+          margin: '50px 12% 5px 50px',
+          width: '75%',
+          textAlign: 'center',
+        }}
       >
         <Tabs
           value={value}
