@@ -9,20 +9,18 @@ import {
   Box,
   Grid,
   makeStyles,
+  Divider,
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
-import UpVoteIcon from '@material-ui/icons/Visibility';
-import AnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
-import Tag from './Tag';
-import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import { getStrings, parseContent } from '../utilities';
+import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
-    paddingBottom: '15px',
+    paddingBottom: '10px',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -52,6 +50,7 @@ export default function AnswerItem({
   createdAt,
   votesCount,
   isExpanded,
+  comments,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -137,6 +136,15 @@ export default function AnswerItem({
           </IconButton>
         </CardActions>
       </div>
+      {comments &&
+        comments.map((comment) => {
+          return (
+            <div style={{ marginTop: '20px' }} key={comment.id}>
+              <Divider />
+              <CommentItem {...comment} />
+            </div>
+          );
+        })}
     </Box>
   );
 }

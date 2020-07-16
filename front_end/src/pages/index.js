@@ -66,7 +66,7 @@ function MainPage() {
         </div>
         {questions &&
           questions.map((question) => {
-            return <QuestionItem key={question.id} {...question} />;
+            return <QuestionItem isMainPage={true} key={question.id} {...question} />;
           })}
       </Box>
     </Layout>

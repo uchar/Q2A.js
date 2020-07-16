@@ -9,6 +9,7 @@ import {
   Box,
   Grid,
   makeStyles,
+  Divider,
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
@@ -18,11 +19,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import Tag from './Tag';
 import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
-    paddingBottom: '15px',
+    paddingBottom: '10px',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -56,7 +58,9 @@ export default function QuestionItem({
   anwers,
   comments,
   isExpanded,
+  isMainPage,
 }) {
+  console.log('COMMENTS : ', comments);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
 
@@ -148,13 +152,11 @@ export default function QuestionItem({
           margin: '0px 15px 0px 25px',
         }}
       >
-        {/* <CodeBlock /> */}
-        {(expanded || content.length < 250) && parseContent(content)}
+        {(expanded || content.length < 400) && parseContent(content, isMainPage)}
 
-        {!expanded && content.length >= 250 && replacePTagWithTypoGraphy(content.substring(0, 250))}
-        {!expanded && content.length >= 250 ? ' ...' : ' '}
+        {!expanded && content.length >= 400 && replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`)}
         <CardActions disableSpacing>
-          {content.length >= 250 && (
+          {content.length >= 400 && (
             <IconButton
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expanded,
@@ -180,6 +182,15 @@ export default function QuestionItem({
           </Grid>
         ))}
       </Grid>
+      {comments &&
+        comments.map((comment) => {
+          return (
+            <div style={{ marginTop: '20px' }} key={comment.id}>
+              <Divider />
+              <CommentItem {...comment} />
+            </div>
+          );
+        })}
     </Box>
   );
 }
