@@ -1,0 +1,28 @@
+name: Upload_To_Liara
+on:
+  push:
+    branches:
+      - feature/**
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: update-backend
+        working-directory: ./back_end
+        env:
+          LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
+        run: |
+          npm i -g @liara/cli@2
+          liara deploy --api-token="$LIARA_TOKEN" --detach --app 7khatcode-api --port 4000
+      - name: update-fontend
+        working-directory: ./front_end
+        env:
+          LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
+        run: |
+          npm i -g @liara/cli@2
+          liara deploy --api-token="$LIARA_TOKEN" --detach --app 7khatcode --port 3000
