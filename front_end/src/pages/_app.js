@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
+import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { wrapper } from '../redux/store';
 import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
 import { getStrings } from '../common/utilities';
-import { wrapper } from '../redux/store';
-import { useSelector } from 'react-redux';
+
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;

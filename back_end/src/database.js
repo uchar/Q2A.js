@@ -2,10 +2,11 @@ const mysql = require('mysql');
 const util = require('util');
 
 const config = {
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: '7khatcode',
+  host: process.env.HOST,
+  user: process.env.USER,
+  port: process.env.PORT,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
   supportBigNumbers: true,
   bigNumberStrings: true,
 };
@@ -24,6 +25,7 @@ let db = null;
 
 module.exports.database = () => {
   const makeDb = () => {
+    console.log('CONFIG IS : ', config);
     const connection = mysql.createConnection(config);
     return {
       doQuery: async (sql, args) => {
