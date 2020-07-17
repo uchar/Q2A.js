@@ -23,7 +23,7 @@ import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: '25px',
+    margin: '25px 0px 25px 0px',
     paddingBottom: '15px',
   },
   expand: {
@@ -38,9 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: 'white',
-    width: 70,
-    height: 70,
-    marginRight: '15px',
+    width: 60,
+    height: 60,
+    marginRight: '5px',
   },
 }));
 
@@ -79,7 +79,7 @@ export default function QuestionItem({
                 <Typography
                   variant="body2"
                   color="textPrimary"
-                  style={{ fontSize: 22, textAlign: 'right', marginRight: '15px' }}
+                  style={{ fontSize: 17, textAlign: 'right', marginRight: '15px' }}
                   component="p"
                 >
                   {creator}
@@ -87,7 +87,7 @@ export default function QuestionItem({
                 <Typography
                   variant="body2"
                   color="textSecondary"
-                  style={{ fontSize: 15, marginRight: '12px' }}
+                  style={{ fontSize: 12, marginRight: '12px' }}
                   component="p"
                 >
                   {getStrings().DEMO_TIME_AGO}
@@ -130,7 +130,7 @@ export default function QuestionItem({
             variant="body2"
             color="textPrimary"
             style={{
-              fontSize: 18,
+              fontSize: 21,
               marginTop: '30px',
               marginBottom: '-15px',
               textAlign: 'initial ',
@@ -147,7 +147,7 @@ export default function QuestionItem({
           flex: 'row',
           display: 'flex',
           justifyContent: 'space-between',
-          margin: '0px 15px 0px 25px',
+          margin: '0px 15px 0px 5px',
         }}
       >
         {(expanded || content.length < 400) && parseContent(content, isMainPage)}
@@ -168,10 +168,6 @@ export default function QuestionItem({
               <ExpandMoreIcon />
             </IconButton>
           )}
-
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
         </CardActions>
       </div>
 

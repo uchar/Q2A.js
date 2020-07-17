@@ -31,7 +31,7 @@ export const replacePTagWithTypoGraphy = (valueToParse, isMainPage = false) => {
   return (
     <Typography
       color={isMainPage ? 'textSecondary' : 'textPrimary'}
-      style={{ textAlign: 'right', marginTop: '15px' }}
+      style={{ textAlign: 'right', marginTop: '14px' }}
     >
       {render7khatcodeHtml(valueToParse)}
     </Typography>

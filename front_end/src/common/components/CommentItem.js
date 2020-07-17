@@ -17,13 +17,13 @@ const useStyles = makeStyles((theme) => ({
 export default function CommentItem({ content, creator }) {
   const classes = useStyles();
   return (
-    <div style={{ margin: '20px 15px 10px 15px', flex: 1, textAlign: 'right', flexDirection: 'row' }}>
-      <Typography color="textPrimary" display="inline" style={{ fontSize: '16px' }}>
+    <div style={{ margin: '15px 15px 10px 20px', flex: 1, textAlign: 'right', flexDirection: 'row' }}>
+      <Typography color="textPrimary" display="inline" style={{ fontSize: '12px' }}>
         {`${content} - `}
       </Typography>
       <Typography
         display="inline"
-        style={{ textDecorationLine: 'underline', cursor: 'pointer', color: '#ff00ee' }}
+        style={{ fontSize: '12px', textDecorationLine: 'underline', cursor: 'pointer', color: '#ff00ee' }}
       >
         {creator}
       </Typography>
