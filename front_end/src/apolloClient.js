@@ -10,7 +10,9 @@ export default function createApolloClient(initialState, ctx) {
   return new ApolloClient({
     ssrMode: Boolean(ctx),
     link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_GRAPHQL_URL, // Server URL (must be absolute)
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_URL
+        ? process.env.NEXT_PUBLIC_GRAPHQL_URL
+        : 'https://7khatcode-api.liara.run/graphql', // Seems that liara doesn't support env variable in next.js
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
       fetch,
     }),
