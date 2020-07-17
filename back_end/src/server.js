@@ -11,7 +11,7 @@ const {
   getAnswers,
   getComments,
 } = require('./post');
-const { getAllTags, getQuestionTags } = require('./tag');
+const { getAllTags, getQuestionTags, getTagDetail } = require('./tag');
 
 const port = 4000;
 
@@ -52,6 +52,7 @@ const typeDefs = gql`
   type Tag {
     id: String
     title: String
+    content: String
     count: Int
   }
 
@@ -61,6 +62,7 @@ const typeDefs = gql`
     mostViewsQuestions(tag: String): [Question]
     noAnswersQuestions(tag: String): [Question]
     tags: [Tag]
+    getTagDetail(tag: String!): Tag
     getQuestion(id: String!): Question
   }
 `;
@@ -73,6 +75,7 @@ const resolvers = {
     noAnswersQuestions: getNoAnswersQuestions,
     tags: getAllTags,
     getQuestion,
+    getTagDetail,
   },
   Question: {
     tags: getQuestionTags,

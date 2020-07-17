@@ -35,7 +35,6 @@ const Layout = (props) => {
   }
   if (loading) return <Loading />;
   const { tags } = data;
-  console.log('?????????', isMobile);
   return (
     <RTL>
       <div className="Layout" style={layoutStyle} dir="rtl">

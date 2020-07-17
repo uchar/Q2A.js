@@ -11,10 +11,13 @@ import NewIcon from '@material-ui/icons/FiberNew';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewsIcon from '@material-ui/icons/Visibility';
 import HelpIcon from '@material-ui/icons/Help';
+import { isMobile } from 'react-device-detect';
 import Loading from './Loading';
-import { ALL_QUESTIONS } from '../../API/queries';
+import { ALL_QUESTIONS, GET_TAG } from '../../API/queries';
 import { withApollo } from '../../libs/apollo';
 import QuestionItem from './QuestionItem';
+import { getStrings, render7khatcodeHtml } from '../utilities';
+import CardButton from './CardButton/CardButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,12 +60,13 @@ function a11yProps(index) {
 
 function LatestQuestions({ tag }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [currentTab, setCurrentTab] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event, tabIndex) => {
+    setCurrentTab(tabIndex);
   };
   const { loading, error, data } = useQuery(ALL_QUESTIONS, { variables: { tag } });
+  const tagRequest = useQuery(GET_TAG, { variables: { tag } });
   if (error) {
     console.error(error);
     return <h1> error </h1>;
@@ -75,22 +79,60 @@ function LatestQuestions({ tag }) {
       return <QuestionItem isMainPage={true} key={question.id} {...question} />;
     });
   };
+  const getTitle = () => {
+    let title = '';
+    if (currentTab === 0) {
+      title = 'جدید ترین ها';
+    } else if (currentTab === 1) {
+      title = 'محبوبترین ها';
+    } else if (currentTab === 2) {
+      title = 'پربازدیدترین ها';
+    } else if (currentTab === 3) {
+      title = 'بدون پاسخ ها';
+    }
+    if (tag && !isMobile) {
+      title += ` در [${tag}]`;
+    }
+    return title;
+  };
+  console.log('TAG DATA ', tagRequest);
   return (
     <div className={classes.root}>
+      <div
+        style={{
+          flex: 'row',
+          display: 'flex',
+          justifyContent: 'space-between',
+          margin: '50px 10px 0px 10px',
+        }}
+      >
+        <Typography style={{ marginTop: 25, fontSize: isMobile ? 22 : 32 }}>{getTitle()}</Typography>
+        <CardButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />
+      </div>
+      <div style={{ margin: '25px 10px 0px 10px', textAlign: 'right' }}>
+        {!tagRequest.loading &&
+          !tagRequest.error &&
+          !tagRequest.error &&
+          tagRequest.data &&
+          tagRequest.data.getTagDetail &&
+          render7khatcodeHtml(tagRequest.data.getTagDetail.content)}
+      </div>
+
       <AppBar
         position="static"
         color="default"
+        fullWidth={isMobile}
         style={{
           alignItems: 'center',
           justifyItems: 'center',
           justifyContent: 'center',
-          margin: '50px 12% 5px 50px',
-          width: '75%',
+          margin: isMobile ? '50px 0px 5px 0px' : '50px 13% 5px 13%',
+          width: isMobile ? '100%' : 'auto',
           textAlign: 'center',
         }}
       >
         <Tabs
-          value={value}
+          value={currentTab}
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="on"
@@ -104,16 +146,16 @@ function LatestQuestions({ tag }) {
           <Tab label="بدون جواب ها" icon={<HelpIcon />} {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={currentTab} index={0}>
         {getQueustionsList(latestQuestions)}
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={currentTab} index={1}>
         {getQueustionsList(popularQuestions)}
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={currentTab} index={2}>
         {getQueustionsList(mostViewsQuestions)}
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      <TabPanel value={currentTab} index={3}>
         {getQueustionsList(noAnswersQuestions)}
       </TabPanel>
     </div>
