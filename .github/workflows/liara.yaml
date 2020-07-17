@@ -18,11 +18,11 @@ jobs:
           LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
         run: |
           npm i -g @liara/cli@2
-          liara deploy --api-token="$LIARA_TOKEN" --detach
+          liara deploy --api-token="$LIARA_TOKEN" --detach --app 7khatcode-api --port 4000
       - name: update-fontend
         working-directory: ./front_end
         env:
           LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
         run: |
           npm i -g @liara/cli@2
-          liara deploy --api-token="$LIARA_TOKEN" --detach
+          liara deploy --api-token="$LIARA_TOKEN" --detach --app 7khatcode --port 3000
