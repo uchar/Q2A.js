@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "deploy": "liara deploy  7khatcode --port 3000",
+    "deploy": "liara deploy --app 7khatcode --port 3000 --platform node",
     "build": "next build",
     "start": "next start"
   },
