@@ -24,6 +24,7 @@
     "babel-eslint": "10.1.0",
     "ckeditor5-build-7khatcode": "0.0.7",
     "clsx": "1.1.0",
+    "dotenv": "^8.2.0",
     "formik": "2.1.5",
     "graphql": "15.3.0",
     "graphql-tag": "2.10.4",
