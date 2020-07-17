@@ -16,7 +16,7 @@ import Loading from './Loading';
 import { ALL_QUESTIONS, GET_TAG } from '../../API/queries';
 import { withApollo } from '../../libs/apollo';
 import QuestionItem from './QuestionItem';
-import { getStrings, render7khatcodeHtml } from '../utilities';
+import { getStrings, parseContent, render7khatcodeHtml } from '../utilities';
 import CardButton from './CardButton/CardButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +96,9 @@ function LatestQuestions({ tag }) {
     return title;
   };
   console.log('TAG DATA ', tagRequest);
+  try {
+    console.log(tagRequest.data.getTagDetail.content);
+  } catch (e) {}
   return (
     <div className={classes.root}>
       <div
@@ -115,7 +118,7 @@ function LatestQuestions({ tag }) {
           !tagRequest.error &&
           tagRequest.data &&
           tagRequest.data.getTagDetail &&
-          render7khatcodeHtml(tagRequest.data.getTagDetail.content)}
+          parseContent(tagRequest.data.getTagDetail.content)}
       </div>
 
       <AppBar

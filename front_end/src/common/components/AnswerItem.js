@@ -119,17 +119,8 @@ export default function AnswerItem({
           </Typography>
         </Link>
       </CardContent>
-      <div
-        style={{
-          flex: 'row',
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '0px 25px 0px 20px',
-        }}
-      >
-        {/* <CodeBlock /> */}
+
         {parseContent(content)}
-      </div>
       {comments &&
         comments.map((comment) => {
           return (

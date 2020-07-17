@@ -150,25 +150,33 @@ export default function QuestionItem({
           margin: '0px 15px 0px 5px',
         }}
       >
-        {(expanded || content.length < 400) && parseContent(content, isMainPage)}
+        {(expanded || content.length < 400) &&
+          parseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')}
 
-        {!expanded &&
-          content.length >= 400 &&
-          replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`, isMainPage)}
-        <CardActions disableSpacing>
-          {content.length >= 400 && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-        </CardActions>
+        {!expanded && content.length >= 400 && (
+          <div style={{ marginTop: '25px' }}>
+            {replacePTagWithTypoGraphy(
+              `${content.substring(0, 400)}...`,
+              isMainPage ? 'textSecondary' : 'textPrimary'
+            )}
+          </div>
+        )}
+        {isMainPage && (
+          <CardActions disableSpacing>
+            {content.length >= 400 && (
+              <IconButton
+                className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </IconButton>
+            )}
+          </CardActions>
+        )}
       </div>
 
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
