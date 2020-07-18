@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "deploy": "liara deploy  7khatcode --port 3000",
+    "deploy": "liara deploy --app 7khatcode --port 3000 --platform node",
     "build": "next build",
     "start": "next start"
   },
@@ -33,9 +33,11 @@
     "jss-rtl": "0.3.0",
     "next": "9.4.4",
     "next-redux-wrapper": "6.0.2",
+    "node-html-parser": "^1.2.20",
     "prop-types": "15.7.2",
     "raw-loader": "4.0.1",
     "react": "16.13.1",
+    "react-device-detect": "^1.13.1",
     "react-dom": "16.13.1",
     "react-jss": "10.3.0",
     "react-redux": "7.2.0",

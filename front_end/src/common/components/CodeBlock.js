@@ -1,14 +1,27 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco, dark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
-import { useDispatch, useSelector } from 'react-redux';
+import { foundation as light, tomorrowNightBright as dark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { useSelector } from 'react-redux';
 
-const CodeBlock = ({ code }) => {
+const CodeBlock = ({ code, lang }) => {
   const selector = useSelector((state) => state);
   const { themeType } = selector.client;
+  const language = lang || 'javascript';
+  let themeStyle;
+  if (themeType === 'light') {
+    themeStyle = light;
+  } else {
+    themeStyle = dark;
+  }
+  const themeLayout = { flex: 1, fontSize: '25px', textAlign: 'left', margin: '5px 0px 5px 10px' };
   return (
-    <div dir="ltr" style={{ textAlign: 'left', flex: '1', margin: '5px 0px 5px 10px' }}>
-      <SyntaxHighlighter language="javascript" style={themeType === 'light' ? docco : dark}>
+    <div style={{ flex: 1, textAlign: 'left'}}>
+      <SyntaxHighlighter
+        dir="ltr"
+        showLineNumbers
+        language={language}
+        style={Object.assign(themeStyle, themeLayout)}
+      >
         {code}
       </SyntaxHighlighter>
     </div>

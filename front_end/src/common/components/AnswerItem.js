@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: 'white',
-    width: 70,
-    height: 70,
-    marginRight: '15px',
+    width: 60,
+    height: 60,
+    marginRight: '5px',
   },
 }));
 
@@ -72,7 +72,7 @@ export default function AnswerItem({
                 <Typography
                   variant="body2"
                   color="textPrimary"
-                  style={{ fontSize: 22, textAlign: 'right', marginRight: '15px' }}
+                  style={{ fontSize: 17, textAlign: 'right', marginRight: '15px' }}
                   component="p"
                 >
                   {creator}
@@ -80,7 +80,7 @@ export default function AnswerItem({
                 <Typography
                   variant="body2"
                   color="textSecondary"
-                  style={{ fontSize: 15, marginRight: '12px' }}
+                  style={{ fontSize: 13, marginRight: '12px' }}
                   component="p"
                 >
                   {getStrings().DEMO_TIME_AGO}
@@ -107,7 +107,7 @@ export default function AnswerItem({
             variant="body2"
             color="textPrimary"
             style={{
-              fontSize: 18,
+              fontSize: 21,
               marginTop: '30px',
               marginBottom: '-15px',
               textAlign: 'initial ',
@@ -119,23 +119,8 @@ export default function AnswerItem({
           </Typography>
         </Link>
       </CardContent>
-      <div
-        style={{
-          flex: 'row',
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '0px 15px 0px 25px',
-        }}
-      >
-        {/* <CodeBlock /> */}
-        {parseContent(content)}
 
-        <CardActions disableSpacing>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
-      </div>
+        {parseContent(content)}
       {comments &&
         comments.map((comment) => {
           return (

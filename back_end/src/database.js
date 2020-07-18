@@ -25,7 +25,6 @@ let db = null;
 
 module.exports.database = () => {
   const makeDb = () => {
-    console.log('CONFIG IS : ', config);
     const connection = mysql.createConnection(config);
     return {
       doQuery: async (sql, args) => {

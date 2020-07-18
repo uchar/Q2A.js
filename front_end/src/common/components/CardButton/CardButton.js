@@ -4,12 +4,13 @@ import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
+import { isMobile } from 'react-device-detect';
 
 const useStyles = makeStyles((theme) => ({
   viewCourseButton: {
     color: '#ffffff',
     padding: '12px 30px 12px 30px',
-    fontSize: 18,
+    fontSize: isMobile ? 15 : 18,
   },
   wrapper: {
     margin: theme.spacing(1),
