@@ -1,22 +1,29 @@
 const { database } = require('./database');
 
+// eslint-disable-next-line complexity
 const getPostQuery = (
   type,
   whereClause = undefined,
   orderByClause = undefined,
   haveLimit = false,
-  haveOffset = false
+  haveOffset = false,
+  extraJoin = undefined
 ) => {
   let query =
-    'SELECT qa_posts.title,qa_posts.views as viewsCount ,qa_posts.netvotes as votesCount,qa_posts.content,' +
+    'SELECT qa_posts.type as type, qa_posts.title,qa_posts.views as viewsCount ,qa_posts.netvotes as votesCount,qa_posts.content,' +
     'qa_posts.postid as id,qa_users.handle as creator,UNIX_TIMESTAMP(qa_posts.created) as createdAt,' +
     'concat("https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-",qa_blobs.blobid,".",qa_blobs.format) as profileImage FROM `qa_posts` ' +
     'Left JOIN qa_users ON qa_posts.userid = qa_users.userid LEFT JOIN qa_blobs ON qa_users.avatarblobid =qa_blobs.blobid ';
-  query += `where type='${type}'`;
-  if (whereClause) query += ` and ${whereClause} `;
+  if (extraJoin) query += ` ${extraJoin} `;
+  if (type) query += `where qa_posts.type='${type}'`;
+  if (whereClause) {
+    if (!type) query += `where ${whereClause} `;
+    else query += ` and ${whereClause} `;
+  }
   if (orderByClause) query += `${orderByClause} `;
   if (haveLimit) query += `limit ? `;
   if (haveOffset) query += `offset ? `;
+
   return query;
 };
 
@@ -96,4 +103,55 @@ module.exports.getComments = async (post) => {
   const query = getPostQuery('C', 'qa_posts.parentid=?');
   const comments = await db.doQuery(query, [id]);
   return comments;
+};
+
+module.exports.getUserQuestions = async (user) => {
+  const { id } = user;
+  const db = await database().getInstance();
+  const query = getPostQuery(
+    'Q',
+    'qa_posts.userid=?',
+    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
+    true,
+    true
+  );
+  const questions = await db.doQuery(query, [id, 50, 0]);
+  return questions;
+};
+
+module.exports.getUserAnswers = async (user) => {
+  const { id } = user;
+  const db = await database().getInstance();
+  const query = getPostQuery(
+    'A',
+    'qa_posts.userid=?',
+    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
+    true,
+    true
+  );
+  const answers = await db.doQuery(query, [id, 50, 0]);
+  return answers;
+};
+
+module.exports.getUserClapItems = async (user) => {
+  const { id } = user;
+  const db = await database().getInstance();
+  const query = getPostQuery(
+    undefined,
+    'qa_uservotes.userid=?',
+    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
+    true,
+    true,
+    'LEFT JOIN qa_uservotes ON qa_uservotes.postid=qa_posts.postid'
+  );
+  const items = await db.doQuery(query, [id, 50, 0]);
+  const clapItems = [];
+  items.forEach((item) => {
+    if (item.type === 'Q') {
+      clapItems.push({ type: 'QUESTION', question: item });
+    } else if (item.type === 'A') {
+      clapItems.push({ type: 'ANSWER', answer: item });
+    }
+  });
+  return clapItems;
 };

@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px 0px 25px 0px',
     paddingBottom: '15px',
+    textAlign: 'center',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     width: 60,
     height: 60,
     marginRight: '5px',
+    cursor: 'pointer',
   },
 }));
 
@@ -72,27 +74,35 @@ export default function QuestionItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
-                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
-              </Avatar>
-              <div>
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                  style={{ fontSize: 17, textAlign: 'right', marginRight: '15px' }}
-                  component="p"
-                >
-                  {creator}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, marginRight: '12px' }}
-                  component="p"
-                >
-                  {getStrings().DEMO_TIME_AGO}
-                </Typography>
-              </div>
+              <Link href={`/user/${creator}`}>
+                <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
+                  <Avatar
+                    aria-label="recipe"
+                    className={classes.avatar}
+                    src={'/images/default_profile.jpg'}
+                  />
+                </Avatar>
+              </Link>
+              <Link href={`/user/${creator}`}>
+                <div>
+                  <Typography
+                    variant="body2"
+                    color="textPrimary"
+                    style={{ cursor: 'pointer', fontSize: 17, textAlign: 'right', marginRight: '15px' }}
+                    component="p"
+                  >
+                    {creator}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    style={{ fontSize: 12, marginRight: '12px' }}
+                    component="p"
+                  >
+                    {getStrings().DEMO_TIME_AGO}
+                  </Typography>
+                </div>
+              </Link>
             </Grid>
           </Box>
           <Box>

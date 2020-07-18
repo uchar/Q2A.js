@@ -10,12 +10,36 @@ const {
   getAnswersCount,
   getAnswers,
   getComments,
+  getUserAnswers,
+  getUserClapItems,
+  getUserQuestions,
 } = require('./post');
 const { getAllTags, getQuestionTags, getTagDetail } = require('./tag');
+const { getUser, getUserAbout } = require('./user');
 
 const port = 4000;
 
 const typeDefs = gql`
+  type User {
+    id: String
+    publicName: String
+    profileImage: String
+    description: String
+    about: String
+    questions: [Question]
+    answers: [Answer]
+    clapItems: [ClapItem]
+  }
+  enum PostType {
+    QUESTION
+    ANSWER
+    COMMENT
+  }
+  type ClapItem {
+    type: PostType
+    question: Question
+    answer: Answer
+  }
   type Question {
     id: String
     title: String
@@ -64,6 +88,7 @@ const typeDefs = gql`
     tags: [Tag]
     getTagDetail(tag: String!): Tag
     getQuestion(id: String!): Question
+    getUser(id: String!): User
   }
 `;
 
@@ -76,12 +101,19 @@ const resolvers = {
     tags: getAllTags,
     getQuestion,
     getTagDetail,
+    getUser,
   },
   Question: {
     tags: getQuestionTags,
     answers: getAnswers,
     comments: getComments,
     answersCount: getAnswersCount,
+  },
+  User: {
+    questions: getUserQuestions,
+    answers: getUserAnswers,
+    clapItems: getUserClapItems,
+    about: getUserAbout,
   },
   Answer: {
     comments: getComments,

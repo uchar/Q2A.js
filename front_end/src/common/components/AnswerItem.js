@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
     paddingBottom: '10px',
+    textAlign: 'center',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -120,7 +121,7 @@ export default function AnswerItem({
         </Link>
       </CardContent>
 
-        {parseContent(content)}
+      {parseContent(content)}
       {comments &&
         comments.map((comment) => {
           return (

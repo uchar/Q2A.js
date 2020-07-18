@@ -121,3 +121,60 @@ export const GET_TAG = gql`
     }
   }
 `;
+export const GET_USER = gql`
+  query getUser($id: String!) {
+    getUser(id: $id) {
+      publicName
+      profileImage
+      description
+      about
+      answers {
+        id
+        content
+        profileImage
+        votesCount
+        creator
+        createdAt
+      }
+      questions {
+        id
+        title
+        content
+        viewsCount
+        votesCount
+        answersCount
+        profileImage
+        creator
+        createdAt
+        tags {
+          title
+        }
+      }
+      clapItems {
+        type
+        answer {
+          id
+          content
+          profileImage
+          votesCount
+          creator
+          createdAt
+        }
+        question {
+          id
+          title
+          content
+          viewsCount
+          votesCount
+          answersCount
+          profileImage
+          creator
+          createdAt
+          tags {
+            title
+          }
+        }
+      }
+    }
+  }
+`;
