@@ -111,3 +111,13 @@ export const ALL_TAGS = gql`
     }
   }
 `;
+export const GET_TAG = gql`
+  query q($tag: String!) {
+    getTagDetail(tag: $tag) {
+      id
+      title
+      content
+      count
+    }
+  }
+`;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Divider, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from '@apollo/react-hooks';
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import Header from './Header';
 import Footer from './Footer';
 import TagsList from '../TagsList';
@@ -41,7 +42,9 @@ const Layout = (props) => {
         <Box className="Content" style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
-              <News />
+              <BrowserView>
+                <News />
+              </BrowserView>
             </Grid>
             <Grid item md={8} xs={12}>
               {props.children}
@@ -49,9 +52,14 @@ const Layout = (props) => {
             <Grid item md={2} xs={12}>
               <Box style={{ marginTop: '25px' }} boxShadow={2}>
                 <Grid container>
-                  <TagsList tags={tags} />
+                  <BrowserView>
+                    <TagsList tags={tags} />
+                  </BrowserView>
                 </Grid>
               </Box>
+              <MobileView>
+                <News />
+              </MobileView>
             </Grid>
           </Grid>
         </Box>
