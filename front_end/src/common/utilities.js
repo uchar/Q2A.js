@@ -143,7 +143,7 @@ export const parseContent = (valueToParse, textColor = 'textPrimary') => {
       );
     } else parts = recursiveParse(root, textColor);
 
-    console.log('???', parts);
+    // console.log('???', parts);
     return <div style={{ flex: 1, margin: '15px 10px 10px 10px' }}> {parts.map((part) => part)}</div>;
   } catch (e) {
     console.log(e);
