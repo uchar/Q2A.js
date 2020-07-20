@@ -31,9 +31,9 @@ module.exports.getPostTypes = () => {
 };
 module.exports.getUtils = () => {
   const makeDb = async () => {
-    console.log('Config : ', config);
     const sequelize = new Sequelize(config.database, config.user, config.password, {
       host: config.host,
+      port: config.port,
       dialect: 'mysql',
       pool: {
         max: 5,
