@@ -31,6 +31,7 @@
     "isomorphic-unfetch": "3.0.0",
     "jss": "10.3.0",
     "jss-rtl": "0.3.0",
+    "material-ui-popup-state": "^1.6.1",
     "next": "9.4.4",
     "next-redux-wrapper": "6.0.2",
     "node-html-parser": "^1.2.20",
