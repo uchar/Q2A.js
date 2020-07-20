@@ -18,7 +18,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import Tag from './Tag';
-import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import { getProfileImage, getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
 import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,13 +46,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const checkTagAndAppend = (tags, newTag) => {
+  if (newTag) tags.push(newTag);
+  return tags;
+};
+
 export default function QuestionItem({
   id,
   title,
   content,
-  tags,
-  profileImage,
-  creator,
+  user,
   createdAt,
   viewsCount,
   votesCount,
@@ -60,9 +63,21 @@ export default function QuestionItem({
   comments,
   isExpanded,
   isMainPage,
+  tag1,
+  tag2,
+  tag3,
+  tag4,
+  tag5,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
+  const { publicName, profileImage } = user;
+  let tags = [];
+  tags = checkTagAndAppend(tags, tag1);
+  tags = checkTagAndAppend(tags, tag2);
+  tags = checkTagAndAppend(tags, tag3);
+  tags = checkTagAndAppend(tags, tag4);
+  tags = checkTagAndAppend(tags, tag5);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -74,8 +89,8 @@ export default function QuestionItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Link href={`/user/${creator}`}>
-                <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
+              <Link href={`/user/${publicName}`}>
+                <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
                   <Avatar
                     aria-label="recipe"
                     className={classes.avatar}
@@ -83,7 +98,7 @@ export default function QuestionItem({
                   />
                 </Avatar>
               </Link>
-              <Link href={`/user/${creator}`}>
+              <Link href={`/user/${publicName}`}>
                 <div>
                   <Typography
                     variant="body2"
@@ -91,7 +106,7 @@ export default function QuestionItem({
                     style={{ cursor: 'pointer', fontSize: 17, textAlign: 'right', marginRight: '15px' }}
                     component="p"
                   >
-                    {creator}
+                    {publicName}
                   </Typography>
                   <Typography
                     variant="body2"
@@ -191,8 +206,8 @@ export default function QuestionItem({
 
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
         {tags.map((tag) => (
-          <Grid item key={tag.id}>
-            <Tag tag={tag.title} />
+          <Grid item key={tag}>
+            <Tag tag={tag} />
           </Grid>
         ))}
       </Grid>

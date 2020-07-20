@@ -14,8 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CommentItem({ content, creator }) {
+export default function CommentItem({ content, user }) {
   const classes = useStyles();
+  const { publicName, profileImage } = user;
+
   return (
     <div style={{ margin: '15px 15px 10px 20px', flex: 1, textAlign: 'right', flexDirection: 'row' }}>
       <Typography color="textPrimary" display="inline" style={{ fontSize: '12px' }}>
@@ -25,7 +27,7 @@ export default function CommentItem({ content, creator }) {
         display="inline"
         style={{ fontSize: '12px', textDecorationLine: 'underline', cursor: 'pointer', color: '#ff00ee' }}
       >
-        {creator}
+        {publicName}
       </Typography>
     </div>
   );

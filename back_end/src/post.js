@@ -1,157 +1,181 @@
-const { database } = require('./database');
+const { Op } = require('sequelize');
+const dbUtils = require('./database').getUtils();
+const tables = require('./database').getTables();
+const postTypes = require('./database').getPostTypes();
 
-// eslint-disable-next-line complexity
-const getPostQuery = (
-  type,
-  whereClause = undefined,
-  orderByClause = undefined,
-  haveLimit = false,
-  haveOffset = false,
-  extraJoin = undefined
-) => {
-  let query =
-    'SELECT qa_posts.type as type, qa_posts.title,qa_posts.views as viewsCount ,qa_posts.netvotes as votesCount,qa_posts.content,' +
-    'qa_posts.postid as id,qa_users.handle as creator,UNIX_TIMESTAMP(qa_posts.created) as createdAt,' +
-    'concat("https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-",qa_blobs.blobid,".",qa_blobs.format) as profileImage FROM `qa_posts` ' +
-    'Left JOIN qa_users ON qa_posts.userid = qa_users.userid LEFT JOIN qa_blobs ON qa_users.avatarblobid =qa_blobs.blobid ';
-  if (extraJoin) query += ` ${extraJoin} `;
-  if (type) query += `where qa_posts.type='${type}'`;
-  if (whereClause) {
-    if (!type) query += `where ${whereClause} `;
-    else query += ` and ${whereClause} `;
-  }
-  if (orderByClause) query += `${orderByClause} `;
-  if (haveLimit) query += `limit ? `;
-  if (haveOffset) query += `offset ? `;
-
-  return query;
-};
-
-const getTagWhereClause = (tag) => {
-  let whereClause;
+const getTypeTagWhereClause = (type, tag) => {
   if (tag) {
-    whereClause = `(SELECT Count(*) from qa_posttags JOIN qa_words ON qa_posttags.wordid=qa_words.wordid 
-     WHERE qa_posttags.postid=qa_posts.postid and qa_words.word="${tag}")>0`;
+    return {
+      type,
+      [Op.or]: [{ tag1: tag }, { tag2: tag }, { tag3: tag }, { tag4: tag }, { tag5: tag }],
+    };
   }
-  return whereClause;
+  return { type };
 };
-module.exports.getLatestQuestions = async (parent, { tag }) => {
-  const db = await database().getInstance();
-  const whereClause = getTagWhereClause(tag);
-  const query = getPostQuery('Q', whereClause, 'order by UNIX_TIMESTAMP(qa_posts.created) desc', true, true);
-  const questions = await db.doQuery(query, [25, 0]);
+module.exports.getLatestQuestions = async (_, { tag, limit, offset }) => {
+  const Post = dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+
+  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
+  const questions = await Post.findAll({
+    where: tagWhereClause,
+    order: [['createdAt', 'DESC']],
+    include: [User],
+    limit,
+    offset,
+  });
   return questions;
 };
 
-module.exports.getPopularQuestions = async (parent, { tag }) => {
-  const db = await database().getInstance();
-  const whereClause = getTagWhereClause(tag);
-  const query = getPostQuery('Q', whereClause, 'order by qa_posts.netvotes desc', true, true);
-  const questions = await db.doQuery(query, [30, 0]);
+module.exports.getPopularQuestions = async (parent, { tag, limit, offset }) => {
+  const Post = dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+
+  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
+  const questions = await Post.findAll({
+    where: tagWhereClause,
+    order: [['votesCount', 'DESC']],
+    include: [User],
+    limit,
+    offset,
+  });
   return questions;
 };
 
-module.exports.getMostViewsQuestions = async (parent, { tag }) => {
-  const db = await database().getInstance();
-  const whereClause = getTagWhereClause(tag);
-  const query = getPostQuery('Q', whereClause, 'order by qa_posts.views desc', true, true);
-  const questions = await db.doQuery(query, [30, 0]);
+module.exports.getMostViewsQuestions = async (parent, { tag, limit, offset }) => {
+  const Post = dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+
+  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
+  const questions = await Post.findAll({
+    where: tagWhereClause,
+    order: [['viewsCount', 'DESC']],
+    include: [User],
+    limit,
+    offset,
+  });
   return questions;
 };
 
-module.exports.getNoAnswersQuestions = async (parent, { tag }) => {
-  const db = await database().getInstance();
-  let whereClause = getTagWhereClause(tag);
-  if (whereClause === undefined) {
-    whereClause = '';
-  } else {
-    whereClause =
-      `${whereClause} and ` +
-      `(SELECT Count(*) from qa_posts as qa_posts_inner where qa_posts.postid=qa_posts_inner.parentid)>0`;
-  }
-  const query = getPostQuery('Q', whereClause, 'order by UNIX_TIMESTAMP(qa_posts.created) desc', true, true);
-  const questions = await db.doQuery(query, [30, 0]);
+module.exports.getNoAnswersQuestions = async (parent, { tag, limit, offset }) => {
+  const Post = dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+
+  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
+  tagWhereClause.answersCount = 0;
+  const questions = await Post.findAll({
+    where: tagWhereClause,
+    order: [['createdAt', 'DESC']],
+    include: [User],
+    limit,
+    offset,
+  });
   return questions;
 };
 
 module.exports.getQuestion = async (parent, { id }) => {
-  const db = await database().getInstance();
-  const query = getPostQuery('Q', 'qa_posts.postid=?');
-  const questions = await db.doQuery(query, [id]);
-  return questions[0];
+  const Post = await dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+
+  const question = await Post.findOne({
+    where: {
+      type: postTypes.QUESTION,
+      id,
+    },
+    include: [User],
+  });
+  return question;
 };
 
-module.exports.getAnswers = async (post) => {
-  const { id } = post;
-  const db = await database().getInstance();
-  const query = getPostQuery('A', 'qa_posts.parentid=?', 'order by qa_posts.netvotes desc');
-  const answers = await db.doQuery(query, [id]);
+module.exports.getAnswers = async ({ id }) => {
+  const Post = dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+  const answers = await Post.findAll({
+    where: {
+      type: postTypes.ANSWER,
+      parentId: id,
+    },
+    include: [User],
+    order: [['votesCount', 'DESC']],
+  });
   return answers;
 };
 
-module.exports.getAnswersCount = async (post) => {
-  const { id } = post;
-  const db = await database().getInstance();
-  const query = getPostQuery('A', 'qa_posts.parentid=?');
-  const answers = await db.doQuery(query, [id]);
-  return answers.length;
-};
-
-module.exports.getComments = async (post) => {
-  const { id } = post;
-  const db = await database().getInstance();
-  const query = getPostQuery('C', 'qa_posts.parentid=?');
-  const comments = await db.doQuery(query, [id]);
+module.exports.getComments = async ({ id }) => {
+  const Post = dbUtils.loadModel(tables.POST_TABLE);
+  const User = dbUtils.loadModel(tables.USER_TABLE);
+  const comments = await Post.findAll({
+    where: {
+      type: postTypes.COMMENT,
+      parentId: id,
+    },
+    include: [User],
+    order: [['createdAt', 'DESC']],
+  });
   return comments;
 };
 
-module.exports.getUserQuestions = async (user) => {
-  const { id } = user;
-  const db = await database().getInstance();
-  const query = getPostQuery(
-    'Q',
-    'qa_posts.userid=?',
-    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
-    true,
-    true
-  );
-  const questions = await db.doQuery(query, [id, 50, 0]);
+module.exports.getUserQuestions = async ({ id }) => {
+  const Post = await dbUtils.loadModel(tables.POST_TABLE);
+  const questions = await Post.findAll({
+    where: {
+      type: postTypes.QUESTION,
+      userId: id,
+    },
+    order: [['createdAt', 'DESC']],
+    limit: 30,
+    offset: 0,
+  });
   return questions;
 };
 
-module.exports.getUserAnswers = async (user) => {
-  const { id } = user;
-  const db = await database().getInstance();
-  const query = getPostQuery(
-    'A',
-    'qa_posts.userid=?',
-    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
-    true,
-    true
-  );
-  const answers = await db.doQuery(query, [id, 50, 0]);
+module.exports.getUserAnswers = async ({ id }) => {
+  const Post = await dbUtils.loadModel(tables.POST_TABLE);
+
+  const answers = await Post.findAll({
+    where: {
+      type: postTypes.ANSWER,
+      userId: id,
+    },
+    order: [['createdAt', 'DESC']],
+    limit: 30,
+    offset: 0,
+  });
   return answers;
 };
 
-module.exports.getUserClapItems = async (user) => {
-  const { id } = user;
-  const db = await database().getInstance();
-  const query = getPostQuery(
-    undefined,
-    'qa_uservotes.userid=?',
-    'order by UNIX_TIMESTAMP(qa_posts.created) desc',
-    true,
-    true,
-    'LEFT JOIN qa_uservotes ON qa_uservotes.postid=qa_posts.postid'
-  );
-  const items = await db.doQuery(query, [id, 50, 0]);
-  const clapItems = [];
-  items.forEach((item) => {
-    if (item.type === 'Q') {
-      clapItems.push({ type: 'QUESTION', question: item });
-    } else if (item.type === 'A') {
-      clapItems.push({ type: 'ANSWER', answer: item });
-    }
+module.exports.getUserClapItems = async ({ id }) => {
+  const Post = await dbUtils.loadModel(tables.POST_TABLE);
+  const Clap = await dbUtils.loadModel(tables.CLAP_TABLE);
+
+  const result = await Post.findAll({
+    raw: true,
+    include: {
+      model: Clap,
+      where: { userId: id },
+    },
+    where: {
+      [Op.or]: [{ type: postTypes.QUESTION }, { type: postTypes.ANSWER }],
+    },
+    order: [['createdAt', 'DESC']],
+    limit: 30,
+    offset: 0,
   });
-  return clapItems;
+
+  const items = [];
+  result.forEach((item) => {
+    const newItem = { answer: {}, question: {}, type: item.type };
+    Object.keys(item).forEach((key) => {
+      if (!key.includes('.')) {
+        if (item.type === postTypes.QUESTION) {
+          newItem.question[`${key}`] = item[key];
+        } else if (item.type === postTypes.ANSWER) {
+          newItem.answer[`${key}`] = item[key];
+        }
+      }
+    });
+    items.push(newItem);
+  });
+
+  return items;
 };
