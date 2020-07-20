@@ -16,7 +16,6 @@ module.exports = {
     'no-throw-literal': 'error',
     'no-await-in-loop': 'error',
     'no-duplicate-imports': 'error',
-    'id-length': ['error', { min: 2, properties: 'never' }],
     eqeqeq: ['error', 'smart'],
     'max-depth': ['error', 4],
     'prettier/prettier': 'error',

@@ -57,7 +57,7 @@ const renderDirectTexts = (node) => {
   const renderedElements = [];
   node.childNodes.forEach((childNode) => {
     if (childNode.tagName === 'a') {
-      console.log('DETECT A LINK : ', childNode);
+      // console.log('DETECT A LINK : ', childNode);
       renderedElements.push(
         <Typography
           color={'textPrimary'}
@@ -94,7 +94,7 @@ const recursiveParse = (nodeToParse, textColor = 'textPrimary') => {
   const { tagName } = node;
 
   if (tagName === 'p' || tagName === 'div' || tagName === 'span') {
-    console.log('P OR DIV : ', nodeToParse, nodeToParse.rawText);
+    // console.log('P OR DIV : ', nodeToParse, nodeToParse.rawText);
     const { renderedElements, remainingNodes } = renderDirectTexts(node);
     elements.push(<div style={{ textAlign: 'right' }}>{renderedElements.map((item) => item)}</div>);
     node.childNodes = remainingNodes;
@@ -148,4 +148,8 @@ export const parseContent = (valueToParse, textColor = 'textPrimary') => {
   } catch (e) {
     console.log(e);
   }
+};
+
+export const getProfileImage = (name) => {
+  return `https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-${name}`;
 };

@@ -13,7 +13,7 @@ export default function TagsList({ tags }) {
     <Grid container justify={'center'} border={1} spacing={2} className={classes.root}>
       {tags.map((tag) => (
         <Grid item key={tag.id}>
-          <Tag tag={tag.title} count={tag.count} />
+          <Tag tag={tag.title} count={tag.used} />
         </Grid>
       ))}
     </Grid>

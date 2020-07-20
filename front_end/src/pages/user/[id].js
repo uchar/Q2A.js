@@ -21,6 +21,7 @@ import { GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/AnswerItem';
 import { withApollo } from '../../libs/apollo';
+import { getProfileImage } from '../../common/utilities';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -102,7 +103,7 @@ function User() {
     <Layout>
       <div className={classes.root}>
         <div className={classes.topSection}>
-          <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
+          <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
             <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
           </Avatar>
           <Typography className={classes.title} variant="h6" paragraph>
@@ -128,6 +129,9 @@ function User() {
         <TabPanel value={value} index={0}>
           <div dir="rtl">
             {questions.map((question) => {
+              question.user = {};
+              question.user.publicName = id;
+              question.user.profileImage = profileImage;
               return <QuestionItem isMainPage={true} key={question.id} {...question} />;
             })}
           </div>
@@ -135,6 +139,9 @@ function User() {
         <TabPanel value={value} index={1} dir={theme.direction}>
           <div dir="rtl">
             {answers.map((answer) => {
+              answer.user = {};
+              answer.user.publicName = id;
+              answer.user.profileImage = profileImage;
               return <AnswerItem key={answer.id} {...answer}></AnswerItem>;
             })}
           </div>
@@ -144,10 +151,16 @@ function User() {
             {clapItems.map((item) => {
               if (item.type === 'QUESTION') {
                 const { question } = item;
+                question.user = {};
+                question.user.publicName = id;
+                question.user.profileImage = profileImage;
                 return <QuestionItem isMainPage={true} key={question.id} {...question} />;
               }
               if (item.type === 'ANSWER') {
                 const { answer } = item;
+                answer.user = {};
+                answer.user.publicName = id;
+                answer.user.profileImage = profileImage;
                 return <AnswerItem key={answer.id} {...answer}></AnswerItem>;
               }
             })}
