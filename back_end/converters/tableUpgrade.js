@@ -11,7 +11,7 @@ const saveUsers = async (oldDb, newDb) => {
   titleToPersian.set('about', 'درباره');
   titleToPersian.set('location', 'موقعیت');
   titleToPersian.set('name', 'نام');
-  titleToPersian.set('website', 'وبسعیه');
+  titleToPersian.set('website', 'وبسایت');
   titleToPersian.set('زمینه-تخصص', 'زمینه-تخصص');
   titleToPersian.set('سن', 'سن');
   titleToPersian.set('علاقه-مندی-ها', 'علاقه-مندی-ها');
