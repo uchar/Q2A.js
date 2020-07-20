@@ -1,30 +1,29 @@
 require('dotenv').config();
 const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
+const { preparePromise } = require('./serverPreprations');
+
 const {
   getLatestQuestions,
   getPopularQuestions,
   getMostViewsQuestions,
   getNoAnswersQuestions,
   getQuestion,
-  getAnswersCount,
   getAnswers,
   getComments,
   getUserAnswers,
   getUserClapItems,
   getUserQuestions,
 } = require('./post');
-const { getAllTags, getQuestionTags, getTagDetail } = require('./tag');
-const { getUser, getUserAbout } = require('./user');
+const { getAllTags, getTagDetail } = require('./tag');
+const { getUser } = require('./user');
 
 const port = 4000;
 
 const typeDefs = gql`
   type User {
-    id: String
     publicName: String
     profileImage: String
-    description: String
     about: String
     questions: [Question]
     answers: [Answer]
@@ -44,13 +43,16 @@ const typeDefs = gql`
     id: String
     title: String
     content: String
-    profileImage: String
-    creator: String
-    createdAt: Int
+    user: User
+    createdAt: String
     viewsCount: Int
     votesCount: Int
     answersCount: Int
-    tags: [Tag]
+    tag1: String
+    tag2: String
+    tag3: String
+    tag4: String
+    tag5: String
     answers: [Answer]
     comments: [Comment]
   }
@@ -58,34 +60,32 @@ const typeDefs = gql`
   type Answer {
     id: String
     content: String
-    profileImage: String
-    creator: String
+    user: User
     votesCount: Int
-    createdAt: Int
+    createdAt: String
     comments: [Comment]
   }
 
   type Comment {
     id: String
     content: String
-    profileImage: String
-    creator: String
-    createdAt: Int
+    user: User
+    createdAt: String
   }
 
   type Tag {
     id: String
     title: String
     content: String
-    count: Int
+    used: Int
   }
 
   type Query {
-    latestQuestions(tag: String): [Question]
-    popularQuestions(tag: String): [Question]
-    mostViewsQuestions(tag: String): [Question]
-    noAnswersQuestions(tag: String): [Question]
-    tags: [Tag]
+    latestQuestions(tag: String, limit: Int, offset: Int): [Question]
+    popularQuestions(tag: String, limit: Int, offset: Int): [Question]
+    mostViewsQuestions(tag: String, limit: Int, offset: Int): [Question]
+    noAnswersQuestions(tag: String, limit: Int, offset: Int): [Question]
+    getTags(limit: Int, offset: Int): [Tag]
     getTagDetail(tag: String!): Tag
     getQuestion(id: String!): Question
     getUser(id: String!): User
@@ -98,31 +98,27 @@ const resolvers = {
     popularQuestions: getPopularQuestions,
     mostViewsQuestions: getMostViewsQuestions,
     noAnswersQuestions: getNoAnswersQuestions,
-    tags: getAllTags,
+    getTags: getAllTags,
     getQuestion,
     getTagDetail,
     getUser,
   },
   Question: {
-    tags: getQuestionTags,
     answers: getAnswers,
     comments: getComments,
-    answersCount: getAnswersCount,
   },
   User: {
     questions: getUserQuestions,
     answers: getUserAnswers,
     clapItems: getUserClapItems,
-    about: getUserAbout,
   },
   Answer: {
     comments: getComments,
   },
 };
-
-const server = new ApolloServer({ typeDefs, resolvers });
-
-const app = express();
-server.applyMiddleware({ app });
-
-app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));
+preparePromise.then(() => {
+  const server = new ApolloServer({ typeDefs, resolvers });
+  const app = express();
+  server.applyMiddleware({ app });
+  app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));
+});

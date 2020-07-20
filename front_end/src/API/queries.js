@@ -1,63 +1,30 @@
 import gql from 'graphql-tag';
 
+const QUESTION = `{
+    id
+    title
+    content
+    viewsCount
+    votesCount
+    answersCount
+    user {
+      profileImage
+      publicName
+    }
+    createdAt
+    tag1
+    tag2
+    tag3
+    tag4
+    tag5
+  }`;
+
 export const ALL_QUESTIONS = gql`
   query getAllQuestions($tag: String) {
-    latestQuestions(tag: $tag) {
-      id
-      title
-      content
-      viewsCount
-      votesCount
-      answersCount
-      profileImage
-      creator
-      createdAt
-      tags {
-        title
-      }
-    }
-    popularQuestions(tag: $tag) {
-      id
-      title
-      content
-      viewsCount
-      votesCount
-      answersCount
-      profileImage
-      creator
-      createdAt
-      tags {
-        title
-      }
-    }
-    mostViewsQuestions(tag: $tag) {
-      id
-      title
-      content
-      viewsCount
-      votesCount
-      answersCount
-      profileImage
-      creator
-      createdAt
-      tags {
-        title
-      }
-    }
-    noAnswersQuestions(tag: $tag) {
-      id
-      title
-      content
-      viewsCount
-      votesCount
-      answersCount
-      profileImage
-      creator
-      createdAt
-      tags {
-        title
-      }
-    }
+    latestQuestions(tag: $tag,limit: 30,offset: 0) ${QUESTION}
+    popularQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
+    mostViewsQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
+    noAnswersQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
   }
 `;
 
@@ -67,35 +34,46 @@ export const GET_QUESTION = gql`
       id
       title
       content
-      profileImage
       viewsCount
       votesCount
       answersCount
-      creator
       createdAt
-      tags {
-        title
+      user {
+        profileImage
+        publicName
       }
+      createdAt
+      tag1
+      tag2
+      tag3
+      tag4
+      tag5
       answers {
         id
         content
-        profileImage
+        user {
+          profileImage
+          publicName
+        }
         votesCount
-        creator
         createdAt
         comments {
           id
           content
-          profileImage
-          creator
+          user {
+            profileImage
+            publicName
+          }
           createdAt
         }
       }
       comments {
         id
         content
-        profileImage
-        creator
+        user {
+          profileImage
+          publicName
+        }
         createdAt
       }
     }
@@ -104,10 +82,10 @@ export const GET_QUESTION = gql`
 
 export const ALL_TAGS = gql`
   query q {
-    tags {
+    getTags(limit: 80, offset: 0) {
       id
       title
-      count
+      used
     }
   }
 `;
@@ -117,7 +95,7 @@ export const GET_TAG = gql`
       id
       title
       content
-      count
+      used
     }
   }
 `;
@@ -126,14 +104,11 @@ export const GET_USER = gql`
     getUser(id: $id) {
       publicName
       profileImage
-      description
       about
       answers {
         id
         content
-        profileImage
         votesCount
-        creator
         createdAt
       }
       questions {
@@ -143,21 +118,23 @@ export const GET_USER = gql`
         viewsCount
         votesCount
         answersCount
-        profileImage
-        creator
         createdAt
-        tags {
-          title
-        }
+        tag1
+        tag2
+        tag3
+        tag4
+        tag5
       }
       clapItems {
         type
         answer {
           id
           content
-          profileImage
+          user {
+            profileImage
+            publicName
+          }
           votesCount
-          creator
           createdAt
         }
         question {
@@ -167,12 +144,16 @@ export const GET_USER = gql`
           viewsCount
           votesCount
           answersCount
-          profileImage
-          creator
-          createdAt
-          tags {
-            title
+          user {
+            profileImage
+            publicName
           }
+          createdAt
+          tag1
+          tag2
+          tag3
+          tag4
+          tag5
         }
       }
     }

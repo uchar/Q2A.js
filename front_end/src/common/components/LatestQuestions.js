@@ -65,6 +65,7 @@ function LatestQuestions({ tag }) {
   const handleChange = (event, tabIndex) => {
     setCurrentTab(tabIndex);
   };
+
   const { loading, error, data } = useQuery(ALL_QUESTIONS, { variables: { tag } });
   const tagRequest = useQuery(GET_TAG, { variables: { tag } });
   if (error) {

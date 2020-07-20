@@ -1,5 +1,4 @@
-const mysql = require('mysql');
-const util = require('util');
+const Sequelize = require('sequelize');
 
 const config = {
   host: process.env.HOST,
@@ -11,48 +10,61 @@ const config = {
   bigNumberStrings: true,
 };
 
-const query = (connection, sql, args) => {
-  return util.promisify(connection.query).call(connection, sql, args);
-};
-
-const convertToJson = (results) => {
-  return results.map((mysqlObj) => {
-    return { ...mysqlObj };
-  });
-};
-
 let db = null;
+const models = new Map();
 
-module.exports.database = () => {
-  const makeDb = () => {
-    const connection = mysql.createConnection(config);
-    return {
-      doQuery: async (sql, args) => {
-        const result = await query(connection, sql, args);
-        return convertToJson(result);
+module.exports.getTables = () => {
+  return {
+    USER_TABLE: 'user',
+    POST_TABLE: 'post',
+    TAG_TABLE: 'tag',
+    CLAP_TABLE: 'clap',
+    POST_TAG_TABLE: 'posttag',
+  };
+};
+module.exports.getPostTypes = () => {
+  return {
+    ANSWER: 'ANSWER',
+    QUESTION: 'QUESTION',
+    COMMENT: 'TAG',
+  };
+};
+module.exports.getUtils = () => {
+  const makeDb = async () => {
+    const sequelize = new Sequelize(config.database, config.user, config.password, {
+      host: config.host,
+      port: config.port,
+      dialect: 'mysql',
+      pool: {
+        max: 5,
+        min: 0,
+        idle: 10000,
       },
-      withTransaction: async (runMethod) => {
-        try {
-          await db.beginTransaction();
-          await runMethod();
-          await db.commit();
-        } catch (err) {
-          await db.rollback();
-          throw err;
-        }
-      },
-      close() {
-        return util.promisify(connection.end).call(connection);
-      },
-    };
+    });
+
+    try {
+      await sequelize.authenticate().then(() => {
+        console.log('Connection established successfully.');
+      });
+    } catch (err) {
+      console.error('Unable to connect to the database:', err);
+      sequelize.close();
+    }
+    return sequelize;
   };
 
   return {
-    getInstance: async () => {
+    getSequelize: async () => {
       if (!db) {
         db = await makeDb();
       }
       return db;
+    },
+    cacheModel: (key, model) => {
+      models.set(key, model);
+    },
+    loadModel: (key) => {
+      return models.get(key);
     },
   };
 };

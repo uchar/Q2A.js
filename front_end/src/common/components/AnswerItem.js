@@ -14,7 +14,7 @@ import {
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import ShareIcon from '@material-ui/icons/Share';
 import Link from 'next/link';
-import { getStrings, parseContent } from '../utilities';
+import {getProfileImage, getStrings, parseContent} from '../utilities';
 import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,15 +45,14 @@ export default function AnswerItem({
   id,
   title,
   content,
-  tags,
-  profileImage,
-  creator,
+  user,
   createdAt,
   votesCount,
   isExpanded,
   comments,
 }) {
   const classes = useStyles();
+  const { publicName, profileImage } = user;
   const [expanded, setExpanded] = React.useState(isExpanded === true);
 
   const handleExpandClick = () => {
@@ -66,7 +65,7 @@ export default function AnswerItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
+              <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
                 <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
               </Avatar>
               <div>
@@ -76,7 +75,7 @@ export default function AnswerItem({
                   style={{ fontSize: 17, textAlign: 'right', marginRight: '15px' }}
                   component="p"
                 >
-                  {creator}
+                  {publicName}
                 </Typography>
                 <Typography
                   variant="body2"

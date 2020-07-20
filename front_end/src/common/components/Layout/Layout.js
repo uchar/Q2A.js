@@ -34,7 +34,7 @@ const Layout = (props) => {
     return <h1>Error</h1>;
   }
   if (loading) return <Loading />;
-  const { tags } = data;
+  const tags = data.getTags;
   return (
     <RTL>
       <div className="Layout" style={layoutStyle} dir="rtl">
