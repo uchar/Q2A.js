@@ -7,6 +7,7 @@ import { withApollo } from '../libs/apollo';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
 import LatestQuestion from '../common/components/LatestQuestions';
+import Notif from './Notif';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,6 +22,7 @@ function MainPage() {
     <Layout>
       <Box className={classes.paper}>
         <LatestQuestion />
+        {/* <Notif /> */}
       </Box>
     </Layout>
   );
