@@ -72,8 +72,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: theme.spacing(10),
+    marginBottom: theme.spacing(4),
     marginLeft: theme.spacing(4),
     fontSize: 19,
+    whiteSpace: 'pre-line',
   },
 }));
 
@@ -98,7 +100,6 @@ function User() {
   }
   if (loading) return <Loading />;
   const { answers, questions, clapItems, profileImage, about } = data.getUser;
-  console.log('ANSWERS : ', answers);
   return (
     <Layout>
       <div className={classes.root}>

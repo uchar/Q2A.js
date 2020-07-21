@@ -12,65 +12,41 @@ const getTypeTagWhereClause = (type, tag) => {
   }
   return { type };
 };
-module.exports.getLatestQuestions = async (_, { tag, limit, offset }) => {
+
+const getQuestionsOrderBy = async (tag, order, limit, offset, augmentWhereClause = undefined) => {
   const Post = dbUtils.loadModel(tables.POST_TABLE);
   const User = dbUtils.loadModel(tables.USER_TABLE);
 
-  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
-  const questions = await Post.findAll({
+  let tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
+  if (augmentWhereClause) {
+    tagWhereClause = augmentWhereClause(tagWhereClause);
+  }
+  return Post.findAll({
     where: tagWhereClause,
-    order: [['createdAt', 'DESC']],
+    order,
     include: [User],
     limit,
     offset,
   });
-  return questions;
+};
+module.exports.getLatestQuestions = async (_, { tag, limit, offset }) => {
+  return getQuestionsOrderBy(tag, [['createdAt', 'DESC']], limit, offset);
 };
 
 module.exports.getPopularQuestions = async (parent, { tag, limit, offset }) => {
-  const Post = dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
-
-  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
-  const questions = await Post.findAll({
-    where: tagWhereClause,
-    order: [['votesCount', 'DESC']],
-    include: [User],
-    limit,
-    offset,
-  });
-  return questions;
+  return getQuestionsOrderBy(tag, [['votesCount', 'DESC']], limit, offset);
 };
 
 module.exports.getMostViewsQuestions = async (parent, { tag, limit, offset }) => {
-  const Post = dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
-
-  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
-  const questions = await Post.findAll({
-    where: tagWhereClause,
-    order: [['viewsCount', 'DESC']],
-    include: [User],
-    limit,
-    offset,
-  });
-  return questions;
+  return getQuestionsOrderBy(tag, [['viewsCount', 'DESC']], limit, offset);
 };
 
 module.exports.getNoAnswersQuestions = async (parent, { tag, limit, offset }) => {
-  const Post = dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
-
-  const tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
-  tagWhereClause.answersCount = 0;
-  const questions = await Post.findAll({
-    where: tagWhereClause,
-    order: [['createdAt', 'DESC']],
-    include: [User],
-    limit,
-    offset,
+  return getQuestionsOrderBy(tag, [['createdAt', 'DESC']], limit, offset, (whereClause) => {
+    const newWhereClause = whereClause;
+    newWhereClause.answersCount = 0;
+    return newWhereClause;
   });
-  return questions;
 };
 
 module.exports.getQuestion = async (parent, { id }) => {
