@@ -2,7 +2,6 @@ require('dotenv').config();
 const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
 const { preparePromise } = require('./serverPreprations');
-
 const {
   getLatestQuestions,
   getPopularQuestions,
