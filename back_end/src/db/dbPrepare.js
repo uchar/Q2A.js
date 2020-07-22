@@ -1,21 +1,22 @@
-require('dotenv').config();
 const { DataTypes } = require('sequelize');
 const Sequelize = require('sequelize');
-const dbUtils = require('./database').getUtils();
-const tables = require('./database').getTables();
+const database = require('./database').getDatabase();
+const tables = require('./constants').TABLES;
 
 const prepareDatabase = async () => {
-  const sequelize = await dbUtils.getSequelize();
+  const sequelize = await database.getSequelize();
 
   const User = sequelize.define(tables.USER_TABLE, {
     publicName: Sequelize.STRING,
     profileImage: Sequelize.STRING,
     about: Sequelize.TEXT,
     email: Sequelize.STRING(64),
-    passwordSalt: { type: 'BINARY(20)' },
-    passwordCheck: { type: 'BINARY(20)' },
+    password: Sequelize.STRING(64),
+    legacyPasswordSalt: { type: 'BINARY(16)' },
+    legacyPassword: { type: 'BINARY(20)' },
     lastLogin: Sequelize.DATE,
     lastWrite: Sequelize.DATE,
+    isLegacyAuthentication: Sequelize.BOOLEAN,
   });
   const Post = sequelize.define(tables.POST_TABLE, {
     type: DataTypes.ENUM([
@@ -55,10 +56,10 @@ const prepareDatabase = async () => {
   Clap.belongsTo(Post);
   Post.hasMany(Clap);
   await sequelize.sync({ force: false });
-  dbUtils.cacheModel(tables.USER_TABLE, User);
-  dbUtils.cacheModel(tables.POST_TABLE, Post);
-  dbUtils.cacheModel(tables.TAG_TABLE, Tag);
-  dbUtils.cacheModel(tables.CLAP_TABLE, Clap);
+  database.cacheModel(tables.USER_TABLE, User);
+  database.cacheModel(tables.POST_TABLE, Post);
+  database.cacheModel(tables.TAG_TABLE, Tag);
+  database.cacheModel(tables.CLAP_TABLE, Clap);
 };
 exports.preparePromise = prepareDatabase().then(() => {
   console.log('PREPARE FINISHED');

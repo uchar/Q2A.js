@@ -1,8 +1,8 @@
-const dbUtils = require('./database').getUtils();
-const tables = require('./database').getTables();
+const database = require('./db/database').getDatabase();
+const tables = require('./db/constants').TABLES;
 
 module.exports.getAllTags = async (_, { offset, limit }) => {
-  const Tag = dbUtils.loadModel(tables.TAG_TABLE);
+  const Tag = database.loadModel(tables.TAG_TABLE);
 
   const tags = await Tag.findAll({
     order: [['used', 'DESC']],
@@ -13,7 +13,7 @@ module.exports.getAllTags = async (_, { offset, limit }) => {
 };
 
 module.exports.getTagDetail = async (parent, { tag }) => {
-  const Tag = await dbUtils.loadModel(tables.TAG_TABLE);
+  const Tag = await database.loadModel(tables.TAG_TABLE);
 
   return Tag.findOne({
     where: {

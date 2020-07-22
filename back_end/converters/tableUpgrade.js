@@ -33,8 +33,8 @@ const saveUsers = async (oldDb, newDb) => {
     const newUser = user;
     newUser.description = userDescriptions.get(user.userid);
     const query = `INSERT INTO users (id,publicName, profileImage, about, 
-          email,passwordSalt,passwordCheck,lastLogin,lastWrite,createdAt,updatedAt)
-                               VALUES (?,?,?,?,?,?,?,?,?,?,?);`;
+          email,legacyPasswordSalt,legacyPassword,lastLogin,lastWrite,isLegacyAuthentication,createdAt,updatedAt)
+                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
     await newDb.doQuery(query, [
       newUser.userid,
       newUser.handle,
@@ -45,6 +45,7 @@ const saveUsers = async (oldDb, newDb) => {
       newUser.passcheck,
       newUser.loggedin,
       newUser.written,
+      true,
       newUser.created,
       newUser.created,
     ]);

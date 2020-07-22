@@ -1,35 +1,10 @@
 const Sequelize = require('sequelize');
-
-const config = {
-  host: process.env.HOST,
-  user: process.env.USER,
-  port: process.env.PORT,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
-  supportBigNumbers: true,
-  bigNumberStrings: true,
-};
+const config = require('./config');
 
 let db = null;
 const models = new Map();
 
-module.exports.getTables = () => {
-  return {
-    USER_TABLE: 'user',
-    POST_TABLE: 'post',
-    TAG_TABLE: 'tag',
-    CLAP_TABLE: 'clap',
-    POST_TAG_TABLE: 'posttag',
-  };
-};
-module.exports.getPostTypes = () => {
-  return {
-    ANSWER: 'ANSWER',
-    QUESTION: 'QUESTION',
-    COMMENT: 'TAG',
-  };
-};
-module.exports.getUtils = () => {
+module.exports.getDatabase = () => {
   const makeDb = async () => {
     const sequelize = new Sequelize(config.database, config.user, config.password, {
       host: config.host,
@@ -43,9 +18,8 @@ module.exports.getUtils = () => {
     });
 
     try {
-      await sequelize.authenticate().then(() => {
-        console.log('Connection established successfully.');
-      });
+      await sequelize.authenticate();
+      console.log('Connection established successfully.');
     } catch (err) {
       console.error('Unable to connect to the database:', err);
       sequelize.close();
@@ -56,6 +30,7 @@ module.exports.getUtils = () => {
   return {
     getSequelize: async () => {
       if (!db) {
+        console.log('MAKE DB : ', config);
         db = await makeDb();
       }
       return db;

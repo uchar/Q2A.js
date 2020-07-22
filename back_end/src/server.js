@@ -1,123 +1,46 @@
 require('dotenv').config();
-const { ApolloServer, gql } = require('apollo-server-express');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
+const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
-const { preparePromise } = require('./serverPreprations');
-const {
-  getLatestQuestions,
-  getPopularQuestions,
-  getMostViewsQuestions,
-  getNoAnswersQuestions,
-  getQuestion,
-  getAnswers,
-  getComments,
-  getUserAnswers,
-  getUserClapItems,
-  getUserQuestions,
-} = require('./post');
-const { getAllTags, getTagDetail } = require('./tag');
-const { getUser } = require('./user');
+const { preparePromise } = require('./db/dbPrepare');
+const resolvers = require('./gql/resolvers');
+const types = require('./gql/types');
 
 const port = 4000;
+const path = '/api';
 
-const typeDefs = gql`
-  type User {
-    publicName: String
-    profileImage: String
-    about: String
-    questions: [Question]
-    answers: [Answer]
-    clapItems: [ClapItem]
-  }
-  enum PostType {
-    QUESTION
-    ANSWER
-    COMMENT
-  }
-  type ClapItem {
-    type: PostType
-    question: Question
-    answer: Answer
-  }
-  type Question {
-    id: String
-    title: String
-    content: String
-    user: User
-    createdAt: String
-    viewsCount: Int
-    votesCount: Int
-    answersCount: Int
-    tag1: String
-    tag2: String
-    tag3: String
-    tag4: String
-    tag5: String
-    answers: [Answer]
-    comments: [Comment]
-  }
-
-  type Answer {
-    id: String
-    content: String
-    user: User
-    votesCount: Int
-    createdAt: String
-    comments: [Comment]
-  }
-
-  type Comment {
-    id: String
-    content: String
-    user: User
-    createdAt: String
-  }
-
-  type Tag {
-    id: String
-    title: String
-    content: String
-    used: Int
-  }
-
-  type Query {
-    latestQuestions(tag: String, limit: Int, offset: Int): [Question]
-    popularQuestions(tag: String, limit: Int, offset: Int): [Question]
-    mostViewsQuestions(tag: String, limit: Int, offset: Int): [Question]
-    noAnswersQuestions(tag: String, limit: Int, offset: Int): [Question]
-    getTags(limit: Int, offset: Int): [Tag]
-    getTagDetail(tag: String!): Tag
-    getQuestion(id: String!): Question
-    getUser(id: String!): User
-  }
-`;
-
-const resolvers = {
-  Query: {
-    latestQuestions: getLatestQuestions,
-    popularQuestions: getPopularQuestions,
-    mostViewsQuestions: getMostViewsQuestions,
-    noAnswersQuestions: getNoAnswersQuestions,
-    getTags: getAllTags,
-    getQuestion,
-    getTagDetail,
-    getUser,
-  },
-  Question: {
-    answers: getAnswers,
-    comments: getComments,
-  },
-  User: {
-    questions: getUserQuestions,
-    answers: getUserAnswers,
-    clapItems: getUserClapItems,
-  },
-  Answer: {
-    comments: getComments,
-  },
-};
 preparePromise.then(() => {
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const { Strategy, ExtractJwt } = passportJWT;
+
+  const params = {
+    secretOrKey: process.env.JWT_SECRET,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  };
+  const strategy = new Strategy(params, (payload, done) => {
+    const user = payload;
+    return done(null, user);
+  });
+
+  passport.use(strategy);
+  passport.initialize();
+
   const app = express();
-  server.applyMiddleware({ app });
+  app.use(path, (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user) => {
+      if (user) {
+        req.user = user;
+      }
+      next();
+    })(req, res, next);
+  });
+  const server = new ApolloServer({
+    typeDefs: types,
+    resolvers,
+    context: ({ req }) => ({
+      user: req.user,
+    }),
+  });
+  server.applyMiddleware({ app, path });
   app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));
 });

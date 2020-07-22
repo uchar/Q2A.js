@@ -19,7 +19,7 @@ module.exports = {
     eqeqeq: ['error', 'smart'],
     'max-depth': ['error', 4],
     'prettier/prettier': 'error',
-    'linebreak-style': 'off',
+    'linebreak-style': 0,
     'jest/expect-expect': 'off',
     'class-methods-use-this': 'off',
     complexity: ['error', { max: 5 }],
