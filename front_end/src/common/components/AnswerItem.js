@@ -13,8 +13,9 @@ import {
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import ShareIcon from '@material-ui/icons/Share';
-import {getProfileImage, getStrings, parseContent} from '../utilities';
+import { getProfileImage, getStrings, parseContent } from '../utilities';
 import CommentItem from './CommentItem';
+import ProfileImage from './ProfileImage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,15 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AnswerItem({
-  id,
-  content,
-  user,
-  createdAt,
-  votesCount,
-  isExpanded,
-  comments,
-}) {
+export default function AnswerItem({ id, content, user, createdAt, votesCount, isExpanded, comments }) {
   const classes = useStyles();
   const { publicName, profileImage } = user;
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -63,9 +56,7 @@ export default function AnswerItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
-                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
-              </Avatar>
+              <ProfileImage profileImage={profileImage} />
               <div>
                 <Typography
                   variant="body2"

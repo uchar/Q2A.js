@@ -55,7 +55,7 @@ const a11yProps = (index) => {
 
 const getQueustionsList = (questions) => {
   return questions.map((question) => {
-    return <QuestionItem isMainPage={true} key={question.id} {...question} />;
+    return <QuestionItem  isMainPage={true} key={question.id} {...question} />;
   });
 };
 

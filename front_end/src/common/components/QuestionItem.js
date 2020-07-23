@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import {
   CardContent,
   CardActions,
-  Avatar,
   IconButton,
   Typography,
   Box,
@@ -18,8 +17,10 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import Tag from './Tag';
-import { getProfileImage, getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
 import CommentItem from './CommentItem';
+import ProfileImage from './ProfileImage';
+import Layout from './Layout/Layout';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,12 +52,13 @@ const checkTagAndAppend = (tags, newTag) => {
   return tags;
 };
 
-export default function QuestionItem({
+const QuestionItem = ({
   id,
   title,
   content,
   user,
   createdAt,
+  prefetch,
   viewsCount,
   votesCount,
   answersCount,
@@ -68,7 +70,7 @@ export default function QuestionItem({
   tag3,
   tag4,
   tag5,
-}) {
+}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   const { publicName, profileImage } = user;
@@ -90,13 +92,7 @@ export default function QuestionItem({
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
               <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
-                <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
-                  <Avatar
-                    aria-label="recipe"
-                    className={classes.avatar}
-                    src={'/images/default_profile.jpg'}
-                  />
-                </Avatar>
+                <ProfileImage profileImage={profileImage} />
               </Link>
               <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
                 <div>
@@ -150,7 +146,7 @@ export default function QuestionItem({
           </Box>
         </Grid>
 
-        <Link prefetch={false} href={`/${id}/${title}`}>
+        <Link href={`/${id}/${title}`}>
           <Typography
             variant="body2"
             color="textPrimary"
@@ -222,4 +218,6 @@ export default function QuestionItem({
         })}
     </Box>
   );
-}
+};
+
+export default QuestionItem;
