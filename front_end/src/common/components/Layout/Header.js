@@ -218,7 +218,7 @@ export default function Header({ store }) {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
             <MenuIcon />
           </IconButton>
-          <Link href="/">
+          <Link prefetch={false} href="/">
             <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h6" noWrap>
               {getStrings().TITLE}
             </Typography>

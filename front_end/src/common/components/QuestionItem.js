@@ -89,7 +89,7 @@ export default function QuestionItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Link href={`/user/[id]`} as={`/user/${publicName}`}>
+              <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
                 <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
                   <Avatar
                     aria-label="recipe"
@@ -98,7 +98,7 @@ export default function QuestionItem({
                   />
                 </Avatar>
               </Link>
-              <Link href={`/user/[id]`} as={`/user/${publicName}`}>
+              <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
                 <div>
                   <Typography
                     variant="body2"
@@ -150,7 +150,7 @@ export default function QuestionItem({
           </Box>
         </Grid>
 
-        <Link href={`/${id}/${title}`}>
+        <Link prefetch={false} href={`/${id}/${title}`}>
           <Typography
             variant="body2"
             color="textPrimary"

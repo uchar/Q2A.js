@@ -82,12 +82,12 @@ export default function SignIn() {
                 shouldShowLoading={!(errors.password && errors.username)}
               />
               <div style={{ textAlign: 'center' }}>
-                <Link href="/resetPassword" variant="body2">
+                <Link prefetch={false} href="/resetPassword" variant="body2">
                   {getStrings().FORGET_PASSWORD}
                 </Link>
               </div>
               <div style={{ textAlign: 'center', marginTop: '5px' }}>
-                <Link href="/register" variant="body2" style={{ flex: 1 }}>
+                <Link prefetch={false} href="/register" variant="body2" style={{ flex: 1 }}>
                   {getStrings().Register}
                 </Link>
               </div>
