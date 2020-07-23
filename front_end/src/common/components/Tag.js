@@ -16,7 +16,7 @@ export default function Tag(props) {
   const { tag, count } = props;
   const label = count ? `${tag}  ${count}` : tag;
   return (
-    <Link href={`/tag/${tag}`}>
+    <Link href="/tag/[tag]" as={`/tag/${tag}`}>
       <Box boxShadow={1} borderColor="#f2f2f2" border={1} className={classes.root}>
         <Typography style={{ fontSize: 10 }}>{label}</Typography>
       </Box>

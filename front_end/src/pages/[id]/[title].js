@@ -67,6 +67,7 @@ export const getStaticProps = async ({ params }) => {
       questionData: questionData.getQuestion,
       tags: tagsResponse.getTags,
     },
+    unstable_revalidate: 10,
   };
 };
 export default Post;

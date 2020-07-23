@@ -179,6 +179,7 @@ export const getStaticProps = async ({ params }) => {
       user: userData.getUser,
       tags: tagsResponse.getTags,
     },
+    unstable_revalidate: 15,
   };
 };
 export default User;

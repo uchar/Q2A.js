@@ -34,6 +34,7 @@ export const getStaticProps = async () => {
       questions: questionsResponse,
       tags: tagsResponse.getTags,
     },
+    unstable_revalidate: 10,
   };
 };
 export default MainPage;

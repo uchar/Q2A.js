@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import ShareIcon from '@material-ui/icons/Share';
-import Link from 'next/link';
 import {getProfileImage, getStrings, parseContent} from '../utilities';
 import CommentItem from './CommentItem';
 
@@ -43,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AnswerItem({
   id,
-  title,
   content,
   user,
   createdAt,
@@ -101,25 +99,7 @@ export default function AnswerItem({
             </Grid>
           </Box>
         </Grid>
-
-        <Link href={`/${id}/${title}`}>
-          <Typography
-            variant="body2"
-            color="textPrimary"
-            style={{
-              fontSize: 21,
-              marginTop: '30px',
-              marginBottom: '-15px',
-              textAlign: 'initial ',
-              cursor: 'pointer',
-            }}
-            component="p"
-          >
-            {title}
-          </Typography>
-        </Link>
       </CardContent>
-
       {parseContent(content)}
       {comments &&
         comments.map((comment) => {

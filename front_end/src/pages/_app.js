@@ -9,7 +9,6 @@ import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
 import { getStrings } from '../common/utilities';
 
-
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
   const selector = useSelector((state) => state);
