@@ -14,8 +14,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextEditor from '../common/components/TextEditor';
 import { getStrings } from '../common/utilities';
 import AskLayout from '../common/components/Layout/AskLayout';
-import { doGraphQLQuery } from '../API/utilities';
-import { ALL_TAGS} from '../API/queries';
 
 const useStyles = makeStyles((theme) => ({
   root: {

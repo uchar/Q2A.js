@@ -5,8 +5,6 @@ import Layout from '../common/components/Layout/Layout';
 import LatestQuestion from '../common/components/LatestQuestions';
 import { ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
 import { doGraphQLQuery } from '../API/utilities';
-import { wrapper } from '../redux/store';
-import { SERVER_SIDE_TAGS_ACTION } from '../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,7 +32,7 @@ export const getStaticProps = async () => {
       questions: questionsResponse,
       tags: tagsResponse.getTags,
     },
-    unstable_revalidate: 10,
+    unstable_revalidate: 40,
   };
 };
 export default MainPage;

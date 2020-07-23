@@ -38,7 +38,7 @@ export const getStaticProps = async ({ params }) => {
       tag: params.tag,
       tags: tagsResponse.getTags,
     },
-    unstable_revalidate: 10,
+    unstable_revalidate: 60,
   };
 };
 export default Tag;
