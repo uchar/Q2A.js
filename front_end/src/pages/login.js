@@ -10,6 +10,7 @@ import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
+import { doGraphQLQuery, login } from '../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -21,14 +22,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [submitError, setSubmitError] = useState(null);
-
+  const router = useRouter();
   return (
     <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
       <Formik
-        initialValues={{ email: '' }}
-        onSubmit={async (values) => {
+        initialValues={{ username: '', password: '' }}
+        onSubmit={async (values, { setErrors }) => {
           console.log(values);
+          try {
+            const result = await login(values.username, values.password);
+            console.log('RESULT OF LOGIN : ', result);
+            return router.replace('/');
+          } catch (err) {
+            setErrors({ api: err.toString() });
+          }
         }}
         validationSchema={Yup.object().shape({
           password: Yup.string().required('Required').min(6),
@@ -67,11 +74,6 @@ export default function SignIn() {
                 autoComplete="current-password"
               />
               {errors.password && touched.password && <ErrorMessage text={errors.password} />}
-              {submitError && (
-                <Typography variant="p" style={{ color: 'red', fontSize: 11 }}>
-                  {submitError}
-                </Typography>
-              )}
               <CardButton
                 type="submit"
                 text={getStrings().SIGN_IN_TITLE}
@@ -81,6 +83,7 @@ export default function SignIn() {
                 loading={isSubmitting}
                 shouldShowLoading={!(errors.password && errors.username)}
               />
+              {errors.api && <ErrorMessage style={{ marginBottom: '12px' }} text={errors.api} />}
               <div style={{ textAlign: 'center' }}>
                 <Link prefetch={false} href="/resetPassword" variant="body2">
                   {getStrings().FORGET_PASSWORD}

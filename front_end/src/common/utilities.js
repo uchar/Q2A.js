@@ -57,7 +57,6 @@ const renderDirectTexts = (node) => {
   const renderedElements = [];
   node.childNodes.forEach((childNode) => {
     if (childNode.tagName === 'a') {
-      // console.log('DETECT A LINK : ', childNode);
       renderedElements.push(
         <Typography
           color={'textPrimary'}
@@ -94,7 +93,6 @@ const recursiveParse = (nodeToParse, textColor = 'textPrimary') => {
   const { tagName } = node;
 
   if (tagName === 'p' || tagName === 'div' || tagName === 'span') {
-    // console.log('P OR DIV : ', nodeToParse, nodeToParse.rawText);
     const { renderedElements, remainingNodes } = renderDirectTexts(node);
     elements.push(<div style={{ textAlign: 'right' }}>{renderedElements.map((item) => item)}</div>);
     node.childNodes = remainingNodes;
@@ -143,7 +141,6 @@ export const parseContent = (valueToParse, textColor = 'textPrimary') => {
       );
     } else parts = recursiveParse(root, textColor);
 
-    // console.log('???', parts);
     return <div style={{ flex: 1, margin: '15px 10px 10px 10px' }}> {parts.map((part) => part)}</div>;
   } catch (e) {
     console.log(e);

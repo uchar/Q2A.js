@@ -39,7 +39,6 @@ module.exports.login = async (_, { username, password }) => {
     const isValid = isLegacyPasswordValid(password, user.legacyPasswordSalt, user.legacyPassword);
     if (isValid) {
       const newPasswordHash = await bcrypt.hash(password, 10);
-      console.log('NEW HASH : ', newPasswordHash);
       await User.update(
         {
           password: newPasswordHash,

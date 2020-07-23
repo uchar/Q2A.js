@@ -105,7 +105,14 @@ export const USER_LOGIN = gql`
     login(username: $username, password: $password)
   }
 `;
-
+export const GET_MY_USER = gql`
+  query getUser {
+    getUser {
+      publicName
+      profileImage
+    }
+  }
+`;
 export const GET_USER = gql`
   query getUser($id: String!) {
     getUser(id: $id) {

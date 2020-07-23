@@ -5,18 +5,19 @@ import { Avatar } from '@material-ui/core';
 
 import { getProfileImage } from '../utilities';
 
-const useStyles = makeStyles((theme) => ({
-  avatar: {
-    backgroundColor: 'white',
-    width: 60,
-    height: 60,
-    marginRight: '5px',
-    cursor: 'pointer',
-  },
-}));
+const useStyles = (size) =>
+  makeStyles((theme) => ({
+    avatar: {
+      width: size,
+      height: size,
+      backgroundColor: 'white',
+      marginRight: '5px',
+      cursor: 'pointer',
+    },
+  }))();
 
-export default function ProfileImage({ profileImage }) {
-  const classes = useStyles();
+const ProfileImage = ({ profileImage, size }) => {
+  const classes = useStyles(size);
   if (!profileImage) {
     return <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />;
   }
@@ -25,4 +26,10 @@ export default function ProfileImage({ profileImage }) {
       <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
     </Avatar>
   );
-}
+};
+
+ProfileImage.defaultProps = {
+  size: 60,
+};
+
+export default ProfileImage;

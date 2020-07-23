@@ -51,5 +51,8 @@ module.exports = {
   },
   globals: {
     fetch: false,
+    localStorage: true,
+    document: true,
+    window: true,
   },
 };
