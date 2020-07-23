@@ -11,7 +11,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStrings } from '../../utilities';
-import { wrapper } from '../../../redux/store';
+import { CLIENT_SIDE_THEME_ACTION } from '../../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -205,9 +205,9 @@ export default function Header({ store }) {
 
   const handleDarkChange = () => {
     if (themeType === 'dark') {
-      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'light' });
+      dispatch({ type: CLIENT_SIDE_THEME_ACTION, payload: 'light' });
     } else {
-      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'dark' });
+      dispatch({ type: CLIENT_SIDE_THEME_ACTION, payload: 'dark' });
     }
   };
 
@@ -286,4 +286,3 @@ export default function Header({ store }) {
     </div>
   );
 }
-export const getServerSideProps = () => {};

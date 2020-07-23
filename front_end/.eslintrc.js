@@ -45,7 +45,7 @@ module.exports = {
     'max-lines': ['error', 300],
     'react/no-deprecated': 'error',
     'react/prop-types': 'off',
-    'linebreak-style': 'off',
+    'linebreak-style': 0,
     'prettier/prettier': 'error',
     complexity: ['error', { max: 5 }],
   },

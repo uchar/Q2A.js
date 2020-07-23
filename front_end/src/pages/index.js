@@ -2,8 +2,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Layout from '../common/components/Layout/Layout';
-import { withApollo } from '../libs/apollo';
 import LatestQuestion from '../common/components/LatestQuestions';
+import { ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
+import { doGraphQLQuery } from '../API/utilities';
+import { wrapper } from '../redux/store';
+import { SERVER_SIDE_TAGS_ACTION } from '../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -12,15 +15,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MainPage() {
+function MainPage({ questions, tags }) {
   const classes = useStyles();
   return (
-    <Layout>
+    <Layout tags={tags}>
       <Box className={classes.paper}>
-        <LatestQuestion />
+        <LatestQuestion questions={questions} />
       </Box>
     </Layout>
   );
 }
 
-export default withApollo({ ssr: true })(MainPage);
+export const getStaticProps = async () => {
+  const questionsResponse = await doGraphQLQuery(ALL_QUESTIONS);
+  const tagsResponse = await doGraphQLQuery(ALL_TAGS);
+  return {
+    props: {
+      questions: questionsResponse,
+      tags: tagsResponse.getTags,
+    },
+  };
+};
+export default MainPage;

@@ -1,15 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
-import { useQuery } from '@apollo/react-hooks';
-import { useRouter } from 'next/router';
 import QuestionItem from '../../common/components/QuestionItem';
 import Layout from '../../common/components/Layout/Layout';
 import TextEditor from '../../common/components/TextEditor';
-import { withApollo } from '../../libs/apollo';
-import { GET_QUESTION } from '../../API/queries';
+import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/AnswerItem';
+import { doGraphQLQuery } from '../../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,22 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Post() {
+const Post = ({ questionData, tags }) => {
   const classes = useStyles();
-  const router = useRouter();
-
-  const { id } = router.query;
-
-  const { loading, error, data } = useQuery(GET_QUESTION, { variables: { id } });
-  if (error) {
-    console.error(error);
-    return <h1> error </h1>;
-  }
-  if (loading) return <Loading />;
-  const question = data.getQuestion;
+  if (!questionData) return <Loading />;
+  const { ...question } = questionData;
   question.isExpanded = true;
   return (
-    <Layout>
+    <Layout tags={tags}>
       <Box className={classes.paper}>
         <QuestionItem isMainPage={false} {...question} />
         {question.answers.map((answer) => {
@@ -63,6 +52,21 @@ function Post() {
       </Box>
     </Layout>
   );
-}
-
-export default withApollo({ ssr: true })(Post);
+};
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+export const getStaticProps = async ({ params }) => {
+  const questionData = await doGraphQLQuery(GET_QUESTION, { id: params.id });
+  const tagsResponse = await doGraphQLQuery(ALL_TAGS);
+  return {
+    props: {
+      questionData: questionData.getQuestion,
+      tags: tagsResponse.getTags,
+    },
+  };
+};
+export default Post;

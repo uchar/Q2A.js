@@ -14,6 +14,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextEditor from '../common/components/TextEditor';
 import { getStrings } from '../common/utilities';
 import AskLayout from '../common/components/Layout/AskLayout';
+import { doGraphQLQuery } from '../API/utilities';
+import { ALL_TAGS} from '../API/queries';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Ask() {
+const Ask = () => {
   const classes = useStyles();
   const [titleQuestion, setTitleQuestion] = React.useState({ TitleQuestion: '' });
   const [open, setOpen] = React.useState(false);
@@ -54,7 +56,7 @@ export default function Ask() {
     setChecked(event.target.checked);
   };
   return (
-    <AskLayout>
+    <AskLayout >
       <Card className={classes.root}>
         <CardContent>
           <div style={{ margin: '0px 25px 0px 25px' }}>
@@ -140,4 +142,6 @@ export default function Ask() {
       </Card>
     </AskLayout>
   );
-}
+};
+
+export default Ask;

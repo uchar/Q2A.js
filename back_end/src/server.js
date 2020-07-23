@@ -8,7 +8,7 @@ const resolvers = require('./gql/resolvers');
 const types = require('./gql/types');
 
 const port = 4000;
-const path = '/api';
+const path = '/graphql';
 
 preparePromise.then(() => {
   const { Strategy, ExtractJwt } = passportJWT;

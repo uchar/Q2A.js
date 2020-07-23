@@ -99,6 +99,13 @@ export const GET_TAG = gql`
     }
   }
 `;
+
+export const USER_LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)
+  }
+`;
+
 export const GET_USER = gql`
   query getUser($id: String!) {
     getUser(id: $id) {

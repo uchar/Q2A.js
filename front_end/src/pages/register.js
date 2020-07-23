@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateAccount() {
+export default function Register() {
   const classes = useStyles();
 
   const makerFormError = (errors) => {

@@ -73,6 +73,8 @@ module.exports = gql`
     getTagDetail(tag: String!): Tag
     getQuestion(id: String!): Question
     getUser(id: String): User
+  }
+  type Mutation {
     login(username: String!, password: String!): String
   }
 `;

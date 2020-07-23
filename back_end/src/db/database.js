@@ -30,7 +30,6 @@ module.exports.getDatabase = () => {
   return {
     getSequelize: async () => {
       if (!db) {
-        console.log('MAKE DB : ', config);
         db = await makeDb();
       }
       return db;

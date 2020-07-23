@@ -23,6 +23,8 @@ module.exports = {
     getQuestion,
     getTagDetail,
     getUser,
+  },
+  Mutation: {
     login,
   },
   Question: {

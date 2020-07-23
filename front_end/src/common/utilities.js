@@ -2,7 +2,7 @@ import renderHTML from 'react-render-html';
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { parse } from 'node-html-parser';
-import { fix } from 'react-syntax-highlighter/dist/cjs/languages/hljs';
+import { fix, tex } from 'react-syntax-highlighter/dist/cjs/languages/hljs';
 import { element } from 'prop-types';
 import english from '../languages/english';
 import persian from '../languages/persian';
