@@ -10,29 +10,36 @@ import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
+import { doGraphQLQuery, login } from '../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
     marginTop: '10px',
     padding: '15px 0px 15px 0px',
-    color: '#ffffff',
+    color: theme.backgroundColor,
   },
 }));
 
 export default function SignIn() {
   const classes = useStyles();
-  const [submitError, setSubmitError] = useState(null);
-
+  const router = useRouter();
   return (
     <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
       <Formik
-        initialValues={{ email: '' }}
-        onSubmit={async (values) => {
-          console.log('start');
+        initialValues={{ username: '', password: '' }}
+        onSubmit={async (values, { setErrors }) => {
+          console.log(values);
+          try {
+            const result = await login(values.username, values.password);
+            console.log('RESULT OF LOGIN : ', result);
+            return router.replace('/');
+          } catch (err) {
+            setErrors({ api: err.toString() });
+          }
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email().required('Required'),
           password: Yup.string().required('Required').min(6),
+          username: Yup.string().required('Required').min(6),
         })}
       >
         {(props) => {
@@ -44,15 +51,15 @@ export default function SignIn() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
+                id="username"
                 label={getStrings().SIGN_IN_EMAIL}
-                name="email"
-                autoComplete="email"
-                value={values.email}
+                name="username"
+                autoComplete="username"
+                value={values.username}
                 onChange={handleChange}
                 autoFocus
               />
-              {errors.email && touched.email && <ErrorMessage text={errors.email} />}
+              {errors.username && touched.username && <ErrorMessage text={errors.username} />}
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -67,11 +74,6 @@ export default function SignIn() {
                 autoComplete="current-password"
               />
               {errors.password && touched.password && <ErrorMessage text={errors.password} />}
-              {submitError && (
-                <Typography variant="p" style={{ color: 'red', fontSize: 11 }}>
-                  {submitError}
-                </Typography>
-              )}
               <CardButton
                 type="submit"
                 text={getStrings().SIGN_IN_TITLE}
@@ -79,15 +81,16 @@ export default function SignIn() {
                 className={classes.submit}
                 fullWidth={true}
                 loading={isSubmitting}
-                shouldShowLoading={!(errors.password && errors.email)}
+                shouldShowLoading={!(errors.password && errors.username)}
               />
+              {errors.api && <ErrorMessage style={{ marginBottom: '12px' }} text={errors.api} />}
               <div style={{ textAlign: 'center' }}>
-                <Link href="/resetPassword" variant="body2">
+                <Link prefetch={false} href="/resetPassword" variant="body2">
                   {getStrings().FORGET_PASSWORD}
                 </Link>
               </div>
-              <div style={{ textAlign: 'center' }}>
-                <Link href="/resetPassword" variant="body2" style={{ flex: 1 }}>
+              <div style={{ textAlign: 'center', marginTop: '5px' }}>
+                <Link prefetch={false} href="/register" variant="body2" style={{ flex: 1 }}>
                   {getStrings().Register}
                 </Link>
               </div>

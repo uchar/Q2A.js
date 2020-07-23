@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,16 +11,15 @@ import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
 import Avatar from '@material-ui/core/Avatar';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../common/components/Layout/Layout';
-import ProfileTab from '../../common/components/ProfileTab';
-import ChartTab from '../../common/components/ChartTab';
 import QuestionItem from '../../common/components/QuestionItem';
-import { GET_USER } from '../../API/queries';
-import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/AnswerItem';
-import { withApollo } from '../../libs/apollo';
 import { getProfileImage } from '../../common/utilities';
+import { wrapper } from '../../redux/store';
+import { doGraphQLQuery } from '../../API/utilities';
+import { ALL_QUESTIONS, ALL_TAGS, GET_USER } from '../../API/queries';
+import { SERVER_SIDE_TAGS_ACTION } from '../../redux/constants';
+import Loading from '../../common/components/Loading';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function User() {
+const User = ({ user, tags }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -88,27 +86,20 @@ function User() {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
   const router = useRouter();
   const { id } = router.query;
-  const { loading, error, data } = useQuery(GET_USER, { variables: { id } });
-  if (error) {
-    console.error(error);
-    return <h1> error </h1>;
-  }
-  if (loading) return <Loading />;
-  const { answers, questions, clapItems, profileImage, about } = data.getUser;
+
+  if (!user) return <Loading />;
+  const { answers, questions, clapItems, profileImage, about } = user;
   return (
-    <Layout>
+    <Layout tags={tags}>
       <div className={classes.root}>
         <div className={classes.topSection}>
           <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
             <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
           </Avatar>
           <Typography className={classes.title} variant="h6" paragraph>
-            {`${about}`}
+            {`${about || ''}`}
           </Typography>
         </div>
 
@@ -130,20 +121,22 @@ function User() {
         <TabPanel value={value} index={0}>
           <div dir="rtl">
             {questions.map((question) => {
-              question.user = {};
-              question.user.publicName = id;
-              question.user.profileImage = profileImage;
-              return <QuestionItem isMainPage={true} key={question.id} {...question} />;
+              const alteredQuestion = { ...question };
+              alteredQuestion.user = {};
+              alteredQuestion.user.publicName = id;
+              alteredQuestion.user.profileImage = profileImage;
+              return <QuestionItem isMainPage={true} key={alteredQuestion.id} {...alteredQuestion} />;
             })}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <div dir="rtl">
             {answers.map((answer) => {
-              answer.user = {};
-              answer.user.publicName = id;
-              answer.user.profileImage = profileImage;
-              return <AnswerItem key={answer.id} {...answer}></AnswerItem>;
+              const alteredAnswer = { ...answer };
+              alteredAnswer.user = {};
+              alteredAnswer.user.publicName = id;
+              alteredAnswer.user.profileImage = profileImage;
+              return <AnswerItem key={answer.id} {...alteredAnswer}></AnswerItem>;
             })}
           </div>
         </TabPanel>
@@ -151,14 +144,14 @@ function User() {
           <div dir="rtl">
             {clapItems.map((item) => {
               if (item.type === 'QUESTION') {
-                const { question } = item;
+                const { ...question } = { item };
                 question.user = {};
                 question.user.publicName = id;
                 question.user.profileImage = profileImage;
                 return <QuestionItem isMainPage={true} key={question.id} {...question} />;
               }
               if (item.type === 'ANSWER') {
-                const { answer } = item;
+                const { ...answer } = { item };
                 answer.user = {};
                 answer.user.publicName = id;
                 answer.user.profileImage = profileImage;
@@ -170,5 +163,23 @@ function User() {
       </div>
     </Layout>
   );
-}
-export default withApollo({ ssr: true })(User);
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+export const getStaticProps = async ({ params }) => {
+  const userData = await doGraphQLQuery(GET_USER, { id: params.id });
+  const tagsResponse = await doGraphQLQuery(ALL_TAGS);
+  return {
+    props: {
+      user: userData.getUser,
+      tags: tagsResponse.getTags,
+    },
+    revalidate: 20,
+  };
+};
+export default User;

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Ask() {
+const Ask = () => {
   const classes = useStyles();
   const [titleQuestion, setTitleQuestion] = React.useState({ TitleQuestion: '' });
   const [open, setOpen] = React.useState(false);
@@ -54,7 +54,7 @@ export default function Ask() {
     setChecked(event.target.checked);
   };
   return (
-    <AskLayout>
+    <AskLayout >
       <Card className={classes.root}>
         <CardContent>
           <div style={{ margin: '0px 25px 0px 25px' }}>
@@ -140,4 +140,6 @@ export default function Ask() {
       </Card>
     </AskLayout>
   );
-}
+};
+
+export default Ask;

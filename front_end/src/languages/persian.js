@@ -8,7 +8,7 @@ const STRINGS = {
   DEMO_VIEWS: '25 بازدید',
   DEMO_ANSWERS: '0 جواب',
   SIGN_IN_TITLE: 'ورود',
-  SIGN_IN_EMAIL: 'ایمیل',
+  SIGN_IN_EMAIL: 'یوزرنیم',
   SIGN_IN_PASSWORD: 'پسورد',
   FORGET_PASSWORD: 'پسوردتون رو فراموش کردید؟',
   Register: 'ثبت نام',

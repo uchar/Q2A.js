@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import Translate from '@material-ui/icons/Translate';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import { isMobile } from 'react-device-detect';
+import Link from 'next/link';
 import { getStrings } from '../../utilities';
-import { wrapper } from '../../../redux/store';
+import { CLIENT_SIDE_THEME_ACTION } from '../../../redux/constants';
+import CardButton from '../CardButton/CardButton';
+import { checkUser } from '../../../API/utilities';
+import ProfileImage from '../ProfileImage';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-    margin: '0px 12px 0px 12px',
+    margin: '0px 25px 0px 12px',
   },
   search: {
     position: 'relative',
@@ -84,16 +88,21 @@ export default function Header({ store }) {
   const selector = useSelector((state) => state);
   const dispatch = useDispatch();
   const { themeType } = selector.client;
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [languageAnchorEl, setLanguageAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
+  const [user, setUser] = React.useState(undefined);
   const isLanguageMenuOpen = Boolean(languageAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const router = useRouter();
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  useEffect(() => {
+    (async function anyNameFunction() {
+      const userResult = await checkUser();
+      setUser(userResult);
+    })();
+  }, []);
+  const handleProfileMenuOpen = async (event) => {
+    return router.push(`/user/${user.publicName}`);
   };
 
   const handleLanguageMenuOpen = (event) => {
@@ -105,11 +114,6 @@ export default function Header({ store }) {
   };
   const handleLanguageMenuClose = () => {
     setLanguageAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -126,20 +130,6 @@ export default function Header({ store }) {
   const handleEnglishClicked = () => {
     handleLanguageMenuClose();
   };
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
 
   const renderLanguageMenu = (
     <Menu
@@ -205,9 +195,9 @@ export default function Header({ store }) {
 
   const handleDarkChange = () => {
     if (themeType === 'dark') {
-      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'light' });
+      dispatch({ type: CLIENT_SIDE_THEME_ACTION, payload: 'light' });
     } else {
-      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'dark' });
+      dispatch({ type: CLIENT_SIDE_THEME_ACTION, payload: 'dark' });
     }
   };
 
@@ -215,15 +205,37 @@ export default function Header({ store }) {
     <div className={classes.grow}>
       <AppBar color="background.default" position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
-            <MenuIcon />
-          </IconButton>
-          <Link href="/">
-            <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h6" noWrap>
-              {getStrings().TITLE}
-            </Typography>
-          </Link>
-
+          <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
+              <Translate />
+            </IconButton>
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleDarkChange}>
+              <img
+                onClick={handleDarkChange}
+                style={{ width: '21px', height: '21px' }}
+                src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
+              />
+            </IconButton>
+            {user && (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+                style={{ marginRight: '2px' }}
+              >
+                <Badge badgeContent={25} max={2} color="secondary" style={{ fontSize: '12px' }}>
+                  <ProfileImage size={26} profileImage={user.profileImage}></ProfileImage>
+                </Badge>
+                <Typography style={{ marginTop: 8, marginRight: 5, fontSize: isMobile ? 12 : 14 }}>
+                  {user.publicName}
+                </Typography>
+              </IconButton>
+            )}
+          </div>
+          <div className={classes.grow} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -237,36 +249,29 @@ export default function Header({ store }) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
-              <Translate />
-            </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleDarkChange}>
-              {
-                <img
-                  onClick={handleDarkChange}
-                  style={{ width: '24px', height: '24px' }}
-                  src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
-                />
-              }
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="primary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
+          {!user && user !== undefined && (
+            <CardButton
+              style={{ fontSize: '13px', height: '30%' }}
+              url={'/login'}
+              shouldShowLoading={false}
+              text={'ورود'}
+              backgroundColor={'secondary'}
+            />
+          )}
+          {!user && user !== undefined && (
+            <CardButton
+              style={{ fontSize: '13px', height: '30%' }}
+              url={'/register'}
+              shouldShowLoading={false}
+              text={'عضویت'}
+              backgroundColor={'secondary'}
+            />
+          )}
+          <Link prefetch={false} href="/">
+            <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h5" noWrap>
+              {getStrings().TITLE}
+            </Typography>
+          </Link>
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -281,9 +286,7 @@ export default function Header({ store }) {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
       {renderLanguageMenu}
     </div>
   );
 }
-export const getServerSideProps = () => {};

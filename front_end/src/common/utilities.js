@@ -2,7 +2,7 @@ import renderHTML from 'react-render-html';
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { parse } from 'node-html-parser';
-import { fix } from 'react-syntax-highlighter/dist/cjs/languages/hljs';
+import { fix, tex } from 'react-syntax-highlighter/dist/cjs/languages/hljs';
 import { element } from 'prop-types';
 import english from '../languages/english';
 import persian from '../languages/persian';
@@ -57,7 +57,6 @@ const renderDirectTexts = (node) => {
   const renderedElements = [];
   node.childNodes.forEach((childNode) => {
     if (childNode.tagName === 'a') {
-      // console.log('DETECT A LINK : ', childNode);
       renderedElements.push(
         <Typography
           color={'textPrimary'}
@@ -94,7 +93,6 @@ const recursiveParse = (nodeToParse, textColor = 'textPrimary') => {
   const { tagName } = node;
 
   if (tagName === 'p' || tagName === 'div' || tagName === 'span') {
-    // console.log('P OR DIV : ', nodeToParse, nodeToParse.rawText);
     const { renderedElements, remainingNodes } = renderDirectTexts(node);
     elements.push(<div style={{ textAlign: 'right' }}>{renderedElements.map((item) => item)}</div>);
     node.childNodes = remainingNodes;
@@ -143,7 +141,6 @@ export const parseContent = (valueToParse, textColor = 'textPrimary') => {
       );
     } else parts = recursiveParse(root, textColor);
 
-    // console.log('???', parts);
     return <div style={{ flex: 1, margin: '15px 10px 10px 10px' }}> {parts.map((part) => part)}</div>;
   } catch (e) {
     console.log(e);

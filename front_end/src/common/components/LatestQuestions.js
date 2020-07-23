@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
 import { Typography, Box } from '@material-ui/core';
-import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,11 +10,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewsIcon from '@material-ui/icons/Visibility';
 import HelpIcon from '@material-ui/icons/Help';
 import { isMobile } from 'react-device-detect';
-import Loading from './Loading';
-import { ALL_QUESTIONS, GET_TAG } from '../../API/queries';
-import { withApollo } from '../../libs/apollo';
 import QuestionItem from './QuestionItem';
-import { getStrings, parseContent, render7khatcodeHtml } from '../utilities';
+import { getStrings, parseContent } from '../utilities';
 import CardButton from './CardButton/CardButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,14 +46,20 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
+const a11yProps = (index) => {
   return {
     id: `scrollable-force-tab-${index}`,
     'aria-controls': `scrollable-force-tabpanel-${index}`,
   };
-}
+};
 
-function LatestQuestions({ tag }) {
+const getQueustionsList = (questions) => {
+  return questions.map((question) => {
+    return <QuestionItem  isMainPage={true} key={question.id} {...question} />;
+  });
+};
+
+const LatestQuestions = ({ tag, questions, tagRequest }) => {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = React.useState(0);
 
@@ -66,20 +67,11 @@ function LatestQuestions({ tag }) {
     setCurrentTab(tabIndex);
   };
 
-  const { loading, error, data } = useQuery(ALL_QUESTIONS, { variables: { tag } });
-  const tagRequest = useQuery(GET_TAG, { variables: { tag } });
-  if (error) {
-    console.error(error);
-    return <h1> error </h1>;
-  }
-  if (loading) return <Loading />;
-  const { latestQuestions, popularQuestions, mostViewsQuestions, noAnswersQuestions } = data;
+  // const { loading, error, data } = useQuery(ALL_QUESTIONS, { variables: { tag } });
+  // const tagRequest = useQuery(GET_TAG, { variables: { tag } });
 
-  const getQueustionsList = (questions) => {
-    return questions.map((question) => {
-      return <QuestionItem isMainPage={true} key={question.id} {...question} />;
-    });
-  };
+  const { latestQuestions, popularQuestions, mostViewsQuestions, noAnswersQuestions } = questions;
+
   const getTitle = () => {
     let title = '';
     if (currentTab === 0) {
@@ -96,10 +88,7 @@ function LatestQuestions({ tag }) {
     }
     return title;
   };
-  console.log('TAG DATA ', tagRequest);
-  try {
-    console.log(tagRequest.data.getTagDetail.content);
-  } catch (e) {}
+
   return (
     <div className={classes.root}>
       <div
@@ -114,7 +103,8 @@ function LatestQuestions({ tag }) {
         <CardButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />
       </div>
       <div style={{ margin: '25px 10px 0px 10px', textAlign: 'right' }}>
-        {!tagRequest.loading &&
+        {tagRequest &&
+          !tagRequest.loading &&
           !tagRequest.error &&
           !tagRequest.error &&
           tagRequest.data &&
@@ -164,6 +154,6 @@ function LatestQuestions({ tag }) {
       </TabPanel>
     </div>
   );
-}
+};
 
-export default withApollo({ ssr: true })(LatestQuestions);
+export default LatestQuestions;

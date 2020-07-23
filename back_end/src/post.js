@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
-const dbUtils = require('./database').getUtils();
-const tables = require('./database').getTables();
-const postTypes = require('./database').getPostTypes();
+const database = require('./db/database').getDatabase();
+const tables = require('./db/constants').TABLES;
+const postTypes = require('./db/constants').POST_TYPES;
 
 const getTypeTagWhereClause = (type, tag) => {
   if (tag) {
@@ -14,8 +14,8 @@ const getTypeTagWhereClause = (type, tag) => {
 };
 
 const getQuestionsOrderBy = async (tag, order, limit, offset, augmentWhereClause = undefined) => {
-  const Post = dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
+  const Post = database.loadModel(tables.POST_TABLE);
+  const User = database.loadModel(tables.USER_TABLE);
 
   let tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
   if (augmentWhereClause) {
@@ -50,8 +50,8 @@ module.exports.getNoAnswersQuestions = async (parent, { tag, limit, offset }) =>
 };
 
 module.exports.getQuestion = async (parent, { id }) => {
-  const Post = await dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
+  const Post = await database.loadModel(tables.POST_TABLE);
+  const User = database.loadModel(tables.USER_TABLE);
 
   const question = await Post.findOne({
     where: {
@@ -64,8 +64,8 @@ module.exports.getQuestion = async (parent, { id }) => {
 };
 
 module.exports.getAnswers = async ({ id }) => {
-  const Post = dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
+  const Post = database.loadModel(tables.POST_TABLE);
+  const User = database.loadModel(tables.USER_TABLE);
   const answers = await Post.findAll({
     where: {
       type: postTypes.ANSWER,
@@ -78,8 +78,8 @@ module.exports.getAnswers = async ({ id }) => {
 };
 
 module.exports.getComments = async ({ id }) => {
-  const Post = dbUtils.loadModel(tables.POST_TABLE);
-  const User = dbUtils.loadModel(tables.USER_TABLE);
+  const Post = database.loadModel(tables.POST_TABLE);
+  const User = database.loadModel(tables.USER_TABLE);
   const comments = await Post.findAll({
     where: {
       type: postTypes.COMMENT,
@@ -92,7 +92,7 @@ module.exports.getComments = async ({ id }) => {
 };
 
 module.exports.getUserQuestions = async ({ id }) => {
-  const Post = await dbUtils.loadModel(tables.POST_TABLE);
+  const Post = await database.loadModel(tables.POST_TABLE);
   const questions = await Post.findAll({
     where: {
       type: postTypes.QUESTION,
@@ -106,7 +106,7 @@ module.exports.getUserQuestions = async ({ id }) => {
 };
 
 module.exports.getUserAnswers = async ({ id }) => {
-  const Post = await dbUtils.loadModel(tables.POST_TABLE);
+  const Post = await database.loadModel(tables.POST_TABLE);
 
   const answers = await Post.findAll({
     where: {
@@ -121,8 +121,8 @@ module.exports.getUserAnswers = async ({ id }) => {
 };
 
 module.exports.getUserClapItems = async ({ id }) => {
-  const Post = await dbUtils.loadModel(tables.POST_TABLE);
-  const Clap = await dbUtils.loadModel(tables.CLAP_TABLE);
+  const Post = await database.loadModel(tables.POST_TABLE);
+  const Clap = await database.loadModel(tables.CLAP_TABLE);
 
   const result = await Post.findAll({
     raw: true,
