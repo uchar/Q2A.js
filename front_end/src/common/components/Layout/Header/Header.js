@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, InputBase, Badge } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import Translate from '@material-ui/icons/Translate';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import NotificationIcon from '@material-ui/icons/Notifications';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
-import { getStrings } from '../../utilities';
-import { CLIENT_SIDE_THEME_ACTION } from '../../../redux/constants';
-import CardButton from '../CardButton/CardButton';
-import { checkUser } from '../../../API/utilities';
-import ProfileImage from '../ProfileImage';
+import { getStrings } from '../../../utilities';
+import CardButton from '../../CardButton/CardButton';
+import { checkUser } from '../../../../API/utilities';
+import ProfileImage from '../../ProfileImage';
+import NotificationsBox from './NotificationsBox';
+import Menu from './Menu';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -61,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -83,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ store }) {
+const Header = ({}) => {
   const classes = useStyles();
   const selector = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -94,6 +92,7 @@ export default function Header({ store }) {
   const isLanguageMenuOpen = Boolean(languageAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const router = useRouter();
+  const [notificationAnchor, setNotificationAnchor] = React.useState(null);
 
   useEffect(() => {
     (async function anyNameFunction() {
@@ -101,17 +100,18 @@ export default function Header({ store }) {
       setUser(userResult);
     })();
   }, []);
+
   const handleProfileMenuOpen = async (event) => {
     return router.push(`/user/${user.publicName}`);
+  };
+  const handleNotificationMenuOpen = async (event) => {
+    setNotificationAnchor(event.currentTarget);
   };
 
   const handleLanguageMenuOpen = (event) => {
     setLanguageAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
   const handleLanguageMenuClose = () => {
     setLanguageAnchorEl(null);
   };
@@ -120,84 +120,15 @@ export default function Header({ store }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
-  const languageMenuId = 'language-menu';
-
-  const handlePersianClicked = () => {
-    handleLanguageMenuClose();
+  const handleNotificationsMenuClose = () => {
+    setNotificationAnchor(null);
   };
-
-  const handleEnglishClicked = () => {
-    handleLanguageMenuClose();
-  };
-
-  const renderLanguageMenu = (
-    <Menu
-      anchorEl={languageAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={languageMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isLanguageMenuOpen}
-      onClose={handleLanguageMenuClose}
-    >
-      <MenuItem onClick={handleEnglishClicked}>English</MenuItem>
-      <MenuItem onClick={handlePersianClicked}>فارسی</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleLanguageMenuOpen}>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Translate />
-        </IconButton>
-        <p>Language</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
 
   const handleDarkChange = () => {
     if (themeType === 'dark') {
-      dispatch({ type: CLIENT_SIDE_THEME_ACTION, payload: 'light' });
+      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'light' });
     } else {
-      dispatch({ type: CLIENT_SIDE_THEME_ACTION, payload: 'dark' });
+      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'dark' });
     }
   };
 
@@ -205,6 +136,10 @@ export default function Header({ store }) {
     <div className={classes.grow}>
       <AppBar color="background.default" position="static">
         <Toolbar>
+          <NotificationsBox
+            notificationAnchor={notificationAnchor}
+            handleClose={handleNotificationsMenuClose}
+          />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
               <Translate />
@@ -220,15 +155,25 @@ export default function Header({ store }) {
               <IconButton
                 edge="end"
                 aria-label="account of current user"
-                aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
+                onClick={handleNotificationMenuOpen}
                 color="inherit"
                 style={{ marginRight: '2px' }}
               >
                 <Badge badgeContent={25} max={2} color="secondary" style={{ fontSize: '12px' }}>
-                  <ProfileImage size={26} profileImage={user.profileImage}></ProfileImage>
+                  <NotificationIcon />
                 </Badge>
+              </IconButton>
+            )}
+            {user && (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <ProfileImage size={26} profileImage={user.profileImage}></ProfileImage>
                 <Typography style={{ marginTop: 8, marginRight: 5, fontSize: isMobile ? 12 : 14 }}>
                   {user.publicName}
                 </Typography>
@@ -275,7 +220,6 @@ export default function Header({ store }) {
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
-              aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
@@ -285,8 +229,18 @@ export default function Header({ store }) {
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderLanguageMenu}
+
+      <Menu
+        open={isLanguageMenuOpen}
+        anchorEl={languageAnchorEl}
+        onClose={handleLanguageMenuClose}
+        onItemClick={(name) => {
+          handleLanguageMenuClose();
+        }}
+        items={[{ name: 'English' }, { name: 'Persian' }]}
+      />
     </div>
   );
-}
+};
+
+export default Header;

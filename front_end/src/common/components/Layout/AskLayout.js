@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import Header from './Header';
+import Header from './Header/Header';
 import Footer from './Footer';
 import RTL from './RTL';
 import Expansion from '../Expansion';

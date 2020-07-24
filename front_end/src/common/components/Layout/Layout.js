@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { BrowserView, MobileView } from 'react-device-detect';
-import Header from './Header';
+import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../TagsList';
 import RTL from './RTL';
