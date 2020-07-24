@@ -1,9 +1,10 @@
 Q2A.js is question/answer forum (like stackoverflow) made with latest technologies including :
 - Next.js
+- Material ui
 - Node.js
 - ORM (Sequelizer) 
-- Graphql
-- Apollo 
+- Graphql,Apollo,Express
+- Passport.js 
 
 # Demo : 
 
@@ -13,7 +14,8 @@ https://7khatcode.liara.run/
 
 - Fast And SEO Friendly
 - Server Side Generation powered by Next.js
-- Multi SQL Database support with Sequelizer ORM 
+- Responsive ui
+- Multi SQL Database support 
 - Light/Dark theme support
 - Multi Language support
 - RTL Support
