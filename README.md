@@ -42,4 +42,4 @@ cd front_end && yarn && yarn dev
 ```
 
 
-###### this project is work in progress and under heavy development if you are interested in development contact me : omid.es73@gmail.com
+###### This project is work in progress and under heavy development if you are interested in development contact me : omid.es73@gmail.com
