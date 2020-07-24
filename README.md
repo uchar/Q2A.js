@@ -29,7 +29,7 @@ Make a new Database.
 
 Rename .sample.env to .env and fill it's fields
 
-Then use this command:
+Run this :
 
 ```
 cd back_end && yarn && yarn dev
