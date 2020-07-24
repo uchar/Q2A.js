@@ -13,14 +13,15 @@ import {
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import ShareIcon from '@material-ui/icons/Share';
-import Link from 'next/link';
-import { getStrings, parseContent } from '../utilities';
+import { getProfileImage, getStrings, parseContent } from '../utilities';
 import CommentItem from './CommentItem';
+import ProfileImage from './ProfileImage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px',
     paddingBottom: '10px',
+    textAlign: 'center',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -40,19 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AnswerItem({
-  id,
-  title,
-  content,
-  tags,
-  profileImage,
-  creator,
-  createdAt,
-  votesCount,
-  isExpanded,
-  comments,
-}) {
+export default function AnswerItem({ id, content, user, createdAt, votesCount, isExpanded, comments }) {
   const classes = useStyles();
+  const { publicName, profileImage } = user;
   const [expanded, setExpanded] = React.useState(isExpanded === true);
 
   const handleExpandClick = () => {
@@ -65,9 +56,7 @@ export default function AnswerItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
-                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
-              </Avatar>
+              <ProfileImage profileImage={profileImage} />
               <div>
                 <Typography
                   variant="body2"
@@ -75,7 +64,7 @@ export default function AnswerItem({
                   style={{ fontSize: 17, textAlign: 'right', marginRight: '15px' }}
                   component="p"
                 >
-                  {creator}
+                  {publicName}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -101,26 +90,8 @@ export default function AnswerItem({
             </Grid>
           </Box>
         </Grid>
-
-        <Link href={`/${id}/${title}`}>
-          <Typography
-            variant="body2"
-            color="textPrimary"
-            style={{
-              fontSize: 21,
-              marginTop: '30px',
-              marginBottom: '-15px',
-              textAlign: 'initial ',
-              cursor: 'pointer',
-            }}
-            component="p"
-          >
-            {title}
-          </Typography>
-        </Link>
       </CardContent>
-
-        {parseContent(content)}
+      {parseContent(content)}
       {comments &&
         comments.map((comment) => {
           return (

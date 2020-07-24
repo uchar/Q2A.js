@@ -1,14 +1,9 @@
 import React from 'react';
-import { Box, Divider, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { useQuery } from '@apollo/react-hooks';
 import Header from './Header/Header';
 import Footer from './Footer';
-import TagsList from '../TagsList';
 import RTL from './RTL';
-import News from '../News';
-import { ALL_TAGS } from '../../../API/queries';
-import { withApollo } from '../../../libs/apollo';
 import Expansion from '../Expansion';
 
 const layoutStyle = {
@@ -27,13 +22,6 @@ const contentStyle = {
 };
 
 const AskLayout = (props) => {
-  const { loading, error, data } = useQuery(ALL_TAGS);
-  if (error) {
-    console.error(error);
-    return <h1>Error</h1>;
-  }
-  if (loading) return <h1>Loading...</h1>;
-  const { tags } = data;
   return (
     <RTL>
       <div className="Layout" style={layoutStyle} dir="rtl">
@@ -55,4 +43,4 @@ const AskLayout = (props) => {
   );
 };
 
-export default withApollo({ ssr: true })(AskLayout);
+export default AskLayout;

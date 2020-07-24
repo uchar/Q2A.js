@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import {
   CardContent,
   CardActions,
-  Avatar,
   IconButton,
   Typography,
   Box,
@@ -20,11 +19,14 @@ import Link from 'next/link';
 import Tag from './Tag';
 import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
 import CommentItem from './CommentItem';
+import ProfileImage from './ProfileImage';
+import Layout from './Layout/Layout';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '25px 0px 25px 0px',
     paddingBottom: '15px',
+    textAlign: 'center',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -41,26 +43,43 @@ const useStyles = makeStyles((theme) => ({
     width: 60,
     height: 60,
     marginRight: '5px',
+    cursor: 'pointer',
   },
 }));
 
-export default function QuestionItem({
+const checkTagAndAppend = (tags, newTag) => {
+  if (newTag) tags.push(newTag);
+  return tags;
+};
+
+const QuestionItem = ({
   id,
   title,
   content,
-  tags,
-  profileImage,
-  creator,
+  user,
   createdAt,
+  prefetch,
   viewsCount,
   votesCount,
   answersCount,
   comments,
   isExpanded,
   isMainPage,
-}) {
+  tag1,
+  tag2,
+  tag3,
+  tag4,
+  tag5,
+}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
+  const { publicName, profileImage } = user;
+  let tags = [];
+  tags = checkTagAndAppend(tags, tag1);
+  tags = checkTagAndAppend(tags, tag2);
+  tags = checkTagAndAppend(tags, tag3);
+  tags = checkTagAndAppend(tags, tag4);
+  tags = checkTagAndAppend(tags, tag5);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -72,27 +91,29 @@ export default function QuestionItem({
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Box>
             <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Avatar aria-label="recipe" className={classes.avatar} src={profileImage}>
-                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
-              </Avatar>
-              <div>
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                  style={{ fontSize: 17, textAlign: 'right', marginRight: '15px' }}
-                  component="p"
-                >
-                  {creator}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, marginRight: '12px' }}
-                  component="p"
-                >
-                  {getStrings().DEMO_TIME_AGO}
-                </Typography>
-              </div>
+              <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
+                <ProfileImage profileImage={profileImage} />
+              </Link>
+              <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
+                <div>
+                  <Typography
+                    variant="body2"
+                    color="textPrimary"
+                    style={{ cursor: 'pointer', fontSize: 17, textAlign: 'right', marginRight: '15px' }}
+                    component="p"
+                  >
+                    {publicName}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    style={{ fontSize: 12, marginRight: '12px' }}
+                    component="p"
+                  >
+                    {getStrings().DEMO_TIME_AGO}
+                  </Typography>
+                </div>
+              </Link>
             </Grid>
           </Box>
           <Box>
@@ -181,8 +202,8 @@ export default function QuestionItem({
 
       <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
         {tags.map((tag) => (
-          <Grid item key={tag.id}>
-            <Tag tag={tag.title} />
+          <Grid item key={tag}>
+            <Tag tag={tag} />
           </Grid>
         ))}
       </Grid>
@@ -197,4 +218,6 @@ export default function QuestionItem({
         })}
     </Box>
   );
-}
+};
+
+export default QuestionItem;

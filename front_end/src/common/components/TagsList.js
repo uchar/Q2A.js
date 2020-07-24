@@ -11,11 +11,12 @@ export default function TagsList({ tags }) {
   const classes = useStyles();
   return (
     <Grid container justify={'center'} border={1} spacing={2} className={classes.root}>
-      {tags.map((tag) => (
-        <Grid item key={tag.id}>
-          <Tag tag={tag.title} count={tag.count} />
-        </Grid>
-      ))}
+      {tags &&
+        tags.map((tag) => (
+          <Grid item key={tag.id}>
+            <Tag tag={tag.title} count={tag.used} />
+          </Grid>
+        ))}
     </Grid>
   );
 }

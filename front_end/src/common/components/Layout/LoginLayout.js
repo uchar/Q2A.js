@@ -15,31 +15,31 @@ const paper = {
 const form = {
   width: '100%',
   marginTop: '1px',
-  padding: '20px 50px 40px 50px',
+  padding: '20px 50px 25px 50px',
 };
 
 const LoginLayout = (props) => (
-  <Layout>
+  <Layout noSideBar>
     <Grid container justify="center" alignItems={'center'} style={{ margin: '70px 0px 110px 0px' }}>
       <Grid item xs={0} sm={3} />
       <Grid item xs={12} sm={6}>
         <Box boxShadow={3} style={paper}>
-          <div
+          <Box boxShadow={1}
             style={{
-              backgroundColor: '#19B5FE',
+              backgroundColor: 'background.paper',
               width: '100%',
               alignItems: 'center',
               textAlign: 'center',
             }}
           >
             <Typography
-              component="h4"
-              variant="h4"
-              style={{ color: '#ffffff', paddingBottom: '3.5rem', marginTop: '3.5rem' }}
+              component="h3"
+              variant="h3"
+              style={{ paddingBottom: '2.3rem', marginTop: '2rem' }}
             >
               {props.pageTitle}
             </Typography>
-          </div>
+          </Box>
 
           <div className="Content" style={form}>
             {props.children}

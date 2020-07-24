@@ -1,15 +1,12 @@
 import React from 'react';
-import { Box, Divider, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { useQuery } from '@apollo/react-hooks';
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { BrowserView, MobileView } from 'react-device-detect';
 import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../TagsList';
 import RTL from './RTL';
 import News from '../News';
-import { ALL_TAGS } from '../../../API/queries';
-import { withApollo } from '../../../libs/apollo';
 import Loading from '../Loading';
 
 const layoutStyle = {
@@ -28,13 +25,8 @@ const contentStyle = {
 };
 
 const Layout = (props) => {
-  const { loading, error, data } = useQuery(ALL_TAGS);
-  if (error) {
-    console.error(error);
-    return <h1>Error</h1>;
-  }
-  if (loading) return <Loading />;
-  const { tags } = data;
+  const { tags, noSideBar } = props;
+  if (!tags && !noSideBar) return <Loading />;
   return (
     <RTL>
       <div className="Layout" style={layoutStyle} dir="rtl">
@@ -42,24 +34,30 @@ const Layout = (props) => {
         <Box className="Content" style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
-              <BrowserView>
-                <News />
-              </BrowserView>
+              {!noSideBar && (
+                <BrowserView>
+                  <News />
+                </BrowserView>
+              )}
             </Grid>
             <Grid item md={8} xs={12}>
               {props.children}
             </Grid>
             <Grid item md={2} xs={12}>
-              <Box style={{ marginTop: '25px' }} boxShadow={2}>
-                <Grid container>
-                  <BrowserView>
-                    <TagsList tags={tags} />
-                  </BrowserView>
-                </Grid>
-              </Box>
-              <MobileView>
-                <News />
-              </MobileView>
+              {!noSideBar && (
+                <div>
+                  <Box style={{ marginTop: '25px' }} boxShadow={2}>
+                    <Grid container>
+                      <BrowserView>
+                        <TagsList tags={tags} />
+                      </BrowserView>
+                    </Grid>
+                  </Box>
+                  <MobileView>
+                    <News />
+                  </MobileView>
+                </div>
+              )}
             </Grid>
           </Grid>
         </Box>
@@ -69,4 +67,8 @@ const Layout = (props) => {
   );
 };
 
-export default withApollo({ ssr: true })(Layout);
+Layout.defaultProps = {
+  noSideBar: false,
+};
+
+export default Layout;

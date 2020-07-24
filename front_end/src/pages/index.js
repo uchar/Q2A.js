@@ -1,13 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Box } from '@material-ui/core';
-import { isMobile } from 'react-device-detect';
+import { Box } from '@material-ui/core';
 import Layout from '../common/components/Layout/Layout';
-import { withApollo } from '../libs/apollo';
-import CardButton from '../common/components/CardButton/CardButton';
-import { getStrings } from '../common/utilities';
 import LatestQuestion from '../common/components/LatestQuestions';
-import Notif from './Notif';
+import { ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
+import { doGraphQLQuery } from '../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,16 +13,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MainPage() {
+function MainPage({ questions, tags }) {
   const classes = useStyles();
   return (
-    <Layout>
+    <Layout tags={tags}>
       <Box className={classes.paper}>
-        <LatestQuestion />
-        {/* <Notif /> */}
+        <LatestQuestion questions={questions} />
       </Box>
     </Layout>
   );
 }
 
-export default withApollo({ ssr: true })(MainPage);
+export const getStaticProps = async () => {
+  const questionsResponse = await doGraphQLQuery(ALL_QUESTIONS);
+  const tagsResponse = await doGraphQLQuery(ALL_TAGS);
+  return {
+    props: {
+      questions: questionsResponse,
+      tags: tagsResponse.getTags,
+    },
+    revalidate: 40,
+  };
+};
+export default MainPage;

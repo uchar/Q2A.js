@@ -7,11 +7,19 @@
     "apollo-server": "^2.14.2",
     "apollo-server-express": "^2.14.2",
     "aws-sdk": "^2.713.0",
+    "bcrypt": "^5.0.0",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "eslint-plugin-jest": "^23.13.1",
     "express": "^4.17.1",
     "graphql": "^15.0.0",
-    "mysql": "^2.18.1"
+    "hash-equals": "^0.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^6.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -32,8 +40,9 @@
     "prettier": "^2.0.5"
   },
   "scripts": {
-    "start": "node ./src/server.js",
-    "dev": "nodemon ./src/server.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "converter": "nodemon src/tableUpgrade.js",
     "deploy": "liara deploy --app 7khatcode-api --port 4000 --platform node",
     "test": "./node_modules/.bin/jest --coverage",
     "lint": "./node_modules/.bin/eslint --fix src/**/*.js src/**/*.test.js --no-error-on-unmatched-pattern"

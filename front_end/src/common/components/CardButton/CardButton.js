@@ -9,7 +9,7 @@ import { isMobile } from 'react-device-detect';
 const useStyles = makeStyles((theme) => ({
   viewCourseButton: {
     color: '#ffffff',
-    padding: '12px 30px 12px 30px',
+    padding: '10px 28px 10px 28px',
     fontSize: isMobile ? 15 : 18,
   },
   wrapper: {
@@ -53,7 +53,7 @@ const SButton = (props) => {
       <Button
         type={type}
         variant="contained"
-        color="primary"
+        color={props.backgroundColor ? props.backgroundColor : 'primary'}
         component="span"
         className={classes.viewCourseButton}
         {...props}
@@ -74,7 +74,7 @@ const CardButton = (props) => {
   return (
     <div {...props}>
       {url && url.length > 0 ? (
-        <Link href={url}>
+        <Link prefetch={false} href={url}>
           <SButton
             onClick={onSubmit}
             style={{ marginTop: props.buttonTopMargin ? props.buttonTopMargin : '0px' }}
@@ -83,6 +83,7 @@ const CardButton = (props) => {
             shouldShowLoading={shouldShowLoading}
             loading={loading}
             fullWidth={fullWidth}
+            backgroundColor={props.backgroundColor}
           />
         </Link>
       ) : (
@@ -97,6 +98,7 @@ const CardButton = (props) => {
           loading={loading}
           type={type || ''}
           fullWidth={fullWidth}
+          backgroundColor={props.backgroundColor}
         />
       )}
     </div>

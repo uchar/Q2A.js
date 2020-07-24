@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   boxNotification: {
     cursor: 'pointer',
     padding: '10px',
+    minWidth: '400px',
     margin: '3px 10px 10px 10px',
   },
   boxNotificationName: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Notifications({ notification, handleClose }) {
+const NotificationsBox = ({ notificationAnchor, handleClose }) => {
   const classes = useStyles();
 
   const [notificationText, setNotificationText] = React.useState([
@@ -99,13 +100,13 @@ export default function Notifications({ notification, handleClose }) {
 
   return (
     <Menu
-      style={{ maxWidth: '500px' }}
+      style={{ maxWidth: '800px', minWidth: '500px' }}
       id="long-menu"
-      anchorEl={notification}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorEl={notificationAnchor}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       keepMounted
-      open={Boolean(notification)}
+      open={Boolean(notificationAnchor)}
       onClose={handleClose}
     >
       <InfiniteScroll
@@ -156,5 +157,5 @@ export default function Notifications({ notification, handleClose }) {
       </InfiniteScroll>
     </Menu>
   );
-}
-export const getServerSideProps = () => {};
+};
+export default NotificationsBox;
