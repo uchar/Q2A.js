@@ -24,14 +24,49 @@ const createJWTToken = (user) => {
   });
   return token;
 };
+const findUserByName = async (publicName) => {
+  const User = await database.loadModel(tables.USER_TABLE);
+  return User.findOne({
+    where: {
+      publicName,
+    },
+  });
+};
+
+const findUserByEmail = async (email) => {
+  const User = await database.loadModel(tables.USER_TABLE);
+  return User.findOne({
+    where: {
+      email,
+    },
+  });
+};
+
+module.exports.signUp = async (_, { email, username, password }) => {
+  const newPasswordHash = await bcrypt.hash(password, 10);
+  const User = await database.loadModel(tables.USER_TABLE);
+  let user = await findUserByName(username);
+  if (user) {
+    throw new Error('User already exist');
+  }
+  user = await findUserByEmail(email);
+  if (user) {
+    throw new Error('Email already exist');
+  }
+  await User.create({
+    publicName: username,
+    email,
+    password: newPasswordHash,
+    isLegacyAuthentication: false,
+    isEmailVerified: false,
+  });
+  user = await findUserByName(username);
+  return createJWTToken(user);
+};
 
 module.exports.login = async (_, { username, password }) => {
   const User = await database.loadModel(tables.USER_TABLE);
-  const user = await User.findOne({
-    where: {
-      publicName: username,
-    },
-  });
+  const user = await findUserByName(username);
   if (!user) {
     throw new Error(STATUS_CODES.NO_USER);
   }

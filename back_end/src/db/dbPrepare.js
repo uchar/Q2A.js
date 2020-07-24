@@ -17,6 +17,7 @@ const prepareDatabase = async () => {
     lastLogin: Sequelize.DATE,
     lastWrite: Sequelize.DATE,
     isLegacyAuthentication: Sequelize.BOOLEAN,
+    isEmailVerified: Sequelize.BOOLEAN,
   });
   const Post = sequelize.define(tables.POST_TABLE, {
     type: DataTypes.ENUM([

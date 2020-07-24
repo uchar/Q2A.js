@@ -11,7 +11,7 @@ const {
   getUserQuestions,
 } = require('../post');
 const { getAllTags, getTagDetail } = require('../tag');
-const { getUser, login } = require('../user');
+const { getUser, login, signUp } = require('../user');
 
 module.exports = {
   Query: {
@@ -26,6 +26,7 @@ module.exports = {
   },
   Mutation: {
     login,
+    signUp,
   },
   Question: {
     answers: getAnswers,

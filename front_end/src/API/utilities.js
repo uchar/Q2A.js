@@ -1,4 +1,4 @@
-import { GET_MY_USER, USER_LOGIN } from './queries';
+import { GET_MY_USER, USER_LOGIN, USER_SIGN_UP } from './queries';
 import getStandaloneApolloClient from '../apolloClient';
 
 export const doGraphQLQuery = async (query, params) => {
@@ -17,6 +17,15 @@ export const login = async (username, password) => {
   await localStorage.setItem('JWT_TOKEN', jwtToken);
   return jwtToken;
 };
+
+export const signUp = async (email, username, password) => {
+  const client = getStandaloneApolloClient();
+  const result = await client.mutate({ mutation: USER_SIGN_UP, variables: { email, username, password } });
+  const jwtToken = result.data.signUp;
+  await localStorage.setItem('JWT_TOKEN', jwtToken);
+  return jwtToken;
+};
+
 export const checkUser = async () => {
   const jwtToken = localStorage.getItem('JWT_TOKEN');
   if (jwtToken) {
