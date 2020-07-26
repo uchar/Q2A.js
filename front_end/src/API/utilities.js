@@ -27,6 +27,7 @@ export const signUp = async (email, username, password) => {
 };
 
 export const checkUser = async () => {
+   localStorage.removeItem('JWT_TOKEN');
   const jwtToken = localStorage.getItem('JWT_TOKEN');
   if (jwtToken) {
     try {
