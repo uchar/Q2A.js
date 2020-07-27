@@ -14,9 +14,9 @@ module.exports = gql`
     ANSWER
     COMMENT
   }
-  enum LoginStatus {
-    INVALID_LOGIN
-    NO_USER
+  enum StatusCode {
+    VALIDATION_ERROR
+    OTHER_ERROR
     SUCCESS
   }
   type ClapItem {
@@ -64,6 +64,10 @@ module.exports = gql`
     content: String
     used: Int
   }
+  type Result {
+    statusCode: StatusCode
+    message: String
+  }
   type Query {
     latestQuestions(tag: String, limit: Int, offset: Int): [Question]
     popularQuestions(tag: String, limit: Int, offset: Int): [Question]
@@ -77,5 +81,6 @@ module.exports = gql`
   type Mutation {
     login(username: String!, password: String!): String
     signUp(email: String!, username: String!, password: String!): String
+    addQuestion(title: String!, content: String!, tags: [String]!): Result
   }
 `;

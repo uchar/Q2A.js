@@ -9,9 +9,11 @@ const {
   getUserAnswers,
   getUserClapItems,
   getUserQuestions,
-} = require('../post');
-const { getAllTags, getTagDetail } = require('../tag');
-const { getUser, login, signUp } = require('../user');
+} = require('../queries/post');
+const { getAllTags, getTagDetail } = require('../queries/tag');
+const { getUser } = require('../queries/user');
+const { login, signUp } = require('../mutations/user');
+const { addQuestion } = require('../mutations/post');
 
 module.exports = {
   Query: {
@@ -27,6 +29,7 @@ module.exports = {
   Mutation: {
     login,
     signUp,
+    addQuestion,
   },
   Question: {
     answers: getAnswers,

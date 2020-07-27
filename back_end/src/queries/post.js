@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
-const database = require('./db/database').getDatabase();
-const tables = require('./db/constants').TABLES;
-const postTypes = require('./db/constants').POST_TYPES;
+const database = require('../db/database').getDatabase();
+const tables = require('../db/constants').TABLES;
+const postTypes = require('../db/constants').POST_TYPES;
 
 const getTypeTagWhereClause = (type, tag) => {
   if (tag) {

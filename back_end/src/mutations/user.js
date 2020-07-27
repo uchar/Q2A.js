@@ -1,21 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const database = require('./db/database').getDatabase();
-const tables = require('./db/constants').TABLES;
-const { isLegacyPasswordValid, STATUS_CODES } = require('./utility');
-
-module.exports.getUser = async (_, params, context) => {
-  if (!params.id && !context.user) {
-    throw new Error("You're not authorized");
-  }
-  const id = params.id ? params.id : context.user.publicName;
-  const User = await database.loadModel(tables.USER_TABLE);
-  return User.findOne({
-    where: {
-      publicName: id,
-    },
-  });
-};
+const database = require('../db/database').getDatabase();
+const tables = require('../db/constants').TABLES;
+const { isLegacyPasswordValid, STATUS_CODES } = require('../utility');
 
 const createJWTToken = (user) => {
   const token = jwt.sign({ id: user.id, publicName: user.publicName }, process.env.JWT_SECRET, {
