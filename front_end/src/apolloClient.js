@@ -6,9 +6,7 @@ const getStandaloneApolloClient = (jwtToken) => {
   if (jwtToken) headers.authorization = `Bearer ${jwtToken}`;
   return new ApolloClient({
     link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_GRAPHQL_URL
-        ? process.env.NEXT_PUBLIC_GRAPHQL_URL
-        : 'https://7khatcode-api.liara.run/graphql',
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
       fetch,
       headers,
     }),

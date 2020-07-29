@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Link from 'next/link';
-import Typography from '@material-ui/core/Typography';
+import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -10,7 +10,8 @@ import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
-import { doGraphQLQuery, login } from '../API/utilities';
+import { login } from '../API/utilities';
+import GoogleLoginButton from '../common/components/GoogleLoginButton';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -25,10 +26,12 @@ export default function SignIn() {
   const router = useRouter();
   return (
     <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
+      <GoogleLoginButton buttonText="ورود با گوگل"/>
+      <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
+
       <Formik
         initialValues={{ username: '', password: '' }}
         onSubmit={async (values, { setErrors }) => {
-          console.log(values);
           try {
             const result = await login(values.username, values.password);
             console.log('RESULT OF LOGIN : ', result);
@@ -94,22 +97,6 @@ export default function SignIn() {
                   {getStrings().Register}
                 </Link>
               </div>
-              {/* <CardButton */}
-              {/*  type="submit" */}
-              {/*  text="گوگل" */}
-              {/*  onSubmit={handleSubmit} */}
-              {/*  fullWidth={true} */}
-              {/*  loading={isSubmitting} */}
-              {/*  shouldShowLoading={!(errors.password && errors.email)} */}
-              {/* /> */}
-              {/* <CardButton */}
-              {/*  type="submit" */}
-              {/*  text="لینکداین" */}
-              {/*  onSubmit={handleSubmit} */}
-              {/*  fullWidth={true} */}
-              {/*  loading={isSubmitting} */}
-              {/*  shouldShowLoading={!(errors.password && errors.email)} */}
-              {/* /> */}
             </form>
           );
         }}

@@ -17,21 +17,40 @@ const prepareDatabase = async () => {
     lastLogin: Sequelize.DATE,
     lastWrite: Sequelize.DATE,
     isLegacyAuthentication: Sequelize.BOOLEAN,
+    isEmailVerified: Sequelize.BOOLEAN,
   });
   const Post = sequelize.define(tables.POST_TABLE, {
-    type: DataTypes.ENUM([
-      'QUESTION',
-      'ANSWER',
-      'COMMENT',
-      'QUESTION_HIDDEN',
-      'ANSWER_HIDDEN',
-      'COMMENT_HIDDEN',
-    ]),
-    title: Sequelize.STRING(512),
+    type: {
+      type: DataTypes.ENUM([
+        'QUESTION',
+        'ANSWER',
+        'COMMENT',
+        'QUESTION_HIDDEN',
+        'ANSWER_HIDDEN',
+        'COMMENT_HIDDEN',
+      ]),
+      allowNull: false,
+    },
+    title: Sequelize.STRING(256),
     content: Sequelize.TEXT,
-    viewsCount: Sequelize.INTEGER,
-    votesCount: Sequelize.INTEGER,
-    answersCount: Sequelize.INTEGER,
+    viewsCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
+    votesCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
+    answersCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
     tag1: Sequelize.STRING(64),
     tag2: Sequelize.STRING(64),
     tag3: Sequelize.STRING(64),
@@ -43,9 +62,14 @@ const prepareDatabase = async () => {
     },
   });
   const Tag = sequelize.define(tables.TAG_TABLE, {
-    title: Sequelize.STRING,
+    title: Sequelize.STRING(64),
     content: Sequelize.TEXT,
-    used: Sequelize.INTEGER,
+    used: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
   });
   const Clap = sequelize.define(tables.CLAP_TABLE, {
     count: Sequelize.INTEGER,
@@ -61,7 +85,8 @@ const prepareDatabase = async () => {
   database.cacheModel(tables.TAG_TABLE, Tag);
   database.cacheModel(tables.CLAP_TABLE, Clap);
 };
-exports.preparePromise = prepareDatabase().then(() => {
+
+exports.createDatabasePromise = prepareDatabase().then(() => {
   console.log('PREPARE FINISHED');
   return { result: 'SUCCESS' };
 });

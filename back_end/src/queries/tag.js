@@ -1,5 +1,5 @@
-const database = require('./db/database').getDatabase();
-const tables = require('./db/constants').TABLES;
+const database = require('../db/database').getDatabase();
+const tables = require('../db/constants').TABLES;
 
 module.exports.getAllTags = async (_, { offset, limit }) => {
   const Tag = database.loadModel(tables.TAG_TABLE);

@@ -3,26 +3,28 @@ const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
-const { preparePromise } = require('./db/dbPrepare');
+const { createDatabasePromise } = require('./db/createDatabase');
 const resolvers = require('./gql/resolvers');
 const types = require('./gql/types');
 
 const port = 4000;
 const path = '/graphql';
 
-preparePromise.then(() => {
+createDatabasePromise.then(() => {
   const { Strategy, ExtractJwt } = passportJWT;
 
-  const params = {
-    secretOrKey: process.env.JWT_SECRET,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  };
-  const strategy = new Strategy(params, (payload, done) => {
-    const user = payload;
-    return done(null, user);
-  });
+  const jwtPasswordStrategy = new Strategy(
+    {
+      secretOrKey: process.env.JWT_SECRET,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    },
+    (payload, done) => {
+      const user = payload;
+      return done(null, user);
+    }
+  );
 
-  passport.use(strategy);
+  passport.use(jwtPasswordStrategy);
   passport.initialize();
 
   const app = express();
@@ -34,6 +36,7 @@ preparePromise.then(() => {
       next();
     })(req, res, next);
   });
+
   const server = new ApolloServer({
     typeDefs: types,
     resolvers,

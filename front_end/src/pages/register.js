@@ -4,10 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
+import { Divider } from '@material-ui/core';
 import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
+import { signUp } from '../API/utilities';
+import GoogleLoginButton from '../common/components/GoogleLoginButton';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
   const classes = useStyles();
+  const router = useRouter();
 
   const makerFormError = (errors) => {
     let formError = '';
@@ -38,12 +42,24 @@ export default function Register() {
   };
   return (
     <LoginLayout pageTitle={getStrings().Register_TITLE}>
+      <GoogleLoginButton buttonText="عضویت با گوگل"/>
+      <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
+
       <Formik
         initialValues={{ email: '', name: '' }}
-        onSubmit={(values) => {}}
+        onSubmit={async (values, { setErrors }) => {
+          try {
+            const result = await signUp(values.email, values.username, values.password);
+            console.log('RESULT OF LOGIN : ', result);
+            return router.replace('/');
+          } catch (err) {
+            setErrors({ api: err.toString() });
+          }
+        }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email().required('Email is required'),
-          name: Yup.string().required('Name is required'),
+          username: Yup.string().required('Email is required').min(6),
+          password: Yup.string().required('Name is required').min(6),
         })}
       >
         {(props) => {
@@ -61,15 +77,15 @@ export default function Register() {
               />
               {errors.email && touched.email && <ErrorMessage text={errors.email} />}
               <TextField
-                id="name"
+                id="username"
                 label={getStrings().Register_NAME}
                 variant="outlined"
-                value={values.name}
+                value={values.username}
                 onChange={handleChange}
                 style={{ marginTop: '20px' }}
                 fullWidth
               />
-              {errors.name && touched.name && <ErrorMessage text={errors.name} />}
+              {errors.username && touched.username && <ErrorMessage text={errors.username} />}
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -84,9 +100,7 @@ export default function Register() {
                 autoComplete="current-password"
               />
               {errors.password && touched.password && <ErrorMessage text={errors.password} />}
-              {((errors.name && touched.name) || (errors.email && touched.email)) && (
-                <ErrorMessage text={makerFormError(errors)} />
-              )}
+              {errors.api && <ErrorMessage style={{ marginTop: '18px' }} text={errors.api} />}
               <CardButton
                 text={getStrings().Register_TITLE}
                 fullWidth={true}

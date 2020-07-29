@@ -54,5 +54,6 @@ module.exports = {
     localStorage: true,
     document: true,
     window: true,
+    process: true,
   },
 };

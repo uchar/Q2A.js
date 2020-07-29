@@ -33,8 +33,9 @@ const saveUsers = async (oldDb, newDb) => {
     const newUser = user;
     newUser.description = userDescriptions.get(user.userid);
     const query = `INSERT INTO users (id,publicName, profileImage, about, 
-          email,legacyPasswordSalt,legacyPassword,lastLogin,lastWrite,isLegacyAuthentication,createdAt,updatedAt)
-                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
+          email,legacyPasswordSalt,legacyPassword,lastLogin,lastWrite,isLegacyAuthentication,isEmailVerified,createdAt,updatedAt)
+                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);`;
+    const isEmailVerified = !!(newUser.emailcode && newUser.emailcode.length > 0);
     await newDb.doQuery(query, [
       newUser.userid,
       newUser.handle,
@@ -46,6 +47,7 @@ const saveUsers = async (oldDb, newDb) => {
       newUser.loggedin,
       newUser.written,
       true,
+      isEmailVerified,
       newUser.created,
       newUser.created,
     ]);

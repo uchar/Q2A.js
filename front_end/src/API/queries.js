@@ -105,6 +105,19 @@ export const USER_LOGIN = gql`
     login(username: $username, password: $password)
   }
 `;
+
+export const USER_GOOGLE_LOGIN = gql`
+  mutation googleLogin($jwtToken: String!) {
+    googleLogin(jwtToken: $jwtToken)
+  }
+`;
+
+export const USER_SIGN_UP = gql`
+  mutation signUp($email: String!, $username: String!, $password: String!) {
+    signUp(email: $email, username: $username, password: $password)
+  }
+`;
+
 export const GET_MY_USER = gql`
   query getUser {
     getUser {
