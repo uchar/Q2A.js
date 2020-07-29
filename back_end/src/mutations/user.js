@@ -1,34 +1,14 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
 const database = require('../db/database').getDatabase();
 const tables = require('../db/constants').TABLES;
-const { isLegacyPasswordValid, LOGIN_STATUS_CODE } = require('../utility');
-
-const createJWTToken = (user) => {
-  const token = jwt.sign({ id: user.id, publicName: user.publicName }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
-    algorithm: 'HS256',
-  });
-  return token;
-};
-const findUserByName = async (publicName) => {
-  const User = await database.loadModel(tables.USER_TABLE);
-  return User.findOne({
-    where: {
-      publicName,
-    },
-  });
-};
-
-const findUserByEmail = async (email) => {
-  const User = await database.loadModel(tables.USER_TABLE);
-  return User.findOne({
-    where: {
-      email,
-    },
-  });
-};
+const {
+  isLegacyPasswordValid,
+  LOGIN_STATUS_CODE,
+  findUserByEmail,
+  findUserByName,
+  createJWTToken,
+} = require('../utility');
 
 module.exports.signUp = async (_, { email, username, password }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);

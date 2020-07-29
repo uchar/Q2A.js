@@ -1,5 +1,8 @@
 const hashEquals = require('hash-equals');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const database = require('./db/database').getDatabase();
+const tables = require('./db/constants').TABLES;
 
 module.exports.STATUS_CODE = {
   VALIDATION_ERROR: 'VALIDATION_ERROR',
@@ -11,6 +14,32 @@ module.exports.LOGIN_STATUS_CODE = {
   NO_USER: 'User not found',
   INVALID_LOGIN: 'Username or password is wrong',
   GOOGLE_LOGIN_ERROR: 'We encountered error while trying to reach your account',
+};
+
+module.exports.createJWTToken = (user) => {
+  const token = jwt.sign({ id: user.id, publicName: user.publicName }, process.env.JWT_SECRET, {
+    expiresIn: '1d',
+    algorithm: 'HS256',
+  });
+  return token;
+};
+
+module.exports.findUserByName = async (publicName) => {
+  const User = await database.loadModel(tables.USER_TABLE);
+  return User.findOne({
+    where: {
+      publicName,
+    },
+  });
+};
+
+module.exports.findUserByEmail = async (email) => {
+  const User = await database.loadModel(tables.USER_TABLE);
+  return User.findOne({
+    where: {
+      email,
+    },
+  });
 };
 
 module.exports.createValidationResponse = (message) => {
