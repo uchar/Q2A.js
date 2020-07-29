@@ -12,7 +12,7 @@ const {
 } = require('../queries/post');
 const { getAllTags, getTagDetail } = require('../queries/tag');
 const { getUser } = require('../queries/user');
-const { login, signUp } = require('../mutations/user');
+const { login, signUp, googleLogin } = require('../mutations/user');
 const { addQuestion } = require('../mutations/post');
 
 module.exports = {
@@ -30,6 +30,7 @@ module.exports = {
     login,
     signUp,
     addQuestion,
+    googleLogin,
   },
   Question: {
     answers: getAnswers,

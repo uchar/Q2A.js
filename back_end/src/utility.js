@@ -7,6 +7,12 @@ module.exports.STATUS_CODE = {
   SUCCESS: 'SUCCESS',
 };
 
+module.exports.LOGIN_STATUS_CODE = {
+  NO_USER: 'User not found',
+  INVALID_LOGIN: 'Username or password is wrong',
+  GOOGLE_LOGIN_ERROR: 'We encountered error while trying to reach your account',
+};
+
 module.exports.createValidationResponse = (message) => {
   return {
     statusCode: this.STATUS_CODE.VALIDATION_ERROR,

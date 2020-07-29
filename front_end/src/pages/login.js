@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Link from 'next/link';
-import { Divider, Button } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { GoogleLogin } from 'react-google-login';
-import SaveIcon from '@material-ui/icons/Lock';
-import LinkedIn from 'linkedin-login-for-react';
 import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
-import { doGraphQLQuery, login } from '../API/utilities';
+import { login } from '../API/utilities';
+import GoogleLoginButton from '../common/components/GoogleLoginButton';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -28,38 +26,7 @@ export default function SignIn() {
   const router = useRouter();
   return (
     <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
-      <GoogleLogin
-        render={(renderProps) => (
-          <div style={{ textAlign: 'center', justifyContent: 'center' }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              style={{ width: '65%', justifyContent: 'space-between', fontSize: '18px' }}
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-              className={classes.button}
-              endIcon={
-                <img
-                  src={'/images/google.png'}
-                  style={{ margin: '5px 0px 5px -12px', height: '25px', textAlign: 'left' }}
-                />
-              }
-            >
-              {'ورود با گوگل'}
-            </Button>
-          </div>
-        )}
-        clientId={process.env.NEXT_PUBLIC_GOOGLE_ID}
-        buttonText="Login"
-        onSuccess={(response) => {
-          console.log('SUCCESS', response);
-        }}
-        onFailure={(response) => {
-          console.log('Error', response);
-        }}
-        cookiePolicy={'single_host_origin'}
-      />
+      <GoogleLoginButton buttonText="ورود با گوگل"/>
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik

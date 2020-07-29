@@ -1,4 +1,4 @@
-import { GET_MY_USER, USER_LOGIN, USER_SIGN_UP } from './queries';
+import { GET_MY_USER, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './queries';
 import getStandaloneApolloClient from '../apolloClient';
 
 export const doGraphQLQuery = async (query, params) => {
@@ -10,10 +10,22 @@ export const doGraphQLQuery = async (query, params) => {
   const result = await client.query({ query, variables: params });
   return result.data;
 };
+
 export const login = async (username, password) => {
   const client = getStandaloneApolloClient();
   const result = await client.mutate({ mutation: USER_LOGIN, variables: { username, password } });
   const jwtToken = result.data.login;
+  await localStorage.setItem('JWT_TOKEN', jwtToken);
+  return jwtToken;
+};
+
+export const loginWithGoogle = async (googleJwtToken) => {
+  const client = getStandaloneApolloClient();
+  const result = await client.mutate({
+    mutation: USER_GOOGLE_LOGIN,
+    variables: { jwtToken: googleJwtToken },
+  });
+  const jwtToken = result.data.googleLogin;
   await localStorage.setItem('JWT_TOKEN', jwtToken);
   return jwtToken;
 };
@@ -27,7 +39,6 @@ export const signUp = async (email, username, password) => {
 };
 
 export const checkUser = async () => {
-   localStorage.removeItem('JWT_TOKEN');
   const jwtToken = localStorage.getItem('JWT_TOKEN');
   if (jwtToken) {
     try {

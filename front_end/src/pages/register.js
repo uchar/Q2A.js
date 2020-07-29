@@ -4,13 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { GoogleLogin } from 'react-google-login';
-import { Button, Divider } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
 import { getStrings } from '../common/utilities';
-import { login, signUp } from '../API/utilities';
+import { signUp } from '../API/utilities';
+import GoogleLoginButton from '../common/components/GoogleLoginButton';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -42,38 +42,7 @@ export default function Register() {
   };
   return (
     <LoginLayout pageTitle={getStrings().Register_TITLE}>
-      <GoogleLogin
-        render={(renderProps) => (
-          <div style={{ textAlign: 'center', justifyContent: 'center' }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              style={{ width: '65%', justifyContent: 'space-between', fontSize: '18px' }}
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-              className={classes.button}
-              endIcon={
-                <img
-                  src={'/images/google.png'}
-                  style={{ margin: '5px 0px 5px -12px', height: '25px', textAlign: 'left' }}
-                />
-              }
-            >
-              {'ثبت نام با گوگل'}
-            </Button>
-          </div>
-        )}
-        clientId={process.env.NEXT_PUBLIC_GOOGLE_ID}
-        buttonText="Login"
-        onSuccess={(response) => {
-          console.log('SUCCESS', response);
-        }}
-        onFailure={(response) => {
-          console.log('Error', response);
-        }}
-        cookiePolicy={'single_host_origin'}
-      />
+      <GoogleLoginButton buttonText="عضویت با گوگل"/>
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik

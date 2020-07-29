@@ -86,7 +86,7 @@ const prepareDatabase = async () => {
   database.cacheModel(tables.CLAP_TABLE, Clap);
 };
 
-exports.preparePromise = prepareDatabase().then(() => {
+exports.createDatabasePromise = prepareDatabase().then(() => {
   console.log('PREPARE FINISHED');
   return { result: 'SUCCESS' };
 });
