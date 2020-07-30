@@ -26,7 +26,7 @@ export default function SignIn() {
   const router = useRouter();
   return (
     <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
-      <GoogleLoginButton buttonText="ورود با گوگل"/>
+      <GoogleLoginButton buttonText="ورود با گوگل" />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik

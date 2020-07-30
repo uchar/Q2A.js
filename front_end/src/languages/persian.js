@@ -23,7 +23,7 @@ const STRINGS = {
   ASK_INPUT_LABEL: 'سوال',
   ASK_DESCRIPTION_TITLE: 'متن سوال',
   ASK_DESCRIPTION_SUBTITLE: 'اطلاعات بیشتر درباره سوال:',
-  ASK_TAGS: 'حداکثر 5 تگ را اضافه کنید.',
+  ASK_TAGS: 'حداقل 2 و حداکثر 5 تگ را اضافه کنید.',
   ASK_TAG_LABEL: 'تگها',
   ASK_CHECKOUT: '  اگر سوال من پاسخ داده شد یا دیدگاهی دریافت کردم،ایمیل بزنید.',
   ASK_BUTTON_SENDING: 'ارسال',

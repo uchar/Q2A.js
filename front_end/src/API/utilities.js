@@ -1,4 +1,6 @@
-import { GET_MY_USER, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './queries';
+import { GET_MY_USER } from './queries';
+import { USER_LOGIN, USER_GOOGLE_LOGIN, USER_SIGN_UP } from './mutations';
+
 import getStandaloneApolloClient from '../apolloClient';
 
 export const doGraphQLQuery = async (query, params) => {

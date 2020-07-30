@@ -13,7 +13,21 @@ export default class TextEditor extends React.Component {
 
   render() {
     if (this.editor) {
-      return <this.ckEditor editor={this.editor} {...this.props} />;
+      return (
+        <this.ckEditor
+          editor={this.editor}
+          config={{
+            language: {
+              // The UI will be English.
+              ui: 'fa',
+
+              // But the content will be edited in Arabic.
+              content: 'fa',
+            },
+          }}
+          {...this.props}
+        />
+      );
     }
     return <div />;
   }
