@@ -9,9 +9,9 @@ import { useRouter } from 'next/router';
 import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
-import { getStrings } from '../common/utilities';
 import { login } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
+import {getStrings} from "../common/utlities/languageUtilities";
 
 const useStyles = makeStyles((theme) => ({
   submit: {

@@ -17,10 +17,12 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import Tag from './Tag';
-import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacyParser';
+import { parseContent } from '../parsers/parser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
 import Layout from './Layout/Layout';
+import { getStrings } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,6 +72,7 @@ const QuestionItem = ({
   tag3,
   tag4,
   tag5,
+  isLegacyContent,
 }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -171,9 +174,9 @@ const QuestionItem = ({
           margin: '0px 15px 0px 5px',
         }}
       >
-        {(expanded || content.length < 400) &&
-          parseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')}
-
+        {(expanded || content.length < 400) && isLegacyContent
+          ? legacyParseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')
+          : parseContent(content)}
         {!expanded && content.length >= 400 && (
           <div style={{ marginTop: '25px' }}>
             {replacePTagWithTypoGraphy(

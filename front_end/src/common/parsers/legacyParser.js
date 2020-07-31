@@ -2,23 +2,9 @@ import renderHTML from 'react-render-html';
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { parse } from 'node-html-parser';
-import { fix, tex } from 'react-syntax-highlighter/dist/cjs/languages/hljs';
-import { element } from 'prop-types';
-import english from '../languages/english';
-import persian from '../languages/persian';
-import CodeBlock from './components/CodeBlock';
+import CodeBlock from '../components/CodeBlock';
 
-export const getLanguage = () => {
-  return 'PERSIAN';
-};
-
-export const getStrings = () => {
-  if (getLanguage() === 'PERSIAN') {
-    return persian;
-  }
-  return english;
-};
-export const render7khatcodeHtml = (html) => {
+const render7khatcodeHtml = (html) => {
   return renderHTML(
     html
       .replace(/&lt;/g, '<')
@@ -27,8 +13,10 @@ export const render7khatcodeHtml = (html) => {
       .replace(/<\/?[^>]+>/gi, '')
   );
 };
-export const unescapeCode = (escapedHTML) => {
-  return renderHTML(escapedHTML).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+const unescapeCode = (escapedHTML) => {
+  return renderHTML(
+    escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').toString()
+  );
 };
 export const replacePTagWithTypoGraphy = (valueToParse, textColor = 'textPrimary') => {
   return (
@@ -119,7 +107,7 @@ const recursiveParse = (nodeToParse, textColor = 'textPrimary') => {
   });
   return elements;
 };
-export const parseContent = (valueToParse, textColor = 'textPrimary') => {
+export const legacyParseContent = (valueToParse, textColor = 'textPrimary') => {
   const root = parse(valueToParse, {
     lowerCaseTagName: false, // convert tag name to lower case (hurt performance heavily)
     script: false, // retrieve content in <script> (hurt performance slightly)
@@ -145,8 +133,4 @@ export const parseContent = (valueToParse, textColor = 'textPrimary') => {
   } catch (e) {
     console.log(e);
   }
-};
-
-export const getProfileImage = (name) => {
-  return `https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-${name}`;
 };

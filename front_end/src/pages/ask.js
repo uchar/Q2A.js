@@ -6,12 +6,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import TextEditor from '../common/components/TextEditor';
-import { getStrings } from '../common/utilities';
 import AskLayout from '../common/components/Layout/AskLayout';
 import { ALL_TAGS } from '../API/queries';
 import { doGraphQLMutation, doGraphQLQuery } from '../API/utilities';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import { ADD_QUESTION } from '../API/mutations';
+import {getStrings} from "../common/utlities/languageUtilities";
 
 const useStyles = makeStyles(() => ({
   root: {

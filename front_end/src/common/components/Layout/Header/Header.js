@@ -9,12 +9,12 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
-import { getStrings } from '../../../utilities';
 import CardButton from '../../CardButton/CardButton';
 import { checkUser } from '../../../../API/utilities';
 import ProfileImage from '../../ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
+import {getStrings} from "../../../utlities/languageUtilities";
 
 const useStyles = makeStyles((theme) => ({
   grow: {

@@ -11,8 +11,9 @@ import ViewsIcon from '@material-ui/icons/Visibility';
 import HelpIcon from '@material-ui/icons/Help';
 import { isMobile } from 'react-device-detect';
 import QuestionItem from './QuestionItem';
-import { getStrings, parseContent } from '../utilities';
+import { legacyParseContent } from '../parsers/legacyParser';
 import CardButton from './CardButton/CardButton';
+import {getStrings} from "../utlities/languageUtilities";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -109,7 +110,7 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
           !tagRequest.error &&
           tagRequest.data &&
           tagRequest.data.getTagDetail &&
-          parseContent(tagRequest.data.getTagDetail.content)}
+          legacyParseContent(tagRequest.data.getTagDetail.content)}
       </div>
 
       <AppBar

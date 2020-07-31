@@ -8,9 +8,9 @@ import { Divider } from '@material-ui/core';
 import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
-import { getStrings } from '../common/utilities';
 import { signUp } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
+import { getStrings } from '../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -42,7 +42,7 @@ export default function Register() {
   };
   return (
     <LoginLayout pageTitle={getStrings().Register_TITLE}>
-      <GoogleLoginButton buttonText="عضویت با گوگل"/>
+      <GoogleLoginButton buttonText="عضویت با گوگل" />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik

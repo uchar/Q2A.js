@@ -14,12 +14,12 @@ import { useRouter } from 'next/router';
 import Layout from '../../common/components/Layout/Layout';
 import QuestionItem from '../../common/components/QuestionItem';
 import AnswerItem from '../../common/components/AnswerItem';
-import { getProfileImage } from '../../common/utilities';
 import { wrapper } from '../../redux/store';
 import { doGraphQLQuery } from '../../API/utilities';
 import { ALL_QUESTIONS, ALL_TAGS, GET_USER } from '../../API/queries';
 import { SERVER_SIDE_TAGS_ACTION } from '../../redux/constants';
 import Loading from '../../common/components/Loading';
+import {getProfileImage} from "../../common/utlities/generalUtilities";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

@@ -13,9 +13,11 @@ import {
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import ShareIcon from '@material-ui/icons/Share';
-import { getProfileImage, getStrings, parseContent } from '../utilities';
+import { legacyParseContent } from '../parsers/legacyParser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
+import {getStrings} from "../utlities/languageUtilities";
+import {getProfileImage} from "../utlities/generalUtilities";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,7 +93,7 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, i
           </Box>
         </Grid>
       </CardContent>
-      {parseContent(content)}
+      {legacyParseContent(content)}
       {comments &&
         comments.map((comment) => {
           return (
