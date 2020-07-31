@@ -1,26 +1,26 @@
 import React from 'react';
 import clsx from 'clsx';
 import {
-  CardContent,
-  CardActions,
-  IconButton,
-  Typography,
   Box,
-  Grid,
-  makeStyles,
+  CardActions,
+  CardContent,
   Divider,
+  Grid,
+  IconButton,
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import Tag from './Tag';
-import { getStrings, parseContent, replacePTagWithTypoGraphy } from '../utilities';
+import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacyParser';
+import { parseContent } from '../parsers/parser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import Layout from './Layout/Layout';
+import { getStrings } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,6 +70,7 @@ const QuestionItem = ({
   tag3,
   tag4,
   tag5,
+  isLegacyContent,
 }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -84,6 +85,14 @@ const QuestionItem = ({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  let parsedContent = <div />;
+
+  if (expanded || content.length < 400) {
+    parsedContent = isLegacyContent
+      ? legacyParseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')
+      : parseContent(content);
+  }
 
   return (
     <Box boxShadow={2} className={classes.root}>
@@ -171,9 +180,7 @@ const QuestionItem = ({
           margin: '0px 15px 0px 5px',
         }}
       >
-        {(expanded || content.length < 400) &&
-          parseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')}
-
+        {(expanded || content.length < 400) && parsedContent}
         {!expanded && content.length >= 400 && (
           <div style={{ marginTop: '25px' }}>
             {replacePTagWithTypoGraphy(

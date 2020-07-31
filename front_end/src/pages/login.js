@@ -9,9 +9,9 @@ import { useRouter } from 'next/router';
 import LoginLayout from '../common/components/Layout/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import CardButton from '../common/components/CardButton/CardButton';
-import { getStrings } from '../common/utilities';
 import { login } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
+import { getStrings } from '../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -26,7 +26,7 @@ export default function SignIn() {
   const router = useRouter();
   return (
     <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
-      <GoogleLoginButton buttonText="ورود با گوگل"/>
+      <GoogleLoginButton buttonText="ورود با گوگل" />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik

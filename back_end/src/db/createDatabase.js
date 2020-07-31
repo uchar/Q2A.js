@@ -10,6 +10,11 @@ const prepareDatabase = async () => {
     publicName: Sequelize.STRING,
     profileImage: Sequelize.STRING,
     about: Sequelize.TEXT,
+    accessLevel: {
+      type: DataTypes.ENUM(['GUEST', 'USER_CONFIRMED', 'USER_NOT_CONFIRMED', 'ADMIN', 'SUPER_ADMIN']),
+      allowNull: false,
+      defaultValue: 'USER_CONFIRMED',
+    },
     email: Sequelize.STRING(64),
     password: Sequelize.STRING(64),
     legacyPasswordSalt: { type: 'BINARY(16)' },
@@ -33,6 +38,11 @@ const prepareDatabase = async () => {
     },
     title: Sequelize.STRING(256),
     content: Sequelize.TEXT,
+    isLegacyContent: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
     viewsCount: {
       type: Sequelize.INTEGER,
       allowNull: false,

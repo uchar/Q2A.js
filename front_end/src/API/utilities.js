@@ -1,4 +1,6 @@
-import { GET_MY_USER, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './queries';
+import { GET_MY_USER } from './queries';
+import { USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
+
 import getStandaloneApolloClient from '../apolloClient';
 
 export const doGraphQLQuery = async (query, params) => {
@@ -8,6 +10,16 @@ export const doGraphQLQuery = async (query, params) => {
   }
   const client = getStandaloneApolloClient(jwtToken);
   const result = await client.query({ query, variables: params });
+  return result.data;
+};
+
+export const doGraphQLMutation = async (mutation, params) => {
+  let jwtToken;
+  if (process.browser) {
+    jwtToken = await localStorage.getItem('JWT_TOKEN');
+  }
+  const client = getStandaloneApolloClient(jwtToken);
+  const result = await client.mutate({ mutation, variables: params });
   return result.data;
 };
 

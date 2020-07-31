@@ -5,3 +5,7 @@
 .ck-editor__editable {
     min-height: 200px;
 }
+
+.ck-content {
+    color: black;
+}

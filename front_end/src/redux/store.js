@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import {CLIENT_SIDE_THEME_ACTION, SERVER_SIDE_TAGS_ACTION} from "./constants";
+import { CLIENT_SIDE_THEME_ACTION, SERVER_SIDE_TAGS_ACTION } from './constants';
 
 // create your reducer
 const reducer = (state = { client: { themeType: 'light' }, server: { tags: [] } }, action) => {

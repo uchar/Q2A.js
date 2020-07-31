@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { wrapper } from '../redux/store';
 import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
-import { getStrings } from '../common/utilities';
+import { getStrings } from '../common/utlities/languageUtilities';
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;

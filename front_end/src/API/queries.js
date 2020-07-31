@@ -17,6 +17,7 @@ const QUESTION = `{
     tag3
     tag4
     tag5
+    isLegacyContent
   }`;
 
 export const ALL_QUESTIONS = gql`
@@ -48,6 +49,7 @@ export const GET_QUESTION = gql`
       tag3
       tag4
       tag5
+      isLegacyContent
       answers {
         id
         content
@@ -55,11 +57,13 @@ export const GET_QUESTION = gql`
           profileImage
           publicName
         }
+        isLegacyContent
         votesCount
         createdAt
         comments {
           id
           content
+          isLegacyContent
           user {
             profileImage
             publicName
@@ -70,6 +74,7 @@ export const GET_QUESTION = gql`
       comments {
         id
         content
+        isLegacyContent
         user {
           profileImage
           publicName
@@ -89,6 +94,7 @@ export const ALL_TAGS = gql`
     }
   }
 `;
+
 export const GET_TAG = gql`
   query q($tag: String!) {
     getTagDetail(tag: $tag) {
@@ -100,24 +106,6 @@ export const GET_TAG = gql`
   }
 `;
 
-export const USER_LOGIN = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password)
-  }
-`;
-
-export const USER_GOOGLE_LOGIN = gql`
-  mutation googleLogin($jwtToken: String!) {
-    googleLogin(jwtToken: $jwtToken)
-  }
-`;
-
-export const USER_SIGN_UP = gql`
-  mutation signUp($email: String!, $username: String!, $password: String!) {
-    signUp(email: $email, username: $username, password: $password)
-  }
-`;
-
 export const GET_MY_USER = gql`
   query getUser {
     getUser {
@@ -126,6 +114,7 @@ export const GET_MY_USER = gql`
     }
   }
 `;
+
 export const GET_USER = gql`
   query getUser($id: String!) {
     getUser(id: $id) {
@@ -151,6 +140,7 @@ export const GET_USER = gql`
         tag3
         tag4
         tag5
+        isLegacyContent
       }
       clapItems {
         type
@@ -161,6 +151,7 @@ export const GET_USER = gql`
             profileImage
             publicName
           }
+          isLegacyContent
           votesCount
           createdAt
         }
@@ -181,6 +172,7 @@ export const GET_USER = gql`
           tag3
           tag4
           tag5
+          isLegacyContent
         }
       }
     }

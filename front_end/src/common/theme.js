@@ -22,6 +22,7 @@ export const lightTheme = createMuiTheme(
     palette: {
       type: 'light',
     },
+    direction: 'rtl',
   },
   faIR
 );

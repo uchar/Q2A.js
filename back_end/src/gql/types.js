@@ -1,24 +1,36 @@
 const { gql } = require('apollo-server-express');
 
 module.exports = gql`
-  type User {
-    publicName: String
-    profileImage: String
-    about: String
-    questions: [Question]
-    answers: [Answer]
-    clapItems: [ClapItem]
+  enum AccessLevel {
+    GUEST
+    USER_CONFIRMED
+    USER_NOT_CONFIRMED
+    ADMIN
+    SUPER_ADMIN
   }
+
   enum PostType {
     QUESTION
     ANSWER
     COMMENT
   }
+
   enum StatusCode {
     VALIDATION_ERROR
     OTHER_ERROR
     SUCCESS
   }
+
+  type User {
+    publicName: String
+    profileImage: String
+    about: String
+    accessLevel: AccessLevel
+    questions: [Question]
+    answers: [Answer]
+    clapItems: [ClapItem]
+  }
+
   type ClapItem {
     type: PostType
     question: Question
@@ -38,6 +50,7 @@ module.exports = gql`
     tag3: String
     tag4: String
     tag5: String
+    isLegacyContent: Boolean
     answers: [Answer]
     comments: [Comment]
   }
@@ -47,6 +60,7 @@ module.exports = gql`
     content: String
     user: User
     votesCount: Int
+    isLegacyContent: Boolean
     createdAt: String
     comments: [Comment]
   }
@@ -55,6 +69,7 @@ module.exports = gql`
     id: String
     content: String
     user: User
+    isLegacyContent: Boolean
     createdAt: String
   }
 
@@ -64,10 +79,12 @@ module.exports = gql`
     content: String
     used: Int
   }
+
   type Result {
     statusCode: StatusCode
     message: String
   }
+
   type Query {
     latestQuestions(tag: String, limit: Int, offset: Int): [Question]
     popularQuestions(tag: String, limit: Int, offset: Int): [Question]
