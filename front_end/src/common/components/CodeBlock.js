@@ -1,6 +1,9 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { foundation as light, tomorrowNightBright as dark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import {
+  foundation as light,
+  tomorrowNightBright as dark,
+} from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import { useSelector } from 'react-redux';
 
 const CodeBlock = ({ code, lang }) => {
@@ -15,7 +18,7 @@ const CodeBlock = ({ code, lang }) => {
   }
   const themeLayout = { flex: 1, fontSize: '25px', textAlign: 'left', margin: '5px 0px 5px 10px' };
   return (
-    <div style={{ flex: 1, textAlign: 'left'}}>
+    <div style={{ flex: 1, textAlign: 'left' }}>
       <SyntaxHighlighter
         dir="ltr"
         showLineNumbers

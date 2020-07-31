@@ -1,5 +1,5 @@
 import { GET_MY_USER } from './queries';
-import { USER_LOGIN, USER_GOOGLE_LOGIN, USER_SIGN_UP } from './mutations';
+import { USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
 

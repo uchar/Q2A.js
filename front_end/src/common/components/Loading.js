@@ -2,8 +2,7 @@ import React from 'react';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/RiseLoader';
 import ClipLoader2 from 'react-spinners/CircleLoader';
-import { Typography } from '@material-ui/core';
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { isBrowser } from 'react-device-detect';
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`

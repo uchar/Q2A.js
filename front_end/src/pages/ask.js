@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Button, Typography, TextField, Checkbox } from '@material-ui/core';
+import { Button, Card, CardContent, TextField, Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +11,7 @@ import { ALL_TAGS } from '../API/queries';
 import { doGraphQLMutation, doGraphQLQuery } from '../API/utilities';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
 import { ADD_QUESTION } from '../API/mutations';
-import {getStrings} from "../common/utlities/languageUtilities";
+import { getStrings } from '../common/utlities/languageUtilities';
 
 const useStyles = makeStyles(() => ({
   root: {

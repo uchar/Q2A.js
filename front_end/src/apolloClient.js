@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import fetch from 'isomorphic-unfetch';
 
 const getStandaloneApolloClient = (jwtToken) => {

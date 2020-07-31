@@ -1,9 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import { Avatar } from '@material-ui/core';
 
-import {getProfileImage} from "../utlities/generalUtilities";
+import { getProfileImage } from '../utlities/generalUtilities';
 
 const useStyles = (size) =>
   makeStyles((theme) => ({

@@ -24,7 +24,8 @@ const LoginLayout = (props) => (
       <Grid item xs={0} sm={3} />
       <Grid item xs={12} sm={6}>
         <Box boxShadow={3} style={paper}>
-          <Box boxShadow={1}
+          <Box
+            boxShadow={1}
             style={{
               backgroundColor: 'background.paper',
               width: '100%',
@@ -32,11 +33,7 @@ const LoginLayout = (props) => (
               textAlign: 'center',
             }}
           >
-            <Typography
-              component="h3"
-              variant="h3"
-              style={{ paddingBottom: '2.3rem', marginTop: '2rem' }}
-            >
+            <Typography component="h3" variant="h3" style={{ paddingBottom: '2.3rem', marginTop: '2rem' }}>
               {props.pageTitle}
             </Typography>
           </Box>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, InputBase, Badge } from '@material-ui/core';
+import { AppBar, Badge, IconButton, InputBase, Toolbar, Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Translate from '@material-ui/icons/Translate';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -14,7 +14,7 @@ import { checkUser } from '../../../../API/utilities';
 import ProfileImage from '../../ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
-import {getStrings} from "../../../utlities/languageUtilities";
+import { getStrings } from '../../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   grow: {

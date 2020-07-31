@@ -1,19 +1,18 @@
 import React from 'react';
 import clsx from 'clsx';
 import {
-  CardContent,
-  CardActions,
-  IconButton,
-  Typography,
   Box,
-  Grid,
-  makeStyles,
+  CardActions,
+  CardContent,
   Divider,
+  Grid,
+  IconButton,
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import Tag from './Tag';
@@ -21,7 +20,6 @@ import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacy
 import { parseContent } from '../parsers/parser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import Layout from './Layout/Layout';
 import { getStrings } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({

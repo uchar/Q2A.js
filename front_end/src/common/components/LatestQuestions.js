@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,7 +13,7 @@ import { isMobile } from 'react-device-detect';
 import QuestionItem from './QuestionItem';
 import { legacyParseContent } from '../parsers/legacyParser';
 import CardButton from './CardButton/CardButton';
-import {getStrings} from "../utlities/languageUtilities";
+import { getStrings } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,7 +56,7 @@ const a11yProps = (index) => {
 
 const getQueustionsList = (questions) => {
   return questions.map((question) => {
-    return <QuestionItem  isMainPage={true} key={question.id} {...question} />;
+    return <QuestionItem isMainPage={true} key={question.id} {...question} />;
   });
 };
 

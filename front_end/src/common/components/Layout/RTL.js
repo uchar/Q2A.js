@@ -1,6 +1,6 @@
 import React from 'react';
 import { create } from 'jss';
-import { StylesProvider, jssPreset } from '@material-ui/core/styles';
+import { jssPreset, StylesProvider } from '@material-ui/core/styles';
 import rtl from 'jss-rtl';
 
 const jss = create({

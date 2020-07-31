@@ -1,23 +1,10 @@
 import React from 'react';
-import clsx from 'clsx';
-import {
-  CardContent,
-  CardActions,
-  Avatar,
-  IconButton,
-  Typography,
-  Box,
-  Grid,
-  makeStyles,
-  Divider,
-} from '@material-ui/core';
+import { Box, CardContent, Divider, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
-import ShareIcon from '@material-ui/icons/Share';
 import { legacyParseContent } from '../parsers/legacyParser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import {getStrings} from "../utlities/languageUtilities";
-import {getProfileImage} from "../utlities/generalUtilities";
+import { getStrings } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
