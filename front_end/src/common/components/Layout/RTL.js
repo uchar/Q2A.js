@@ -7,4 +7,6 @@ const jss = create({
   plugins: [...jssPreset().plugins, rtl()],
 });
 
-export default (props) => <StylesProvider jss={jss}>{props.children}</StylesProvider>;
+const RTL = (props) => <StylesProvider jss={jss}>{props.children}</StylesProvider>;
+
+export default RTL;
