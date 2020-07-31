@@ -37,6 +37,13 @@ module.exports.addQuestion = async (_, { title, content, tags }, context) => {
     questionTags[`tag${index + 1}`] = tag;
   });
   console.log('Tags : ', questionTags, { type: postTypes.QUESTION, title, content, ...questionTags });
-  await Post.create({ type: postTypes.QUESTION, title, content, ...questionTags, userId: user.id });
-  return createSuccessResponse();
+  const resultOfPost = await Post.create({
+    type: postTypes.QUESTION,
+    title,
+    content,
+    ...questionTags,
+    userId: user.id,
+  });
+  const newPost = resultOfPost.dataValues;
+  return createSuccessResponse(`/${newPost.id}/${newPost.title}`);
 };

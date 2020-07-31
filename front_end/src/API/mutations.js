@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const ADD_QUESTION = gql`
-  query addQuestion($title: String!, $content: String!, $tags: [String]!) {
+  mutation addQuestion($title: String!, $content: String!, $tags: [String]!) {
     addQuestion(title: $title, content: $content, tags: $tags) {
       statusCode
       message

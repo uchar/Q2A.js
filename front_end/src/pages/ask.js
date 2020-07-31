@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, CardContent, Button, Typography, TextField, Checkbox } from '@material-ui/core';
+import { Card, CardContent, Button, Typography, TextField, Checkbox } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/router';
 import TextEditor from '../common/components/TextEditor';
 import { getStrings } from '../common/utilities';
 import AskLayout from '../common/components/Layout/AskLayout';
 import { ALL_TAGS } from '../API/queries';
-import { doGraphQLQuery } from '../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery } from '../API/utilities';
 import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
+import { ADD_QUESTION } from '../API/mutations';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,6 +32,7 @@ const useStyles = makeStyles(() => ({
 
 const Ask = () => {
   const classes = useStyles();
+  const router = useRouter();
   const [tags, setTags] = React.useState([
     { title: 'c' },
     { title: 'c++' },
@@ -49,9 +52,24 @@ const Ask = () => {
     <AskLayout>
       <Card className={classes.root}>
         <Formik
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ title: '', content: '', tags: [] }}
           onSubmit={async (values, { setErrors }) => {
-            console.log('VALUES : ', values);
+            try {
+              const tagsToSend = [];
+              values.tags.forEach((tag) => tagsToSend.push(tag.title));
+              const resultObject = await doGraphQLMutation(ADD_QUESTION, {
+                title: values.title,
+                content: values.content,
+                tags: tagsToSend,
+              });
+              const result = resultObject.addQuestion;
+              if (result.statusCode !== 'SUCCESS') {
+                throw new Error(result.message);
+              }
+              return router.replace(`${result.message}`);
+            } catch (error) {
+              setErrors({ api: error.toString() });
+            }
           }}
           validationSchema={Yup.object().shape({
             title: Yup.string().required('Required').min(10),
@@ -77,6 +95,7 @@ const Ask = () => {
                         className={classes.margin}
                         fullWidth
                         id="title"
+                        name="title"
                         value={values.title}
                         onChange={handleChange}
                         label={getStrings().ASK_INPUT_LABEL}
@@ -106,8 +125,8 @@ const Ask = () => {
                       }}
                       onChange={(event, editor) => {
                         const data = editor.getData();
-                        console.log({ event, editor, data });
-                        setValues({ content: data });
+                        console.log('DATA : ', data);
+                        setValues({ ...values, content: data });
                       }}
                       onBlur={(event, editor) => {
                         console.log('Blur.', editor);
@@ -133,8 +152,8 @@ const Ask = () => {
                       options={tags}
                       getOptionLabel={(option) => option.title}
                       filterSelectedOptions
-                      onChange={(_, tags) => {
-                        setValues({ tags });
+                      onChange={(_, selectedTags) => {
+                        setValues({ ...values, tags: selectedTags });
                       }}
                       renderInput={(params) => (
                         <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
@@ -156,16 +175,18 @@ const Ask = () => {
                   {/*  </Typography> */}
                   {/* </div> */}
                 </CardContent>
-                <CardActions>
-                  <Button
-                    onClick={handleSubmit}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    {getStrings().ASK_BUTTON_SENDING}
-                  </Button>
-                </CardActions>
+                <Button
+                  type="submit"
+                  onSubmit={handleSubmit}
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  loading={isSubmitting}
+                  shouldShowLoading={!(errors.title && errors.content && errors.tags)}
+                >
+                  {getStrings().ASK_BUTTON_SENDING}
+                </Button>
+                {errors.api && <ErrorMessage style={{ margin: '-10px 15px 20px 0px' }} text={errors.api} />}
               </form>
             );
           }}

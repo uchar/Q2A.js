@@ -13,6 +13,16 @@ export const doGraphQLQuery = async (query, params) => {
   return result.data;
 };
 
+export const doGraphQLMutation = async (mutation, params) => {
+  let jwtToken;
+  if (process.browser) {
+    jwtToken = await localStorage.getItem('JWT_TOKEN');
+  }
+  const client = getStandaloneApolloClient(jwtToken);
+  const result = await client.mutate({ mutation, variables: params });
+  return result.data;
+};
+
 export const login = async (username, password) => {
   const client = getStandaloneApolloClient();
   const result = await client.mutate({ mutation: USER_LOGIN, variables: { username, password } });
