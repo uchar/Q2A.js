@@ -22,7 +22,7 @@ const CodeBlock = ({ code, lang }) => {
       <SyntaxHighlighter
         dir="ltr"
         showLineNumbers
-        language={language}
+        language={language.replace('language-', '')}
         style={Object.assign(themeStyle, themeLayout)}
       >
         {code}

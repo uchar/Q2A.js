@@ -86,6 +86,14 @@ const QuestionItem = ({
     setExpanded(!expanded);
   };
 
+  let parsedContent = <div />;
+
+  if (expanded || content.length < 400) {
+    parsedContent = isLegacyContent
+      ? legacyParseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')
+      : parseContent(content);
+  }
+
   return (
     <Box boxShadow={2} className={classes.root}>
       <CardContent>
@@ -172,9 +180,7 @@ const QuestionItem = ({
           margin: '0px 15px 0px 5px',
         }}
       >
-        {(expanded || content.length < 400) && isLegacyContent
-          ? legacyParseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')
-          : parseContent(content)}
+        {(expanded || content.length < 400) && parsedContent}
         {!expanded && content.length >= 400 && (
           <div style={{ marginTop: '25px' }}>
             {replacePTagWithTypoGraphy(
