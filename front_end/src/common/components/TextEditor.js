@@ -24,6 +24,10 @@ export default class TextEditor extends React.Component {
               // But the content will be edited in Arabic.
               content: 'fa',
             },
+            ckfinder: {
+              // Upload the images to the server using the CKFinder QuickUpload command.
+              uploadUrl: process.env.NEXT_PUBLIC_UPLOAD_URL,
+            },
           }}
           {...this.props}
         />
