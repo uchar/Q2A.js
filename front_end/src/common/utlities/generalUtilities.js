@@ -14,5 +14,6 @@ export const timeAgo = (time, locale = 'en') => {
   if (diffInDays <= 30) {
     return createTime.fromNow();
   }
+  // LL for persian is:1399 خرداد 11 and for english is: August 1 , 2020
   return createTime.format('LL');
 };

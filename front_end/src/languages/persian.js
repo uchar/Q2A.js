@@ -1,7 +1,5 @@
 const STRINGS = {
   TITLE: 'هفت خط کد',
-  DEMO_QUESTION: 'مفهوم عامیانه شبکه های GAN در یادگیری عمیق',
-  DEMO_QUESTION_DETAIL: `سلام کسی از دوستان میشه لطف کنه و مفهومی ساده و روان از شبکه های GAN را تشریح کنه بیشتر در کلیات شبکه مدنظرم هست.`,
   SEARCH_HINT: 'جست و جو ...',
   DEMO_TIME_AGO_QUESTION: ' سوال کرد ',
   DEMO_TIME_AGO_ANSWER: ' پاسخ داد ',
