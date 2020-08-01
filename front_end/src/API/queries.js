@@ -21,7 +21,7 @@ const QUESTION = `{
   }`;
 
 export const ALL_QUESTIONS = gql`
-  query getAllQuestions($tag: String) {
+  query($tag: String) {
     latestQuestions(tag: $tag,limit: 30,offset: 0) ${QUESTION}
     popularQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
     mostViewsQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
@@ -30,7 +30,7 @@ export const ALL_QUESTIONS = gql`
 `;
 
 export const GET_QUESTION = gql`
-  query getQuestion($id: String!) {
+  query($id: String!) {
     getQuestion(id: $id) {
       id
       title
@@ -86,7 +86,7 @@ export const GET_QUESTION = gql`
 `;
 
 export const ALL_TAGS = gql`
-  query q {
+  query{
     getTags(limit: 80, offset: 0) {
       id
       title
@@ -96,7 +96,7 @@ export const ALL_TAGS = gql`
 `;
 
 export const GET_TAG = gql`
-  query q($tag: String!) {
+  query($tag: String!) {
     getTagDetail(tag: $tag) {
       id
       title
@@ -107,7 +107,7 @@ export const GET_TAG = gql`
 `;
 
 export const GET_MY_USER = gql`
-  query getUser {
+  query{
     getUser {
       publicName
       profileImage
@@ -116,7 +116,7 @@ export const GET_MY_USER = gql`
 `;
 
 export const GET_USER = gql`
-  query getUser($id: String!) {
+  query($id: String!) {
     getUser(id: $id) {
       publicName
       profileImage

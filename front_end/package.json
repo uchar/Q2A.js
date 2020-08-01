@@ -16,7 +16,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@zeit/next-css": "1.0.1",
-    "apollo-upload-client": "^14.1.1",
+    "apollo-upload-client": "14.1.1",
     "babel-eslint": "10.1.0",
     "ckeditor5-build-7khatcode": "0.0.25",
     "clsx": "1.1.0",

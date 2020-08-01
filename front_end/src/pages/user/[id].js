@@ -14,7 +14,7 @@ import { ALL_TAGS, GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import { getProfileImageAddress } from '../../common/utlities/generalUtilities';
 import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
-import { ADD_QUESTION, UPDATE_USER, UPLOAD_FILE } from '../../API/mutations';
+import { UPDATE_USER } from '../../API/mutations';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
