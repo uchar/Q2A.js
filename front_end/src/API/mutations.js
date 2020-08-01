@@ -26,3 +26,21 @@ export const USER_SIGN_UP = gql`
     signUp(email: $email, username: $username, password: $password)
   }
 `;
+export const UPLOAD_FILE = gql`
+  mutation($file: Upload!) {
+    uploadFile(file: $file) {
+      filename
+      mimetype
+      encoding
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      statusCode
+      message
+    }
+  }
+`;

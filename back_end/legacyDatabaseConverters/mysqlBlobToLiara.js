@@ -13,9 +13,9 @@ const { database } = require('./database');
     console.log(`7khatcode-${blob.blobid}.${blob.format}`);
 
     const s3 = new AWS.S3({
-      accessKeyId: 'KR6JB3JWN5RDP078U0WHR',
-      secretAccessKey: 'X10TuBo2xc3tsAzPJNpQqUSsiOffghslYwnjGWIFn',
-      endpoint: '5f05e1ddde8c410011025a1b.liara.space',
+      accessKeyId: process.env.S3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      endpoint: process.env.S3_ENDPOINT,
       s3ForcePathStyle: true,
     });
 
@@ -47,7 +47,7 @@ const { database } = require('./database');
         // eslint-disable-next-line no-await-in-loop
         await s3
           .putObject({
-            Bucket: 'q2a',
+            Bucket: process.env.S3_BUCKET,
             Key: key,
             Body: blob.content,
             ContentType: blob.format,

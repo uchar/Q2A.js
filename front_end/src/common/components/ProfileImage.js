@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar } from '@material-ui/core';
 
-import { getProfileImage } from '../utlities/generalUtilities';
+import { getProfileImageAddress } from '../utlities/generalUtilities';
 
 const useStyles = (size) =>
   makeStyles((theme) => ({
@@ -21,7 +21,7 @@ const ProfileImage = ({ profileImage, size }) => {
     return <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />;
   }
   return (
-    <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
+    <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImageAddress(profileImage)}>
       <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
     </Avatar>
   );

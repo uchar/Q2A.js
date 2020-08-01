@@ -6,7 +6,7 @@
   "dependencies": {
     "apollo-server": "2.16.1",
     "apollo-server-express": "2.16.1",
-    "aws-sdk": "2.722.0",
+    "aws-sdk": "2.725.0",
     "axios": "0.19.2",
     "bcrypt": "5.0.0",
     "crypto": "1.0.1",
@@ -20,7 +20,8 @@
     "mysql2": "2.1.0",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
-    "sequelize": "6.3.3"
+    "sequelize": "6.3.3",
+    "uuid": "8.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
