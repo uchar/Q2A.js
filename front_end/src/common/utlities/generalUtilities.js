@@ -3,9 +3,16 @@ import persianMoment from 'jalali-moment';
 import 'moment/locale/fa';
 import { getLanguage, LANGUAGES } from './languageUtilities';
 
-export const getProfileImage = (name) => {
+export const getFullUrl = (name) => {
+  if (!name) {
+    return undefined;
+  }
+  if (name.includes('http')) {
+    return name;
+  }
   return `https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-${name}`;
 };
+
 export const timeAgo = (time, locale = getLanguage()) => {
   const moment = locale === LANGUAGES.ENGLISH ? engMoment : persianMoment;
   moment.locale(locale);

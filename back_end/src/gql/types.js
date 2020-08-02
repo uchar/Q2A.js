@@ -21,6 +21,17 @@ module.exports = gql`
     SUCCESS
   }
 
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
+  input UpdateUserInput {
+    profileImage: String
+    about: String
+  }
+
   type User {
     publicName: String
     profileImage: String
@@ -100,5 +111,7 @@ module.exports = gql`
     googleLogin(jwtToken: String!): String
     signUp(email: String!, username: String!, password: String!): String
     addQuestion(title: String!, content: String!, tags: [String]!): Result
+    uploadFile(file: Upload!): File!
+    updateUser(input: UpdateUserInput!): Result
   }
 `;

@@ -9,16 +9,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CodeBlock from '../components/CodeBlock';
 
-const makeInlineTypoGraphy = (
-  content,
-  typoGraphyTypes = [],
-  fontSize = '14px',
-  marginLeft = '1px',
-  marginRight = '1px'
-) => {
+const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) => {
   let isBold = false;
   let isItalic = false;
   let isCode = false;
+  let link = false;
   typoGraphyTypes.forEach((type) => {
     if (type === 'strong') {
       isBold = true;
@@ -26,24 +21,38 @@ const makeInlineTypoGraphy = (
       isItalic = true;
     } else if (type === 'code') {
       isCode = true;
+    } else if (type.includes('link')) {
+      link = type.replace('link-', '');
     }
   });
-  return (
+  const linkStyle = link ? { textDecorationLine: 'underline', cursor: 'pointer', color: '#ff00ee' } : {};
+  const typographyObject = (
     <Typography
       color="textPrimary"
       display="inline"
       style={{
-        fontSize,
         fontWeight: isBold ? '700' : '500',
         fontStyle: isItalic ? 'italic' : 'normal',
         backgroundColor: isCode ? '#eeeeee' : 'default',
-        marginRight,
-        marginLeft,
+        fontSize: '14px',
+        marginLeft: '1px',
+        marginRight: '1px',
+        ...linkStyle,
+        ...inputStyle,
       }}
     >
       {` ${renderHTML(content)} `}
     </Typography>
   );
+  if (link) {
+    return (
+      <a href={link} target="_blank">
+        {' '}
+        {typographyObject}
+      </a>
+    );
+  }
+  return typographyObject;
 };
 
 const convertNodeToReactElements = (node, typoGraphyTypes = []) => {
@@ -61,10 +70,20 @@ const convertNodeToReactElements = (node, typoGraphyTypes = []) => {
       const newTypes = [...typoGraphyTypes];
       newTypes.push('strong');
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
+    } else if (childNode.tagName === 'a') {
+      const newTypes = [...typoGraphyTypes];
+      newTypes.push(`link-${childNode.rawAttributes.href}`);
+      reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
     } else if (childNode.tagName === 'code') {
       const newTypes = [...typoGraphyTypes];
       newTypes.push('code');
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
+    } else if (childNode.tagName === 'ul') {
+      reactElements = reactElements.concat(handleListTag(childNode, 'bullet'));
+    } else if (childNode.tagName === 'ol') {
+      reactElements = reactElements.concat(handleListTag(childNode, 'number'));
+    } else if (childNode.tagName === 'figure') {
+      reactElements = reactElements.concat(handleImageTag(childNode));
     }
   });
   return reactElements;
@@ -72,9 +91,7 @@ const convertNodeToReactElements = (node, typoGraphyTypes = []) => {
 
 const handlePTag = (node) => {
   const reactElements = convertNodeToReactElements(node);
-  return (
-    <div style={{ textAlign: 'right', flexDirection: 'row' }}>{reactElements.map((element) => element)}</div>
-  );
+  return <div style={{ textAlign: 'right', flex: 1 }}>{reactElements.map((element) => element)}</div>;
 };
 
 const unescapeCode = (escapedHTML) => {
@@ -96,20 +113,71 @@ const handleListTag = (node, type) => {
   const listItems = [];
   let listItemNumber = 1;
   node.childNodes.forEach((childNode) => {
-    if (type === 'bullet') reactElements.push(makeInlineTypoGraphy('&#9670;', [], '12px', '5px'));
-    else reactElements.push(makeInlineTypoGraphy(`${listItemNumber}.`, [], '12px', '5px'));
+    if (type === 'bullet')
+      reactElements.push(makeInlineTypoGraphy('&#x25CF;', [], { fontSize: '12px', marginLeft: '4px' }));
+    else
+      reactElements.push(
+        makeInlineTypoGraphy(`${listItemNumber}.`, [], { fontSize: '12px', marginLeft: '4px' })
+      );
     listItemNumber += 1;
     reactElements = reactElements.concat(convertNodeToReactElements(childNode));
     listItems.push(<ListItem>{reactElements.map((element) => element)}</ListItem>);
     reactElements = [];
   });
+  return <List style={{ marginRight: '-10px' }}>{listItems.map((item) => item)}</List>;
+};
+
+const handleImageTag = (node) => {
+  const reactElements = [];
+  let isHalfSize = false;
+  node.classNames.forEach((className) => {
+    if (className === 'image-style-side') isHalfSize = true;
+  });
+
+  node.childNodes.forEach((childNode) => {
+    if (childNode.tagName === 'img') {
+      const imageStyle = { maxWidth: '90%' };
+      const halfSizeImageStyle = { maxWidth: '50%', float: 'right' };
+      reactElements.push(
+        <img style={isHalfSize ? halfSizeImageStyle : imageStyle} src={childNode.rawAttributes.src} />
+      );
+    }
+    if (childNode.tagName === 'figcaption') {
+      console.log('FOUND IMAGE : ', childNode.rawAttributes.src);
+      const captionElements = convertNodeToReactElements(childNode);
+      reactElements.push(
+        <div style={{ flex: 1, textAlign: 'center' }}>{captionElements.map((element) => element)}</div>
+      );
+    }
+  });
+  return reactElements;
+};
+
+const handleQuoteTag = (node) => {
+  let reactElements = [];
+  node.childNodes.forEach((childNode) => {
+    if (childNode.nodeType === 3) {
+      reactElements.push(<div style={{ flex: 1 }}> {makeInlineTypoGraphy(childNode.rawText)}</div>);
+    } else if (childNode.tagName === 'p') {
+      reactElements = reactElements.concat(<div style={{ flex: 1 }}>{handlePTag(childNode)}</div>);
+    } else if (childNode.tagName === 'ul') {
+      reactElements = reactElements.concat(
+        <div style={{ flex: 1 }}>{handleListTag(childNode, 'bullet')}</div>
+      );
+    } else if (childNode.tagName === 'ol') {
+      reactElements = reactElements.concat(
+        <div style={{ flex: 1 }}>{handleListTag(childNode, 'number')}</div>
+      );
+    }
+  });
   return (
-    <List component="nav" aria-label="main mailbox folders">
-      {listItems.map((item) => item)}
-    </List>
+    <blockquote style={{ textAlign: 'right', flexDirection: 'row' }}>
+      {reactElements.map((element) => element)}
+    </blockquote>
   );
 };
 
+// Convert html generated by ckeditor to React Elements
 export const parseContent = (content) => {
   console.log('In new parser ', content);
   const root = parse(content, {
@@ -132,6 +200,10 @@ export const parseContent = (content) => {
       reactElements = reactElements.concat(handleListTag(childNode, 'bullet'));
     } else if (childNode.tagName === 'ol') {
       reactElements = reactElements.concat(handleListTag(childNode, 'number'));
+    } else if (childNode.tagName === 'blockquote') {
+      reactElements = reactElements.concat(handleQuoteTag(childNode));
+    } else if (childNode.tagName === 'figure') {
+      reactElements = reactElements.concat(handleImageTag(childNode));
     }
   });
   return (

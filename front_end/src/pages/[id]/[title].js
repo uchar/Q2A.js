@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
 import QuestionItem from '../../common/components/QuestionItem';
 import Layout from '../../common/components/Layout/Layout';
-import TextEditor from '../../common/components/TextEditor';
+import CKEditor from '../../common/components/Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/AnswerItem';
@@ -32,7 +32,7 @@ const Post = ({ questionData, tags }) => {
           <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
             {'پاسخ شما : '}
           </Typography>
-          <TextEditor
+          <CKEditor
             data=""
             onInit={(editor) => {
               console.log('Editor is ready to use!', editor);

@@ -12,8 +12,9 @@ const {
 } = require('../queries/post');
 const { getAllTags, getTagDetail } = require('../queries/tag');
 const { getUser } = require('../queries/user');
-const { login, signUp, googleLogin } = require('../mutations/user');
+const { login, signUp, googleLogin, updateUser } = require('../mutations/user');
 const { addQuestion } = require('../mutations/post');
+const { uploadFile } = require('../mutations/upload');
 
 module.exports = {
   Query: {
@@ -31,6 +32,8 @@ module.exports = {
     signUp,
     addQuestion,
     googleLogin,
+    uploadFile,
+    updateUser,
   },
   Question: {
     answers: getAnswers,

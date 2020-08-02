@@ -1,5 +1,5 @@
 import { GET_MY_USER } from './queries';
-import { USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
+import { UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
 
@@ -62,4 +62,8 @@ export const checkUser = async () => {
     }
   }
   return false;
+};
+
+export const uploadFile = async (file) => {
+  return doGraphQLMutation(UPLOAD_FILE, { file });
 };

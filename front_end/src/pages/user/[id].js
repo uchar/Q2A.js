@@ -1,23 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { Button, Tab, Tabs, AppBar, Typography, Box, Avatar, CircularProgress } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
-import Avatar from '@material-ui/core/Avatar';
 import { useRouter } from 'next/router';
 import Layout from '../../common/components/Layout/Layout';
 import QuestionItem from '../../common/components/QuestionItem';
 import AnswerItem from '../../common/components/AnswerItem';
-import { doGraphQLQuery } from '../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery, uploadFile } from '../../API/utilities';
 import { ALL_TAGS, GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
-import { getProfileImage } from '../../common/utlities/generalUtilities';
+import { getFullUrl } from '../../common/utlities/generalUtilities';
+import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
+import { UPDATE_USER } from '../../API/mutations';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,7 +57,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(32),
     height: theme.spacing(32),
-    margin: theme.spacing(4),
+    marginRight: theme.spacing(4),
+    marginLeft: theme.spacing(4),
+    marginTop: theme.spacing(4),
   },
   topSection: {
     display: 'flex',
@@ -78,24 +77,86 @@ const useStyles = makeStyles((theme) => ({
 const User = ({ user, tags }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
-
+  const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
+  const [uploadError, setUploadError] = React.useState(undefined);
+  const [profileImage, setProfileImage] = React.useState(user ? user.profileImage : undefined);
+  const [loadingNewImage, setLoadingNewImage] = React.useState(false);
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setCurrentTabIndex(newValue);
   };
-
   const router = useRouter();
   const { id } = router.query;
-
   if (!user) return <Loading />;
-  const { answers, questions, clapItems, profileImage, about } = user;
+  const { answers, questions, clapItems, about } = user;
+  if (!profileImage) setProfileImage(user.profileImage);
+
   return (
     <Layout tags={tags}>
       <div className={classes.root}>
         <div className={classes.topSection}>
-          <Avatar aria-label="recipe" className={classes.avatar} src={getProfileImage(profileImage)}>
-            <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
-          </Avatar>
+          <div style={{ textAlign: 'center' }}>
+            {loadingNewImage ? (
+              <div className={classes.avatar}>
+                <CircularProgress color="secondary" style={{ marginTop: '35%' }} />
+                <Typography> در حال بارگذاری</Typography>
+              </div>
+            ) : (
+              <Avatar
+                type="file"
+                name="myImage"
+                onChange={() => {}}
+                aria-label="recipe"
+                className={classes.avatar}
+                src={getFullUrl(profileImage)}
+              >
+                <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+              </Avatar>
+            )}
+            <input
+              accept="image/*"
+              className={classes.input}
+              style={{ display: 'none' }}
+              id="raised-button-file"
+              multiple
+              type="file"
+              onChange={async (event) => {
+                if (event.target.files && event.target.files[0]) {
+                  const img = event.target.files[0];
+                  setLoadingNewImage(true);
+                  if (uploadError) setUploadError(undefined);
+                  const uploadResult = await uploadFile(img);
+                  try {
+                    const resultObject = await doGraphQLMutation(UPDATE_USER, {
+                      input: {
+                        profileImage: uploadResult.uploadFile.filename,
+                      },
+                    });
+                    const result = resultObject.updateUser;
+                    if (result.statusCode !== 'SUCCESS') {
+                      throw new Error(result.message);
+                    }
+                    setProfileImage(URL.createObjectURL(img));
+                  } catch (error) {
+                    setUploadError(error.toString());
+                  }
+                  setLoadingNewImage(false);
+                }
+              }}
+            />
+            <label htmlFor="raised-button-file">
+              <Button
+                variant="contained"
+                color="secondary"
+                component="span"
+                disabled={loadingNewImage}
+                style={{ justifySelf: 'center', margin: '-25px 0px 45px 0px' }}
+              >
+                آپلود عکس
+              </Button>
+            </label>
+            {uploadError && <ErrorMessage style={{ margin: '-30px 0px 25px 0px' }} text={uploadError} />}
+          </div>
+
           <Typography className={classes.title} variant="h6" paragraph>
             {`${about || ''}`}
           </Typography>
@@ -103,7 +164,7 @@ const User = ({ user, tags }) => {
 
         <AppBar position="static" color="default">
           <Tabs
-            value={value}
+            value={currentTabIndex}
             onChange={handleChange}
             indicatorColor="primary"
             textColor="primary"
@@ -116,7 +177,7 @@ const User = ({ user, tags }) => {
           </Tabs>
         </AppBar>
 
-        <TabPanel value={value} index={0}>
+        <TabPanel value={currentTabIndex} index={0}>
           <div dir="rtl">
             {questions.map((question) => {
               const alteredQuestion = { ...question };
@@ -127,7 +188,7 @@ const User = ({ user, tags }) => {
             })}
           </div>
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel value={currentTabIndex} index={1} dir={theme.direction}>
           <div dir="rtl">
             {answers.map((answer) => {
               const alteredAnswer = { ...answer };
@@ -138,7 +199,7 @@ const User = ({ user, tags }) => {
             })}
           </div>
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel value={currentTabIndex} index={2}>
           <div dir="rtl">
             {clapItems.map((item) => {
               if (item.type === 'QUESTION') {

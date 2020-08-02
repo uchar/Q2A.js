@@ -8,11 +8,29 @@ const {
   findUserByEmail,
   findUserByName,
   createJWTToken,
+  createSuccessResponse,
 } = require('../utility');
+
+module.exports.updateUser = async (_, { input }, context) => {
+  if (!context.user) {
+    throw new Error("You're not authorized");
+  }
+  const User = database.loadModel(tables.USER_TABLE);
+  console.log('Context user , updating: ', context.user, {
+    ...input,
+  });
+  await User.update(
+    {
+      ...input,
+    },
+    { where: { id: context.user.id } }
+  );
+  return createSuccessResponse();
+};
 
 module.exports.signUp = async (_, { email, username, password }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);
-  const User = await database.loadModel(tables.USER_TABLE);
+  const User = database.loadModel(tables.USER_TABLE);
   let user = await findUserByName(username);
   if (user) {
     throw new Error('User already exist');
@@ -33,7 +51,7 @@ module.exports.signUp = async (_, { email, username, password }) => {
 };
 
 module.exports.login = async (_, { username, password }) => {
-  const User = await database.loadModel(tables.USER_TABLE);
+  const User = database.loadModel(tables.USER_TABLE);
   const user = await findUserByName(username);
   if (!user) {
     throw new Error(LOGIN_STATUS_CODE.NO_USER);
