@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import QuestionItem from '../../common/components/QuestionItem';
 import Layout from '../../common/components/Layout/Layout';
 import CKEditor from '../../common/components/Editor/CKEditor';
@@ -8,11 +8,16 @@ import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/AnswerItem';
 import { doGraphQLQuery } from '../../API/utilities';
+import { getStrings } from '../../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  button: {
+    margin: '0px 52px 30px 20px',
+    padding: '10px 60px 10px 60px',
   },
 }));
 
@@ -48,6 +53,19 @@ const Post = ({ questionData, tags }) => {
               console.log('Focus.', editor);
             }}
           />
+        </div>
+        <div style={{ textAlign: 'left', marginTop: '25px' }}>
+          <Button
+            type="submit"
+            onSubmit={() => {}}
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            loading={false}
+            shouldShowLoading={false}
+          >
+            {getStrings().ASK_BUTTON_SENDING}
+          </Button>
         </div>
       </Box>
     </Layout>

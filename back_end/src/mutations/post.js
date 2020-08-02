@@ -47,3 +47,29 @@ module.exports.addQuestion = async (_, { title, content, tags }, context) => {
   const newPost = resultOfPost.dataValues;
   return createSuccessResponse(`/${newPost.id}/${newPost.title}`);
 };
+module.exports.updateQuestion = async (_, { id, title, content, tags }, context) => {
+  if (!context.user) {
+    throw new Error("You're not authorized");
+  }
+  console.log('Context user : ', context.user);
+  const user = await findUserByName(context.user.publicName);
+  const Post = database.loadModel(tables.POST_TABLE);
+  const validationErrors = getValidationErrors(title, content, tags);
+  if (validationErrors) return validationErrors;
+  const questionTags = {};
+  tags.forEach((tag, index) => {
+    questionTags[`tag${index + 1}`] = tag;
+  });
+  console.log('Tags : ', questionTags, { type: postTypes.QUESTION, title, content, ...questionTags });
+  const resultOfPost = await Post.update(
+    {
+      title,
+      content,
+      ...questionTags,
+    },
+    { where: { id, userId: user.id } }
+  );
+
+  const newPost = resultOfPost.dataValues;
+  return createSuccessResponse(`/${newPost.id}/${newPost.title}`);
+};

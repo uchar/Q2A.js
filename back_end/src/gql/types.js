@@ -33,6 +33,7 @@ module.exports = gql`
   }
 
   type User {
+    id: String
     publicName: String
     profileImage: String
     about: String
@@ -111,6 +112,7 @@ module.exports = gql`
     googleLogin(jwtToken: String!): String
     signUp(email: String!, username: String!, password: String!): String
     addQuestion(title: String!, content: String!, tags: [String]!): Result
+    updateQuestion(id: String!, title: String!, content: String!, tags: [String]!): Result
     uploadFile(file: Upload!): File!
     updateUser(input: UpdateUserInput!): Result
   }

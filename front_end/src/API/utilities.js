@@ -55,6 +55,7 @@ export const checkUser = async () => {
   if (jwtToken) {
     try {
       const result = await doGraphQLQuery(GET_MY_USER);
+      await localStorage.setItem('USER_ID', result.getUser.id);
       return result.getUser;
     } catch (error) {
       console.log(error);
@@ -66,4 +67,12 @@ export const checkUser = async () => {
 
 export const uploadFile = async (file) => {
   return doGraphQLMutation(UPLOAD_FILE, { file });
+};
+
+export const getCurrentUserId = async () => {
+  const userId = localStorage.getItem('USER_ID');
+  if (userId) return userId;
+  const user = await checkUser();
+  if (user) return user.id;
+  return '';
 };

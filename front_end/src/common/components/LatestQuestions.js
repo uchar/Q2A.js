@@ -10,7 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewsIcon from '@material-ui/icons/Visibility';
 import HelpIcon from '@material-ui/icons/Help';
 import { isMobile } from 'react-device-detect';
-import QuestionItem from './QuestionItem';
+import QuestionItemPreview from './QuestionItemPreview';
 import { legacyParseContent } from '../parsers/legacyParser';
 import CardButton from './CardButton/CardButton';
 import { getStrings } from '../utlities/languageUtilities';
@@ -56,7 +56,7 @@ const a11yProps = (index) => {
 
 const getQueustionsList = (questions) => {
   return questions.map((question) => {
-    return <QuestionItem isMainPage={true} key={question.id} {...question} />;
+    return <QuestionItemPreview isMainPage={true} key={question.id} {...question} />;
   });
 };
 
