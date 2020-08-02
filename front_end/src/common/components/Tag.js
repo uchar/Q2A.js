@@ -5,9 +5,15 @@ import Box from '@material-ui/core/Box';
 import Link from 'next/link';
 
 const useStyles = makeStyles(() => ({
-  root: {
+  box: {
     padding: '5px 10px 5px 10px',
     cursor: 'pointer',
+    borderColor: '#f2f2f2',
+    '&:hover': {
+      background: '#3f51b5',
+      color: 'white',
+      borderColor: '#314285',
+    },
   },
 }));
 
@@ -17,7 +23,7 @@ export default function Tag(props) {
   const label = count ? `${tag}  ${count}` : tag;
   return (
     <Link prefetch={false} href="/tag/[tag]" as={`/tag/${tag}`}>
-      <Box boxShadow={1} borderColor="#f2f2f2" border={1} className={classes.root}>
+      <Box boxShadow={1} border={1} className={classes.box}>
         <Typography style={{ fontSize: 10 }}>{label}</Typography>
       </Box>
     </Link>

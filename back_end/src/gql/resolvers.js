@@ -12,7 +12,8 @@ const {
 } = require('../queries/post');
 const { getAllTags, getTagDetail } = require('../queries/tag');
 const { getUser } = require('../queries/user');
-const { login, signUp, googleLogin, updateUser } = require('../mutations/user');
+const { updateUser } = require('../mutations/user');
+const { login, signUp, googleLogin } = require('../mutations/login');
 const { addQuestion } = require('../mutations/post');
 const { uploadFile } = require('../mutations/upload');
 
