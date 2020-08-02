@@ -1,3 +1,6 @@
+import { uploadFile } from '../../../API/utilities';
+import { getFullUrl } from '../../utlities/generalUtilities';
+
 export class UploadAdapter {
   constructor(loader) {
     // The file loader instance to use during the upload.
@@ -12,34 +15,9 @@ export class UploadAdapter {
     return this.loader.file.then(
       (file) =>
         new Promise((resolve, reject) => {
-          this._initRequest();
-          this._initListeners(resolve, reject, file);
-          this._sendRequest(file);
+          this.sendRequest(resolve, reject, file);
         })
     );
-  }
-
-  // Aborts the upload process.
-  abort() {
-    console.log('IN abort');
-
-    if (this.xhr) {
-      this.xhr.abort();
-    }
-  }
-
-  // Initializes the XMLHttpRequest object using the URL passed to the constructor.
-  // eslint-disable-next-line no-underscore-dangle
-  _initRequest() {
-    console.log('in INIT ');
-    const xhr = (this.xhr = new XMLHttpRequest());
-
-    // Note that your request may look different. It is up to you and your editor
-    // integration to choose the right communication channel. This example uses
-    // a POST request with JSON as a data structure but your configuration
-    // could be different.
-    xhr.open('POST', 'http://example.com/image/upload/path', true);
-    xhr.responseType = 'json';
   }
 
   // Initializes XMLHttpRequest listeners.
@@ -89,24 +67,22 @@ export class UploadAdapter {
 
   // Prepares the data and sends the request.
   // eslint-disable-next-line no-underscore-dangle
-  _sendRequest(file) {
-    console.log('In send request');
-    // Prepare the form data.
-    const data = new FormData();
-
-    data.append('upload', file);
-
-    // Important note: This is the right place to implement security mechanisms
-    // like authentication and CSRF protection. For instance, you can use
-    // XMLHttpRequest.setRequestHeader() to set the request headers containing
-    // the CSRF token generated earlier by your application.
-
-    // Send the request.
-    this.xhr.send(data);
+  sendRequest(resolve, reject, file) {
+    const { loader } = this;
+    uploadFile(file)
+      .then((result) => {
+        console.log('RESULT OF UPLOAD : ', result);
+        loader.uploaded = true;
+        const url = getFullUrl(result.uploadFile.filename);
+        resolve({
+          default: url,
+        });
+      })
+      .catch((error) => {
+        reject(error.message);
+      });
   }
 }
-
-// ...
 
 export const CustomUploadAdapterPlugin = (editor) => {
   // eslint-disable-next-line no-param-reassign

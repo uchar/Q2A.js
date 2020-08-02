@@ -1,9 +1,9 @@
-export const getProfileImageAddress = (profileImageName) => {
-  if (!profileImageName) {
+export const getFullUrl = (name) => {
+  if (!name) {
     return undefined;
   }
-  if (profileImageName.includes('http')) {
-    return profileImageName;
+  if (name.includes('http')) {
+    return name;
   }
-  return `https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-${profileImageName}`;
+  return `https://5f05e1ddde8c410011025a1b.liara.space/q2a/7khatcode-${name}`;
 };

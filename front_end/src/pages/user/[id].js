@@ -12,7 +12,7 @@ import AnswerItem from '../../common/components/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery, uploadFile } from '../../API/utilities';
 import { ALL_TAGS, GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
-import { getProfileImageAddress } from '../../common/utlities/generalUtilities';
+import { getFullUrl } from '../../common/utlities/generalUtilities';
 import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
 import { UPDATE_USER } from '../../API/mutations';
 
@@ -107,7 +107,7 @@ const User = ({ user, tags }) => {
                 onChange={() => {}}
                 aria-label="recipe"
                 className={classes.avatar}
-                src={getProfileImageAddress(profileImage)}
+                src={getFullUrl(profileImage)}
               >
                 <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
               </Avatar>
