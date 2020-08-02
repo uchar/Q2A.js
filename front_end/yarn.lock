@@ -3680,10 +3680,10 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-ckeditor5-build-7khatcode@0.0.25:
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/ckeditor5-build-7khatcode/-/ckeditor5-build-7khatcode-0.0.25.tgz#58974d75ce960f4005fa6de38c180c5b95bbda99"
-  integrity sha512-tmgl+CmcZAhGfCZ709EF/3dakwOwcA/TPONxfFtJS8SI7IYA/3nrISweZEary8GuhHTg3wzyUBYDpfWR3Yhr1A==
+ckeditor5-build-7khatcode@0.0.26:
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/ckeditor5-build-7khatcode/-/ckeditor5-build-7khatcode-0.0.26.tgz#a3fb96bfbe2642e88bfe818a1057e46006e0fec3"
+  integrity sha512-0XLdjY4FHPUZUBQLI0RDfxfGD+gpkE3Ryk3hS72J0GM92D+7121yZ4ZCfcjaO9kZbktNdnxCVEM7Gc+DhGuy9w==
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -10833,6 +10833,14 @@ react-fast-compare@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
+
+react-google-login@5.1.21:
+  version "5.1.21"
+  resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-5.1.21.tgz#3d9edc1c08a0cf602a97d70ca406502b747cb890"
+  integrity sha512-z5LtNOc9FZgrkwnqpnzN/hWqG/Tg5+9gKDz0hIHx82U48TkcXvD3HjhhbAzM5OsyFGRE39GnaC4SdB3mpWGX6A==
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.6.0"
 
 react-infinite-scroll-component@5.0.5:
   version "5.0.5"

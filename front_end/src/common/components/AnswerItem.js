@@ -4,7 +4,7 @@ import ViewIcon from '@material-ui/icons/ArrowUpward';
 import { legacyParseContent } from '../parsers/legacyParser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import { getLanguage, getStrings, LANGUAGES } from '../utlities/languageUtilities';
+import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import { timeAgo } from '../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({

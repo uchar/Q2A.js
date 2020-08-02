@@ -46,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '5px',
     cursor: 'pointer',
   },
+  title: {
+    '&:hover': {
+      color: '#314285',
+      textDecorationLine: 'underline',
+    },
+  },
 }));
 
 const checkTagAndAppend = (tags, newTag) => {
@@ -174,6 +180,7 @@ const QuestionItem = ({
               textAlign: 'initial ',
               cursor: 'pointer',
             }}
+            className={classes.title}
             component="p"
           >
             {title}
