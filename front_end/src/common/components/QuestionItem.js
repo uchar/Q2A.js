@@ -172,7 +172,7 @@ const QuestionItem = ({
         <Link href={`/${id}/${title}`}>
           <Typography
             variant="body2"
-            color="primary"
+            color="textPrimary"
             style={{
               fontSize: 21,
               marginTop: '30px',
