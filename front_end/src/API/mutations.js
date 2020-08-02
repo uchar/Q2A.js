@@ -9,6 +9,15 @@ export const ADD_QUESTION = gql`
   }
 `;
 
+export const UPDATE_QUESTION = gql`
+  mutation($id: String!, $title: String!, $content: String!, $tags: [String]!) {
+    addQuestion(id: $id, title: $title, content: $content, tags: $tags) {
+      statusCode
+      message
+    }
+  }
+`;
+
 export const USER_LOGIN = gql`
   mutation($username: String!, $password: String!) {
     login(username: $username, password: $password)

@@ -8,6 +8,7 @@ const QUESTION = `{
     votesCount
     answersCount
     user {
+      id
       profileImage
       publicName
     }
@@ -40,6 +41,7 @@ export const GET_QUESTION = gql`
       answersCount
       createdAt
       user {
+        id
         profileImage
         publicName
       }
@@ -54,6 +56,7 @@ export const GET_QUESTION = gql`
         id
         content
         user {
+          id
           profileImage
           publicName
         }
@@ -65,6 +68,7 @@ export const GET_QUESTION = gql`
           content
           isLegacyContent
           user {
+            id
             profileImage
             publicName
           }
@@ -76,6 +80,7 @@ export const GET_QUESTION = gql`
         content
         isLegacyContent
         user {
+          id
           profileImage
           publicName
         }
@@ -86,7 +91,7 @@ export const GET_QUESTION = gql`
 `;
 
 export const ALL_TAGS = gql`
-  query{
+  query {
     getTags(limit: 80, offset: 0) {
       id
       title
@@ -107,8 +112,9 @@ export const GET_TAG = gql`
 `;
 
 export const GET_MY_USER = gql`
-  query{
+  query {
     getUser {
+      id
       publicName
       profileImage
     }
@@ -118,6 +124,7 @@ export const GET_MY_USER = gql`
 export const GET_USER = gql`
   query($id: String!) {
     getUser(id: $id) {
+      id
       publicName
       profileImage
       about
@@ -148,6 +155,7 @@ export const GET_USER = gql`
           id
           content
           user {
+            id
             profileImage
             publicName
           }
@@ -163,6 +171,7 @@ export const GET_USER = gql`
           votesCount
           answersCount
           user {
+            id
             profileImage
             publicName
           }
