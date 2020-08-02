@@ -1,6 +1,7 @@
 import React from 'react';
+import { CustomUploadAdapterPlugin } from './UploadAdapter';
 
-export default class TextEditor extends React.Component {
+export default class CKEditor extends React.Component {
   componentDidMount() {
     if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
       // eslint-disable-next-line global-require
@@ -24,10 +25,7 @@ export default class TextEditor extends React.Component {
               // But the content will be edited in Arabic.
               content: 'fa',
             },
-            ckfinder: {
-              // Upload the images to the server using the CKFinder QuickUpload command.
-              uploadUrl: process.env.NEXT_PUBLIC_UPLOAD_URL,
-            },
+            extraPlugins: [CustomUploadAdapterPlugin],
           }}
           {...this.props}
         />

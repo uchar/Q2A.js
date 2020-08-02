@@ -5,7 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import TextEditor from '../common/components/TextEditor';
+import CKEditor from '../common/components/Editor/CKEditor';
 import AskLayout from '../common/components/Layout/AskLayout';
 import { ALL_TAGS } from '../API/queries';
 import { doGraphQLMutation, doGraphQLQuery } from '../API/utilities';
@@ -117,7 +117,7 @@ const Ask = () => {
                     >
                       {getStrings().ASK_DESCRIPTION_SUBTITLE}
                     </Typography>
-                    <TextEditor
+                    <CKEditor
                       className={classes.margin}
                       data=""
                       onInit={(editor) => {
