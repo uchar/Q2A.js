@@ -4,7 +4,8 @@ import ViewIcon from '@material-ui/icons/ArrowUpward';
 import { legacyParseContent } from '../parsers/legacyParser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import { getStrings } from '../utlities/languageUtilities';
+import { getLanguage, getStrings, LANGUAGES } from '../utlities/languageUtilities';
+import { timeAgo } from '../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +62,8 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, i
                   style={{ fontSize: 13, marginRight: '12px' }}
                   component="p"
                 >
-                  {getStrings().DEMO_TIME_AGO}
+                  {timeAgo(createdAt, getLanguage())}
+                  {getStrings().DEMO_TIME_AGO_ANSWER}
                 </Typography>
               </div>
             </Grid>

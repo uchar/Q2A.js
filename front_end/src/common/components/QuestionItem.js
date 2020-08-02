@@ -20,7 +20,8 @@ import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacy
 import { parseContent } from '../parsers/parser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import { getStrings } from '../utlities/languageUtilities';
+import { getLanguage, getStrings, LANGUAGES } from '../utlities/languageUtilities';
+import { timeAgo } from '../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,7 +109,13 @@ const QuestionItem = ({
                   <Typography
                     variant="body2"
                     color="textPrimary"
-                    style={{ cursor: 'pointer', fontSize: 17, textAlign: 'right', marginRight: '15px' }}
+                    style={{
+                      flex: 1,
+                      cursor: 'pointer',
+                      fontSize: 17,
+                      textAlign: 'right',
+                      marginRight: '5px',
+                    }}
                     component="p"
                   >
                     {publicName}
@@ -116,10 +123,11 @@ const QuestionItem = ({
                   <Typography
                     variant="body2"
                     color="textSecondary"
-                    style={{ fontSize: 12, marginRight: '12px' }}
+                    style={{ fontSize: 12, flex: 1, textAlign: 'right', marginRight: '5px' }}
                     component="p"
                   >
-                    {getStrings().DEMO_TIME_AGO}
+                    {timeAgo(createdAt, getLanguage())}
+                    {getStrings().DEMO_TIME_AGO_QUESTION}
                   </Typography>
                 </div>
               </Link>
