@@ -10,3 +10,10 @@ export const getStrings = () => {
   }
   return english;
 };
+
+export const eNGLISHLANGUAGES = () => {
+  return 'en';
+};
+export const persianLANGUAGES = () => {
+  return 'fa';
+};

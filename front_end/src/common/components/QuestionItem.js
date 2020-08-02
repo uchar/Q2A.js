@@ -20,7 +20,7 @@ import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacy
 import { parseContent } from '../parsers/parser';
 import CommentItem from './CommentItem';
 import ProfileImage from './ProfileImage';
-import { getStrings } from '../utlities/languageUtilities';
+import { getStrings, eNGLISHLANGUAGES,persianLANGUAGES} from '../utlities/languageUtilities';
 import { timeAgo } from '../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -126,7 +126,7 @@ const QuestionItem = ({
                     style={{ fontSize: 12, flex: 1, textAlign: 'right', marginRight: '5px' }}
                     component="p"
                   >
-                    {timeAgo(createdAt, 'fa')}
+                    {timeAgo(createdAt, persianLANGUAGES())}
                     {getStrings().DEMO_TIME_AGO_QUESTION}
                   </Typography>
                 </div>
