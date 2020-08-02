@@ -1,7 +1,7 @@
 const STRINGS = {
   TITLE: '7khatcode',
   SEARCH_HINT: 'Search ...',
-  DEMO_TIME_AGO: 'Asked 2 hours ago',
+  DEMO_TIME_AGO_QUESTION: 'Asked',
   DEMO_UP_VOTE: '25 upvote',
   DEMO_VIEWS: '25 Views',
   DEMO_ANSWERS: '0 Answers',
