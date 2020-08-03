@@ -13,23 +13,20 @@ export default class CKEditor extends React.Component {
   }
 
   render() {
-    if (this.editor) {
-      return (
-        <this.ckEditor
-          editor={this.editor}
-          config={{
-            language: {
-              // The UI will be English.
-              ui: 'fa',
+    const { toolbar } = this.props;
+    const config = {
+      language: {
+        // The UI will be English.
+        ui: 'fa',
 
-              // But the content will be edited in Arabic.
-              content: 'fa',
-            },
-            extraPlugins: [CustomUploadAdapterPlugin],
-          }}
-          {...this.props}
-        />
-      );
+        // But the content will be edited in Arabic.
+        content: 'fa',
+      },
+      extraPlugins: [CustomUploadAdapterPlugin],
+    };
+    if (toolbar) config.toolbar = toolbar;
+    if (this.editor) {
+      return <this.ckEditor editor={this.editor} config={config} {...this.props} />;
     }
     return <div />;
   }

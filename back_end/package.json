@@ -21,7 +21,8 @@
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "sequelize": "6.3.3",
-    "uuid": "8.3.0"
+    "uuid": "8.3.0",
+    "yup": "0.29.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

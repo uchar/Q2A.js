@@ -7,8 +7,10 @@ import CKEditor from '../../common/components/Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/AnswerItem';
-import { doGraphQLQuery } from '../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
 import { getStrings } from '../../common/utlities/languageUtilities';
+import { ADD_ANSWER, ADD_QUESTION, UPDATE_QUESTION } from '../../API/mutations';
+import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,9 +25,33 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = ({ questionData, tags }) => {
   const classes = useStyles();
+  const [answerData, setAnswerData] = React.useState('');
+  const [APIError, setAPIError] = React.useState(null);
   if (!questionData) return <Loading />;
   const { ...question } = questionData;
   question.isExpanded = true;
+
+  const submitAnswer = async () => {
+    try {
+      if (answerData.length < 15) {
+        setAPIError('حداقل تعداد کاراکتر برای پاسخ 15 است');
+        return;
+      }
+      setAPIError(null);
+      const resultObject = await doGraphQLMutation(ADD_ANSWER, {
+        postId: question.id,
+        content: answerData,
+      });
+      const result = resultObject.addAnswer;
+      if (result.statusCode !== 'SUCCESS') {
+        throw new Error(result.message);
+      }
+      window.location.reload();
+    } catch (error) {
+      setAPIError(error.toString());
+    }
+  };
+
   return (
     <Layout tags={tags}>
       <Box className={classes.paper}>
@@ -38,13 +64,14 @@ const Post = ({ questionData, tags }) => {
             {'پاسخ شما : '}
           </Typography>
           <CKEditor
-            data=""
+            data={answerData}
             onInit={(editor) => {
               console.log('Editor is ready to use!', editor);
             }}
             onChange={(event, editor) => {
               const data = editor.getData();
               console.log({ event, editor, data });
+              setAnswerData(data);
             }}
             onBlur={(event, editor) => {
               console.log('Blur.', editor);
@@ -56,8 +83,7 @@ const Post = ({ questionData, tags }) => {
         </div>
         <div style={{ textAlign: 'left', marginTop: '25px' }}>
           <Button
-            type="submit"
-            onSubmit={() => {}}
+            onClick={submitAnswer}
             variant="contained"
             color="primary"
             className={classes.button}
@@ -67,6 +93,7 @@ const Post = ({ questionData, tags }) => {
             {getStrings().ASK_BUTTON_SENDING}
           </Button>
         </div>
+        {APIError && <ErrorMessage text={APIError} />}
       </Box>
     </Layout>
   );

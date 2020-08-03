@@ -45,6 +45,7 @@
     "react-redux": "7.2.0",
     "react-render-html": "0.6.0",
     "react-scripts": "3.4.1",
+    "react-share": "^4.2.1",
     "react-spinners": "0.9.0",
     "react-swipeable-views": "0.13.9",
     "react-syntax-highlighter": "13.0.0",

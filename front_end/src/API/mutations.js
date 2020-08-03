@@ -9,6 +9,24 @@ export const ADD_QUESTION = gql`
   }
 `;
 
+export const ADD_ANSWER = gql`
+  mutation($postId: String!, $content: String!) {
+    addAnswer(postId: $postId, content: $content) {
+      statusCode
+      message
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation($postId: String!, $content: String!) {
+    addComment(postId: $postId, content: $content) {
+      statusCode
+      message
+    }
+  }
+`;
+
 export const UPDATE_QUESTION = gql`
   mutation($id: String!, $title: String!, $content: String!, $tags: [String]!) {
     addQuestion(id: $id, title: $title, content: $content, tags: $tags) {
