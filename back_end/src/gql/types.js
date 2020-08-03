@@ -112,6 +112,8 @@ module.exports = gql`
     googleLogin(jwtToken: String!): String
     signUp(email: String!, username: String!, password: String!): String
     addQuestion(title: String!, content: String!, tags: [String]!): Result
+    addAnswer(postId: String!, content: String!): Result
+    addComment(postId: String!, content: String!): Result
     updateQuestion(id: String!, title: String!, content: String!, tags: [String]!): Result
     uploadFile(file: Upload!): File!
     updateUser(input: UpdateUserInput!): Result

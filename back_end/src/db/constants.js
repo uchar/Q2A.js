@@ -9,5 +9,5 @@ module.exports.TABLES = {
 module.exports.POST_TYPES = {
   ANSWER: 'ANSWER',
   QUESTION: 'QUESTION',
-  COMMENT: 'TAG',
+  COMMENT: 'COMMENT',
 };

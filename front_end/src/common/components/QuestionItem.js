@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Divider, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Divider, Grid, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -12,7 +12,12 @@ import ProfileImage from './ProfileImage';
 import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import { timeAgo } from '../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
-import { getCurrentUserId } from '../../API/utilities';
+import { doGraphQLMutation, getCurrentUserId } from '../../API/utilities';
+import NotificationsBox from './Layout/Header/NotificationsBox';
+import ShareDialog from './ShareDialog';
+import CKEditor from './Editor/CKEditor';
+import { ADD_ANSWER, ADD_COMMENT } from '../../API/mutations';
+import ErrorMessage from './ErrorMessage/ErrorMessage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +75,13 @@ const QuestionItem = ({
 }) => {
   const classes = useStyles();
   const [currentUserId, setCurrentUserId] = React.useState('');
+  const [shareAnchor, setShareAnchor] = React.useState(null);
+  const [isEditMode, setIsEditMode] = React.useState(false);
+  const [isCommentMode, setIsCommentMode] = React.useState(false);
+  const [commentData, setCommentData] = React.useState('');
+  const [APIError, setAPIError] = React.useState(null);
   const { publicName, profileImage } = user;
   const userWhoAskedId = user.id;
-  const [isEditMode, setIsEditMode] = React.useState(false);
   let tags = [];
   tags = checkTagAndAppend(tags, tag1);
   tags = checkTagAndAppend(tags, tag2);
@@ -85,14 +94,43 @@ const QuestionItem = ({
     : parseContent(content);
   useEffect(() => {
     const getUser = async () => {
-      const currentUserId = await getCurrentUserId();
-      setCurrentUserId(currentUserId);
+      const userId = await getCurrentUserId();
+      setCurrentUserId(userId);
     };
     getUser();
   }, []);
 
+  const submitComment = async () => {
+    try {
+      if (commentData.length < 15) {
+        setAPIError('حداقل تعداد کاراکتر برای پاسخ 15 است');
+        return;
+      }
+      setAPIError(null);
+      const resultObject = await doGraphQLMutation(ADD_COMMENT, {
+        postId: id,
+        content: commentData,
+      });
+      const result = resultObject.addComment;
+      if (result.statusCode !== 'SUCCESS') {
+        throw new Error(result.message);
+      }
+      window.location.reload();
+    } catch (error) {
+      setAPIError(error.toString());
+    }
+  };
+
   return (
     <Box boxShadow={2} className={classes.root}>
+      <ShareDialog
+        shareTitle={`${title} - هفت خط کد`}
+        shareBody={content}
+        anchor={shareAnchor}
+        handleClose={() => {
+          setShareAnchor(null);
+        }}
+      />
       <Grid container direction="row" justify="space-between" alignItems="center">
         <Box>
           <Grid container direction="row" justify="flex-start" alignItems="center">
@@ -198,8 +236,7 @@ const QuestionItem = ({
           })}
           editContent={content}
           editId={id}
-          onEditFinished={(shouldRefresh) => {
-            if (shouldRefresh) window.location.reload(true);
+          onEditFinished={() => {
             setIsEditMode(false);
           }}
         />
@@ -212,6 +249,17 @@ const QuestionItem = ({
           </Grid>
         ))}
       </Grid>
+
+      {comments &&
+        comments.map((comment) => {
+          return (
+            <div style={{ marginTop: '20px' }} key={comment.id}>
+              <Divider />
+              <CommentItem {...comment} />
+            </div>
+          );
+        })}
+
       <Grid
         container
         style={{ padding: '15px 0px 3px 20px', flex: 1 }}
@@ -219,6 +267,19 @@ const QuestionItem = ({
         direction="row"
         justify="flex-end"
       >
+        <Typography
+          color="textSecondary"
+          style={{
+            textDecorationLine: 'underline',
+            fontSize: '13px',
+            cursor: 'pointer',
+          }}
+          onClick={(event) => {
+            setShareAnchor(event.currentTarget);
+          }}
+        >
+          اشتراک
+        </Typography>
         {userWhoAskedId === currentUserId && (
           <Typography
             color="textSecondary"
@@ -245,37 +306,39 @@ const QuestionItem = ({
             cursor: 'pointer',
           }}
           onClick={() => {
-            console.log('Click');
+            setIsCommentMode(!isCommentMode);
           }}
         >
-          اشتراک
+          کامنت
         </Typography>
-        {userWhoAskedId === currentUserId && (
-          <Typography
-            color="textSecondary"
-            style={{
-              textDecorationLine: 'underline',
-              fontSize: '13px',
-              marginRight: '8px',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              console.log('Click');
-            }}
-          >
-            غیرفعال
-          </Typography>
-        )}
       </Grid>
-      {comments &&
-        comments.map((comment) => {
-          return (
-            <div style={{ marginTop: '20px' }} key={comment.id}>
-              <Divider />
-              <CommentItem {...comment} />
-            </div>
-          );
-        })}
+
+      {isCommentMode && (
+        <div style={{ flex: 1, padding: '35px 25px 0px 25px', justifyContent: 'left' }}>
+          <div style={{}}>
+            <CKEditor
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setCommentData(data);
+              }}
+              toolbar={['bold', 'italic', 'code', 'link']}
+            />
+          </div>
+          <div style={{ padding: '15px 25px 15px 10px', flex: 1, textAlign: 'left' }}>
+            <Button
+              onClick={submitComment}
+              variant="contained"
+              color="primary"
+              style={{ padding: '10px 35px 10px 35px', fontSize: '15px' }}
+              loading={false}
+              shouldShowLoading={false}
+            >
+              {'ارسال'}
+            </Button>
+            {APIError && <ErrorMessage style={{ marginTop: '10px' }} text={APIError} />}
+          </div>
+        </div>
+      )}
     </Box>
   );
 };
