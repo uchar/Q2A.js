@@ -13,7 +13,7 @@ import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import { timeAgo } from '../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
 import { doGraphQLMutation, getCurrentUserId } from '../../API/utilities';
-import NotificationsBox from './Layout/Header/NotificationsBox';
+import NotificationsBox from '../layouts/Header/NotificationsBox';
 import ShareDialog from './ShareDialog';
 import CKEditor from './Editor/CKEditor';
 import { ADD_ANSWER, ADD_COMMENT } from '../../API/mutations';
@@ -65,7 +65,7 @@ const QuestionItem = ({
   votesCount,
   answersCount,
   comments,
-  isMainPage,
+  mainPage,
   tag1,
   tag2,
   tag3,
@@ -90,7 +90,7 @@ const QuestionItem = ({
   tags = checkTagAndAppend(tags, tag5);
 
   const parsedContent = isLegacyContent
-    ? legacyParseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')
+    ? legacyParseContent(content, mainPage ? 'textSecondary' : 'textPrimary')
     : parseContent(content);
   useEffect(() => {
     const getUser = async () => {

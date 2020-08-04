@@ -7,7 +7,7 @@ import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
 import { useRouter } from 'next/router';
 import EditIcon from '@material-ui/icons/Edit';
-import Layout from '../../common/components/Layout/Layout';
+import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/QuestionItemPreview';
 import AnswerItem from '../../common/components/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery, uploadFile } from '../../API/utilities';
@@ -262,7 +262,7 @@ const User = ({ user, tags }) => {
               alteredQuestion.user = {};
               alteredQuestion.user.publicName = id;
               alteredQuestion.user.profileImage = profileImage;
-              return <QuestionItemPreview isMainPage={true} key={alteredQuestion.id} {...alteredQuestion} />;
+              return <QuestionItemPreview mainPage key={alteredQuestion.id} {...alteredQuestion} />;
             })}
           </div>
         </TabPanel>
@@ -285,7 +285,7 @@ const User = ({ user, tags }) => {
                 question.user = {};
                 question.user.publicName = id;
                 question.user.profileImage = profileImage;
-                return <QuestionItemPreview isMainPage={true} key={question.id} {...question} />;
+                return <QuestionItemPreview mainPage key={question.id} {...question} />;
               }
               if (item.type === 'ANSWER') {
                 const { ...answer } = { item };

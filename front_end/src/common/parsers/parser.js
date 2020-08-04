@@ -5,8 +5,6 @@ import renderHTML from 'react-render-html';
 import * as lodash from 'lodash';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import CodeBlock from '../components/CodeBlock';
 
 const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) => {

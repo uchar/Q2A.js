@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Menu, Typography } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Paper from '@material-ui/core/Paper';
-import Loading from '../../Loading';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   grow: {

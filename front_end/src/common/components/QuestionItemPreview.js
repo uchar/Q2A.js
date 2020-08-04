@@ -68,7 +68,7 @@ const QuestionItemPreview = ({
   answersCount,
   comments,
   isExpanded,
-  isMainPage,
+  mainPage,
   tag1,
   tag2,
   tag3,
@@ -94,7 +94,7 @@ const QuestionItemPreview = ({
 
   if (expanded || content.length < 400) {
     parsedContent = isLegacyContent
-      ? legacyParseContent(content, isMainPage ? 'textSecondary' : 'textPrimary')
+      ? legacyParseContent(content, mainPage ? 'textSecondary' : 'textPrimary')
       : parseContent(content);
   }
 
@@ -197,11 +197,11 @@ const QuestionItemPreview = ({
           <div style={{ marginTop: '25px' }}>
             {replacePTagWithTypoGraphy(
               `${content.substring(0, 400)}...`,
-              isMainPage ? 'textSecondary' : 'textPrimary'
+              mainPage ? 'textSecondary' : 'textPrimary'
             )}
           </div>
         )}
-        {isMainPage && (
+        {mainPage && (
           <CardActions disableSpacing>
             {content.length >= 400 && (
               <IconButton
