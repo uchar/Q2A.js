@@ -6,6 +6,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
 import { useRouter } from 'next/router';
+import EditIcon from '@material-ui/icons/Edit';
 import Layout from '../../common/components/Layout/Layout';
 import QuestionItemPreview from '../../common/components/QuestionItemPreview';
 import AnswerItem from '../../common/components/AnswerItem';
@@ -15,6 +16,8 @@ import Loading from '../../common/components/Loading';
 import { getFullUrl } from '../../common/utlities/generalUtilities';
 import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
 import { UPDATE_USER } from '../../API/mutations';
+import CKEditor from '../../common/components/Editor/CKEditor';
+import { parseContent } from '../../common/parsers/parser';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(4),
     marginTop: theme.spacing(4),
   },
+  button: {
+    padding: '5px 30px 5px 30px',
+  },
   topSection: {
     display: 'flex',
     flexDirection: 'row',
@@ -81,6 +87,9 @@ const User = ({ user, tags }) => {
   const [uploadError, setUploadError] = React.useState(undefined);
   const [profileImage, setProfileImage] = React.useState(user ? user.profileImage : undefined);
   const [loadingNewImage, setLoadingNewImage] = React.useState(false);
+  const [isDescriptionEditMode, setDescriptionEditMode] = React.useState(false);
+  const [apiError, setAPIError] = React.useState(undefined);
+  let aboutEditData = false;
   const handleChange = (event, newValue) => {
     setCurrentTabIndex(newValue);
   };
@@ -89,11 +98,12 @@ const User = ({ user, tags }) => {
   if (!user) return <Loading />;
   const { answers, questions, clapItems, about } = user;
   if (!profileImage) setProfileImage(user.profileImage);
+  if (!aboutEditData) aboutEditData = user.about;
 
   return (
     <Layout tags={tags}>
       <div className={classes.root}>
-        <div className={classes.topSection}>
+        <div style={{ position: 'relative' }} className={classes.topSection}>
           <div style={{ textAlign: 'center' }}>
             {loadingNewImage ? (
               <div className={classes.avatar}>
@@ -157,9 +167,77 @@ const User = ({ user, tags }) => {
             {uploadError && <ErrorMessage style={{ margin: '-30px 0px 25px 0px' }} text={uploadError} />}
           </div>
 
-          <Typography className={classes.title} variant="h6" paragraph>
-            {`${about || ''}`}
-          </Typography>
+          {!isDescriptionEditMode && <div className={classes.title}>{parseContent(about)}</div>}
+          {isDescriptionEditMode && (
+            <div style={{ margin: '65px 0px 0px 15px', flex: 1 }}>
+              <CKEditor
+                data={about}
+                onChange={(event, editor) => {
+                  aboutEditData = editor.getData();
+                }}
+                toolbar={['bold', 'italic', 'code', 'link']}
+              ></CKEditor>
+
+              <div
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  textAlign: 'center',
+                  justifyContent: 'center',
+                  marginTop: '10px',
+                }}
+              >
+                <Button
+                  onClick={async () => {
+                    try {
+                      const resultObject = await doGraphQLMutation(UPDATE_USER, {
+                        input: {
+                          about: aboutEditData,
+                        },
+                      });
+                      const result = resultObject.updateUser;
+                      if (result.statusCode !== 'SUCCESS') {
+                        throw new Error(result.message);
+                      }
+                      window.location.reload();
+                    } catch (error) {
+                      setAPIError(error.toString());
+                    }
+                  }}
+                  variant="contained"
+                  color="primary"
+                  style={{ marginLeft: '20px' }}
+                  className={classes.button}
+                >
+                  {'ذخیره'}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setDescriptionEditMode(false);
+                  }}
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                >
+                  {'لغو'}
+                </Button>
+              </div>
+              <ErrorMessage style={{ marginTop: '10px' }} text={apiError} />
+            </div>
+          )}
+          <EditIcon
+            color="primary"
+            style={{
+              position: 'absolute',
+              left: '15',
+              top: '15',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              console.log('??');
+              setDescriptionEditMode(!isDescriptionEditMode);
+            }}
+          />
         </div>
 
         <AppBar position="static" color="default">
