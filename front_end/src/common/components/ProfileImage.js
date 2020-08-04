@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 
+import Link from 'next/link';
 import { getFullUrl } from '../utlities/generalUtilities';
 
 const useStyles = (size) =>
@@ -15,16 +16,28 @@ const useStyles = (size) =>
     },
   }))();
 
-const ProfileImage = ({ profileImage, size }) => {
+const ProfileImage = ({ profileImage, size, href, as }) => {
   const classes = useStyles(size);
-  if (!profileImage) {
-    return <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />;
-  }
-  return (
-    <Avatar aria-label="recipe" className={classes.avatar} src={getFullUrl(profileImage)}>
+  let imageComponent;
+  if (profileImage) {
+    imageComponent = (
+      <Avatar aria-label="recipe" className={classes.avatar} src={getFullUrl(profileImage)}>
+        <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+      </Avatar>
+    );
+  } else {
+    imageComponent = (
       <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
-    </Avatar>
-  );
+    );
+  }
+  if (href) {
+    return (
+      <Link prefetch={false} href={href} as={as}>
+        {imageComponent}
+      </Link>
+    );
+  }
+  return imageComponent;
 };
 
 ProfileImage.defaultProps = {

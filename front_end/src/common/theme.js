@@ -16,24 +16,24 @@ const typography = {
     '"Segoe UI Symbol"',
   ].join(','),
   h1: {
-    fontSize: '2rem',
-  },
-  h2: {
-    fontSize: '1.8rem',
-  },
-  h3: {
-    fontSize: '1.6rem',
-  },
-  h4: {
     fontSize: '1.4rem',
   },
-  h5: {
+  h2: {
+    fontSize: '1.3rem',
+  },
+  h3: {
     fontSize: '1.2rem',
   },
-  h6: {
+  h4: {
+    fontSize: '1.1rem',
+  },
+  h5: {
     fontSize: '1rem',
   },
-  title: { fontSize: 28 },
+  h6: {
+    fontSize: '0.9rem',
+  },
+  title: { fontSize: '1.5rem' },
   subtitle1: {
     fontSize: '1rem',
   },

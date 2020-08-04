@@ -7,7 +7,7 @@ import { ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
 import { doGraphQLQuery } from '../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  root: {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
@@ -17,7 +17,7 @@ function MainPage({ questions, tags }) {
   const classes = useStyles();
   return (
     <Layout tags={tags}>
-      <Box className={classes.paper}>
+      <Box className={classes.root}>
         <LatestQuestion questions={questions} />
       </Box>
     </Layout>

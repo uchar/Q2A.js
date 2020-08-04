@@ -55,7 +55,7 @@ TabPanel.propTypes = {
 
 const getQuestionsList = (questions) => {
   return questions.map((question) => {
-    return <QuestionItemPreview mainPage={true} key={question.id} {...question} />;
+    return <QuestionItemPreview  key={question.id} {...question} />;
   });
 };
 

@@ -1,14 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {
-  Box,
-  CardActions,
-  CardContent,
-  Grid,
-  IconButton,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Box, CardActions, CardContent, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -18,14 +10,32 @@ import Tag from './Tag';
 import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacyParser';
 import { parseContent } from '../parsers/parser';
 import ProfileImage from './ProfileImage';
-import { getLanguage, getStrings, } from '../utlities/languageUtilities';
+import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import { timeAgo } from '../utlities/generalUtilities';
+import ProfileImageWithName from './ProfileImageWithName';
+import QuestionStatistics from './QuestionStatistics';
+import HorizontalTagsBlock from './HorizontalTagsBlock';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: '25px 0px 25px 0px',
+    margin: theme.spacing(5, 0, 5, 0),
     paddingBottom: '15px',
     textAlign: 'center',
+  },
+  topSection: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  answerSection: {
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: theme.spacing(0, 1, 0, 3),
+  },
+  tagsSection: {
+    margin: theme.spacing(4, 0, 1, 2),
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -37,14 +47,11 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: 'white',
-    width: 60,
-    height: 60,
-    marginRight: '5px',
-    cursor: 'pointer',
-  },
   title: {
+    marginTop: theme.spacing(6),
+    marginBottom: '-15px',
+    textAlign: 'initial ',
+    cursor: 'pointer',
     '&:hover': {
       color: '#314285',
       textDecorationLine: 'underline',
@@ -66,9 +73,7 @@ const QuestionItemPreview = ({
   viewsCount,
   votesCount,
   answersCount,
-  comments,
   isExpanded,
-  mainPage,
   tag1,
   tag2,
   tag3,
@@ -93,139 +98,51 @@ const QuestionItemPreview = ({
   let parsedContent = <div />;
 
   if (expanded || content.length < 400) {
-    parsedContent = isLegacyContent
-      ? legacyParseContent(content, mainPage ? 'textSecondary' : 'textPrimary')
-      : parseContent(content);
+    parsedContent = isLegacyContent ? legacyParseContent(content, 'textSecondary') : parseContent(content);
+  } else {
+    parsedContent = (
+      <div style={{ marginTop: '25px' }}>
+        {replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`, 'textSecondary')}
+      </div>
+    );
   }
 
   return (
     <Box boxShadow={2} className={classes.root}>
       <CardContent>
-        <Grid container direction="row" justify="space-between" alignItems="center">
-          <Box>
-            <Grid container direction="row" justify="flex-start" alignItems="center">
-              <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
-                <ProfileImage profileImage={profileImage} />
-              </Link>
-              <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
-                <div>
-                  <Typography
-                    variant="body2"
-                    color="textPrimary"
-                    style={{
-                      flex: 1,
-                      cursor: 'pointer',
-                      fontSize: 17,
-                      textAlign: 'right',
-                      marginRight: '5px',
-                    }}
-                    component="p"
-                  >
-                    {publicName}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    style={{ fontSize: 12, flex: 1, textAlign: 'right', marginRight: '5px' }}
-                    component="p"
-                  >
-                    {timeAgo(createdAt, getLanguage())}
-                    {getStrings().DEMO_TIME_AGO_QUESTION}
-                  </Typography>
-                </div>
-              </Link>
-            </Grid>
-          </Box>
-          <Box>
-            <Grid container direction="row" justify="space-between" alignItems="center">
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <ViewIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {votesCount}
-                </Typography>
-              </div>
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <UpVoteIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {viewsCount}
-                </Typography>
-              </div>
-              <div style={{ marginLeft: 10 }}>
-                <IconButton aria-label="add to favorites">
-                  <AnswerIcon />
-                </IconButton>
-                <Typography variant="body2" color="textPrimary" style={{ fontSize: 12 }} component="p">
-                  {answersCount}
-                </Typography>
-              </div>
-            </Grid>
-          </Box>
-        </Grid>
-
+        <div className={classes.topSection}>
+          <ProfileImageWithName
+            href={`/user/[id]`}
+            as={`/user/${publicName}`}
+            profileImage={profileImage}
+            createdAt={createdAt}
+            publicName={publicName}
+          />
+          <QuestionStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+        </div>
         <Link href={`/${id}/${title}`}>
-          <Typography
-            variant="body2"
-            color="textPrimary"
-            style={{
-              fontSize: 21,
-              marginTop: '30px',
-              marginBottom: '-15px',
-              textAlign: 'initial ',
-              cursor: 'pointer',
-            }}
-            className={classes.title}
-            component="p"
-          >
+          <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>
         </Link>
       </CardContent>
-      <div
-        style={{
-          flex: 'row',
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '0px 15px 0px 5px',
-        }}
-      >
-        {(expanded || content.length < 400) && parsedContent}
-        {!expanded && content.length >= 400 && (
-          <div style={{ marginTop: '25px' }}>
-            {replacePTagWithTypoGraphy(
-              `${content.substring(0, 400)}...`,
-              mainPage ? 'textSecondary' : 'textPrimary'
-            )}
-          </div>
-        )}
-        {mainPage && (
-          <CardActions disableSpacing>
-            {content.length >= 400 && (
-              <IconButton
-                className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </IconButton>
-            )}
-          </CardActions>
-        )}
+      <div className={classes.answerSection}>
+        {parsedContent}
+        <CardActions disableSpacing>
+          {content.length >= 400 && (
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          )}
+        </CardActions>
       </div>
 
-      <Grid container style={{ margin: '12px 5px 0px 8px' }} spacing={1} direction="row" justify="flex-start">
-        {tags.map((tag) => (
-          <Grid item key={tag}>
-            <Tag tag={tag} />
-          </Grid>
-        ))}
-      </Grid>
+      <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
     </Box>
   );
 };

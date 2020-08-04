@@ -262,7 +262,7 @@ const User = ({ user, tags }) => {
               alteredQuestion.user = {};
               alteredQuestion.user.publicName = id;
               alteredQuestion.user.profileImage = profileImage;
-              return <QuestionItemPreview mainPage key={alteredQuestion.id} {...alteredQuestion} />;
+              return <QuestionItemPreview key={alteredQuestion.id} {...alteredQuestion} />;
             })}
           </div>
         </TabPanel>
@@ -285,7 +285,7 @@ const User = ({ user, tags }) => {
                 question.user = {};
                 question.user.publicName = id;
                 question.user.profileImage = profileImage;
-                return <QuestionItemPreview mainPage key={question.id} {...question} />;
+                return <QuestionItemPreview key={question.id} {...question} />;
               }
               if (item.type === 'ANSWER') {
                 const { ...answer } = { item };

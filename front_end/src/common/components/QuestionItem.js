@@ -18,6 +18,7 @@ import ShareDialog from './ShareDialog';
 import CKEditor from './Editor/CKEditor';
 import { ADD_ANSWER, ADD_COMMENT } from '../../API/mutations';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
+import ProfileImageWithName from './ProfileImageWithName';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -132,40 +133,13 @@ const QuestionItem = ({
         }}
       />
       <Grid container direction="row" justify="space-between" alignItems="center">
-        <Box>
-          <Grid container direction="row" justify="flex-start" alignItems="center">
-            <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
-              <ProfileImage profileImage={profileImage} />
-            </Link>
-            <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
-              <div>
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                  style={{
-                    flex: 1,
-                    cursor: 'pointer',
-                    fontSize: 17,
-                    textAlign: 'right',
-                    marginRight: '5px',
-                  }}
-                  component="p"
-                >
-                  {publicName}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  style={{ fontSize: 12, flex: 1, textAlign: 'right', marginRight: '5px' }}
-                  component="p"
-                >
-                  {timeAgo(createdAt, getLanguage())}
-                  {getStrings().DEMO_TIME_AGO_QUESTION}
-                </Typography>
-              </div>
-            </Link>
-          </Grid>
-        </Box>
+        <ProfileImageWithName
+          href={`/user/[id]`}
+          as={`/user/${publicName}`}
+          profileImage={profileImage}
+          createdAt={createdAt}
+          publicName={publicName}
+        />
         <Box>
           <Grid container direction="row" justify="space-between" alignItems="center">
             <div style={{ marginLeft: 10 }}>
