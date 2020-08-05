@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Tag from './Tag';
 
 const useStyles = makeStyles((theme) => ({
-  root: { padding: '10px' },
+  root: { padding: theme.spacing(2) },
 }));
 
 export default function TagsList({ tags }) {

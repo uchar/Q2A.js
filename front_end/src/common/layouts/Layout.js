@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { BrowserView, MobileView } from 'react-device-detect';
 import Header from './Header/Header';
 import Footer from './Footer';
-import TagsList from '../components/TagsList';
+import TagsList from '../components/Tag/TagsList';
 import RTL from './RTL';
 import News from '../components/News';
 import Loading from '../components/Loading';

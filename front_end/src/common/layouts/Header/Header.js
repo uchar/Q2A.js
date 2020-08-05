@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
-import CardButton from '../../components/CardButton/CardButton';
+import CardButton from '../../components/CardButton';
 import { checkUser } from '../../../API/utilities';
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';

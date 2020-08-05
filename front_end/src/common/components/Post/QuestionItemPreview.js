@@ -1,25 +1,19 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Box, CardActions, CardContent, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
-import ViewIcon from '@material-ui/icons/ArrowUpward';
-import UpVoteIcon from '@material-ui/icons/Visibility';
-import AnswerIcon from '@material-ui/icons/QuestionAnswer';
+import { Box, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
-import Tag from './Tag';
-import { legacyParseContent, replacePTagWithTypoGraphy } from '../parsers/legacyParser';
-import { parseContent } from '../parsers/parser';
-import ProfileImage from './ProfileImage';
-import { getLanguage, getStrings } from '../utlities/languageUtilities';
-import { timeAgo } from '../utlities/generalUtilities';
-import ProfileImageWithName from './ProfileImageWithName';
-import QuestionStatistics from './QuestionStatistics';
-import HorizontalTagsBlock from './HorizontalTagsBlock';
+import { legacyParseContent, replacePTagWithTypoGraphy } from '../../parsers/legacyParser';
+import { parseContent } from '../../parsers/parser';
+import ProfileImageWithName from '../ProfileImageWithName';
+import PostStatistics from './PostStatistics';
+import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
+import { getTagsArray } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(5, 0, 5, 0),
-    paddingBottom: '15px',
+    paddingBottom: theme.spacing(3),
     textAlign: 'center',
   },
   topSection: {
@@ -49,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: theme.spacing(6),
-    marginBottom: '-15px',
+    marginBottom: theme.spacing(2),
     textAlign: 'initial ',
     cursor: 'pointer',
     '&:hover': {
@@ -84,12 +78,7 @@ const QuestionItemPreview = ({
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   const { publicName, profileImage } = user;
-  let tags = [];
-  tags = checkTagAndAppend(tags, tag1);
-  tags = checkTagAndAppend(tags, tag2);
-  tags = checkTagAndAppend(tags, tag3);
-  tags = checkTagAndAppend(tags, tag4);
-  tags = checkTagAndAppend(tags, tag5);
+  const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -118,7 +107,7 @@ const QuestionItemPreview = ({
             createdAt={createdAt}
             publicName={publicName}
           />
-          <QuestionStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
         <Link href={`/${id}/${title}`}>
           <Typography color="textPrimary" variant="h1" className={classes.title}>

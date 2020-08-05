@@ -47,7 +47,7 @@ const typography = {
     fontSize: '0.8rem',
   },
   button: {
-    fontSize: '1.2rem',
+    fontSize: '0.75rem',
   },
   caption: {
     fontSize: '0.8rem',

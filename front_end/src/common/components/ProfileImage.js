@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Grid } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 
 import Link from 'next/link';
 import { getFullUrl } from '../utlities/generalUtilities';

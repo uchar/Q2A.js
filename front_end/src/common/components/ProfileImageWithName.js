@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import Link from 'next/link';
 import { timeAgo } from '../utlities/generalUtilities';
 import { getLanguage, getStrings } from '../utlities/languageUtilities';

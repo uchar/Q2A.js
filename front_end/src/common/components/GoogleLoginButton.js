@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { loginWithGoogle } from '../../API/utilities';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
+import ErrorMessage from './ErrorMessage';
 
 const useStyles = makeStyles(() => ({
   root: {

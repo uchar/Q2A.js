@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -11,8 +10,8 @@ import ViewsIcon from '@material-ui/icons/Visibility';
 import HelpIcon from '@material-ui/icons/Help';
 import { isMobile } from 'react-device-detect';
 import QuestionItemPreview from './QuestionItemPreview';
-import AskAndTitleSection from './AskAndTitleSection';
-import { getStrings } from '../utlities/languageUtilities';
+import AskAndTitleSection from '../AskAndTitleSection';
+import { getStrings } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
 }));
+
 const usePanelStyle = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(5),
@@ -55,7 +55,7 @@ TabPanel.propTypes = {
 
 const getQuestionsList = (questions) => {
   return questions.map((question) => {
-    return <QuestionItemPreview  key={question.id} {...question} />;
+    return <QuestionItemPreview key={question.id} {...question} />;
   });
 };
 

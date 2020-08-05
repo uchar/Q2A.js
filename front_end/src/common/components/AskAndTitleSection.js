@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import CardButton from './CardButton/CardButton';
+import CardButton from './CardButton';
 import { getStrings } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
