@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '220%',
     marginTop: theme.spacing(1),
-    padding: '20px 50px 20px 50px',
+    padding: theme.spacing(4, 10, 4, 10),
   },
   submit: {
     marginTop: '10px',

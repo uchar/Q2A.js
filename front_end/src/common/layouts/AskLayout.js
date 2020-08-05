@@ -24,9 +24,9 @@ const contentStyle = {
 const AskLayout = (props) => {
   return (
     <RTL>
-      <div className="Layout" style={layoutStyle} dir="rtl">
+      <div style={layoutStyle} dir="rtl">
         <Header />
-        <Box className="Content" style={contentStyle}>
+        <Box style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={0} xs={12}></Grid>
             <Grid item md={8} xs={12}>

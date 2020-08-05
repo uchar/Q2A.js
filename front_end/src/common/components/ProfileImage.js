@@ -11,7 +11,7 @@ const useStyles = (size) =>
       width: size,
       height: size,
       backgroundColor: 'white',
-      marginRight: '5px',
+      marginRight: theme.spacing(1),
       cursor: 'pointer',
     },
   }))();

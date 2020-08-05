@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
   text: {},
 }));
 
-const getItem = (icon, text, rootClassName, textClassName) => {
+const getItem = (icon, text, itemClassName, textClassName) => {
   return (
-    <div className={rootClassName}>
+    <div className={itemClassName}>
       <IconButton>{icon}</IconButton>
       <Typography variant="button" color="textPrimary" className={textClassName}>
         {text}
@@ -26,9 +26,9 @@ const PostStatistics = ({ votesCount, viewsCount, answersCount }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {votesCount && getItem(<ViewIcon />, votesCount, classes.item, classes.text)}
-      {viewsCount && getItem(<UpVoteIcon />, viewsCount, classes.item, classes.text)}
-      {answersCount && getItem(<AnswerIcon />, answersCount, classes.item, classes.text)}
+      {votesCount != undefined && getItem(<ViewIcon />, votesCount, classes.item, classes.text)}
+      {viewsCount != undefined && getItem(<UpVoteIcon />, viewsCount, classes.item, classes.text)}
+      {answersCount != undefined && getItem(<AnswerIcon />, answersCount, classes.item, classes.text)}
     </div>
   );
 };

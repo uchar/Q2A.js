@@ -12,14 +12,15 @@ const CommentsSection = ({ className, comments }) => {
 
   return (
     <div className={className}>
-      {comments.map((comment) => {
-        return (
-          <div className={classes.item} key={comment.id}>
-            <Divider />
-            <CommentItem {...comment} />
-          </div>
-        );
-      })}
+      {comments &&
+        comments.map((comment) => {
+          return (
+            <div className={classes.item} key={comment.id}>
+              <Divider />
+              <CommentItem {...comment} />
+            </div>
+          );
+        })}
     </div>
   );
 };

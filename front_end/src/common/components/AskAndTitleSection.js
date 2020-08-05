@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
   title: {
-    marginTop: '30px',
+    marginTop: theme.spacing(6),
   },
 }));
 

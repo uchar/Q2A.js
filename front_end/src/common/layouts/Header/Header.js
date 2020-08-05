@@ -79,6 +79,10 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  buttons: {
+    fontSize: '13px',
+    height: '30%',
+  },
 }));
 
 const Header = ({}) => {
@@ -196,7 +200,7 @@ const Header = ({}) => {
           </div>
           {!user && user !== undefined && (
             <CardButton
-              style={{ fontSize: '13px', height: '30%' }}
+              className={classes.buttons}
               url={'/login'}
               shouldShowLoading={false}
               text={'ورود'}
@@ -205,7 +209,7 @@ const Header = ({}) => {
           )}
           {!user && user !== undefined && (
             <CardButton
-              style={{ fontSize: '13px', height: '30%' }}
+              className={classes.buttons}
               url={'/register'}
               shouldShowLoading={false}
               text={'عضویت'}

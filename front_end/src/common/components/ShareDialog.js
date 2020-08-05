@@ -17,26 +17,17 @@ import {
 } from 'react-share';
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
+  root: {
+    maxWidth: '200px',
+    minWidth: '500px',
   },
-  boxNotification: {
-    cursor: 'pointer',
-    padding: '10px',
-    minWidth: '400px',
-    margin: '3px 10px 10px 10px',
+  container: {
+    width: '150px',
+    flexDirection: 'row',
+    padding: theme.spacing(0, 3, 0, 3),
   },
-  boxNotificationName: {
-    fontSize: '13px',
-  },
-  boxNotificationTitle: {
-    wordWrap: 'wordBreak',
-    textAlign: 'right',
-  },
-  boxNotificationSubTitle: {
-    wordWrap: 'wordBreak',
-    textAlign: 'right',
-    fontSize: '12px',
+  margin: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -50,7 +41,7 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
   console.log('LINK : ', currentUrl, titleToShare);
   return (
     <Menu
-      style={{ maxWidth: '200px', minWidth: '500px' }}
+      className={classes.root}
       id="long-menu"
       anchorEl={anchor}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -59,7 +50,7 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
       open={Boolean(anchor)}
       onClose={handleClose}
     >
-      <div style={{ width: '150px', flexDirection: 'row', padding: '0px 16px 0px 16px' }}>
+      <div className={classes.container}>
         <WhatsappShareButton
           url={currentUrl}
           quote={'test'}

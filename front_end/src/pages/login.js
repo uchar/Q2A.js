@@ -15,8 +15,8 @@ import { getStrings } from '../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    marginTop: '10px',
-    padding: '15px 0px 15px 0px',
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(3, 0, 3, 0),
     color: theme.backgroundColor,
   },
 }));
