@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { Badge, Typography, Box } from '@material-ui/core';
 import Link from 'next/link';
 import { timeAgo } from '../utlities/generalUtilities';
 import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import ProfileImage from './ProfileImage';
+import Medal from './Medal';
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', flexDirection: 'row', textAlign: 'left' },
@@ -14,6 +15,15 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   date: { marginRight: theme.spacing(1) },
+  medalSection: {
+    flexDirection: 'row',
+    marginTop: '2px',
+    justifyContent: 'flex-start',
+    display: 'flex',
+  },
+  medal: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
 const ProfileImageWithName = ({ profileImage, href, as, createdAt, publicName }) => {

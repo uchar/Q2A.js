@@ -177,7 +177,7 @@ const Header = ({}) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <ProfileImage size={26} profileImage={user.profileImage}></ProfileImage>
+                <ProfileImage showMedal={false} size={26} profileImage={user.profileImage}></ProfileImage>
                 <Typography style={{ marginTop: 8, marginRight: 5, fontSize: isMobile ? 12 : 14 }}>
                   {user.publicName}
                 </Typography>

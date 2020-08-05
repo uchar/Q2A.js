@@ -202,6 +202,6 @@ export const parseContent = (content) => {
     }
   });
   return (
-    <div style={{ flex: 1, margin: '15px 10px 10px 10px' }}>{reactElements.map((element) => element)}</div>
+    <div style={{ flex: 1, margin: '15px 10px 5px 10px' }}>{reactElements.map((element) => element)}</div>
   );
 };
