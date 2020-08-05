@@ -34,7 +34,7 @@ const createPost = async (inputParams, context) => {
 const updatePost = async (inputParams, postId, context) => {
   const user = await findUserByName(context.user.publicName);
   const Post = database.loadModel(tables.POST_TABLE);
-  return Post.update(inputParams, { where: { userId: user.id, id: postId } });
+  return Post.update({ ...inputParams, isLegacyContent: false }, { where: { userId: user.id, id: postId } });
 };
 
 module.exports.addQuestion = async (_, { title, content, tags }, context) => {
@@ -55,6 +55,31 @@ module.exports.addQuestion = async (_, { title, content, tags }, context) => {
   const newPost = resultOfPost.dataValues;
   return createSuccessResponse(`/${newPost.id}/${newPost.title}`);
 };
+
+module.exports.updateAnswer = async (_, { id, content }, context) => {
+  await checkInputValidation(answerSchema, { content }, context);
+  await updatePost(
+    {
+      content,
+    },
+    id,
+    context
+  );
+  return createSuccessResponse(``);
+};
+
+module.exports.updateComment = async (_, { id, content }, context) => {
+  await checkInputValidation(commentSchema, { content }, context);
+  await updatePost(
+    {
+      content,
+    },
+    id,
+    context
+  );
+  return createSuccessResponse(``);
+};
+
 module.exports.updateQuestion = async (_, { id, title, content, tags }, context) => {
   await checkInputValidation(questionSchema, { title, content, tags }, context);
   console.log('Context user : ', context.user);

@@ -18,6 +18,7 @@ import ErrorMessage from '../../common/components/ErrorMessage';
 import { UPDATE_USER } from '../../API/mutations';
 import CKEditor from '../../common/components/Editor/CKEditor';
 import { parseContent } from '../../common/parsers/parser';
+import SaveCancelButtons from '../../common/components/SaveCancelButtons';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -178,51 +179,28 @@ const User = ({ user, tags }) => {
                 toolbar={['bold', 'italic', 'code', 'link']}
               ></CKEditor>
 
-              <div
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  textAlign: 'center',
-                  justifyContent: 'center',
-                  marginTop: '10px',
-                }}
-              >
-                <Button
-                  onClick={async () => {
-                    try {
-                      const resultObject = await doGraphQLMutation(UPDATE_USER, {
-                        input: {
-                          about: aboutEditData,
-                        },
-                      });
-                      const result = resultObject.updateUser;
-                      if (result.statusCode !== 'SUCCESS') {
-                        throw new Error(result.message);
-                      }
-                      window.location.reload();
-                    } catch (error) {
-                      setAPIError(error.toString());
+              <SaveCancelButtons
+                error={apiError}
+                onSave={async () => {
+                  try {
+                    const resultObject = await doGraphQLMutation(UPDATE_USER, {
+                      input: {
+                        about: aboutEditData,
+                      },
+                    });
+                    const result = resultObject.updateUser;
+                    if (result.statusCode !== 'SUCCESS') {
+                      throw new Error(result.message);
                     }
-                  }}
-                  variant="contained"
-                  color="primary"
-                  style={{ marginLeft: '20px' }}
-                  className={classes.button}
-                >
-                  {'ذخیره'}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setDescriptionEditMode(false);
-                  }}
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}
-                >
-                  {'لغو'}
-                </Button>
-              </div>
-              <ErrorMessage style={{ marginTop: '10px' }} text={apiError} />
+                    window.location.reload();
+                  } catch (error) {
+                    setAPIError(error.toString());
+                  }
+                }}
+                onCancel={() => {
+                  setDescriptionEditMode(false);
+                }}
+              />
             </div>
           )}
           <EditIcon

@@ -14,7 +14,14 @@ const { getAllTags, getTagDetail } = require('../queries/tag');
 const { getUser } = require('../queries/user');
 const { updateUser } = require('../mutations/user');
 const { login, signUp, googleLogin } = require('../mutations/login');
-const { addQuestion, updateQuestion, addAnswer, addComment } = require('../mutations/post');
+const {
+  addQuestion,
+  updateQuestion,
+  addAnswer,
+  addComment,
+  updateAnswer,
+  updateComment,
+} = require('../mutations/post');
 const { uploadFile } = require('../mutations/upload');
 
 module.exports = {
@@ -36,6 +43,8 @@ module.exports = {
     uploadFile,
     updateUser,
     updateQuestion,
+    updateAnswer,
+    updateComment,
     addAnswer,
     addComment,
   },

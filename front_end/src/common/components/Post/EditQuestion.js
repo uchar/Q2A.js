@@ -64,7 +64,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
           if (editMode) params.id = editId;
           const mutation = editMode ? ADD_QUESTION : UPDATE_QUESTION;
           const resultObject = await doGraphQLMutation(mutation, params);
-          const result = resultObject.addQuestion;
+          const result = editMode ? resultObject.updateQuestion : resultObject.addQuestion;
           if (result.statusCode !== 'SUCCESS') {
             throw new Error(result.message);
           }
@@ -123,19 +123,10 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                 <CKEditor
                   className={classes.margin}
                   data={values.content}
-                  onInit={(editor) => {
-                    console.log('Editor is ready to use!', editor);
-                  }}
                   onChange={(event, editor) => {
                     const data = editor.getData();
                     console.log('DATA : ', data);
                     setValues({ ...values, content: data });
-                  }}
-                  onBlur={(event, editor) => {
-                    console.log('Blur.', editor);
-                  }}
-                  onFocus={(event, editor) => {
-                    console.log('Focus.', editor);
                   }}
                 />
                 {errors.content && (
