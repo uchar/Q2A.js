@@ -4,14 +4,13 @@ import ClipLoader from 'react-spinners/RiseLoader';
 import ClipLoader2 from 'react-spinners/CircleLoader';
 import { isBrowser } from 'react-device-detect';
 
-// Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
   display: block;
   margin: 0 auto;
   border-color: red;
 `;
 
-export default function Loading({ style, browserSize, mobileSize, type }) {
+const Loading = ({ style, browserSize, mobileSize, type }) => {
   return (
     <div className="sweet-loading">
       <div
@@ -44,10 +43,12 @@ export default function Loading({ style, browserSize, mobileSize, type }) {
       </div>
     </div>
   );
-}
+};
 
 Loading.defaultProps = {
   browserSize: 20,
   mobileSize: 4,
   type: 'default',
 };
+
+export default Loading;

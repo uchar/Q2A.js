@@ -9,12 +9,12 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
-import CardButton from '../../CardButton/CardButton';
-import { checkUser } from '../../../../API/utilities';
-import ProfileImage from '../../ProfileImage';
+import CardButton from '../../components/CardButton';
+import { checkUser } from '../../../API/utilities';
+import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
-import { getStrings } from '../../../utlities/languageUtilities';
+import { getStrings } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -78,6 +78,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
+  },
+  buttons: {
+    fontSize: '13px',
+    height: '30%',
   },
 }));
 
@@ -196,7 +200,7 @@ const Header = ({}) => {
           </div>
           {!user && user !== undefined && (
             <CardButton
-              style={{ fontSize: '13px', height: '30%' }}
+              className={classes.buttons}
               url={'/login'}
               shouldShowLoading={false}
               text={'ورود'}
@@ -205,7 +209,7 @@ const Header = ({}) => {
           )}
           {!user && user !== undefined && (
             <CardButton
-              style={{ fontSize: '13px', height: '30%' }}
+              className={classes.buttons}
               url={'/register'}
               shouldShowLoading={false}
               text={'عضویت'}
@@ -213,8 +217,8 @@ const Header = ({}) => {
             />
           )}
           <Link prefetch={false} href="/">
-            <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h5" noWrap>
-              {getStrings().TITLE}
+            <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h2" noWrap>
+              {getStrings().SITE_TITLE}
             </Typography>
           </Link>
           <div className={classes.sectionMobile}>

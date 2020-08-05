@@ -4,12 +4,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useRouter } from 'next/router';
-import { getStrings } from '../utlities/languageUtilities';
-import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
-import { ADD_QUESTION, UPDATE_QUESTION } from '../../API/mutations';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
-import CKEditor from './Editor/CKEditor';
-import { ALL_TAGS } from '../../API/queries';
+import { getStrings } from '../../utlities/languageUtilities';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
+import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
+import ErrorMessage from '../ErrorMessage';
+import CKEditor from '../Editor/CKEditor';
+import { ALL_TAGS } from '../../../API/queries';
 
 const useStyles = makeStyles((theme) => ({
   title: {

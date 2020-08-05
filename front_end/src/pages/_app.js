@@ -24,11 +24,10 @@ const Q2aApp = (props) => {
   return (
     <React.Fragment>
       <Head>
-        <title>{getStrings().TITLE}</title>
+        <title>{getStrings().SITE_TITLE}</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={themeType === 'dark' ? darkTheme : lightTheme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>

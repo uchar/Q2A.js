@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
 import { Divider } from '@material-ui/core';
-import LoginLayout from '../common/components/Layout/LoginLayout';
-import ErrorMessage from '../common/components/ErrorMessage/ErrorMessage';
-import CardButton from '../common/components/CardButton/CardButton';
+import LoginLayout from '../common/layouts/LoginLayout';
+import ErrorMessage from '../common/components/ErrorMessage';
+import CardButton from '../common/components/CardButton';
 import { signUp } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '220%',
     marginTop: theme.spacing(1),
-    padding: '20px 50px 20px 50px',
+    padding: theme.spacing(4, 10, 4, 10),
   },
   submit: {
     marginTop: '10px',

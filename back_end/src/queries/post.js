@@ -86,7 +86,7 @@ module.exports.getComments = async ({ id }) => {
       parentId: id,
     },
     include: [User],
-    order: [['createdAt', 'DESC']],
+    order: [['createdAt', 'ASC']],
   });
   return comments;
 };

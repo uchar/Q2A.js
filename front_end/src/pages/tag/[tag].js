@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
-import Layout from '../../common/components/Layout/Layout';
-import LatestQuestion from '../../common/components/LatestQuestions';
+import Layout from '../../common/layouts/Layout';
+import LatestQuestion from '../../common/components/Post/LatestQuestions';
 import { doGraphQLQuery } from '../../API/utilities';
 import { ALL_QUESTIONS, ALL_TAGS } from '../../API/queries';
 

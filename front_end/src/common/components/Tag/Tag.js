@@ -4,9 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   box: {
-    padding: '5px 10px 5px 10px',
+    padding: theme.spacing(1, 2, 1, 1),
     cursor: 'pointer',
     borderColor: '#f2f2f2',
     '&:hover': {

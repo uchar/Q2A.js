@@ -3,20 +3,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Menu, Typography } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Paper from '@material-ui/core/Paper';
-import Loading from '../../Loading';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
+  root: {
+    maxWidth: '800px',
+    minWidth: '500px',
   },
   boxNotification: {
     cursor: 'pointer',
     padding: '10px',
     minWidth: '400px',
-    margin: '3px 10px 10px 10px',
+    margin: theme.spacing(1, 2, 2, 2),
+  },
+  boxNotificationNameDate: {
+    fontSize: '13px',
   },
   boxNotificationName: {
-    fontSize: '13px',
+    margin: theme.spacing(1, 0, 0, 0),
+    fontSize: '10px',
   },
   boxNotificationTitle: {
     wordWrap: 'wordBreak',
@@ -95,12 +100,11 @@ const NotificationsBox = ({ notificationAnchor, handleClose }) => {
     setTimeout(() => {
       setNotificationText(notificationText.concat(notificationText));
     }, 3000);
-    console.log('fetchMoreData222222222222:::::::::::::::::::::', notificationText.length);
   };
 
   return (
     <Menu
-      style={{ maxWidth: '800px', minWidth: '500px' }}
+      className={classes.root}
       id="long-menu"
       anchorEl={notificationAnchor}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
@@ -108,6 +112,7 @@ const NotificationsBox = ({ notificationAnchor, handleClose }) => {
       keepMounted
       open={Boolean(notificationAnchor)}
       onClose={handleClose}
+      dir="rtl"
     >
       <InfiniteScroll
         height="500px"
@@ -131,19 +136,13 @@ const NotificationsBox = ({ notificationAnchor, handleClose }) => {
                 display: 'flex',
               }}
             >
-              <Typography color={'textSecondary'} className={classes.boxNotificationName}>
+              <Typography color={'textSecondary'} className={classes.boxNotificationNameDate}>
                 {row.date}
               </Typography>
-              <div
-                style={{
-                  justifyContent: 'space-between',
-                  display: 'flex',
-                }}
-              >
-                <Typography color={'textSecondary'} style={{ margin: '3px 0px 0px 0px', fontSize: '10px' }}>
-                  {row.name}
-                </Typography>
-              </div>
+
+              <Typography color={'textSecondary'} className={classes.boxNotificationName}>
+                {row.name}
+              </Typography>
             </div>
 
             <Typography color={'textPrimary'} className={classes.boxNotificationTitle}>

@@ -1,16 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Typography } from '@material-ui/core';
-import QuestionItem from '../../common/components/QuestionItem';
-import Layout from '../../common/components/Layout/Layout';
+import QuestionItem from '../../common/components/Post/QuestionItem';
+import Layout from '../../common/layouts/Layout';
 import CKEditor from '../../common/components/Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
-import AnswerItem from '../../common/components/AnswerItem';
+import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
 import { getStrings } from '../../common/utlities/languageUtilities';
 import { ADD_ANSWER, ADD_QUESTION, UPDATE_QUESTION } from '../../API/mutations';
-import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../common/components/ErrorMessage';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,7 +55,7 @@ const Post = ({ questionData, tags }) => {
   return (
     <Layout tags={tags}>
       <Box className={classes.paper}>
-        <QuestionItem isMainPage={false} {...question} />
+        <QuestionItem mainPage={false} {...question} />
         {question.answers.map((answer) => {
           return <AnswerItem style={{ width: '80%' }} key={answer.id} {...answer}></AnswerItem>;
         })}

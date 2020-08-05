@@ -25,3 +25,18 @@ export const timeAgo = (time, locale = getLanguage()) => {
   // LL for persian is:1399 خرداد 11 and for english is: August 1 , 2020
   return createTime.format('LL');
 };
+
+const checkTagAndAppend = (tags, newTag) => {
+  if (newTag) tags.push(newTag);
+  return tags;
+};
+
+export const getTagsArray = (tag1, tag2, tag3, tag4, tag5) => {
+  let tags = [];
+  tags = checkTagAndAppend(tags, tag1);
+  tags = checkTagAndAppend(tags, tag2);
+  tags = checkTagAndAppend(tags, tag3);
+  tags = checkTagAndAppend(tags, tag4);
+  tags = checkTagAndAppend(tags, tag5);
+  return tags;
+};

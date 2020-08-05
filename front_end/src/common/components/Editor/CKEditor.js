@@ -16,10 +16,7 @@ export default class CKEditor extends React.Component {
     const { toolbar } = this.props;
     const config = {
       language: {
-        // The UI will be English.
         ui: 'fa',
-
-        // But the content will be edited in Arabic.
         content: 'fa',
       },
       extraPlugins: [CustomUploadAdapterPlugin],

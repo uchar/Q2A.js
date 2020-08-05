@@ -1,13 +1,13 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box, makeStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { BrowserView, MobileView } from 'react-device-detect';
 import Header from './Header/Header';
 import Footer from './Footer';
-import TagsList from '../TagsList';
+import TagsList from '../components/Tag/TagsList';
 import RTL from './RTL';
-import News from '../News';
-import Loading from '../Loading';
+import News from '../components/News';
+import Loading from '../components/Loading';
 
 const layoutStyle = {
   display: 'flex',
@@ -29,9 +29,9 @@ const Layout = (props) => {
   if (!tags && !noSideBar) return <Loading />;
   return (
     <RTL>
-      <div className="Layout" style={layoutStyle} dir="rtl">
+      <div style={layoutStyle} dir="rtl">
         <Header />
-        <Box className="Content" style={contentStyle}>
+        <Box style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
               {!noSideBar && (

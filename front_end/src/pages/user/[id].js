@@ -7,14 +7,14 @@ import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
 import { useRouter } from 'next/router';
 import EditIcon from '@material-ui/icons/Edit';
-import Layout from '../../common/components/Layout/Layout';
-import QuestionItemPreview from '../../common/components/QuestionItemPreview';
-import AnswerItem from '../../common/components/AnswerItem';
+import Layout from '../../common/layouts/Layout';
+import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
+import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery, uploadFile } from '../../API/utilities';
 import { ALL_TAGS, GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import { getFullUrl } from '../../common/utlities/generalUtilities';
-import ErrorMessage from '../../common/components/ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../common/components/ErrorMessage';
 import { UPDATE_USER } from '../../API/mutations';
 import CKEditor from '../../common/components/Editor/CKEditor';
 import { parseContent } from '../../common/parsers/parser';
@@ -262,7 +262,7 @@ const User = ({ user, tags }) => {
               alteredQuestion.user = {};
               alteredQuestion.user.publicName = id;
               alteredQuestion.user.profileImage = profileImage;
-              return <QuestionItemPreview isMainPage={true} key={alteredQuestion.id} {...alteredQuestion} />;
+              return <QuestionItemPreview key={alteredQuestion.id} {...alteredQuestion} />;
             })}
           </div>
         </TabPanel>
@@ -285,7 +285,7 @@ const User = ({ user, tags }) => {
                 question.user = {};
                 question.user.publicName = id;
                 question.user.profileImage = profileImage;
-                return <QuestionItemPreview isMainPage={true} key={question.id} {...question} />;
+                return <QuestionItemPreview key={question.id} {...question} />;
               }
               if (item.type === 'ANSWER') {
                 const { ...answer } = { item };
