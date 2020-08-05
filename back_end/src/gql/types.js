@@ -115,6 +115,8 @@ module.exports = gql`
     addAnswer(postId: String!, content: String!): Result
     addComment(postId: String!, content: String!): Result
     updateQuestion(id: String!, title: String!, content: String!, tags: [String]!): Result
+    updateAnswer(id: String!, content: String!): Result
+    updateComment(id: String!, content: String!): Result
     uploadFile(file: Upload!): File!
     updateUser(input: UpdateUserInput!): Result
   }

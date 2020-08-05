@@ -29,7 +29,25 @@ export const ADD_COMMENT = gql`
 
 export const UPDATE_QUESTION = gql`
   mutation($id: String!, $title: String!, $content: String!, $tags: [String]!) {
-    addQuestion(id: $id, title: $title, content: $content, tags: $tags) {
+    updateQuestion(id: $id, title: $title, content: $content, tags: $tags) {
+      statusCode
+      message
+    }
+  }
+`;
+
+export const UPDATE_ANSWER = gql`
+  mutation($id: String!, $content: String!) {
+    updateAnswer(id: $id, content: $content) {
+      statusCode
+      message
+    }
+  }
+`;
+
+export const UPDATE_COMMENT = gql`
+  mutation($id: String!, $content: String!) {
+    updateComment(id: $id, content: $content) {
       statusCode
       message
     }

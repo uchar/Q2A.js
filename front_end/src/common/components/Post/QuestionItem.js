@@ -13,6 +13,8 @@ import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
+import SaveCancelButtons from '../SaveCancelButtons';
+import AddComment from './AddComment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,8 +58,6 @@ const QuestionItem = ({
   const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
-  const [commentData, setCommentData] = React.useState('');
-  const [APIError, setAPIError] = React.useState(null);
   const { publicName, profileImage } = user;
   const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
@@ -72,27 +72,6 @@ const QuestionItem = ({
     };
     getUser();
   }, []);
-
-  const submitComment = async () => {
-    try {
-      if (commentData.length < 15) {
-        setAPIError('حداقل تعداد کاراکتر برای پاسخ 15 است');
-        return;
-      }
-      setAPIError(null);
-      const resultObject = await doGraphQLMutation(ADD_COMMENT, {
-        postId: id,
-        content: commentData,
-      });
-      const result = resultObject.addComment;
-      if (result.statusCode !== 'SUCCESS') {
-        throw new Error(result.message);
-      }
-      window.location.reload();
-    } catch (error) {
-      setAPIError(error.toString());
-    }
-  };
 
   return (
     <Box boxShadow={2} className={classes.root}>
@@ -145,6 +124,7 @@ const QuestionItem = ({
         shareTitle={`${title} - هفت خط کد`}
         shareBody={content}
         showEdit={currentUserId === userWhoAskedId}
+        showDisable={currentUserId === userWhoAskedId}
         editCallBack={() => {
           setIsEditMode(true);
         }}
@@ -154,32 +134,13 @@ const QuestionItem = ({
         }}
       />
 
-      {isCommentMode && (
-        <div style={{ flex: 1, padding: '35px 25px 0px 25px', justifyContent: 'left' }}>
-          <div style={{}}>
-            <CKEditor
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setCommentData(data);
-              }}
-              toolbar={['bold', 'italic', 'code', 'link']}
-            />
-          </div>
-          <div style={{ padding: '15px 25px 15px 10px', flex: 1, textAlign: 'left' }}>
-            <Button
-              onClick={submitComment}
-              variant="contained"
-              color="primary"
-              style={{ padding: '10px 35px 10px 35px', fontSize: '15px' }}
-              loading={false}
-              shouldShowLoading={false}
-            >
-              {'ارسال'}
-            </Button>
-            {APIError && <ErrorMessage style={{ marginTop: '10px' }} text={APIError} />}
-          </div>
-        </div>
-      )}
+      <AddComment
+        postId={id}
+        enable={isCommentMode}
+        onCancel={() => {
+          setIsCommentMode(false);
+        }}
+      />
       <CommentsSection comments={comments} />
     </Box>
   );
