@@ -1,5 +1,11 @@
 import gql from 'graphql-tag';
 
+const userType = `user :{
+      id
+      profileImage
+      publicName
+      score
+    }`;
 const QUESTION = `{
     id
     title
@@ -7,11 +13,7 @@ const QUESTION = `{
     viewsCount
     votesCount
     answersCount
-    user {
-      id
-      profileImage
-      publicName
-    }
+    ${userType}
     createdAt
     tag1
     tag2
@@ -40,11 +42,7 @@ export const GET_QUESTION = gql`
       votesCount
       answersCount
       createdAt
-      user {
-        id
-        profileImage
-        publicName
-      }
+      ${userType}
       createdAt
       tag1
       tag2
@@ -55,11 +53,7 @@ export const GET_QUESTION = gql`
       answers {
         id
         content
-        user {
-          id
-          profileImage
-          publicName
-        }
+        ${userType}
         isLegacyContent
         votesCount
         createdAt
@@ -67,11 +61,7 @@ export const GET_QUESTION = gql`
           id
           content
           isLegacyContent
-          user {
-            id
-            profileImage
-            publicName
-          }
+          ${userType}
           createdAt
         }
       }
@@ -79,11 +69,7 @@ export const GET_QUESTION = gql`
         id
         content
         isLegacyContent
-        user {
-          id
-          profileImage
-          publicName
-        }
+        ${userType}
         createdAt
       }
     }
@@ -111,12 +97,25 @@ export const GET_TAG = gql`
   }
 `;
 
+export const GET_NOTIFICATIONS = gql`
+  query($limit: Int!, $offset: Int!) {
+    getNotifications(limit: $limit, offset: $offset) {
+      id
+      title
+      content
+      metaData
+      read
+    }
+  }
+`;
+
 export const GET_MY_USER = gql`
   query {
     getUser {
       id
       publicName
       profileImage
+      score
     }
   }
 `;
@@ -126,6 +125,7 @@ export const GET_USER = gql`
     getUser(id: $id) {
       id
       publicName
+      score
       profileImage
       about
       answers {
@@ -154,11 +154,7 @@ export const GET_USER = gql`
         answer {
           id
           content
-          user {
-            id
-            profileImage
-            publicName
-          }
+          ${userType}
           isLegacyContent
           votesCount
           createdAt
@@ -170,11 +166,7 @@ export const GET_USER = gql`
           viewsCount
           votesCount
           answersCount
-          user {
-            id
-            profileImage
-            publicName
-          }
+          ${userType}
           createdAt
           tag1
           tag2

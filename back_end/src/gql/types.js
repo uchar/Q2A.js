@@ -36,6 +36,7 @@ module.exports = gql`
     id: String
     publicName: String
     profileImage: String
+    score: Int
     about: String
     accessLevel: AccessLevel
     questions: [Question]
@@ -92,6 +93,13 @@ module.exports = gql`
     used: Int
   }
 
+  type Notification {
+    id: String
+    title: String
+    content: String
+    metaData: String
+    read: Boolean
+  }
   type Result {
     statusCode: StatusCode
     message: String
@@ -106,6 +114,7 @@ module.exports = gql`
     getTagDetail(tag: String!): Tag
     getQuestion(id: String!): Question
     getUser(id: String): User
+    getNotifications(limit: Int!, offset: Int!): [Notification]
   }
   type Mutation {
     login(username: String!, password: String!): String
@@ -119,5 +128,6 @@ module.exports = gql`
     updateComment(id: String!, content: String!): Result
     uploadFile(file: Upload!): File!
     updateUser(input: UpdateUserInput!): Result
+    setReadAllNotification: Result
   }
 `;

@@ -15,6 +15,12 @@ const prepareDatabase = async () => {
       allowNull: false,
       defaultValue: 'USER_CONFIRMED',
     },
+    score: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
     email: Sequelize.STRING(64),
     password: Sequelize.STRING(64),
     legacyPasswordSalt: { type: 'BINARY(16)' },
@@ -84,16 +90,46 @@ const prepareDatabase = async () => {
   const Clap = sequelize.define(tables.CLAP_TABLE, {
     count: Sequelize.INTEGER,
   });
+  const Notification = sequelize.define(tables.NOTIFICATION_TABLE, {
+    reason: DataTypes.ENUM([
+      'QUESTION_CLAPPED',
+      'ANSWER_CLAPPED',
+      'COMMENT_CLAPPED',
+      'ANSWER_RECEIVED',
+      'COMMENT_RECEIVED',
+      'QUESTION_HIDED',
+      'ANSWER_HIDED',
+      'COMMENT_HIDED',
+    ]),
+    title: Sequelize.TEXT,
+    content: Sequelize.TEXT,
+    metaData: Sequelize.TEXT,
+    read: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+  });
+  const Medal = sequelize.define(tables.Medal_TABLE, {
+    type: DataTypes.ENUM(['GOLD', 'SILVER', 'BRONZE']),
+    name: Sequelize.STRING(64),
+  });
   Post.belongsTo(User);
   User.hasMany(Clap);
   Clap.belongsTo(Post);
-  Clap.belongsTo(Post);
+  Clap.belongsTo(User);
   Post.hasMany(Clap);
+  Notification.belongsTo(User);
+  User.hasMany(Notification);
+  Medal.belongsTo(User);
+  User.hasMany(Medal);
   await sequelize.sync({ force: false });
   database.cacheModel(tables.USER_TABLE, User);
   database.cacheModel(tables.POST_TABLE, Post);
   database.cacheModel(tables.TAG_TABLE, Tag);
   database.cacheModel(tables.CLAP_TABLE, Clap);
+  database.cacheModel(tables.NOTIFICATION_TABLE, Notification);
+  database.cacheModel(tables.Medal_TABLE, Medal);
 };
 
 exports.createDatabasePromise = prepareDatabase().then(() => {
