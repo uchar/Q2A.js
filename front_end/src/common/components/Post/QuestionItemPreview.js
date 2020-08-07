@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 1, 0, 3),
   },
   tagsSection: {
-    margin: theme.spacing(4, 0, 1, 2),
+    margin: theme.spacing(1.5, 0, 0.5, 2),
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   title: {
-    marginTop: theme.spacing(6),
-    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(0),
     textAlign: 'initial ',
     cursor: 'pointer',
     '&:hover': {
@@ -77,7 +77,7 @@ const QuestionItemPreview = ({
 }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
-  const { publicName, profileImage } = user;
+  const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const handleExpandClick = () => {
@@ -86,12 +86,12 @@ const QuestionItemPreview = ({
 
   let parsedContent = <div />;
 
-  if (expanded || content.length < 400) {
+  if (expanded || content.length < 600) {
     parsedContent = isLegacyContent ? legacyParseContent(content, 'textSecondary') : parseContent(content);
   } else {
     parsedContent = (
-      <div style={{ marginTop: '25px' }}>
-        {replacePTagWithTypoGraphy(`${content.substring(0, 400)}...`, 'textSecondary')}
+      <div style={{ marginTop: '5px' }}>
+        {replacePTagWithTypoGraphy(`${content.substring(0, 600)}...`, 'textSecondary')}
       </div>
     );
   }
@@ -106,6 +106,7 @@ const QuestionItemPreview = ({
             profileImage={profileImage}
             createdAt={createdAt}
             publicName={publicName}
+            score={score}
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>

@@ -89,3 +89,12 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const SET_READ_ALL_NOTIFICATIONS = gql`
+  mutation {
+    setReadAllNotifications {
+      statusCode
+      message
+    }
+  }
+`;

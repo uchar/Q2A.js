@@ -30,16 +30,18 @@ const saveUsers = async (oldDb, newDb) => {
   const users = await oldDb.doQuery(`SELECT qa_users.*,concat(qa_blobs.blobid,".",qa_blobs.format) as profileImage from qa_users LEFT join qa_blobs ON
     qa_users.avatarblobid=qa_blobs.blobid`);
   const promises = users.map(async (user) => {
+    const userPointsResult = await oldDb.doQuery('select * from qa_userpoints where userid=?', [user.userid]);
     const newUser = user;
     newUser.description = userDescriptions.get(user.userid);
-    const query = `INSERT INTO users (id,publicName, profileImage, about, accessLevel,
+    const query = `INSERT INTO users (id,publicName,score, profileImage, about, accessLevel,
           email,legacyPasswordSalt,legacyPassword,lastLogin,lastWrite,isLegacyAuthentication,isEmailVerified,createdAt,updatedAt)
-                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
+                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
     const isEmailVerified = !(newUser.emailcode && newUser.emailcode.length > 0);
     const accessLevel = isEmailVerified ? 'USER_CONFIRMED' : 'USER_NOT_CONFIRMED';
     await newDb.doQuery(query, [
       newUser.userid,
       newUser.handle,
+      userPointsResult && userPointsResult.length > 0 ? userPointsResult[0].points : 0,
       newUser.profileImage,
       newUser.description,
       accessLevel,

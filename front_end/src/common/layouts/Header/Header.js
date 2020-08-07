@@ -93,6 +93,7 @@ const Header = ({}) => {
   const [languageAnchorEl, setLanguageAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = React.useState(undefined);
+  const [notificationCount, setNotificationCount] = React.useState(0);
   const isLanguageMenuOpen = Boolean(languageAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const router = useRouter();
@@ -142,7 +143,10 @@ const Header = ({}) => {
         <Toolbar>
           <NotificationsBox
             notificationAnchor={notificationAnchor}
-            handleClose={handleNotificationsMenuClose}
+            onClose={handleNotificationsMenuClose}
+            onNotificationCountChange={(count) => {
+              setNotificationCount(count);
+            }}
           />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
@@ -164,7 +168,12 @@ const Header = ({}) => {
                 color="inherit"
                 style={{ marginRight: '2px' }}
               >
-                <Badge badgeContent={25} max={2} color="secondary" style={{ fontSize: '12px' }}>
+                <Badge
+                  badgeContent={notificationCount}
+                  max={9}
+                  color="secondary"
+                  style={{ fontSize: '12px' }}
+                >
                   <NotificationIcon />
                 </Badge>
               </IconButton>
@@ -177,7 +186,7 @@ const Header = ({}) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <ProfileImage size={26} profileImage={user.profileImage}></ProfileImage>
+                <ProfileImage showMedal={false} size={26} profileImage={user.profileImage}></ProfileImage>
                 <Typography style={{ marginTop: 8, marginRight: 5, fontSize: isMobile ? 12 : 14 }}>
                   {user.publicName}
                 </Typography>

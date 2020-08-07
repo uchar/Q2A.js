@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+let answerData = '';
 const Post = ({ questionData, tags }) => {
   const classes = useStyles();
-  const [answerData, setAnswerData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
   if (!questionData) return <Loading />;
   const { ...question } = questionData;
@@ -64,20 +64,8 @@ const Post = ({ questionData, tags }) => {
             {'پاسخ شما : '}
           </Typography>
           <CKEditor
-            data={answerData}
-            onInit={(editor) => {
-              console.log('Editor is ready to use!', editor);
-            }}
             onChange={(event, editor) => {
-              const data = editor.getData();
-              console.log({ event, editor, data });
-              setAnswerData(data);
-            }}
-            onBlur={(event, editor) => {
-              console.log('Blur.', editor);
-            }}
-            onFocus={(event, editor) => {
-              console.log('Focus.', editor);
+              answerData = editor.getData();
             }}
           />
         </div>

@@ -129,7 +129,7 @@ export const legacyParseContent = (valueToParse, textColor = 'textPrimary') => {
       );
     } else parts = recursiveParse(root, textColor);
 
-    return <div style={{ flex: 1, margin: '15px 10px 10px 10px' }}> {parts.map((part) => part)}</div>;
+    return <div style={{ flex: 1, margin: '5px 10px 10px 10px' }}> {parts.map((part) => part)}</div>;
   } catch (e) {
     console.log(e);
   }

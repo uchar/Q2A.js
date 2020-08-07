@@ -38,7 +38,6 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
     setCurrentUrl(window.location.href);
   }, []);
   const titleToShare = shareTitle;
-  console.log('LINK : ', currentUrl, titleToShare);
   return (
     <Menu
       className={classes.root}

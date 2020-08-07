@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AnswerItem({ id, content, user, createdAt, votesCount, comments, isLegacyContent }) {
   const classes = useStyles();
-  const { publicName, profileImage } = user;
+  const { publicName, profileImage, score } = user;
   const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setEditMode] = React.useState(false);
   const [editData, setEditData] = React.useState(false);
@@ -37,6 +37,44 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
   }, []);
   const userWhoAnsweredId = user.id;
   const parsedContent = isLegacyContent ? legacyParseContent(content) : parseContent(content);
+
+  const handleEditDataChanged = (event, editor) => {
+    const data = editor.getData();
+    setEditData(data);
+  };
+
+  const handleEditSave = async () => {
+    try {
+      setAPIError(undefined);
+      const resultObject = await doGraphQLMutation(UPDATE_ANSWER, {
+        id,
+        content: editData,
+      });
+      const result = resultObject.updateAnswer;
+      if (result.statusCode !== 'SUCCESS') {
+        throw new Error(result.message);
+      }
+      window.location.reload();
+    } catch (error) {
+      setAPIError(error.toString());
+    }
+  };
+  const handleEditCancel = () => {
+    setEditMode(false);
+  };
+
+  const handleEditCallback = () => {
+    setEditMode(true);
+  };
+
+  const handleCommentCallback = () => {
+    setIsCommentMode(!isCommentMode);
+  };
+
+  const handleAddCommentCancel = () => {
+    setIsCommentMode(false);
+  };
+
   return (
     <Box boxShadow={4} className={classes.root}>
       <CardContent>
@@ -47,42 +85,15 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
             profileImage={profileImage}
             createdAt={createdAt}
             publicName={publicName}
+            score={score}
           />
           <PostStatistics votesCount={votesCount} />
         </Grid>
       </CardContent>
       {isEditMode ? (
         <div>
-          <CKEditor
-            className={classes.margin}
-            data={content}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              setEditData(data);
-            }}
-          />
-          <SaveCancelButtons
-            error={apiError}
-            onSave={async () => {
-              try {
-                setAPIError(undefined);
-                const resultObject = await doGraphQLMutation(UPDATE_ANSWER, {
-                  id,
-                  content: editData,
-                });
-                const result = resultObject.updateAnswer;
-                if (result.statusCode !== 'SUCCESS') {
-                  throw new Error(result.message);
-                }
-                window.location.reload();
-              } catch (error) {
-                setAPIError(error.toString());
-              }
-            }}
-            onCancel={() => {
-              setEditMode(false);
-            }}
-          />
+          <CKEditor className={classes.margin} data={content} onChange={handleEditDataChanged} />
+          <SaveCancelButtons error={apiError} onSave={handleEditSave} onCancel={handleEditCancel} />
         </div>
       ) : (
         parsedContent
@@ -93,21 +104,11 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
         shareBody={content}
         showEdit={currentUserId === userWhoAnsweredId}
         showDisable={currentUserId === userWhoAnsweredId}
-        editCallBack={() => {
-          setEditMode(true);
-        }}
+        editCallBack={handleEditCallback}
         showComment
-        commentCallback={() => {
-          setIsCommentMode(!isCommentMode);
-        }}
+        commentCallback={handleCommentCallback}
       />
-      <AddComment
-        postId={id}
-        enable={isCommentMode}
-        onCancel={() => {
-          setIsCommentMode(false);
-        }}
-      />
+      <AddComment postId={id} enable={isCommentMode} onCancel={handleAddCommentCancel} />
       <CommentsSection comments={comments} />
     </Box>
   );
