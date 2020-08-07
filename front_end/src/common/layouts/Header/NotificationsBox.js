@@ -1,124 +1,79 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu, Typography } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Paper from '@material-ui/core/Paper';
+import Link from 'next/link';
 import Loading from '../../components/Loading';
+import { doGraphQLQuery } from '../../../API/utilities';
+import { GET_NOTIFICATIONS } from '../../../API/queries';
+import { parseContent } from '../../parsers/parser';
+import { timeAgo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '800px',
     minWidth: '500px',
   },
-  boxNotification: {
+  notificationBox: {
     cursor: 'pointer',
     padding: '10px',
     minWidth: '400px',
     margin: theme.spacing(1, 2, 2, 2),
   },
-  boxNotificationNameDate: {
+  notificationBoxNameDate: {
     fontSize: '13px',
   },
-  boxNotificationName: {
+  notificationBoxName: {
     margin: theme.spacing(1, 0, 0, 0),
     fontSize: '10px',
   },
-  boxNotificationTitle: {
+  notificationBoxTitle: {
     wordWrap: 'wordBreak',
     textAlign: 'right',
   },
-  boxNotificationSubTitle: {
+  notificationBoxSubTitle: {
     wordWrap: 'wordBreak',
     textAlign: 'right',
     fontSize: '12px',
   },
+  noNotifications: {
+    paddingTop: '20px',
+    paddingBottom: '20px',
+    minWidth: '220px',
+    minHeight: '50px',
+    textAlign: 'center',
+  },
 }));
 
-const NotificationsBox = ({ notificationAnchor, handleClose }) => {
+const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChange }) => {
   const classes = useStyles();
+  const limit = 15;
+  let offset = 0;
+  const [notifications, setNotifications] = React.useState([]);
 
-  const [notificationText, setNotificationText] = React.useState([
-    {
-      id: 1,
-      name: 'یک نفر شما را تشویق کرد',
-      date: '25 شهریور 1399',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-    {
-      id: 1,
-      name: 'به شما پاسخی داده شد',
-      date: '7/19/2020',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-    {
-      id: 1,
-      name: 'یک نفر شما را تشویق کرد',
-      date: '7/19/2020',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-    {
-      id: 1,
-      name: 'یک نفر شما را تشویق کرد',
-      date: '7/19/2020',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-    {
-      id: 1,
-      name: 'یک نفر شما را تشویق کرد',
-      date: '7/19/2020',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-    {
-      id: 1,
-      name: 'یک نفر شما را تشویق کرد',
-      date: '7/19/2020',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-    {
-      id: 1,
-      name: 'یک نفر شما را تشویق کرد',
-      date: '7/19/2020',
-      question: ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-      answer:
-        ' تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست  تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست رشته ای به عددی و برعکس تبدیل لیست',
-    },
-  ]);
+  const loadMoreNotifications = async () => {
+    const response = await doGraphQLQuery(GET_NOTIFICATIONS, { offset, limit });
+    const newNotifications = response.getNotifications;
+    setNotifications(notifications.concat(newNotifications));
+    onNotificationCountChange(newNotifications.length);
+  };
+  useEffect(() => {
+    loadMoreNotifications();
+  }, []);
 
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      setNotificationText(notificationText.concat(notificationText));
-    }, 3000);
+  const fetchMoreData = async () => {
+    offset += limit;
+    await loadMoreNotifications();
   };
 
-  return (
-    <Menu
-      className={classes.root}
-      id="long-menu"
-      anchorEl={notificationAnchor}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      keepMounted
-      open={Boolean(notificationAnchor)}
-      onClose={handleClose}
-      dir="rtl"
-    >
+  const scrollComponent =
+    notifications.length > 0 ? (
       <InfiniteScroll
         height="500px"
-        dataLength={notificationText.length}
+        dataLength={notifications.length}
         next={fetchMoreData}
-        hasMore={true}
+        hasMore={notifications.length > 0 && notifications.length % limit === 0}
         loader={
           <Loading
             browserSize={45}
@@ -128,32 +83,60 @@ const NotificationsBox = ({ notificationAnchor, handleClose }) => {
           />
         }
       >
-        {notificationText.map((row) => (
-          <Paper key={row} dir={'rtl'} boxShadow={3} className={classes.boxNotification}>
-            <div
-              style={{
-                justifyContent: 'space-between',
-                display: 'flex',
-              }}
-            >
-              <Typography color={'textSecondary'} className={classes.boxNotificationNameDate}>
-                {row.date}
-              </Typography>
+        {notifications.map((row) => {
+          let name = '';
+          if (row.reason === 'COMMENT_RECEIVED') {
+            name = 'کامنتی دریافت کردید';
+          } else if (row.reason === 'ANASWER_RECEIVED') {
+            name = 'پاخی دریافت کردید';
+          }
+          let url = '';
+          try {
+            url = JSON.parse(row.metaData).url;
+          } catch (e) {}
 
-              <Typography color={'textSecondary'} className={classes.boxNotificationName}>
-                {row.name}
-              </Typography>
-            </div>
+          return (
+            <Link prefetch={false} href={`/[id]/[title]`} as={url}>
+              <Paper key={row} dir={'rtl'} boxShadow={3} className={classes.notificationBox}>
+                <div
+                  style={{
+                    justifyContent: 'space-between',
+                    display: 'flex',
+                  }}
+                >
+                  <Typography color={'textSecondary'} className={classes.notificationBoxNameDate}>
+                    {timeAgo(row.createdAt)}
+                  </Typography>
 
-            <Typography color={'textPrimary'} className={classes.boxNotificationTitle}>
-              {row.question}
-            </Typography>
-            <Typography color={'textSecondary'} className={classes.boxNotificationSubTitle}>
-              {row.answer}
-            </Typography>
-          </Paper>
-        ))}
+                  <Typography color={'textSecondary'} className={classes.notificationBoxName}>
+                    {name}
+                  </Typography>
+                </div>
+                {parseContent(row.title, { fontSize: '14px', cursor: 'pointer' }, true)}
+                {parseContent(row.content, { fontSize: '12px' }, false)}
+              </Paper>
+            </Link>
+          );
+        })}
       </InfiniteScroll>
+    ) : (
+      <div className={classes.noNotifications}>
+        <Typography variant={'p'}>{'اعلان جدیدی وجود ندارد'}</Typography>,
+      </div>
+    );
+  return (
+    <Menu
+      className={classes.root}
+      id="long-menu"
+      anchorEl={notificationAnchor}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      keepMounted
+      open={Boolean(notificationAnchor)}
+      onClose={onClose}
+      dir="rtl"
+    >
+      {scrollComponent}
     </Menu>
   );
 };

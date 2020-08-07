@@ -1,10 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Typography } from '@material-ui/core';
+import { Avatar, Typography, Tooltip } from '@material-ui/core';
 
 import Link from 'next/link';
 import { getFullUrl } from '../utlities/generalUtilities';
-import Medal from './Medal';
+// import Medal from './Medal';
 
 const useStyles = (size) =>
   makeStyles((theme) => ({
@@ -32,11 +32,11 @@ const useStyles = (size) =>
       flex: 1,
       display: 'flex',
       marginLeft: theme.spacing(2.2),
-      marginTop: theme.spacing(0.8),
+      marginTop: theme.spacing(0.3),
     },
   }))();
 
-const ProfileImage = ({ profileImage, size, href, as, showMedal }) => {
+const ProfileImage = ({ profileImage, size, href, as, showMedal, tooltip }) => {
   const classes = useStyles(size);
   let imageComponent;
   if (profileImage) {
@@ -45,18 +45,6 @@ const ProfileImage = ({ profileImage, size, href, as, showMedal }) => {
         <Avatar aria-label="recipe" className={classes.avatar} src={getFullUrl(profileImage)}>
           <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
         </Avatar>
-        {showMedal && (
-          <div>
-            <div className={classes.medalSection}>
-              <Medal className={classes.medal} backgroundColor="#CD7F32" color="white" count={'8'} />
-              <Medal className={classes.medal} backgroundColor="silver" color="black" count={'22'} />
-              <Medal className={classes.medal} backgroundColor="yellow" color="black" count={'2'} />
-            </div>
-            <Typography align={'center'} className={classes.score} variant="button">
-              {'125 امتیاز'}
-            </Typography>
-          </div>
-        )}
       </div>
     );
   } else {
@@ -64,6 +52,30 @@ const ProfileImage = ({ profileImage, size, href, as, showMedal }) => {
       <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
     );
   }
+  if (tooltip) {
+    imageComponent = (
+      <Tooltip dir={'rtl'} title={`${tooltip}`}>
+        {imageComponent}
+      </Tooltip>
+    );
+  }
+  // imageComponent = (
+  //   <div>
+  //     {imageComponent}
+  //     {showMedal && score && (
+  //       <div>
+  //         {/* <div className={classes.medalSection}> */}
+  //         {/*  <Medal className={classes.medal} backgroundColor="#CD7F32" color="white" count={'8'} /> */}
+  //         {/*  <Medal className={classes.medal} backgroundColor="silver" color="black" count={'22'} /> */}
+  //         {/*  <Medal className={classes.medal} backgroundColor="yellow" color="black" count={'2'} /> */}
+  //         {/* </div> */}
+  //         <Typography align={'center'} className={classes.score} variant="button">
+  //           {`${score} امتیاز`}
+  //         </Typography>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
   if (href) {
     return (
       <Link prefetch={false} href={href} as={as}>

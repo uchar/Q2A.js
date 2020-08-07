@@ -77,7 +77,7 @@ const QuestionItemPreview = ({
 }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
-  const { publicName, profileImage } = user;
+  const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const handleExpandClick = () => {
@@ -106,6 +106,7 @@ const QuestionItemPreview = ({
             profileImage={profileImage}
             createdAt={createdAt}
             publicName={publicName}
+            score={score}
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>

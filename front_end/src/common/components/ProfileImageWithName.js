@@ -26,12 +26,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileImageWithName = ({ profileImage, href, as, createdAt, publicName }) => {
+const ProfileImageWithName = ({ profileImage, href, as, createdAt, publicName, score }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <ProfileImage href={href} as={as} profileImage={profileImage} />
+      <ProfileImage
+        href={href}
+        as={as}
+        profileImage={profileImage}
+        showMedal
+        tooltip={`${publicName} تا به حال ${score} امتیاز گرفته است `}
+      />
       <div className={classes.nameDateSection}>
         <Link prefetch={false} href={href} as={as}>
           <Typography variant="subtitle1" color="textPrimary" className={classes.name}>

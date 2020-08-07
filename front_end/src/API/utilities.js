@@ -58,7 +58,6 @@ export const checkUser = async () => {
       await localStorage.setItem('USER_ID', result.getUser.id);
       return result.getUser;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }

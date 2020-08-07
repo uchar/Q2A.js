@@ -34,15 +34,17 @@ const PostToolbar = ({
   const classes = useStyles();
   const [shareAnchor, setShareAnchor] = React.useState(null);
 
+  const handleCloseShare = () => {
+    setShareAnchor(undefined);
+  };
+  
   return (
     <Grid container className={`${classes.root} ${className}`} spacing={1} direction="row" justify="flex-end">
       <ShareDialog
         shareTitle={shareTitle}
         shareBody={shareBody}
         anchor={shareAnchor}
-        handleClose={() => {
-          setShareAnchor(undefined);
-        }}
+        handleClose={handleCloseShare}
       />
       {showShare &&
         getItem(

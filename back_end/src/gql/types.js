@@ -95,10 +95,13 @@ module.exports = gql`
 
   type Notification {
     id: String
+    reason: String
     title: String
     content: String
+    type: String
     metaData: String
     read: Boolean
+    createdAt: String
   }
   type Result {
     statusCode: StatusCode

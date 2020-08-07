@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const userType = `user :{
+const userType = `user {
       id
       profileImage
       publicName
@@ -101,10 +101,13 @@ export const GET_NOTIFICATIONS = gql`
   query($limit: Int!, $offset: Int!) {
     getNotifications(limit: $limit, offset: $offset) {
       id
+      reason
       title
       content
+      type
       metaData
       read
+      createdAt
     }
   }
 `;

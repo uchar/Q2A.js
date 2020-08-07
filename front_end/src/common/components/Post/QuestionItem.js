@@ -58,7 +58,7 @@ const QuestionItem = ({
   const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
-  const { publicName, profileImage } = user;
+  const { publicName, profileImage, score } = user;
   const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
@@ -82,6 +82,7 @@ const QuestionItem = ({
           profileImage={profileImage}
           createdAt={createdAt}
           publicName={publicName}
+          score={score}
         />
         <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
       </Grid>
