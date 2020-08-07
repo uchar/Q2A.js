@@ -112,7 +112,7 @@ module.exports.updateQuestion = async (_, { id, title, content, tags }, context)
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
   });
-  const resultOfPost = await updatePost(
+  await updatePost(
     {
       title,
       content,
@@ -121,8 +121,7 @@ module.exports.updateQuestion = async (_, { id, title, content, tags }, context)
     id,
     context
   );
-  const newPost = resultOfPost.dataValues;
-  return createSuccessResponse(`/${newPost.id}/${newPost.title}`);
+  return createSuccessResponse(`/${id}/${title}`);
 };
 
 module.exports.addAnswer = async (_, { postId, content }, context) => {

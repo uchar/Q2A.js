@@ -12,16 +12,27 @@ import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS } from '../../../API/queries';
 
 const useStyles = makeStyles((theme) => ({
+  section: {
+    margin: theme.spacing(0, 1, 0, 1),
+  },
   title: {
     fontSize: 26,
     textAlign: 'left',
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
-  margin: {
-    margin: '25px 15px 0px 25px',
+  subtitle: { marginRight: theme.spacing(2), marginBottom: theme.spacing(2), textAlign: 'left' },
+  tagTitle: { margin: theme.spacing(6, 0, 0, 0) },
+  titleInput: { margin: theme.spacing(0, 1, 2, 1), textAlign: 'left' },
+  autoComplete: {
+    margin: theme.spacing(2, 0, 0, 0),
   },
   button: {
-    margin: '0px 52px 30px 20px',
-    padding: '10px 80px 10px 80px',
+    margin: theme.spacing(2, 0, 6, 4),
+    padding: theme.spacing(2, 12, 2, 12),
+  },
+  error: {
+    margin: theme.spacing(2, 0, 0, 3),
   },
 }));
 
@@ -62,7 +73,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             tags: tagsToSend,
           };
           if (editMode) params.id = editId;
-          const mutation = editMode ? ADD_QUESTION : UPDATE_QUESTION;
+          const mutation = editMode ? UPDATE_QUESTION : ADD_QUESTION;
           const resultObject = await doGraphQLMutation(mutation, params);
           const result = editMode ? resultObject.updateQuestion : resultObject.addQuestion;
           if (result.statusCode !== 'SUCCESS') {
@@ -85,17 +96,16 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
         return (
           <form onSubmit={handleSubmit}>
             <CardContent>
-              <div style={{ margin: '0px 15px 0px 25px' }}>
-                <Typography className={classes.title} gutterBottom style={{ marginRight: '20px' }}>
+              <div className={classes.section}>
+                <Typography className={classes.title} gutterBottom>
                   {getStrings().ASK_TITLE}
                 </Typography>
-                <Typography variant="body2" component="p" style={{ marginRight: '20px', textAlign: 'right' }}>
+                <Typography variant="body2" component="p" className={classes.subtitle}>
                   {getStrings().ASK_SUBTITLE}
                 </Typography>
                 <div>
                   <TextField
-                    style={{ marginLeft: '15px', textAlign: 'left' }}
-                    className={classes.margin}
+                    className={classes.titleInput}
                     fullWidth
                     id="title"
                     name="title"
@@ -109,19 +119,14 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   )}
                 </div>
               </div>
-              <div style={{ margin: '30px 15px 0px 25px' }}>
-                <Typography className={classes.title} gutterBottom style={{ marginRight: '10px' }}>
+              <div className={classes.section}>
+                <Typography className={classes.title} gutterBottom>
                   {getStrings().ASK_DESCRIPTION_TITLE}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  component="p"
-                  style={{ marginRight: '10px', marginBottom: '15px', textAlign: 'right' }}
-                >
+                <Typography variant="body2" component="p" className={classes.subtitle}>
                   {getStrings().ASK_DESCRIPTION_SUBTITLE}
                 </Typography>
                 <CKEditor
-                  className={classes.margin}
                   data={values.content}
                   onChange={(event, editor) => {
                     const data = editor.getData();
@@ -129,20 +134,17 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     setValues({ ...values, content: data });
                   }}
                 />
-                {errors.content && (
-                  <ErrorMessage style={{ margin: '10px 15px 0px 0px' }} text={errors.content} />
-                )}
+                {errors.content && <ErrorMessage className={classes.error} text={errors.content} />}
               </div>
-              <div style={{ margin: '30px 10px 30px 25px' }}>
-                <Typography variant="body2" component="p" style={{ marginRight: '15px', textAlign: 'right' }}>
+              <div className={classes.section}>
+                <Typography variant="body2" component="p" className={classes.tagTitle}>
                   {getStrings().ASK_TAGS}
                 </Typography>
                 <Autocomplete
                   fullWidth
-                  className={classes.margin}
+                  className={classes.autoComplete}
                   options={tags}
                   value={values.tags}
-                  style={{ paddingLeft: '15px' }}
                   multiple
                   id="tags-outlined"
                   getOptionLabel={(option) => option.title}
@@ -154,7 +156,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
                   )}
                 />
-                {errors.tags && <ErrorMessage style={{ margin: '10px 15px 0px 0px' }} text={errors.tags} />}
+                {errors.tags && <ErrorMessage className={classes.error} text={errors.tags} />}
               </div>
             </CardContent>
             {
@@ -185,7 +187,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
               </div>
             }
 
-            {errors.api && <ErrorMessage style={{ margin: '-10px 15px 20px 0px' }} text={errors.api} />}
+            {errors.api && <ErrorMessage className={classes.error} text={errors.api} />}
           </form>
         );
       }}
