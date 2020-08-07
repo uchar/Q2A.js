@@ -55,8 +55,12 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
   const loadMoreNotifications = async () => {
     const response = await doGraphQLQuery(GET_NOTIFICATIONS, { offset, limit });
     const newNotifications = response.getNotifications;
+    let unReadNotifications = 0;
+    newNotifications.forEach((notification) => {
+      if (!notification.read) unReadNotifications += 1;
+    });
+    if (unReadNotifications > 0) onNotificationCountChange(unReadNotifications);
     setNotifications(notifications.concat(newNotifications));
-    onNotificationCountChange(newNotifications.length);
   };
   useEffect(() => {
     loadMoreNotifications();

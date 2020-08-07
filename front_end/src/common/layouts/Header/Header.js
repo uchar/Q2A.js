@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
 import CardButton from '../../components/CardButton';
-import { checkUser } from '../../../API/utilities';
+import { checkUser, doGraphQLMutation } from '../../../API/utilities';
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
 import { getStrings } from '../../utlities/languageUtilities';
+import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -111,6 +112,8 @@ const Header = ({}) => {
   };
   const handleNotificationMenuOpen = async (event) => {
     setNotificationAnchor(event.currentTarget);
+    setNotificationCount(0);
+    return doGraphQLMutation(SET_READ_ALL_NOTIFICATIONS);
   };
 
   const handleLanguageMenuOpen = (event) => {
@@ -137,6 +140,10 @@ const Header = ({}) => {
     }
   };
 
+  const handleNotificationCountChange = (count) => {
+    setNotificationCount(count);
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar color="background.default" position="static">
@@ -144,9 +151,7 @@ const Header = ({}) => {
           <NotificationsBox
             notificationAnchor={notificationAnchor}
             onClose={handleNotificationsMenuClose}
-            onNotificationCountChange={(count) => {
-              setNotificationCount(count);
-            }}
+            onNotificationCountChange={handleNotificationCountChange}
           />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>

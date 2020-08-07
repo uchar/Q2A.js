@@ -15,17 +15,3 @@ module.exports.updateUser = async (_, { input }, context) => {
   );
   return createSuccessResponse();
 };
-
-module.exports.setReadAllNotification = async (_, __, context) => {
-  if (!context.user) {
-    throw new Error("You're not authorized");
-  }
-  const Notifications = database.loadModel(tables.NOTIFICATION_TABLE);
-  await Notifications.update(
-    {
-      read: true,
-    },
-    { where: { id: context.user.id } }
-  );
-  return createSuccessResponse();
-};

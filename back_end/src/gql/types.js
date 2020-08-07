@@ -131,6 +131,6 @@ module.exports = gql`
     updateComment(id: String!, content: String!): Result
     uploadFile(file: Upload!): File!
     updateUser(input: UpdateUserInput!): Result
-    setReadAllNotification: Result
+    setReadAllNotifications: Result
   }
 `;

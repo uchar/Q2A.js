@@ -13,7 +13,8 @@ const {
 const { getAllTags, getTagDetail } = require('../queries/tag');
 const { getUser } = require('../queries/user');
 const { getNotifications } = require('../queries/notifications');
-const { updateUser, setReadAllNotification } = require('../mutations/user');
+const { updateUser } = require('../mutations/user');
+const { setReadAllNotifications } = require('../mutations/notifications');
 const { login, signUp, googleLogin } = require('../mutations/login');
 const {
   addQuestion,
@@ -49,7 +50,7 @@ module.exports = {
     updateComment,
     addAnswer,
     addComment,
-    setReadAllNotification,
+    setReadAllNotifications,
   },
   Question: {
     answers: getAnswers,
