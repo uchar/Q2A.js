@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
     textDecorationLine: 'underline',
     cursor: 'pointer',
     color: '#ff00ee',
-    margin: theme.spacing(3.2, 0, 2, 0),
+    fontSize: '10px',
+    margin: theme.spacing(2.4, 0, 2, 0),
   },
 }));
 
@@ -23,7 +24,7 @@ export default function CommentItem({ content, user }) {
   const classes = useStyles();
   const { publicName } = user;
 
-  const parsedContent = parseContent(content);
+  const parsedContent = parseContent(content, { fontSize: '12px' });
   return (
     <div className={classes.root}>
       <div> {parsedContent}</div>

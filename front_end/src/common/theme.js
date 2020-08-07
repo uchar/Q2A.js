@@ -48,6 +48,7 @@ const typography = {
   },
   button: {
     fontSize: '0.75rem',
+    textTransform: 'none',
   },
   caption: {
     fontSize: '0.8rem',
