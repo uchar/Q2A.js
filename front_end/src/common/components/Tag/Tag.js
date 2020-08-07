@@ -22,7 +22,7 @@ export default function Tag(props) {
   const { tag, count } = props;
   const label = count ? `${tag}  ${count}` : tag;
   return (
-    <Link prefetch={false} href="/tag/[tag]" as={`/tag/${tag}`}>
+    <Link prefetch={false} href="/tag/[tag]" as={`/tag/${encodeURIComponent(tag)}`}>
       <Box boxShadow={1} border={1} className={classes.box}>
         <Typography style={{ fontSize: 10 }}>{label}</Typography>
       </Box>

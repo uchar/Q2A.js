@@ -14,9 +14,7 @@ const render7khatcodeHtml = (html) => {
   );
 };
 const unescapeCode = (escapedHTML) => {
-  return renderHTML(
-    escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').toString()
-  );
+  return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').toString();
 };
 export const replacePTagWithTypoGraphy = (valueToParse, textColor = 'textPrimary') => {
   return (
@@ -115,7 +113,6 @@ export const legacyParseContent = (valueToParse, textColor = 'textPrimary') => {
     pre: true, // retrieve content in <pre> (hurt performance slightly)
     comment: false, // retrieve comments (hurt performance slightly)
   });
-
   try {
     let parts = [];
     if (root.tagName === null && root.childNodes.length === 1) {

@@ -110,7 +110,7 @@ const QuestionItemPreview = ({
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
-        <Link href={`/${id}/${title}`}>
+        <Link href={`/${id}/${encodeURIComponent(title)}`}>
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>
