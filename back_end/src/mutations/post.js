@@ -58,6 +58,7 @@ const getUrlFromPost = async (post) => {
     const parentQuestion = await getParentPost(post.parentId);
     return getUrlFromPost(parentQuestion);
   }
+  console.warn('Type of post not found in getUrlFromPost');
   return '/';
 };
 
