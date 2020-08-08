@@ -36,6 +36,7 @@
     "next": "9.5.1",
     "next-redux-wrapper": "6.0.2",
     "node-html-parser": "1.2.20",
+    "nprogress": "0.2.0",
     "prop-types": "15.7.2",
     "raw-loader": "4.0.1",
     "react": "16.13.1",

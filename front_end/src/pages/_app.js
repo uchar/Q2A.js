@@ -4,10 +4,30 @@ import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import NProgress from 'nprogress';
+import Router from 'next/router';
 import { wrapper } from '../redux/store';
 import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
 import { getStrings } from '../common/utlities/languageUtilities';
+import 'nprogress/nprogress.css';
+
+NProgress.configure({ showSpinner: true });
+
+Router.onRouteChangeStart = () => {
+  // console.log('onRouteChnageStart triggered');
+  NProgress.start();
+};
+
+Router.onRouteChangeComplete = () => {
+  // console.log('onRouteChnageComplete triggered');
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  // console.log('onRouteChnageError triggered');
+  NProgress.done();
+};
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
