@@ -58,6 +58,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const parsedContent = isLegacyContent ? legacyParseContent(content, 'textPrimary') : parseContent(content);
+
   useEffect(() => {
     const getUserId = async () => {
       const userId = await getCurrentUserId();
@@ -65,7 +66,10 @@ const QuestionItem = DeepMemo(function QuestionItem({
     };
     getUserId();
   }, []);
-  console.log('WTF : ', currentUserId, userWhoAskedId);
+
+  const handleEditFinished = () => {
+    setIsEditMode(false);
+  };
 
   return (
     <Box boxShadow={2} className={classes.root}>
@@ -108,9 +112,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
           })}
           editContent={content}
           editId={id}
-          onEditFinished={() => {
-            setIsEditMode(false);
-          }}
+          onEditFinished={handleEditFinished}
         />
       )}
       <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />

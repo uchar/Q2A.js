@@ -4,12 +4,14 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import { getStrings } from '../../utlities/languageUtilities';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
 import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
-import { ALL_TAGS } from '../../../API/queries';
+import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
+import { SELECTED_QUESTION } from '../../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -38,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEditFinished }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const router = useRouter();
   const [tags, setTags] = React.useState([
     { title: 'c' },
@@ -54,7 +57,11 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
     getAllTags();
   }, []);
 
-  console.log('EDIT TAGS : ', editTags);
+  const refreshQuestion = async () => {
+    const questionData = await doGraphQLQuery(GET_QUESTION, { id: editId });
+    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+  };
+
   return (
     <Formik
       enableReinitialize
@@ -79,7 +86,12 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
           if (result.statusCode !== 'SUCCESS') {
             throw new Error(result.message);
           }
-          return router.replace(`${result.message}`);
+          if (editMode) {
+            await refreshQuestion();
+            onEditFinished();
+          } else {
+            return router.replace(`${result.message}`);
+          }
         } catch (error) {
           setErrors({ api: error.toString() });
         }
