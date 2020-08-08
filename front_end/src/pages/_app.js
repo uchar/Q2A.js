@@ -11,8 +11,7 @@ import { getStrings } from '../common/utlities/languageUtilities';
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
-  const selector = useSelector((state) => state);
-  const { themeType } = selector.client;
+  const themeType = useSelector((state) => state.themeType);
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -20,7 +19,7 @@ const Q2aApp = (props) => {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
-
+  const getLayout = Component.getLayout || ((page) => page);
   return (
     <React.Fragment>
       <Head>
@@ -29,7 +28,7 @@ const Q2aApp = (props) => {
       </Head>
       <ThemeProvider theme={themeType === 'dark' ? darkTheme : lightTheme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
     </React.Fragment>
   );

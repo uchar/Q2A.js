@@ -57,7 +57,7 @@ const SButton = (props) => {
         component="span"
         className={classes.viewCourseButton}
         {...props}
-        disabled={shouldShowLoading ? loading : ''}
+        disabled={shouldShowLoading ? loading : false}
         onClick={shouldShowLoading ? handleButtonClick : onClick}
         fullWidth={fullWidth}
       >

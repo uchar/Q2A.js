@@ -77,8 +77,8 @@ export const GET_QUESTION = gql`
 `;
 
 export const ALL_TAGS = gql`
-  query {
-    getTags(limit: 80, offset: 0) {
+  query($limit: Int, $offset: Int) {
+    getTags(limit: $limit, offset: $offset) {
       id
       title
       used

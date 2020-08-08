@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { legacyParseContent } from '../../parsers/legacyParser';
 import { parseContent } from '../../parsers/parser';
-import { getTagsArray } from '../../utlities/generalUtilities';
+import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
-import { doGraphQLMutation, getCurrentUserId } from '../../../API/utilities';
-import CKEditor from '../Editor/CKEditor';
-import { ADD_COMMENT } from '../../../API/mutations';
-import ErrorMessage from '../ErrorMessage';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
-import SaveCancelButtons from '../SaveCancelButtons';
 import AddComment from './AddComment';
+import { getCurrentUserId } from '../../../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionItem = ({
+const QuestionItem = DeepMemo(function QuestionItem({
   id,
   title,
   content,
@@ -53,7 +49,7 @@ const QuestionItem = ({
   tag4,
   tag5,
   isLegacyContent,
-}) => {
+}) {
   const classes = useStyles();
   const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setIsEditMode] = React.useState(false);
@@ -66,12 +62,14 @@ const QuestionItem = ({
     ? legacyParseContent(content, mainPage ? 'textSecondary' : 'textPrimary')
     : parseContent(content);
   useEffect(() => {
-    const getUser = async () => {
+    const getUserId = async () => {
       const userId = await getCurrentUserId();
       setCurrentUserId(userId);
     };
-    getUser();
+    getUserId();
   }, []);
+
+  console.log('RERENDER QUESTION : ');
 
   return (
     <Box boxShadow={2} className={classes.root}>
@@ -145,6 +143,5 @@ const QuestionItem = ({
       <CommentsSection comments={comments} />
     </Box>
   );
-};
-
+});
 export default QuestionItem;

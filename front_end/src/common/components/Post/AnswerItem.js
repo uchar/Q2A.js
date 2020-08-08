@@ -11,6 +11,7 @@ import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { ADD_QUESTION, UPDATE_ANSWER, UPDATE_QUESTION, UPDATE_USER } from '../../../API/mutations';
 import AddComment from './AddComment';
+import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AnswerItem({ id, content, user, createdAt, votesCount, comments, isLegacyContent }) {
+const AnswerItem = DeepMemo(function AnswerItem({
+  id,
+  content,
+  user,
+  createdAt,
+  votesCount,
+  comments,
+  isLegacyContent,
+}) {
   const classes = useStyles();
   const { publicName, profileImage, score } = user;
   const [currentUserId, setCurrentUserId] = React.useState('');
@@ -74,7 +83,7 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
   const handleAddCommentCancel = () => {
     setIsCommentMode(false);
   };
-
+  console.log('RERENDER ANSWER : ');
   return (
     <Box boxShadow={4} className={classes.root}>
       <CardContent>
@@ -112,4 +121,5 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
       <CommentsSection comments={comments} />
     </Box>
   );
-}
+});
+export default AnswerItem;

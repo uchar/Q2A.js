@@ -8,7 +8,7 @@ import { parseContent } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import { getTagsArray } from '../../utlities/generalUtilities';
+import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,12 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const checkTagAndAppend = (tags, newTag) => {
-  if (newTag) tags.push(newTag);
-  return tags;
-};
-
-const QuestionItemPreview = ({
+const QuestionItemPreview = DeepMemo(function ({
   id,
   title,
   content,
@@ -74,9 +69,12 @@ const QuestionItemPreview = ({
   tag4,
   tag5,
   isLegacyContent,
-}) => {
+}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
+  if (user === null) {
+    return <div></div>;
+  }
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
@@ -95,7 +93,7 @@ const QuestionItemPreview = ({
       </div>
     );
   }
-
+  console.log('RERENDER QUESTION PREVIEW: ');
   return (
     <Box boxShadow={2} className={classes.root}>
       <CardContent>
@@ -135,6 +133,6 @@ const QuestionItemPreview = ({
       <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
     </Box>
   );
-};
+});
 
 export default QuestionItemPreview;

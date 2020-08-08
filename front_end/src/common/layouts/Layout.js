@@ -8,6 +8,7 @@ import TagsList from '../components/Tag/TagsList';
 import RTL from './RTL';
 import News from '../components/News';
 import Loading from '../components/Loading';
+import {useSelector} from "react-redux";
 
 const layoutStyle = {
   display: 'flex',
@@ -25,8 +26,10 @@ const contentStyle = {
 };
 
 const Layout = (props) => {
-  const { tags, noSideBar } = props;
+  const tags = useSelector((state) => state.tags);
+  const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
+  console.log('RERENDER LAYOUT');
   return (
     <RTL>
       <div style={layoutStyle} dir="rtl">
