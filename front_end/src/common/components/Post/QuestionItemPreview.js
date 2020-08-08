@@ -93,7 +93,6 @@ const QuestionItemPreview = DeepMemo(function ({
       </div>
     );
   }
-  console.log('RERENDER QUESTION PREVIEW: ');
   return (
     <Box boxShadow={2} className={classes.root}>
       <CardContent>

@@ -16,19 +16,19 @@ const typography = {
     '"Segoe UI Symbol"',
   ].join(','),
   h1: {
-    fontSize: '1.4rem',
-  },
-  h2: {
     fontSize: '1.3rem',
   },
-  h3: {
+  h2: {
     fontSize: '1.2rem',
   },
-  h4: {
+  h3: {
     fontSize: '1.1rem',
   },
-  h5: {
+  h4: {
     fontSize: '1rem',
+  },
+  h5: {
+    fontSize: '0.9rem',
   },
   h6: {
     fontSize: '0.9rem',

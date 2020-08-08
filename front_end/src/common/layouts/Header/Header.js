@@ -144,7 +144,6 @@ const Header = ({}) => {
     setNotificationCount(count);
   };
 
-  console.log('RERENDER HEADER ');
   return (
     <div className={classes.grow}>
       <AppBar color="transparent" position="static">

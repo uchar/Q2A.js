@@ -29,7 +29,6 @@ const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
   const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
-  console.log('RERENDER LAYOUT');
   return (
     <RTL>
       <div style={layoutStyle} dir="rtl">

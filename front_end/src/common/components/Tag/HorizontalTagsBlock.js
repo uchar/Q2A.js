@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { func } from 'prop-types';
 import Tag from './Tag';
+import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', flexDirection: 'row' },
@@ -9,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HorizontalTagsBlock = ({ className, tags }) => {
+const HorizontalTagsBlock = DeepMemo(function HorizontalTagsBlock({ className, tags }) {
   const classes = useStyles();
 
   return (
@@ -21,6 +23,6 @@ const HorizontalTagsBlock = ({ className, tags }) => {
       ))}
     </div>
   );
-};
+});
 
 export default HorizontalTagsBlock;

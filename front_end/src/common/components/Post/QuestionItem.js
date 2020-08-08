@@ -68,8 +68,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
     getUserId();
   }, []);
 
-  console.log('RERENDER QUESTION : ');
-
   return (
     <Box boxShadow={2} className={classes.root}>
       <Grid container direction="row" justify="space-between" alignItems="center">

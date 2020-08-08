@@ -83,7 +83,6 @@ const AnswerItem = DeepMemo(function AnswerItem({
   const handleAddCommentCancel = () => {
     setIsCommentMode(false);
   };
-  console.log('RERENDER ANSWER : ');
   return (
     <Box boxShadow={4} className={classes.root}>
       <CardContent>

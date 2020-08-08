@@ -1,11 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Badge, Typography, Box } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import Link from 'next/link';
-import { timeAgo } from '../utlities/generalUtilities';
+import { DeepMemo, timeAgo } from '../utlities/generalUtilities';
 import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import ProfileImage from './ProfileImage';
-import Medal from './Medal';
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', flexDirection: 'row', textAlign: 'left' },
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileImageWithName = ({ profileImage, href, as, createdAt, publicName, score }) => {
+const ProfileImageWithName = DeepMemo(function ({ profileImage, href, as, createdAt, publicName, score }) {
   const classes = useStyles();
 
   return (
@@ -51,6 +50,6 @@ const ProfileImageWithName = ({ profileImage, href, as, createdAt, publicName, s
       </div>
     </div>
   );
-};
+});
 
 export default ProfileImageWithName;
