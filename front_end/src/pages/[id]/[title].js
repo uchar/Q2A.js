@@ -67,7 +67,7 @@ const Post = () => {
       <QuestionItem {...question} />
       {question.answers.map((answer) => {
         return (
-          <AnswerItem style={{ width: '80%' }} key={answer.id} postId={question.id} {...answer}></AnswerItem>
+          <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer}></AnswerItem>
         );
       })}
       <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>

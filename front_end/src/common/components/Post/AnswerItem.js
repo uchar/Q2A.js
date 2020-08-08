@@ -31,7 +31,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
   createdAt,
   votesCount,
   comments,
-  postId,
+  rootId,
   isLegacyContent,
 }) {
   const classes = useStyles();
@@ -58,7 +58,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
   };
 
   const refreshQuestion = async () => {
-    const questionData = await doGraphQLQuery(GET_QUESTION, { id: postId });
+    const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
     dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
   };
 
@@ -127,7 +127,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
         showComment
         commentCallback={handleCommentCallback}
       />
-      <AddComment postId={id} enable={isCommentMode} onCancel={handleAddCommentCancel} />
+      <AddComment rootId={rootId} postId={id} enable={isCommentMode} onClose={handleAddCommentCancel} />
       <CommentsSection comments={comments} />
     </Box>
   );

@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddComment = ({ className, enable, onCancel, postId }) => {
+const AddComment = ({ className, enable, onClose, postId, rootId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [commentData, setCommentData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
 
   const refreshQuestion = async () => {
-    const questionData = await doGraphQLQuery(GET_QUESTION, { id: postId });
+    const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
     dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
   };
 
@@ -43,7 +43,7 @@ const AddComment = ({ className, enable, onCancel, postId }) => {
         throw new Error(result.message);
       }
       await refreshQuestion();
-      onCancel();
+      onClose();
     } catch (error) {
       setAPIError(error.toString());
     }
@@ -58,7 +58,7 @@ const AddComment = ({ className, enable, onCancel, postId }) => {
         }}
         toolbar={['bold', 'italic', 'code', 'link']}
       />
-      <SaveCancelButtons onSave={submitComment} onCancel={onCancel} error={APIError} />
+      <SaveCancelButtons onSave={submitComment} onCancel={onClose} error={APIError} />
     </div>
   );
 };

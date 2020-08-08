@@ -133,8 +133,9 @@ const QuestionItem = DeepMemo(function QuestionItem({
 
       <AddComment
         postId={id}
+        rootId={id}
         enable={isCommentMode}
-        onCancel={() => {
+        onClose={() => {
           setIsCommentMode(false);
         }}
       />
