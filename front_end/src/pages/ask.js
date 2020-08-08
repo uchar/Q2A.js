@@ -17,5 +17,5 @@ const Ask = () => {
   );
 };
 
-Post.getLayout = (page) => <AskLayout>{page}</AskLayout>;
+Ask.getLayout = (page) => <AskLayout>{page}</AskLayout>;
 export default Ask;

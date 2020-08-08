@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Post = () => {
-  const tags = useSelector((state) => state.tags);
   const dispatch = useDispatch();
   const question = useSelector((state) => state.selectedQuestion);
   const classes = useStyles();
@@ -66,7 +65,7 @@ const Post = () => {
 
   return (
     <Box className={classes.paper}>
-      <QuestionItem mainPage={false} {...question} />
+      <QuestionItem {...question} />
       {question.answers.map((answer) => {
         return <AnswerItem style={{ width: '80%' }} key={answer.id} {...answer}></AnswerItem>;
       })}

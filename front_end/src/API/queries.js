@@ -25,10 +25,10 @@ const QUESTION = `{
 
 export const ALL_QUESTIONS = gql`
   query($tag: String) {
-    latestQuestions(tag: $tag,limit: 30,offset: 0) ${QUESTION}
-    popularQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
-    mostViewsQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
-    noAnswersQuestions(tag: $tag,limit: 30,offset: 0)  ${QUESTION}
+    latestQuestions(tag: $tag,limit: 20,offset: 0) ${QUESTION}
+    popularQuestions(tag: $tag,limit: 20,offset: 0)  ${QUESTION}
+    mostViewsQuestions(tag: $tag,limit: 20,offset: 0)  ${QUESTION}
+    noAnswersQuestions(tag: $tag,limit: 20,offset: 0)  ${QUESTION}
   }
 `;
 

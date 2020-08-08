@@ -42,7 +42,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   votesCount,
   answersCount,
   comments,
-  mainPage,
   tag1,
   tag2,
   tag3,
@@ -59,7 +58,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const parsedContent = isLegacyContent
-    ? legacyParseContent(content, mainPage ? 'textSecondary' : 'textPrimary')
+    ? legacyParseContent(content,  'textPrimary')
     : parseContent(content);
   useEffect(() => {
     const getUserId = async () => {

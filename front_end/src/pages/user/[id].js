@@ -92,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const User = () => {
-  const tags = useSelector((state) => state.tags);
   const user = useSelector((state) => state.selectedUser);
   const dispatch = useDispatch();
   const classes = useStyles();

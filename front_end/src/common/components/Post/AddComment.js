@@ -1,9 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { doGraphQLMutation } from '../../../API/utilities';
+import { useDispatch } from 'react-redux';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
+import { GET_QUESTION } from '../../../API/queries';
+import { SELECTED_QUESTION } from '../../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,8 +18,14 @@ const useStyles = makeStyles((theme) => ({
 
 const AddComment = ({ className, enable, onCancel, postId }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [commentData, setCommentData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
+
+  const refreshQuestion = async () => {
+    const questionData = await doGraphQLQuery(GET_QUESTION, { id: postId });
+    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+  };
 
   const submitComment = async () => {
     try {
@@ -33,7 +42,8 @@ const AddComment = ({ className, enable, onCancel, postId }) => {
       if (result.statusCode !== 'SUCCESS') {
         throw new Error(result.message);
       }
-      window.location.reload();
+      await refreshQuestion();
+      onCancel();
     } catch (error) {
       setAPIError(error.toString());
     }
