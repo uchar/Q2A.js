@@ -107,7 +107,7 @@ const QuestionItemPreview = DeepMemo(function ({
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
-        <Link href={`/${id}/${encodeURIComponent(title)}`}>
+        <Link href={`/[id]/[title]`} as={`/${id}/${encodeURIComponent(title)}`} >
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>

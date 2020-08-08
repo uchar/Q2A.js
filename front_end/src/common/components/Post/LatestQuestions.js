@@ -78,6 +78,7 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
     }
     return title;
   };
+  console.log('RENDER LatestQuestions ');
 
   return (
     <div className={classes.root}>

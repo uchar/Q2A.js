@@ -29,6 +29,10 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
+export function reportWebVitals(metric) {
+  console.log(metric)
+}
+
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
   const themeType = useSelector((state) => state.themeType);

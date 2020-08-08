@@ -41,8 +41,6 @@ const Post = () => {
   };
 
   const submitAnswer = async () => {
-    setAnswerData('');
-    return;
     try {
       if (answerData.length < 15) {
         setAPIError('حداقل تعداد کاراکتر برای پاسخ 15 است');
@@ -57,6 +55,7 @@ const Post = () => {
       if (result.statusCode !== 'SUCCESS') {
         throw new Error(result.message);
       }
+      setAnswerData('');
       await refreshQuestion();
     } catch (error) {
       setAPIError(error.toString());
@@ -67,7 +66,9 @@ const Post = () => {
     <Box className={classes.paper}>
       <QuestionItem {...question} />
       {question.answers.map((answer) => {
-        return <AnswerItem style={{ width: '80%' }} key={answer.id} {...answer}></AnswerItem>;
+        return (
+          <AnswerItem style={{ width: '80%' }} key={answer.id} postId={question.id} {...answer}></AnswerItem>
+        );
       })}
       <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
         <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
