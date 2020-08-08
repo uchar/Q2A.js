@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';
+import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tag(props) {
+const Tag = DeepMemo(function Tag(props) {
   const classes = useStyles();
   const { tag, count } = props;
   const label = count ? `${tag}  ${count}` : tag;
@@ -28,4 +29,6 @@ export default function Tag(props) {
       </Box>
     </Link>
   );
-}
+});
+
+export default Tag;

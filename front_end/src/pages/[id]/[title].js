@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Typography } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import QuestionItem from '../../common/components/Post/QuestionItem';
 import Layout from '../../common/layouts/Layout';
 import CKEditor from '../../common/components/Editor/CKEditor';
@@ -9,8 +10,11 @@ import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
 import { getStrings } from '../../common/utlities/languageUtilities';
-import { ADD_ANSWER, ADD_QUESTION, UPDATE_QUESTION } from '../../API/mutations';
+import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
+import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
+import { wrapper } from '../../redux/store';
+import { ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,13 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let answerData = '';
-const Post = ({ questionData, tags }) => {
+const Post = () => {
+  const dispatch = useDispatch();
+  const question = useSelector((state) => state.selectedQuestion);
   const classes = useStyles();
+  const [answerData, setAnswerData] = useState('');
   const [APIError, setAPIError] = React.useState(null);
-  if (!questionData) return <Loading />;
-  const { ...question } = questionData;
-  question.isExpanded = true;
+  if (!question) return <Loading />;
+
+  const refreshQuestion = async () => {
+    const questionData = await doGraphQLQuery(GET_QUESTION, { id: question.id });
+    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+  };
 
   const submitAnswer = async () => {
     try {
@@ -46,44 +55,46 @@ const Post = ({ questionData, tags }) => {
       if (result.statusCode !== 'SUCCESS') {
         throw new Error(result.message);
       }
-      window.location.reload();
+      setAnswerData('');
+      await refreshQuestion();
     } catch (error) {
       setAPIError(error.toString());
     }
   };
 
   return (
-    <Layout tags={tags}>
-      <Box className={classes.paper}>
-        <QuestionItem mainPage={false} {...question} />
-        {question.answers.map((answer) => {
-          return <AnswerItem style={{ width: '80%' }} key={answer.id} {...answer}></AnswerItem>;
-        })}
-        <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
-          <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
-            {'پاسخ شما : '}
-          </Typography>
-          <CKEditor
-            onChange={(event, editor) => {
-              answerData = editor.getData();
-            }}
-          />
-        </div>
-        <div style={{ textAlign: 'left', marginTop: '25px' }}>
-          <Button
-            onClick={submitAnswer}
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            loading={false}
-            shouldShowLoading={false}
-          >
-            {getStrings().ASK_BUTTON_SENDING}
-          </Button>
-        </div>
-        {APIError && <ErrorMessage text={APIError} />}
-      </Box>
-    </Layout>
+    <Box className={classes.paper}>
+      <QuestionItem {...question} />
+      {question.answers.map((answer) => {
+        return (
+          <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer}></AnswerItem>
+        );
+      })}
+      <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
+        <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
+          {'پاسخ شما : '}
+        </Typography>
+        <CKEditor
+          data={answerData}
+          onChange={(event, editor) => {
+            setAnswerData(editor.getData());
+          }}
+        />
+      </div>
+      <div style={{ textAlign: 'left', marginTop: '25px' }}>
+        <Button
+          onClick={submitAnswer}
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          loading={false}
+          shouldShowLoading={false}
+        >
+          {getStrings().ASK_BUTTON_SENDING}
+        </Button>
+      </div>
+      {APIError && <ErrorMessage text={APIError} />}
+    </Box>
   );
 };
 export const getStaticPaths = async () => {
@@ -92,15 +103,18 @@ export const getStaticPaths = async () => {
     fallback: true,
   };
 };
-export const getStaticProps = async ({ params }) => {
-  const questionData = await doGraphQLQuery(GET_QUESTION, { id: params.id });
-  const tagsResponse = await doGraphQLQuery(ALL_TAGS);
-  return {
-    props: {
-      questionData: questionData.getQuestion,
-      tags: tagsResponse.getTags,
-    },
-    revalidate: 20,
-  };
-};
+
+export const getStaticProps = async (props) =>
+  addRevalidateAndRedux(
+    props,
+    wrapper.getStaticProps(async ({ store }) => {
+      const { id } = props.params;
+      const questionData = await doGraphQLQuery(GET_QUESTION, { id });
+      const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
+      store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
+      store.dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+    })
+  );
+
+Post.getLayout = (page) => <Layout>{page}</Layout>;
 export default Post;

@@ -7,8 +7,7 @@ import {
 import { useSelector } from 'react-redux';
 
 const CodeBlock = ({ code, lang }) => {
-  const selector = useSelector((state) => state);
-  const { themeType } = selector.client;
+  const themeType = useSelector((state) => state.themeType);
   const language = lang || 'javascript';
   let themeStyle;
   if (themeType === 'light') {

@@ -40,7 +40,7 @@ module.exports = {
     'no-await-in-loop': 'error',
     'no-duplicate-imports': 'error',
     eqeqeq: ['error', 'smart'],
-    'max-lines-per-function': ['error', 40],
+    'max-lines-per-function': ['error', 120],
     'max-depth': ['error', 4],
     'max-lines': ['error', 300],
     'react/no-deprecated': 'error',

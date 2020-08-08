@@ -54,6 +54,7 @@ TabPanel.propTypes = {
 };
 
 const getQuestionsList = (questions) => {
+  if (!questions) return <div />;
   return questions.map((question) => {
     return <QuestionItemPreview key={question.id} {...question} />;
   });
@@ -77,6 +78,7 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
     }
     return title;
   };
+  console.log('RENDER LatestQuestions ');
 
   return (
     <div className={classes.root}>

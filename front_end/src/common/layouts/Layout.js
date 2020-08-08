@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, makeStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { BrowserView, MobileView } from 'react-device-detect';
+import { useSelector } from 'react-redux';
 import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../components/Tag/TagsList';
@@ -25,8 +26,10 @@ const contentStyle = {
 };
 
 const Layout = (props) => {
-  const { tags, noSideBar } = props;
+  const tags = useSelector((state) => state.tags);
+  const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
+  console.log('RENDER Layout ');
   return (
     <RTL>
       <div style={layoutStyle} dir="rtl">

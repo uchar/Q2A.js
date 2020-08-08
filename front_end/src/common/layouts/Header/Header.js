@@ -16,6 +16,7 @@ import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
 import { getStrings } from '../../utlities/languageUtilities';
 import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
+import { CURRENT_USER_ACTION, THEME_ACTION } from '../../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -88,12 +89,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({}) => {
   const classes = useStyles();
-  const selector = useSelector((state) => state);
+  const themeType = useSelector((state) => state.themeType);
+  const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
-  const { themeType } = selector.client;
   const [languageAnchorEl, setLanguageAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [user, setUser] = React.useState(undefined);
   const [notificationCount, setNotificationCount] = React.useState(0);
   const isLanguageMenuOpen = Boolean(languageAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -101,9 +101,9 @@ const Header = ({}) => {
   const [notificationAnchor, setNotificationAnchor] = React.useState(null);
 
   useEffect(() => {
-    (async function anyNameFunction() {
+    (async function getCurrentUser() {
       const userResult = await checkUser();
-      setUser(userResult);
+      dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
     })();
   }, []);
 
@@ -132,11 +132,11 @@ const Header = ({}) => {
     setNotificationAnchor(null);
   };
 
-  const handleDarkChange = () => {
+  const handleThemeChange = () => {
     if (themeType === 'dark') {
-      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'light' });
+      dispatch({ type: THEME_ACTION, payload: 'light' });
     } else {
-      dispatch({ type: 'CLIENT_SIDE_THEME_TYPE', payload: 'dark' });
+      dispatch({ type: THEME_ACTION, payload: 'dark' });
     }
   };
 
@@ -146,7 +146,7 @@ const Header = ({}) => {
 
   return (
     <div className={classes.grow}>
-      <AppBar color="background.default" position="static">
+      <AppBar color="transparent" position="static">
         <Toolbar>
           <NotificationsBox
             notificationAnchor={notificationAnchor}
@@ -157,9 +157,8 @@ const Header = ({}) => {
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
               <Translate />
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleDarkChange}>
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleThemeChange}>
               <img
-                onClick={handleDarkChange}
                 style={{ width: '21px', height: '21px' }}
                 src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
               />
@@ -230,7 +229,7 @@ const Header = ({}) => {
               backgroundColor={'secondary'}
             />
           )}
-          <Link prefetch={false} href="/">
+          <Link prefetch={false} href="/" as="/">
             <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h2" noWrap>
               {getStrings().SITE_TITLE}
             </Typography>

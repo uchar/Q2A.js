@@ -4,6 +4,7 @@ import { IconButton, Typography } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
+import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', flexDirection: 'row' },
@@ -22,7 +23,7 @@ const getItem = (icon, text, itemClassName, textClassName) => {
   );
 };
 
-const PostStatistics = ({ votesCount, viewsCount, answersCount }) => {
+const PostStatistics = DeepMemo(function PostStatistics({ votesCount, viewsCount, answersCount }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -31,6 +32,6 @@ const PostStatistics = ({ votesCount, viewsCount, answersCount }) => {
       {answersCount != undefined && getItem(<AnswerIcon />, answersCount, classes.item, classes.text)}
     </div>
   );
-};
+});
 
 export default PostStatistics;

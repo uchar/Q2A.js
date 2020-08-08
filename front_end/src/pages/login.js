@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const Login = () => {
   const classes = useStyles();
   const router = useRouter();
   return (
-    <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>
+    <div>
       <GoogleLoginButton buttonText="ورود با گوگل" />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
@@ -101,6 +101,10 @@ export default function SignIn() {
           );
         }}
       </Formik>
-    </LoginLayout>
+    </div>
   );
-}
+};
+
+Login.getLayout = (page) => <LoginLayout pageTitle={getStrings().SIGN_IN_TITLE}>{page}</LoginLayout>;
+
+export default Login;

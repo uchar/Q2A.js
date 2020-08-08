@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { legacyParseContent } from '../../parsers/legacyParser';
 import { parseContent } from '../../parsers/parser';
-import { getTagsArray } from '../../utlities/generalUtilities';
+import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
-import { doGraphQLMutation, getCurrentUserId } from '../../../API/utilities';
-import CKEditor from '../Editor/CKEditor';
-import { ADD_COMMENT } from '../../../API/mutations';
-import ErrorMessage from '../ErrorMessage';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
-import SaveCancelButtons from '../SaveCancelButtons';
 import AddComment from './AddComment';
+import { getCurrentUserId } from '../../../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionItem = ({
+const QuestionItem = DeepMemo(function QuestionItem({
   id,
   title,
   content,
@@ -46,14 +42,13 @@ const QuestionItem = ({
   votesCount,
   answersCount,
   comments,
-  mainPage,
   tag1,
   tag2,
   tag3,
   tag4,
   tag5,
   isLegacyContent,
-}) => {
+}) {
   const classes = useStyles();
   const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setIsEditMode] = React.useState(false);
@@ -62,16 +57,19 @@ const QuestionItem = ({
   const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  const parsedContent = isLegacyContent
-    ? legacyParseContent(content, mainPage ? 'textSecondary' : 'textPrimary')
-    : parseContent(content);
+  const parsedContent = isLegacyContent ? legacyParseContent(content, 'textPrimary') : parseContent(content);
+
   useEffect(() => {
-    const getUser = async () => {
+    const getUserId = async () => {
       const userId = await getCurrentUserId();
       setCurrentUserId(userId);
     };
-    getUser();
+    getUserId();
   }, []);
+
+  const handleEditFinished = () => {
+    setIsEditMode(false);
+  };
 
   return (
     <Box boxShadow={2} className={classes.root}>
@@ -114,9 +112,7 @@ const QuestionItem = ({
           })}
           editContent={content}
           editId={id}
-          onEditFinished={() => {
-            setIsEditMode(false);
-          }}
+          onEditFinished={handleEditFinished}
         />
       )}
       <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
@@ -137,14 +133,14 @@ const QuestionItem = ({
 
       <AddComment
         postId={id}
+        rootId={id}
         enable={isCommentMode}
-        onCancel={() => {
+        onClose={() => {
           setIsCommentMode(false);
         }}
       />
       <CommentsSection comments={comments} />
     </Box>
   );
-};
-
+});
 export default QuestionItem;

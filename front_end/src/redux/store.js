@@ -1,33 +1,58 @@
 import { createStore } from 'redux';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { CLIENT_SIDE_THEME_ACTION, SERVER_SIDE_TAGS_ACTION } from './constants';
+import { diffString, diff } from 'json-diff';
+import {
+  THEME_ACTION,
+  ALL_TAGS_ACTION,
+  ALL_QUESTIONS_ACTION,
+  CURRENT_TAG_ACTION,
+  SELECTED_USER_ACTION,
+  CURRENT_USER_ACTION,
+  SELECTED_QUESTION,
+} from './constants';
 
-// create your reducer
-const reducer = (state = { client: { themeType: 'light' }, server: { tags: [] } }, action) => {
+const reducer = (state = { themeType: 'light', tags: [], questions: [], currentTag: '' }, action) => {
+  console.log('Start reducer : ', action, state);
   switch (action.type) {
     case HYDRATE:
+      //  console.log('DIFFERENT : ', diff(action.payload, state));
       return {
-        ...state,
-        server: {
-          ...state.server,
-          ...action.payload.server,
-        },
+        ...action.payload,
       };
-    case CLIENT_SIDE_THEME_ACTION:
+    case THEME_ACTION:
       return {
         ...state,
-        client: {
-          ...state.client,
-          themeType: action.payload,
-        },
+        themeType: action.payload,
       };
-    case SERVER_SIDE_TAGS_ACTION:
+    case ALL_TAGS_ACTION:
       return {
         ...state,
-        server: {
-          ...state.client,
-          tags: action.payload,
-        },
+        tags: action.payload,
+      };
+    case CURRENT_TAG_ACTION:
+      return {
+        ...state,
+        currentTag: action.payload,
+      };
+    case ALL_QUESTIONS_ACTION:
+      return {
+        ...state,
+        questions: action.payload,
+      };
+    case SELECTED_USER_ACTION:
+      return {
+        ...state,
+        selectedUser: action.payload,
+      };
+    case CURRENT_USER_ACTION:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case SELECTED_QUESTION:
+      return {
+        ...state,
+        selectedQuestion: action.payload,
       };
     default:
       return state;

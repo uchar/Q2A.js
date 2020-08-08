@@ -8,7 +8,7 @@ import { Divider } from '@material-ui/core';
 import LoginLayout from '../common/layouts/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage';
 import CardButton from '../common/components/CardButton';
-import { signUp } from '../API/utilities';
+import { login, signUp } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register() {
+const Register = () => {
   const classes = useStyles();
   const router = useRouter();
 
@@ -41,7 +41,7 @@ export default function Register() {
     return formError;
   };
   return (
-    <LoginLayout pageTitle={getStrings().Register_TITLE}>
+    <div>
       <GoogleLoginButton buttonText="عضویت با گوگل" />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
@@ -113,6 +113,10 @@ export default function Register() {
           );
         }}
       </Formik>
-    </LoginLayout>
+    </div>
   );
-}
+};
+
+Register.getLayout = (page) => <LoginLayout pageTitle={getStrings().Register_TITLE}>{page}</LoginLayout>;
+
+export default Register;

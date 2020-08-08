@@ -1,6 +1,8 @@
+import React from 'react';
 import engMoment from 'moment';
 import persianMoment from 'jalali-moment';
 import 'moment/locale/fa';
+import isEqual from 'react-fast-compare';
 import { getLanguage, LANGUAGES } from './languageUtilities';
 
 export const getFullUrl = (name) => {
@@ -40,3 +42,12 @@ export const getTagsArray = (tag1, tag2, tag3, tag4, tag5) => {
   tags = checkTagAndAppend(tags, tag5);
   return tags;
 };
+
+// build page every revalidateSeconds
+export const addRevalidateAndRedux = async (props, reduxStaticProps, revalidateSeconds = 50) => {
+  const getStaticProps = await reduxStaticProps(props);
+  getStaticProps.revalidate = revalidateSeconds;
+  return getStaticProps;
+};
+
+export const DeepMemo = (component) => React.memo(component, isEqual);

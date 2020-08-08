@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import CardButton from './CardButton';
 import { getStrings } from '../utlities/languageUtilities';
+import { DeepMemo } from '../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AskAndTitleSection = ({ title, className }) => {
+const AskAndTitleSection = DeepMemo(function AskAndTitleSection({ title, className }) {
   const classes = useStyles();
+  console.log('RENDER AskAndTitleSection ');
   return (
     <div className={`${classes.root} ${className}`}>
       <Typography className={classes.title} variant="h2">
@@ -24,6 +26,6 @@ const AskAndTitleSection = ({ title, className }) => {
       <CardButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />
     </div>
   );
-};
+});
 
 export default AskAndTitleSection;

@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
 import { Box, CardContent, Grid, makeStyles } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { legacyParseContent } from '../../parsers/legacyParser';
 import { parseContent } from '../../parsers/parser';
 import CommentsSection from './CommentsSection';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import PostToolbar from './PostToolbar';
-import { doGraphQLMutation, getCurrentUserId } from '../../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId } from '../../../API/utilities';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { ADD_QUESTION, UPDATE_ANSWER, UPDATE_QUESTION, UPDATE_USER } from '../../../API/mutations';
 import AddComment from './AddComment';
+import { DeepMemo } from '../../utlities/generalUtilities';
+import { GET_QUESTION } from '../../../API/queries';
+import { SELECTED_QUESTION } from '../../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +24,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AnswerItem({ id, content, user, createdAt, votesCount, comments, isLegacyContent }) {
+const AnswerItem = DeepMemo(function AnswerItem({
+  id,
+  content,
+  user,
+  createdAt,
+  votesCount,
+  comments,
+  rootId,
+  isLegacyContent,
+}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { publicName, profileImage, score } = user;
   const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setEditMode] = React.useState(false);
@@ -43,6 +57,11 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
     setEditData(data);
   };
 
+  const refreshQuestion = async () => {
+    const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
+    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+  };
+
   const handleEditSave = async () => {
     try {
       setAPIError(undefined);
@@ -54,7 +73,8 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
       if (result.statusCode !== 'SUCCESS') {
         throw new Error(result.message);
       }
-      window.location.reload();
+      await refreshQuestion();
+      setEditMode(false);
     } catch (error) {
       setAPIError(error.toString());
     }
@@ -74,7 +94,6 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
   const handleAddCommentCancel = () => {
     setIsCommentMode(false);
   };
-
   return (
     <Box boxShadow={4} className={classes.root}>
       <CardContent>
@@ -108,8 +127,9 @@ export default function AnswerItem({ id, content, user, createdAt, votesCount, c
         showComment
         commentCallback={handleCommentCallback}
       />
-      <AddComment postId={id} enable={isCommentMode} onCancel={handleAddCommentCancel} />
+      <AddComment rootId={rootId} postId={id} enable={isCommentMode} onClose={handleAddCommentCancel} />
       <CommentsSection comments={comments} />
     </Box>
   );
-}
+});
+export default AnswerItem;
