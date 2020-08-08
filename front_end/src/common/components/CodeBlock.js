@@ -20,6 +20,7 @@ const CodeBlock = ({ code, lang }) => {
     <div style={{ flex: 1, textAlign: 'left' }}>
       <SyntaxHighlighter
         dir="ltr"
+        codeTagProps={{ style: { fontSize: '14px' } }}
         showLineNumbers
         language={language.replace('language-', '')}
         style={Object.assign(themeStyle, themeLayout)}
