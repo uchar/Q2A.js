@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const usePanelStyle = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
   },
 }));
 
