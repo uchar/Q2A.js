@@ -8,14 +8,14 @@ import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', flexDirection: 'row' },
-  item: { marginLeft: theme.spacing(2), display: 'flex', flexDirection: 'column' },
+  item: { paddingLeft: theme.spacing(1), display: 'flex', flexDirection: 'column' },
   text: {},
 }));
 
 const getItem = (icon, text, itemClassName, textClassName) => {
   return (
     <div className={itemClassName}>
-      <IconButton>{icon}</IconButton>
+      <IconButton size="small">{icon}</IconButton>
       <Typography variant="button" color="textPrimary" className={textClassName}>
         {text}
       </Typography>

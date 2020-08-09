@@ -14,7 +14,8 @@ import { getCurrentUserId } from '../../../API/utilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(5, 0, 5, 0),
+    margin: theme.spacing(5, 1, 5, 1),
+    padding: theme.spacing(1, 1.5, 1, 1.5),
     paddingBottom: theme.spacing(3),
   },
   tagsSection: {
@@ -25,10 +26,17 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     textAlign: 'initial ',
     cursor: 'pointer',
+    wordWrap: 'break-word',
     '&:hover': {
       color: '#314285',
       textDecorationLine: 'underline',
     },
+  },
+  titleSection: {
+    margin: theme.spacing(5, 2, 0, 3),
+  },
+  contentDiv: {
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -86,20 +94,11 @@ const QuestionItem = DeepMemo(function QuestionItem({
       </Grid>
 
       {!isEditMode ? (
-        <div style={{ margin: '25px 15px 0px 10px' }}>
+        <div className={classes.titleSection}>
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>
-          <div
-            style={{
-              flex: 'row',
-              display: 'flex',
-              justifyContent: 'space-between',
-              margin: '0px 0px 0px 5px',
-            }}
-          >
-            {parsedContent}
-          </div>
+          <div className={classes.contentDiv}> {parsedContent}</div>
         </div>
       ) : (
         <EditQuestion
