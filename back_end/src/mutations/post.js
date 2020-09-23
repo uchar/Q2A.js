@@ -29,7 +29,7 @@ const checkInputValidation = async (schema, schemaParams, context) => {
 const createPost = async (inputParams, context) => {
   const user = await findUserByName(context.user.publicName);
   const Post = database.loadModel(tables.POST_TABLE);
-  return Post.create({ userId: user.id, ...inputParams });
+  return Post.create({ userId: user.id, language: user.language, ...inputParams });
 };
 
 const updatePost = async (inputParams, postId, context) => {

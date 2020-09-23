@@ -1,5 +1,5 @@
 import { GET_MY_USER } from './queries';
-import { UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
+import { UPDATE_USER, UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
 
@@ -50,12 +50,18 @@ export const signUp = async (email, username, password) => {
   return jwtToken;
 };
 
-export const checkUser = async () => {
+// load locally if USER key exist in asyncstorage nad force refresh is false
+export const getCurrentUser = async () => {
   const jwtToken = localStorage.getItem('JWT_TOKEN');
   if (jwtToken) {
     try {
+      const user = await localStorage.getItem('USER');
+      if (user) {
+        return JSON.parse(user);
+      }
       const result = await doGraphQLQuery(GET_MY_USER);
-      await localStorage.setItem('USER_ID', result.getUser.id);
+      console.log('RESULT OF GET USER : ', result);
+      await localStorage.setItem('USER', JSON.stringify(result.getUser));
       return result.getUser;
     } catch (error) {
       return false;
@@ -69,9 +75,12 @@ export const uploadFile = async (file) => {
 };
 
 export const getCurrentUserId = async () => {
-  const userId = localStorage.getItem('USER_ID');
-  if (userId) return userId;
-  const user = await checkUser();
+  const user = await getCurrentUser();
   if (user) return user.id;
   return '';
+};
+export const updateCurrentUser = async (params) => {
+  await doGraphQLMutation(UPDATE_USER, { input: { ...params } });
+  await localStorage.removeItem('USER');
+  return getCurrentUser();
 };

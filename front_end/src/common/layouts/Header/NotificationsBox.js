@@ -116,8 +116,8 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
                     {name}
                   </Typography>
                 </div>
-                {parseContent(row.title, { fontSize: '14px', cursor: 'pointer' }, true)}
-                {parseContent(row.content, { fontSize: '12px' }, false)}
+                {parseContent(row.title, 'fa', { fontSize: '14px', cursor: 'pointer' }, true)}
+                {parseContent(row.content, 'fa', { fontSize: '12px' }, false)}
               </Paper>
             </Link>
           );

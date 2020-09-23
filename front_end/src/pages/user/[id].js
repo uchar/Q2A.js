@@ -11,13 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
 import AnswerItem from '../../common/components/Post/AnswerItem';
-import {
-  checkUser,
-  doGraphQLMutation,
-  doGraphQLQuery,
-  getCurrentUserId,
-  uploadFile,
-} from '../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utilities';
 import { ALL_TAGS, GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import { addRevalidateAndRedux, getFullUrl } from '../../common/utlities/generalUtilities';
@@ -109,7 +103,7 @@ const User = () => {
 
   if (!user) return <Loading />;
   const { publicName } = user;
-  const { answers, questions, clapItems, about, profileImage } = user;
+  const { answers, questions, clapItems, about, profileImage, language } = user;
   if (!aboutEditData) aboutEditData = user.about;
 
   const refreshSelectedUser = async () => {
@@ -185,7 +179,7 @@ const User = () => {
           {uploadError && <ErrorMessage style={{ margin: '-30px 0px 25px 0px' }} text={uploadError} />}
         </div>
 
-        {!isDescriptionEditMode && <div className={classes.title}>{parseContent(about)}</div>}
+        {!isDescriptionEditMode && <div className={classes.title}>{parseContent(about, language)}</div>}
         {isDescriptionEditMode && (
           <div style={{ margin: '65px 0px 0px 15px', flex: 1 }}>
             <CKEditor

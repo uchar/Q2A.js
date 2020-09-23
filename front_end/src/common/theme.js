@@ -62,7 +62,6 @@ export const lightTheme = responsiveFontSizes(
       palette: {
         type: 'light',
       },
-      direction: 'rtl',
       spacing: 5,
     },
     faIR

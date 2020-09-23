@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  answerSection: {
+  detailSection: {
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
@@ -70,6 +70,7 @@ const QuestionItemPreview = DeepMemo(function ({
   tag4,
   tag5,
   isLegacyContent,
+  language,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -86,7 +87,9 @@ const QuestionItemPreview = DeepMemo(function ({
   let parsedContent = <div />;
 
   if (expanded || content.length < 600) {
-    parsedContent = isLegacyContent ? legacyParseContent(content, 'textSecondary') : parseContent(content);
+    parsedContent = isLegacyContent
+      ? legacyParseContent(content, 'textSecondary')
+      : parseContent(content, language);
   } else {
     parsedContent = (
       <div style={{ marginTop: '5px' }}>
@@ -109,16 +112,12 @@ const QuestionItemPreview = DeepMemo(function ({
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
         <Link href={`/[id]/[title]`} as={`/${id}/${encodeURIComponent(title)}`}>
-          <Typography
-            color="textPrimary"
-            variant="h1"
-            className={classes.title}
-          >
+          <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>
         </Link>
       </CardContent>
-      <div className={classes.answerSection}>
+      <div className={classes.detailSection}>
         {parsedContent}
         <CardActions disableSpacing>
           {content.length >= 400 && (

@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CommentItem({ content, user }) {
+export default function CommentItem({ content, user, language }) {
   const classes = useStyles();
   const { publicName } = user;
 
-  const parsedContent = parseContent(content, { fontSize: '12px' });
+  const parsedContent = parseContent(content, language, { fontSize: '12px' });
   return (
     <div className={classes.root}>
       <div> {parsedContent}</div>

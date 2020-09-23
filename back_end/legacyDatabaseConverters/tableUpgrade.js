@@ -33,14 +33,15 @@ const saveUsers = async (oldDb, newDb) => {
     const userPointsResult = await oldDb.doQuery('select * from qa_userpoints where userid=?', [user.userid]);
     const newUser = user;
     newUser.description = userDescriptions.get(user.userid);
-    const query = `INSERT INTO users (id,publicName,score, profileImage, about, accessLevel,
+    const query = `INSERT INTO users (id,publicName,language,score, profileImage, about, accessLevel,
           email,legacyPasswordSalt,legacyPassword,lastLogin,lastWrite,isLegacyAuthentication,isEmailVerified,createdAt,updatedAt)
-                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
+                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
     const isEmailVerified = !(newUser.emailcode && newUser.emailcode.length > 0);
     const accessLevel = isEmailVerified ? 'USER_CONFIRMED' : 'USER_NOT_CONFIRMED';
     await newDb.doQuery(query, [
       newUser.userid,
       newUser.handle,
+      'fa',
       userPointsResult && userPointsResult.length > 0 ? userPointsResult[0].points : 0,
       newUser.profileImage,
       newUser.description,
@@ -77,9 +78,9 @@ const savePosts = async (oldDb, newDb) => {
 
   // eslint-disable-next-line complexity
   const promises = posts.map(async (newPost) => {
-    const query = `INSERT INTO posts (id,type,title, content, viewsCount, 
+    const query = `INSERT INTO posts (id,type,title,language, content, viewsCount, 
           votesCount,parentId,userId,isLegacyContent,createdAt,updatedAt)
-                               VALUES (?,?,?,?,?,?,?,?,?,?,?);`;
+                               VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
     let type = '';
     if (newPost.type === 'C') {
       type = 'COMMENT';
@@ -101,6 +102,7 @@ const savePosts = async (oldDb, newDb) => {
         newPost.postid,
         type,
         newPost.title,
+        'fa',
         newPost.content,
         newPost.views,
         newPost.netvotes * voteToClap,

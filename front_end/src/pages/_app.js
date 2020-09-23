@@ -35,7 +35,7 @@ export function reportWebVitals(metric) {
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
-  const themeType = useSelector((state) => state.themeType);
+  const themeType = useSelector((state) => state.currentUser.theme);
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');

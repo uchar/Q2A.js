@@ -51,3 +51,8 @@ export const addRevalidateAndRedux = async (props, reduxStaticProps, revalidateS
 };
 
 export const DeepMemo = (component) => React.memo(component, isEqual);
+
+export const isLanguageRtl = (language) => {
+  if (language === 'fa' || language === 'ar' || language === 'he') return true;
+  return false;
+};

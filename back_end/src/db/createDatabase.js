@@ -10,6 +10,15 @@ const prepareDatabase = async () => {
     publicName: Sequelize.STRING,
     profileImage: Sequelize.STRING,
     about: Sequelize.TEXT,
+    language: {
+      type: Sequelize.STRING(6),
+      allowNull: false,
+    },
+    theme: {
+      type: Sequelize.STRING(6),
+      allowNull: false,
+      defaultValue: 'light',
+    },
     accessLevel: {
       type: DataTypes.ENUM(['GUEST', 'USER_CONFIRMED', 'USER_NOT_CONFIRMED', 'ADMIN', 'SUPER_ADMIN']),
       allowNull: false,
@@ -40,6 +49,10 @@ const prepareDatabase = async () => {
         'ANSWER_HIDDEN',
         'COMMENT_HIDDEN',
       ]),
+      allowNull: false,
+    },
+    language: {
+      type: Sequelize.STRING(2),
       allowNull: false,
     },
     title: Sequelize.STRING(256),

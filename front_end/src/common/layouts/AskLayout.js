@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Header from './Header/Header';
 import Footer from './Footer';
-import RTL from './RTL';
+import JssStylesProvider from './JssStylesProvider';
 import Expansion from '../components/Expansion';
 
 const layoutStyle = {
@@ -23,7 +23,7 @@ const contentStyle = {
 
 const AskLayout = (props) => {
   return (
-    <RTL>
+    <JssStylesProvider>
       <div style={layoutStyle} dir="rtl">
         <Header />
         <Box style={contentStyle}>
@@ -39,7 +39,7 @@ const AskLayout = (props) => {
         </Box>
         <Footer />
       </div>
-    </RTL>
+    </JssStylesProvider>
   );
 };
 
