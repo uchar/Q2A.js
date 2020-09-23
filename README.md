@@ -18,7 +18,7 @@ https://7khatcode.liara.run/
 - Multi SQL Database support 
 - Light/Dark theme support
 - Multi Language support
-- RTL Support
+- JssStylesProvider Support
 
 
 ## How to run :

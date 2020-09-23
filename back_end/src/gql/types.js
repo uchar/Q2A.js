@@ -30,6 +30,8 @@ module.exports = gql`
   input UpdateUserInput {
     profileImage: String
     about: String
+    language: String
+    theme: String
   }
 
   type User {
@@ -38,6 +40,8 @@ module.exports = gql`
     profileImage: String
     score: Int
     about: String
+    language: String
+    theme: String
     accessLevel: AccessLevel
     questions: [Question]
     answers: [Answer]

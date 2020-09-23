@@ -5,6 +5,8 @@ const userType = `user {
       profileImage
       publicName
       score
+      language
+      theme
     }`;
 const QUESTION = `{
     id
@@ -119,6 +121,8 @@ export const GET_MY_USER = gql`
       publicName
       profileImage
       score
+      language
+      theme
     }
   }
 `;
@@ -131,6 +135,8 @@ export const GET_USER = gql`
       score
       profileImage
       about
+        language
+        theme
       answers {
         id
         content

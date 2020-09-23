@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../components/Tag/TagsList';
-import RTL from './RTL';
+import JssStylesProvider from './JssStylesProvider';
 import News from '../components/News';
 import Loading from '../components/Loading';
 
@@ -31,8 +31,8 @@ const Layout = (props) => {
   if (!tags && !noSideBar) return <Loading />;
   console.log('RENDER Layout ');
   return (
-    <RTL>
-      <div style={layoutStyle} dir="rtl">
+    <JssStylesProvider>
+      <div style={layoutStyle} >
         <Header />
         <Box style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
@@ -66,7 +66,7 @@ const Layout = (props) => {
         </Box>
         <Footer />
       </div>
-    </RTL>
+    </JssStylesProvider>
   );
 };
 

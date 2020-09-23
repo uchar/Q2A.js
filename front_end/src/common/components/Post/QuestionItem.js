@@ -56,6 +56,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   tag4,
   tag5,
   isLegacyContent,
+  language,
 }) {
   const classes = useStyles();
   const [currentUserId, setCurrentUserId] = React.useState('');
@@ -65,7 +66,9 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  const parsedContent = isLegacyContent ? legacyParseContent(content, 'textPrimary') : parseContent(content);
+  const parsedContent = isLegacyContent
+    ? legacyParseContent(content, 'textPrimary')
+    : parseContent(content, language);
 
   useEffect(() => {
     const getUserId = async () => {

@@ -10,13 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
 import CardButton from '../../components/CardButton';
-import { checkUser, doGraphQLMutation } from '../../../API/utilities';
+import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
 import { getStrings } from '../../utlities/languageUtilities';
-import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
+import { SET_READ_ALL_NOTIFICATIONS, UPDATE_USER } from '../../../API/mutations';
 import { CURRENT_USER_ACTION, THEME_ACTION } from '../../../redux/constants';
+import { darkTheme } from '../../theme';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-    margin: '0px 25px 0px 12px',
+    margin: theme.spacing(0, 5, 0, 2),
   },
   search: {
     position: 'relative',
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({}) => {
   const classes = useStyles();
-  const themeType = useSelector((state) => state.themeType);
+  const themeType = useSelector((state) => state.currentUser.theme);
   const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   const [languageAnchorEl, setLanguageAnchorEl] = React.useState(null);
@@ -100,10 +101,14 @@ const Header = ({}) => {
   const router = useRouter();
   const [notificationAnchor, setNotificationAnchor] = React.useState(null);
 
+  const refreshUser = async () => {
+    const userResult = await getCurrentUser();
+    dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
+  };
+
   useEffect(() => {
-    (async function getCurrentUser() {
-      const userResult = await checkUser();
-      dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
+    (async function () {
+      return refreshUser();
     })();
   }, []);
 
@@ -132,16 +137,31 @@ const Header = ({}) => {
     setNotificationAnchor(null);
   };
 
-  const handleThemeChange = () => {
-    if (themeType === 'dark') {
-      dispatch({ type: THEME_ACTION, payload: 'light' });
-    } else {
-      dispatch({ type: THEME_ACTION, payload: 'dark' });
-    }
+  const handleThemeChange = async () => {
+    const newTheme = themeType === 'dark' ? 'light' : 'dark';
+    await updateCurrentUser({
+      theme: newTheme,
+    });
+    return refreshUser();
   };
 
   const handleNotificationCountChange = (count) => {
     setNotificationCount(count);
+  };
+
+  const handleMenuItemClick = async (newLanguage) => {
+    handleLanguageMenuClose();
+    let language = '';
+    console.log(newLanguage);
+    if (newLanguage.toLowerCase() === 'english') {
+      language = 'en';
+    } else {
+      language = 'fa';
+    }
+    await updateCurrentUser({
+      language,
+    });
+    await refreshUser();
   };
 
   return (
@@ -251,9 +271,7 @@ const Header = ({}) => {
         open={isLanguageMenuOpen}
         anchorEl={languageAnchorEl}
         onClose={handleLanguageMenuClose}
-        onItemClick={(name) => {
-          handleLanguageMenuClose();
-        }}
+        onItemClick={handleMenuItemClick}
         items={[{ name: 'English' }, { name: 'Persian' }]}
       />
     </div>

@@ -33,6 +33,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
   comments,
   rootId,
   isLegacyContent,
+  language,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -50,7 +51,9 @@ const AnswerItem = DeepMemo(function AnswerItem({
     getUser();
   }, []);
   const userWhoAnsweredId = user.id;
-  const parsedContent = isLegacyContent ? legacyParseContent(content) : parseContent(content);
+  const parsedContent = isLegacyContent
+    ? legacyParseContent(content)
+    : parseContent(content, language);
 
   const handleEditDataChanged = (event, editor) => {
     const data = editor.getData();

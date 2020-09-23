@@ -11,14 +11,25 @@ import {
   SELECTED_QUESTION,
 } from './constants';
 
-const reducer = (state = { themeType: 'light', tags: [], questions: [], currentTag: '' }, action) => {
+const reducer = (
+  state = {
+    currentUser: { language: 'fa', theme: 'light' },
+    tags: [],
+    questions: [],
+    currentTag: '',
+  },
+  action
+) => {
   console.log('Start reducer : ', action, state);
   switch (action.type) {
     case HYDRATE:
-      //  console.log('DIFFERENT : ', diff(action.payload, state));
-      return {
+      // eslint-disable-next-line no-case-declarations
+      const newState = {
         ...action.payload,
       };
+      newState.currentUser.language = state.currentUser.language;
+      newState.currentUser.theme = state.currentUser.theme;
+      return newState;
     case THEME_ACTION:
       return {
         ...state,
