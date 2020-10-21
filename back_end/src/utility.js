@@ -1,7 +1,7 @@
 const hashEquals = require('hash-equals');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const database = require('./db/database').getDatabase();
+const database = require('./db/database').getDatabase;
 const tables = require('./db/constants').TABLES;
 
 module.exports.STATUS_CODE = {
@@ -25,7 +25,7 @@ module.exports.createJWTToken = (user) => {
 };
 
 module.exports.findUserByName = async (publicName) => {
-  const User = await database.loadModel(tables.USER_TABLE);
+  const User = await database().loadModel(tables.USER_TABLE);
   return User.findOne({
     where: {
       publicName,
@@ -34,7 +34,7 @@ module.exports.findUserByName = async (publicName) => {
 };
 
 module.exports.findUserByEmail = async (email) => {
-  const User = await database.loadModel(tables.USER_TABLE);
+  const User = await database().loadModel(tables.USER_TABLE);
   return User.findOne({
     where: {
       email,
@@ -65,4 +65,8 @@ const legacyHash = (password, salt) => {
 
 module.exports.isLegacyPasswordValid = (password, salt, hashToCheckAgainst) => {
   return hashEquals(legacyHash(password, salt.toString()).toString(), hashToCheckAgainst.toString());
+};
+
+module.exports.isInTestMode = () => {
+  return process.env.JEST_WORKER_ID;
 };
