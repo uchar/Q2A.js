@@ -9,6 +9,11 @@ module.exports = gql`
     SUPER_ADMIN
   }
 
+  enum Language {
+    en
+    fa
+  }
+
   enum PostType {
     QUESTION
     ANSWER
@@ -30,7 +35,7 @@ module.exports = gql`
   input UpdateUserInput {
     profileImage: String
     about: String
-    language: String
+    language: Language
     theme: String
   }
 
