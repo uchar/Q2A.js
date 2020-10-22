@@ -60,7 +60,10 @@
     "*.test.js": "./node_modules/.bin/jest --passWithNoTests",
     "*.js": "npm run lint"
   },
+
   "jest": {
     "setupFilesAfterEnv": ["./jest-setup.js"]
   }
 }
+
+
