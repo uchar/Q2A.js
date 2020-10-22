@@ -4,10 +4,20 @@ const { updateUser } = require('./user');
 
 describe('how user graphql api work', () => {
   test(`if updateUser update user correctly`, async () => {
-    const user = global.test_user;
-    // TODO Test should not change global variable
     // TODO check for wrong input
+
+    // Create new user
+    const User = await database().loadModel(tables.USER_TABLE);
+    const user = await User.create({
+      publicName: 'test_name',
+      email: 'test@test.com',
+      isLegacyAuthentication: false,
+      isEmailVerified: true,
+      language: 'fa',
+    });
+
     const data = {
+      publicName: 'public_name',
       profileImage: 'profile_image_updated',
       about: 'about_test_updated',
       language: 'en',
@@ -22,14 +32,12 @@ describe('how user graphql api work', () => {
       { user: { id: user.id } }
     );
 
-    const User = await database().loadModel(tables.USER_TABLE);
-    const updatedUser = (
-      await User.findOne({
-        where: {
-          id: user.id,
-        },
-      })
-    ).dataValues;
+    const updatedUser = await User.findOne({
+      where: {
+        id: user.id,
+      },
+    });
+    expect(updatedUser.publicName).toBe(data.publicName);
     expect(updatedUser.profileImage).toBe(data.profileImage);
     expect(updatedUser.about).toBe(data.about);
     expect(updatedUser.language).toBe(data.language);
