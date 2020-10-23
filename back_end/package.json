@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "apollo-server": "2.18.2",
     "apollo-server-express": "2.18.2",
@@ -24,11 +25,11 @@
     "yup": "0.29.3"
   },
   "devDependencies": {
-    "sqlite3": "^5.0.0",
     "@babel/core": "^7.12.3",
     "@babel/runtime": "^7.12.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.0",
+    "@babel/preset-env": "^7.12.1",
     "eslint": "^7.11.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
@@ -41,7 +42,8 @@
     "jest": "^26.6.0",
     "jscpd": "^3.3.19",
     "lint-staged": "^10.4.2",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "sqlite3": "^5.0.0"
   },
   "scripts": {
     "start": "node src/server.js",
@@ -60,7 +62,9 @@
     "*.test.js": "./node_modules/.bin/jest --passWithNoTests",
     "*.js": "npm run lint"
   },
-  "jest": {
-    "setupFilesAfterEnv": ["./jest-setup.js"]
+  "prettier": {
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 110
   }
 }

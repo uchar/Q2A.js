@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   host: process.env.HOST,
   user: process.env.USER,
   port: process.env.PORT,
@@ -7,3 +7,5 @@ module.exports = {
   supportBigNumbers: true,
   bigNumberStrings: true,
 };
+
+export default config;

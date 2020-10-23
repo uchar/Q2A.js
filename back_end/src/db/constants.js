@@ -1,4 +1,4 @@
-module.exports.TABLES = {
+const TABLES = {
   USER_TABLE: 'user',
   POST_TABLE: 'post',
   TAG_TABLE: 'tag',
@@ -8,8 +8,10 @@ module.exports.TABLES = {
   POST_TAG_TABLE: 'posttag',
 };
 
-module.exports.POST_TYPES = {
+const POST_TYPES = {
   ANSWER: 'ANSWER',
   QUESTION: 'QUESTION',
   COMMENT: 'COMMENT',
 };
+
+export { TABLES, POST_TYPES };
