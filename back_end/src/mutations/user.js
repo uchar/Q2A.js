@@ -1,12 +1,12 @@
-const database = require('../db/database').getDatabase();
-const tables = require('../db/constants').TABLES;
-const { createSuccessResponse } = require('../utility');
+import databaseUtils from '../db/database.js';
+import { TABLES } from '../db/constants.js';
+import { createSuccessResponse } from '../utility.js';
 
-module.exports.updateUser = async (_, { input }, context) => {
+const updateUser = async (_, { input }, context) => {
   if (!context.user) {
     throw new Error("You're not authorized");
   }
-  const User = database.loadModel(tables.USER_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   await User.update(
     {
       ...input,
@@ -15,3 +15,5 @@ module.exports.updateUser = async (_, { input }, context) => {
   );
   return createSuccessResponse();
 };
+
+export { updateUser };

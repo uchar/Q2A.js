@@ -1,5 +1,5 @@
-const AWS = require('aws-sdk');
-const { v4: uuidv4 } = require('uuid');
+import AWS from 'aws-sdk';
+import { v4 as uuidv4 } from 'uuid';
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -8,7 +8,7 @@ const s3 = new AWS.S3({
   s3ForcePathStyle: true,
 });
 
-module.exports.uploadFile = async (_, { file }) => {
+const uploadFile = async (_, { file }) => {
   const { stream, filename, mimetype, encoding } = await file;
   const fileType = filename.slice(filename.lastIndexOf('.'));
   const randomName = uuidv4() + fileType;
@@ -24,3 +24,5 @@ module.exports.uploadFile = async (_, { file }) => {
     .promise();
   return { filename: randomName, mimetype, encoding };
 };
+
+export { uploadFile };

@@ -1,9 +1,8 @@
-const yup = require('yup');
-const database = require('../db/database').getDatabase();
-const tables = require('../db/constants').TABLES;
-const postTypes = require('../db/constants').POST_TYPES;
-const { createSuccessResponse, findUserByName } = require('../utility');
-const { saveNotification, NOTIFICATION_REASON } = require('./notifications');
+import * as yup from 'yup';
+import databaseUtils from '../db/database.js';
+import { POST_TYPES, TABLES } from '../db/constants.js';
+import { createSuccessResponse, findUserByName } from '../utility.js';
+import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
 
 const questionSchema = yup.object().shape({
   title: yup.string().required().min(10),
@@ -28,19 +27,19 @@ const checkInputValidation = async (schema, schemaParams, context) => {
 
 const createPost = async (inputParams, context) => {
   const user = await findUserByName(context.user.publicName);
-  const Post = database.loadModel(tables.POST_TABLE);
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
   return Post.create({ userId: user.id, language: user.language, ...inputParams });
 };
 
 const updatePost = async (inputParams, postId, context) => {
   const user = await findUserByName(context.user.publicName);
-  const Post = database.loadModel(tables.POST_TABLE);
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
   return Post.update({ ...inputParams, isLegacyContent: false }, { where: { userId: user.id, id: postId } });
 };
 
 const getParentPost = async (parentId) => {
-  const Post = await database.loadModel(tables.POST_TABLE);
-  const User = database.loadModel(tables.USER_TABLE);
+  const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const post = await Post.findOne({
     where: {
       id: parentId,
@@ -51,10 +50,10 @@ const getParentPost = async (parentId) => {
 };
 
 const getUrlFromPost = async (post) => {
-  if (post.type === postTypes.QUESTION) {
+  if (post.type === POST_TYPES.QUESTION) {
     return `/${post.id}/${post.title}`;
   }
-  if (post.type === postTypes.ANSWER || post.type === postTypes.COMMENT) {
+  if (post.type === POST_TYPES.ANSWER || post.type === POST_TYPES.COMMENT) {
     const parentQuestion = await getParentPost(post.parentId);
     return getUrlFromPost(parentQuestion);
   }
@@ -62,7 +61,7 @@ const getUrlFromPost = async (post) => {
   return '/';
 };
 
-module.exports.addQuestion = async (_, { title, content, tags }, context) => {
+const addQuestion = async (_, { title, content, tags }, context) => {
   await checkInputValidation(questionSchema, { title, content, tags }, context);
   const questionTags = {};
   tags.forEach((tag, index) => {
@@ -70,7 +69,7 @@ module.exports.addQuestion = async (_, { title, content, tags }, context) => {
   });
   const resultOfPost = await createPost(
     {
-      type: postTypes.QUESTION,
+      type: POST_TYPES.QUESTION,
       title,
       content,
       ...questionTags,
@@ -81,7 +80,7 @@ module.exports.addQuestion = async (_, { title, content, tags }, context) => {
   return createSuccessResponse(`/${newPost.id}/${encodeURIComponent(newPost.title)}`);
 };
 
-module.exports.updateAnswer = async (_, { id, content }, context) => {
+const updateAnswer = async (_, { id, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
   await updatePost(
     {
@@ -93,7 +92,7 @@ module.exports.updateAnswer = async (_, { id, content }, context) => {
   return createSuccessResponse(``);
 };
 
-module.exports.updateComment = async (_, { id, content }, context) => {
+const updateComment = async (_, { id, content }, context) => {
   await checkInputValidation(commentSchema, { content }, context);
   await updatePost(
     {
@@ -105,7 +104,7 @@ module.exports.updateComment = async (_, { id, content }, context) => {
   return createSuccessResponse(``);
 };
 
-module.exports.updateQuestion = async (_, { id, title, content, tags }, context) => {
+const updateQuestion = async (_, { id, title, content, tags }, context) => {
   await checkInputValidation(questionSchema, { title, content, tags }, context);
   console.log('Context user : ', context.user);
   const questionTags = {};
@@ -124,13 +123,13 @@ module.exports.updateQuestion = async (_, { id, title, content, tags }, context)
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
 };
 
-module.exports.addAnswer = async (_, { postId, content }, context) => {
+const addAnswer = async (_, { postId, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
   const parentPost = await getParentPost(postId);
   const url = await getUrlFromPost(parentPost);
   await createPost(
     {
-      type: postTypes.ANSWER,
+      type: POST_TYPES.ANSWER,
       content,
       parentId: postId,
     },
@@ -142,13 +141,13 @@ module.exports.addAnswer = async (_, { postId, content }, context) => {
   return createSuccessResponse();
 };
 
-module.exports.addComment = async (_, { postId, content }, context) => {
+const addComment = async (_, { postId, content }, context) => {
   await checkInputValidation(commentSchema, { content }, context);
   const parentPost = await getParentPost(postId);
   const url = await getUrlFromPost(parentPost);
   await createPost(
     {
-      type: postTypes.COMMENT,
+      type: POST_TYPES.COMMENT,
       content,
       parentId: postId,
     },
@@ -165,3 +164,5 @@ module.exports.addComment = async (_, { postId, content }, context) => {
   );
   return createSuccessResponse();
 };
+
+export { addComment, addAnswer, updateQuestion, updateComment, updateAnswer, addQuestion };

@@ -1,10 +1,11 @@
-const { DataTypes } = require('sequelize');
-const Sequelize = require('sequelize');
-const database = require('./database').getDatabase();
-const tables = require('./constants').TABLES;
+import Sequelize from 'sequelize';
+import databaseUtils from './database.js';
+import { TABLES as tables } from './constants.js';
+
+const { DataTypes } = Sequelize;
 
 const prepareDatabase = async () => {
-  const sequelize = await database.getSequelize();
+  const sequelize = await databaseUtils().getSequelize();
 
   const User = sequelize.define(tables.USER_TABLE, {
     publicName: Sequelize.STRING,
@@ -137,15 +138,17 @@ const prepareDatabase = async () => {
   Medal.belongsTo(User);
   User.hasMany(Medal);
   await sequelize.sync({ force: false });
-  database.cacheModel(tables.USER_TABLE, User);
-  database.cacheModel(tables.POST_TABLE, Post);
-  database.cacheModel(tables.TAG_TABLE, Tag);
-  database.cacheModel(tables.CLAP_TABLE, Clap);
-  database.cacheModel(tables.NOTIFICATION_TABLE, Notification);
-  database.cacheModel(tables.Medal_TABLE, Medal);
+  databaseUtils().cacheModel(tables.USER_TABLE, User);
+  databaseUtils().cacheModel(tables.POST_TABLE, Post);
+  databaseUtils().cacheModel(tables.TAG_TABLE, Tag);
+  databaseUtils().cacheModel(tables.CLAP_TABLE, Clap);
+  databaseUtils().cacheModel(tables.NOTIFICATION_TABLE, Notification);
+  databaseUtils().cacheModel(tables.Medal_TABLE, Medal);
 };
 
-exports.createDatabasePromise = prepareDatabase().then(() => {
+const createDatabasePromise = prepareDatabase().then(() => {
   console.log('PREPARE FINISHED');
   return { result: 'SUCCESS' };
 });
+
+export default createDatabasePromise;

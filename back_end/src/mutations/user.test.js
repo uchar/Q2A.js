@@ -1,6 +1,6 @@
-const database = require('../db/database').getDatabase;
-const tables = require('../db/constants').TABLES;
-const { updateUser } = require('./user');
+import databaseUtils from '../db/database.js';
+import { TABLES } from '../db/constants.js';
+import { updateUser } from './user.js';
 
 describe('how user graphql api work', () => {
   test(`if updateUser update user correctly`, async () => {
@@ -13,6 +13,7 @@ describe('how user graphql api work', () => {
       language: 'en',
       theme: 'test_theme_updated',
     };
+    console.log('USER IS : ', user);
 
     await updateUser(
       null,
@@ -22,7 +23,7 @@ describe('how user graphql api work', () => {
       { user: { id: user.id } }
     );
 
-    const User = await database().loadModel(tables.USER_TABLE);
+    const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
     const updatedUser = (
       await User.findOne({
         where: {

@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
-const config = require('./config');
-const { isInTestMode } = require('../utility');
+import Sequelize from 'sequelize';
+import config from './config.js';
 
 let db = null;
 const models = new Map();
+const isInTestMode = process.env.JEST_WORKER_ID;
 
-module.exports.getDatabase = () => {
+const databaseUtils = () => {
   const makeDb = async () => {
-    const sequelize = isInTestMode()
+    const sequelize = isInTestMode
       ? new Sequelize('sqlite::memory:')
       : new Sequelize(config.database, config.user, config.password, {
           host: config.host,
@@ -45,3 +45,5 @@ module.exports.getDatabase = () => {
     },
   };
 };
+
+export default databaseUtils;

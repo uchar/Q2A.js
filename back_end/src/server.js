@@ -1,11 +1,11 @@
-require('dotenv').config();
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const { ApolloServer } = require('apollo-server-express');
-const express = require('express');
-const { createDatabasePromise } = require('./db/createDatabase');
-const resolvers = require('./gql/resolvers');
-const types = require('./gql/types');
+import 'dotenv/config.js';
+import passport from 'passport';
+import passportJWT from 'passport-jwt';
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
+import createDatabasePromise from './db/createDatabase.js';
+import resolvers from './gql/resolvers.js';
+import types from './gql/types.js';
 
 const port = 4000;
 const path = '/graphql';

@@ -1,18 +1,18 @@
-const bcrypt = require('bcrypt');
-const axios = require('axios');
-const database = require('../db/database').getDatabase();
-const tables = require('../db/constants').TABLES;
-const {
-  isLegacyPasswordValid,
-  LOGIN_STATUS_CODE,
+import bcrypt from 'bcrypt';
+import axios from 'axios';
+import databaseUtils from '../db/database.js';
+import { TABLES } from '../db/constants.js';
+import {
+  createJWTToken,
   findUserByEmail,
   findUserByName,
-  createJWTToken,
-} = require('../utility');
+  isLegacyPasswordValid,
+  LOGIN_STATUS_CODE,
+} from '../utility.js';
 
-module.exports.signUp = async (_, { email, username, password }) => {
+const signUp = async (_, { email, username, password }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);
-  const User = database.loadModel(tables.USER_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   let user = await findUserByName(username);
   if (user) {
     throw new Error('User already exist');
@@ -32,9 +32,12 @@ module.exports.signUp = async (_, { email, username, password }) => {
   return createJWTToken(user);
 };
 
-module.exports.login = async (_, { username, password }) => {
-  const User = database.loadModel(tables.USER_TABLE);
+const login = async (_, { username, password }) => {
+  console.log('a', databaseUtils);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+  console.log('b');
   const user = await findUserByName(username);
+  console.log('c');
   if (!user) {
     throw new Error(LOGIN_STATUS_CODE.NO_USER);
   }
@@ -63,7 +66,7 @@ module.exports.login = async (_, { username, password }) => {
   }
 };
 
-module.exports.googleLogin = async (_, { jwtToken }) => {
+const googleLogin = async (_, { jwtToken }) => {
   try {
     const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${jwtToken}`);
     if (response.status !== 200) {
@@ -78,7 +81,7 @@ module.exports.googleLogin = async (_, { jwtToken }) => {
     }
     const { email, name } = googleIdData;
     const publicName = name.replace(' ', '_');
-    const User = await database.loadModel(tables.USER_TABLE);
+    const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
     let user = await findUserByEmail(email);
     if (user) return createJWTToken(user);
     await User.create({
@@ -94,3 +97,5 @@ module.exports.googleLogin = async (_, { jwtToken }) => {
     throw new Error(e.toString());
   }
 };
+
+export { signUp, login, googleLogin };

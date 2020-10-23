@@ -1,32 +1,32 @@
-const {
-  getLatestQuestions,
-  getPopularQuestions,
-  getMostViewsQuestions,
-  getNoAnswersQuestions,
-  getQuestion,
+import {
   getAnswers,
   getComments,
+  getLatestQuestions,
+  getMostViewsQuestions,
+  getNoAnswersQuestions,
+  getPopularQuestions,
+  getQuestion,
   getUserAnswers,
   getUserClapItems,
   getUserQuestions,
-} = require('../queries/post');
-const { getAllTags, getTagDetail } = require('../queries/tag');
-const { getUser } = require('../queries/user');
-const { getNotifications } = require('../queries/notifications');
-const { updateUser } = require('../mutations/user');
-const { setReadAllNotifications } = require('../mutations/notifications');
-const { login, signUp, googleLogin } = require('../mutations/login');
-const {
-  addQuestion,
-  updateQuestion,
+} from '../queries/post.js';
+import { getAllTags, getTagDetail } from '../queries/tag.js';
+import { getUser } from '../queries/user.js';
+import { getNotifications } from '../queries/notifications.js';
+import { updateUser } from '../mutations/user.js';
+import { setReadAllNotifications } from '../mutations/notifications.js';
+import { googleLogin, login, signUp } from '../mutations/login.js';
+import {
   addAnswer,
   addComment,
+  addQuestion,
   updateAnswer,
   updateComment,
-} = require('../mutations/post');
-const { uploadFile } = require('../mutations/upload');
+  updateQuestion,
+} from '../mutations/post.js';
+import { uploadFile } from '../mutations/upload.js';
 
-module.exports = {
+export default {
   Query: {
     latestQuestions: getLatestQuestions,
     popularQuestions: getPopularQuestions,
