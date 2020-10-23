@@ -1,6 +1,6 @@
-// const database = require('../db/database').getDatabase;
-// const tables = require('../db/constants').TABLES;
-// const { updateUser } = require('./user');
+// import databaseUtils from '../db/database.js';
+// import { TABLES } from '../db/constants.js';
+// import { updateUser } from './user.js';
 
 describe('how user graphql api work', () => {
   test('random tesxt', () => {});

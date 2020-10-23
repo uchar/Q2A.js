@@ -1,10 +1,5 @@
 const STRINGS = {
   SITE_TITLE: '7khatcode',
-
-
-
-
-
   SEARCH_HINT: 'Search ...',
   DEMO_TIME_AGO_QUESTION: 'Asked',
   DEMO_UP_VOTE: '25 upvote',

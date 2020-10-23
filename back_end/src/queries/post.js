@@ -1,7 +1,8 @@
-const { Op } = require('sequelize');
-const database = require('../db/database').getDatabase();
-const tables = require('../db/constants').TABLES;
-const postTypes = require('../db/constants').POST_TYPES;
+import Sequelize from 'sequelize';
+import databaseUtils from '../db/database.js';
+import { POST_TYPES, TABLES } from '../db/constants.js';
+
+const { Op } = Sequelize;
 
 const getTypeTagWhereClause = (type, tag) => {
   if (tag) {
@@ -14,10 +15,10 @@ const getTypeTagWhereClause = (type, tag) => {
 };
 
 const getQuestionsOrderBy = async (tag, order, limit, offset, augmentWhereClause = undefined) => {
-  const Post = database.loadModel(tables.POST_TABLE);
-  const User = database.loadModel(tables.USER_TABLE);
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
 
-  let tagWhereClause = getTypeTagWhereClause(postTypes.QUESTION, tag);
+  let tagWhereClause = getTypeTagWhereClause(POST_TYPES.QUESTION, tag);
   if (augmentWhereClause) {
     tagWhereClause = augmentWhereClause(tagWhereClause);
   }
@@ -29,19 +30,19 @@ const getQuestionsOrderBy = async (tag, order, limit, offset, augmentWhereClause
     offset,
   });
 };
-module.exports.getLatestQuestions = async (_, { tag, limit, offset }) => {
+const getLatestQuestions = async (_, { tag, limit, offset }) => {
   return getQuestionsOrderBy(tag, [['createdAt', 'DESC']], limit, offset);
 };
 
-module.exports.getPopularQuestions = async (parent, { tag, limit, offset }) => {
+const getPopularQuestions = async (parent, { tag, limit, offset }) => {
   return getQuestionsOrderBy(tag, [['votesCount', 'DESC']], limit, offset);
 };
 
-module.exports.getMostViewsQuestions = async (parent, { tag, limit, offset }) => {
+const getMostViewsQuestions = async (parent, { tag, limit, offset }) => {
   return getQuestionsOrderBy(tag, [['viewsCount', 'DESC']], limit, offset);
 };
 
-module.exports.getNoAnswersQuestions = async (parent, { tag, limit, offset }) => {
+const getNoAnswersQuestions = async (parent, { tag, limit, offset }) => {
   return getQuestionsOrderBy(tag, [['createdAt', 'DESC']], limit, offset, (whereClause) => {
     const newWhereClause = whereClause;
     newWhereClause.answersCount = 0;
@@ -49,13 +50,13 @@ module.exports.getNoAnswersQuestions = async (parent, { tag, limit, offset }) =>
   });
 };
 
-module.exports.getQuestion = async (parent, { id }) => {
-  const Post = await database.loadModel(tables.POST_TABLE);
-  const User = database.loadModel(tables.USER_TABLE);
+const getQuestion = async (parent, { id }) => {
+  const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
 
   const question = await Post.findOne({
     where: {
-      type: postTypes.QUESTION,
+      type: POST_TYPES.QUESTION,
       id,
     },
     include: [User],
@@ -63,12 +64,12 @@ module.exports.getQuestion = async (parent, { id }) => {
   return question;
 };
 
-module.exports.getAnswers = async ({ id }) => {
-  const Post = database.loadModel(tables.POST_TABLE);
-  const User = database.loadModel(tables.USER_TABLE);
+const getAnswers = async ({ id }) => {
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const answers = await Post.findAll({
     where: {
-      type: postTypes.ANSWER,
+      type: POST_TYPES.ANSWER,
       parentId: id,
     },
     include: [User],
@@ -77,12 +78,12 @@ module.exports.getAnswers = async ({ id }) => {
   return answers;
 };
 
-module.exports.getComments = async ({ id }) => {
-  const Post = database.loadModel(tables.POST_TABLE);
-  const User = database.loadModel(tables.USER_TABLE);
+const getComments = async ({ id }) => {
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const comments = await Post.findAll({
     where: {
-      type: postTypes.COMMENT,
+      type: POST_TYPES.COMMENT,
       parentId: id,
     },
     include: [User],
@@ -91,11 +92,11 @@ module.exports.getComments = async ({ id }) => {
   return comments;
 };
 
-module.exports.getUserQuestions = async ({ id }) => {
-  const Post = await database.loadModel(tables.POST_TABLE);
+const getUserQuestions = async ({ id }) => {
+  const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
   const questions = await Post.findAll({
     where: {
-      type: postTypes.QUESTION,
+      type: POST_TYPES.QUESTION,
       userId: id,
     },
     order: [['createdAt', 'DESC']],
@@ -105,12 +106,12 @@ module.exports.getUserQuestions = async ({ id }) => {
   return questions;
 };
 
-module.exports.getUserAnswers = async ({ id }) => {
-  const Post = await database.loadModel(tables.POST_TABLE);
+const getUserAnswers = async ({ id }) => {
+  const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
 
   const answers = await Post.findAll({
     where: {
-      type: postTypes.ANSWER,
+      type: POST_TYPES.ANSWER,
       userId: id,
     },
     order: [['createdAt', 'DESC']],
@@ -120,9 +121,9 @@ module.exports.getUserAnswers = async ({ id }) => {
   return answers;
 };
 
-module.exports.getUserClapItems = async ({ id }) => {
-  const Post = await database.loadModel(tables.POST_TABLE);
-  const Clap = await database.loadModel(tables.CLAP_TABLE);
+const getUserClapItems = async ({ id }) => {
+  const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
+  const Clap = await databaseUtils().loadModel(TABLES.CLAP_TABLE);
 
   const result = await Post.findAll({
     raw: true,
@@ -131,7 +132,7 @@ module.exports.getUserClapItems = async ({ id }) => {
       where: { userId: id },
     },
     where: {
-      [Op.or]: [{ type: postTypes.QUESTION }, { type: postTypes.ANSWER }],
+      [Op.or]: [{ type: POST_TYPES.QUESTION }, { type: POST_TYPES.ANSWER }],
     },
     order: [['createdAt', 'DESC']],
     limit: 30,
@@ -143,9 +144,9 @@ module.exports.getUserClapItems = async ({ id }) => {
     const newItem = { answer: {}, question: {}, type: item.type };
     Object.keys(item).forEach((key) => {
       if (!key.includes('.')) {
-        if (item.type === postTypes.QUESTION) {
+        if (item.type === POST_TYPES.QUESTION) {
           newItem.question[`${key}`] = item[key];
-        } else if (item.type === postTypes.ANSWER) {
+        } else if (item.type === POST_TYPES.ANSWER) {
           newItem.answer[`${key}`] = item[key];
         }
       }
@@ -154,4 +155,17 @@ module.exports.getUserClapItems = async ({ id }) => {
   });
 
   return items;
+};
+
+export {
+  getLatestQuestions,
+  getPopularQuestions,
+  getMostViewsQuestions,
+  getNoAnswersQuestions,
+  getQuestion,
+  getUserClapItems,
+  getUserAnswers,
+  getUserQuestions,
+  getComments,
+  getAnswers,
 };
