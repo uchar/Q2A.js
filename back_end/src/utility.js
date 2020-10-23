@@ -56,6 +56,13 @@ module.exports.createSuccessResponse = (message = '') => {
   };
 };
 
+module.exports.createErrorResponse = (message = '') => {
+  return {
+    statusCode: this.STATUS_CODE.OTHER_ERROR,
+    message,
+  };
+};
+
 const legacyHash = (password, salt) => {
   return crypto
     .createHash('sha1')
