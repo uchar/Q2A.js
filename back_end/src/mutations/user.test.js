@@ -4,9 +4,8 @@
 
 describe('how user graphql api work', () => {
   test('random tesxt', () => {});
-  // test(`if updateUser update user correctly`, async () => {
   //   // Create new user
-  //   const User = await database().loadModel(tables.USER_TABLE);
+  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
   //   const user = await User.create({
   //     publicName: 'test_name',
   //     email: 'test@test.com',
@@ -44,7 +43,7 @@ describe('how user graphql api work', () => {
   // });
   // // test null data
   // test(`updateUser check for wrong input`, async () => {
-  //   const User = await database().loadModel(tables.USER_TABLE);
+  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
   //   const user = await updateUser(
   //     null,
   //     {
@@ -58,7 +57,7 @@ describe('how user graphql api work', () => {
   // test wrong id
   // test(`if updateUser update user correctly check user id in updateUser`, async () => {
   //   // Create new user
-  //   const User = await database().loadModel(tables.USER_TABLE);
+  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
   //   const user = await User.create({
   //     publicName: 'test_name',
   //     email: 'test@test.com',
@@ -97,7 +96,7 @@ describe('how user graphql api work', () => {
   //
   // test(`if updateUser update user correctly check user id in findOne`, async () => {
   //   // Create new user
-  //   const User = await database().loadModel(tables.USER_TABLE);
+  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
   //   const user = await User.create({
   //     publicName: 'test_name',
   //     email: 'test@test.com',
@@ -131,7 +130,7 @@ describe('how user graphql api work', () => {
   // });
   // test(`wrong language in updateUser`, async () => {
   //   // Create new user
-  //   const User = await database().loadModel(tables.USER_TABLE);
+  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
   //   const user = await User.create({
   //     publicName: 'test_name',
   //     email: 'test@test.com',
