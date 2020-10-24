@@ -1,5 +1,5 @@
 import databaseUtils from '../db/database.js';
-import { TABLES } from '../db/constants.js';
+import { TABLES } from '../constants.js';
 
 const getAllTags = async (_, { offset, limit }) => {
   const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);

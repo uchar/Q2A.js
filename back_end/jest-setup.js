@@ -1,6 +1,6 @@
 import createDatabasePromise from './src/db/createDatabase.js';
 import databaseUtils from './src/db/database.js';
-import { TABLES } from './src/db/constants.js';
+import { TABLES } from './src/constants.js';
 
 global.beforeEach(async () => {
   await createDatabasePromise;
@@ -14,4 +14,5 @@ global.beforeEach(async () => {
     language: 'fa',
   });
   global.test_user = user.dataValues;
+  global.User = User;
 });

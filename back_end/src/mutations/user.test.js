@@ -1,166 +1,106 @@
-// import databaseUtils from '../db/database.js';
-// import { TABLES } from '../db/constants.js';
-// import { updateUser } from './user.js';
+import { STATUS_CODE } from '../constants.js';
+import { updateUser } from './user.js';
+import { findUserById } from '../utility';
 
 describe('how user graphql api work', () => {
-  test('random tesxt', () => {});
-  //   // Create new user
-  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-  //   const user = await User.create({
-  //     publicName: 'test_name',
-  //     email: 'test@test.com',
-  //     isLegacyAuthentication: false,
-  //     isEmailVerified: true,
-  //     language: 'fa',
-  //   });
-  //
-  //   const data = {
-  //     publicName: 'public_name',
-  //     profileImage: 'profile_image_updated',
-  //     about: 'about_test_updated',
-  //     language: 'en',
-  //     theme: 'test_theme_updated',
-  //   };
-  //
-  //   await updateUser(
-  //     null,
-  //     {
-  //       input: data,
-  //     },
-  //     { user: { id: user.id } }
-  //   );
-  //
-  //   const updatedUser = await User.findOne({
-  //     where: {
-  //       id: user.id,
-  //     },
-  //   });
-  //   expect(updatedUser.publicName).toBe(data.publicName);
-  //   expect(updatedUser.profileImage).toBe(data.profileImage);
-  //   expect(updatedUser.about).toBe(data.about);
-  //   expect(updatedUser.language).toBe(data.language);
-  //   expect(updatedUser.theme).toBe(data.theme);
-  // });
-  // // test null data
-  // test(`updateUser check for wrong input`, async () => {
-  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-  //   const user = await updateUser(
-  //     null,
-  //     {
-  //       input: null,
-  //     },
-  //     { user: { id: null } }
-  //   );
-  //   console.log("???????????",user)
-  //   expect(user).();
-  // });
-  // test wrong id
-  // test(`if updateUser update user correctly check user id in updateUser`, async () => {
-  //   // Create new user
-  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-  //   const user = await User.create({
-  //     publicName: 'test_name',
-  //     email: 'test@test.com',
-  //     isLegacyAuthentication: false,
-  //     isEmailVerified: true,
-  //     language: 'fa',
-  //   });
-  //
-  //   const data = {
-  //     publicName: 'public_name',
-  //     profileImage: 'profile_image_updated',
-  //     about: 'about_test_updated',
-  //     language: 'en',
-  //     theme: 'test_theme_updated',
-  //   };
-  //
-  //   await updateUser(
-  //     null,
-  //     {
-  //       input: data,
-  //     },
-  //     { user: { id: 5 } }
-  //   );
-  //
-  //   const updatedUser = await User.findOne({
-  //     where: {
-  //       id: user.id,
-  //     },
-  //   });
-  //   expect(updatedUser.publicName).toBe(data.publicName);
-  //   expect(updatedUser.profileImage).toBe(data.profileImage);
-  //   expect(updatedUser.about).toBe(data.about);
-  //   expect(updatedUser.language).toBe(data.language);
-  //   expect(updatedUser.theme).toBe(data.theme);
-  // });
-  //
-  // test(`if updateUser update user correctly check user id in findOne`, async () => {
-  //   // Create new user
-  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-  //   const user = await User.create({
-  //     publicName: 'test_name',
-  //     email: 'test@test.com',
-  //     isLegacyAuthentication: false,
-  //     isEmailVerified: true,
-  //     language: 'fa',
-  //   });
-  //
-  //   const data = {
-  //     publicName: 'public_name',
-  //     profileImage: 'profile_image_updated',
-  //     about: 'about_test_updated',
-  //     language: 'en',
-  //     theme: 'test_theme_updated',
-  //   };
-  //
-  //   await updateUser(
-  //     null,
-  //     {
-  //       input: data,
-  //     },
-  //     { user: { id: user.id } }
-  //   );
-  //
-  //   const updatedUser = await User.findOne({
-  //     where: {
-  //       id: 'wrong ID',
-  //     },
-  //   });
-  //   expect(updatedUser.publicName).toBe(data.publicName);
-  // });
-  // test(`wrong language in updateUser`, async () => {
-  //   // Create new user
-  //   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-  //   const user = await User.create({
-  //     publicName: 'test_name',
-  //     email: 'test@test.com',
-  //     isLegacyAuthentication: false,
-  //     isEmailVerified: true,
-  //     language: 'en',
-  //   });
-  //
-  //   const data = {
-  //     publicName: 'public_name',
-  //     profileImage: 'profile_image_updated',
-  //     about: 'about_test_updated',
-  //     language: 'ru',
-  //     theme: 'test_theme_updated',
-  //   };
-  //
-  //   await updateUser(
-  //     null,
-  //     {
-  //       input: data,
-  //     },
-  //     { user: { id: user.id } }
-  //   );
-  //
-  //   const updatedUser = await User.findOne({
-  //     where: {
-  //       id: user.id,
-  //     },
-  //   });
-  //   console.log('updatedUser:', updatedUser);
-  //   expect(updatedUser.language).toBe(data.language);
-  // });
+  const changeID = false;
+
+  const callUpdateUser = async (userID, data) => {
+    return updateUser(
+      null,
+      {
+        input: data,
+      },
+      userID ? { user: { id: userID } } : null
+    );
+  };
+
+  const createUserAndUpdate = async (fieldNames, fieldValues) => {
+    const { User } = global;
+    const oldUser = await User.create({
+      publicName: 'test_name',
+      profileImage: 'test_image.png',
+      email: 'test@test.com',
+      isLegacyAuthentication: false,
+      isEmailVerified: true,
+      about: 'about_test',
+      language: 'en',
+      theme: 'light',
+    });
+    console.log('fieldNames:', fieldNames);
+    console.log('fieldValues:', fieldValues);
+    const data = {};
+    fieldNames.forEach((fieldName, index) => {
+      data[fieldName] = fieldValues[index];
+    });
+    console.log('data:', data);
+
+    const updateResult = await callUpdateUser(oldUser.id, data);
+
+    return { updateResult, oldUser };
+  };
+
+  const testWrongInput = async (fieldNames, fieldValues) => {
+    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues, changeID);
+    const updatedUser = await findUserById(oldUser.id);
+    console.log(updateResult);
+    expect(updateResult.statusCode).toBe(STATUS_CODE.INPUT_ERROR);
+    fieldNames.forEach((fieldName) => {
+      expect(updatedUser[fieldName]).toBe(oldUser[fieldName]);
+    });
+  };
+  const testCorrectInput = async (fieldNames, fieldValues) => {
+    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues, changeID);
+    const updatedUser = await findUserById(oldUser.id);
+    console.log(updateResult);
+    expect(updateResult.statusCode).toBe(STATUS_CODE.SUCCESS);
+    fieldNames.forEach((fieldName, index) => {
+      expect(updatedUser[fieldName]).toBe(fieldValues[index]);
+    });
+  };
+
+  test('if wrong input for mutation/updateUser should give error', async () => {
+    await testWrongInput(['language'], ['ru']);
+    await testWrongInput(['language', 'about'], ['ru', 'updated_about']);
+    await testWrongInput(['about', 'language'], ['updated_about', 'ru']);
+    await testWrongInput(['profileImage'], ['test_updated_image.jpgg']);
+    await testWrongInput(['profileImage'], ['test_updated_image']);
+    await testWrongInput(['profileImage'], [{ shouldNotBeJson: 'wrong_value' }]);
+    await testWrongInput(['theme'], ['yellow']);
+  });
+
+  test('if correct input for mutation/updateUser should give success', async () => {
+    const data = {
+      publicName: 'public_name_updated',
+      profileImage: 'profile_image_updated.png',
+      about: 'about_test_updated',
+      language: 'en',
+      theme: 'dark',
+    };
+    await testCorrectInput(
+      ['publicName', 'profileImage', 'about', 'language', 'theme'],
+      [data.publicName, data.profileImage, data.about, data.language, data.theme]
+    );
+    await testCorrectInput(
+      ['publicName', 'about', 'language', 'theme'],
+      [data.publicName, data.about, data.language, data.theme]
+    );
+  });
+
+  test(`if updateUser not work with wrong id`, async () => {
+    // const data = {
+    //   publicName: 'public_name_updated',
+    //   profileImage: 'profile_image_updated.png',
+    //   about: 'about_test_updated',
+    //   language: 'en',
+    //   theme: 'dark',
+    // };
+    // const updateResult = await callUpdateUser('wrong_id', data);
+    // const updateResult2 = await callUpdateUser(null, data);
+    // expect(updateResult2.statusCode).toBe(STATUS_CODE.AUTHORIZATION_ERROR);
+    // expect(updateResult.statusCode).toBe(STATUS_CODE.VALIDATION_ERROR);
+    // fieldNames.forEach((fieldName, index) => {
+    //   expect(updatedUser[fieldName]).toBe(fieldValues[index]);
+    // });
+  });
 });

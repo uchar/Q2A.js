@@ -1,6 +1,6 @@
 import databaseUtils from '../db/database.js';
-import { TABLES } from '../db/constants.js';
-import { createSuccessResponse } from '../utility.js';
+import { TABLES } from '../constants.js';
+import { createSuccessResponse, createAuthorizationErrorResponse } from '../utility.js';
 
 export const NOTIFICATION_REASON = {
   QUESTION_CLAPPED: 'QUESTION_CLAPPED',
@@ -20,7 +20,7 @@ const saveNotification = async (reason, userId, title, content, metaData) => {
 
 const setReadAllNotifications = async (_, __, context) => {
   if (!context.user) {
-    throw new Error("You're not authorized");
+    createAuthorizationErrorResponse();
   }
   const Notifications = databaseUtils().loadModel(TABLES.NOTIFICATION_TABLE);
   await Notifications.update(

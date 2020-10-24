@@ -1,14 +1,8 @@
 import bcrypt from 'bcrypt';
 import axios from 'axios';
 import databaseUtils from '../db/database.js';
-import { TABLES } from '../db/constants.js';
-import {
-  createJWTToken,
-  findUserByEmail,
-  findUserByName,
-  isLegacyPasswordValid,
-  LOGIN_STATUS_CODE,
-} from '../utility.js';
+import { TABLES, LOGIN_STATUS_CODE } from '../constants.js';
+import { createJWTToken, findUserByEmail, findUserByName, isLegacyPasswordValid } from '../utility.js';
 
 const signUp = async (_, { email, username, password }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);
