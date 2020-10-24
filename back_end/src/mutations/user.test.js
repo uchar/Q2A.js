@@ -3,8 +3,6 @@ import { updateUser } from './user.js';
 import { findUserById } from '../utility';
 
 describe('how user graphql api work', () => {
-  const changeID = false;
-
   const callUpdateUser = async (userID, data) => {
     return updateUser(
       null,
@@ -41,7 +39,7 @@ describe('how user graphql api work', () => {
   };
 
   const testWrongInput = async (fieldNames, fieldValues) => {
-    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues, changeID);
+    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues);
     const updatedUser = await findUserById(oldUser.id);
     console.log(updateResult);
     expect(updateResult.statusCode).toBe(STATUS_CODE.INPUT_ERROR);
@@ -50,7 +48,7 @@ describe('how user graphql api work', () => {
     });
   };
   const testCorrectInput = async (fieldNames, fieldValues) => {
-    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues, changeID);
+    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues);
     const updatedUser = await findUserById(oldUser.id);
     console.log(updateResult);
     expect(updateResult.statusCode).toBe(STATUS_CODE.SUCCESS);
