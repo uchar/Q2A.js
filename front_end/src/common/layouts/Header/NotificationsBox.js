@@ -9,6 +9,7 @@ import { doGraphQLQuery, isSignedIn } from '../../../API/utilities';
 import { GET_NOTIFICATIONS } from '../../../API/queries';
 import { parseContent } from '../../parsers/parser';
 import { timeAgo } from '../../utlities/generalUtilities';
+import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,7 +104,7 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
           } catch (e) {}
 
           return (
-            <Link prefetch={false} href={`/[id]/[title]`} as={url}>
+            <Link prefetch={false} href={`/[lang]/[id]/[title]`} as={`/${getLanguage()}${url}`}>
               <Paper key={row} dir={'rtl'} boxShadow={3} className={classes.notificationBox}>
                 <div
                   style={{

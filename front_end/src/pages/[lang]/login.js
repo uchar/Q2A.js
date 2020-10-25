@@ -11,7 +11,7 @@ import ErrorMessage from '../../common/components/ErrorMessage';
 import CardButton from '../../common/components/CardButton';
 import { login } from '../../API/utilities';
 import GoogleLoginButton from '../../common/components/GoogleLoginButton';
-import { getStrings } from '../../common/utlities/languageUtilities';
+import { getLanguage, getStrings } from '../../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -88,12 +88,17 @@ const Login = () => {
               />
               {errors.api && <ErrorMessage style={{ marginBottom: '12px' }} text={errors.api} />}
               <div style={{ textAlign: 'center' }}>
-                <Link prefetch={false} href="/resetPassword" variant="body2">
+                <Link prefetch={false} href={`${getLanguage()}/resetPassword`} variant="body2">
                   {getStrings().FORGET_PASSWORD}
                 </Link>
               </div>
               <div style={{ textAlign: 'center', marginTop: '5px' }}>
-                <Link prefetch={false} href="/register" variant="body2" style={{ flex: 1 }}>
+                <Link
+                  prefetch={false}
+                  href={`/${getLanguage()}/register`}
+                  variant="body2"
+                  style={{ flex: 1 }}
+                >
                   {getStrings().Register}
                 </Link>
               </div>
