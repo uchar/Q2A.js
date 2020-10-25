@@ -9,7 +9,7 @@ import Router from 'next/router';
 import { wrapper } from '../redux/store';
 import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
-import { getStrings } from '../common/utlities/languageUtilities';
+import { updateCachedLanguage, getLanguage, getStrings } from '../common/utlities/languageUtilities';
 import 'nprogress/nprogress.css';
 
 NProgress.configure({ showSpinner: true });
@@ -30,12 +30,13 @@ Router.onRouteChangeError = () => {
 };
 
 export function reportWebVitals(metric) {
-  console.log(metric)
+  console.log(metric);
 }
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
   const themeType = useSelector((state) => state.currentUser.theme);
+
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');

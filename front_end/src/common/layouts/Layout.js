@@ -29,41 +29,40 @@ const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
   const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
-  console.log('RENDER Layout ');
   return (
     <JssStylesProvider>
-      <div style={layoutStyle} >
+      <div style={layoutStyle}>
         <Header />
-        <Box style={contentStyle}>
-          <Grid direction="row" justify={'center'} container spacing={2}>
-            <Grid item md={2} xs={12}>
-              {!noSideBar && (
-                <BrowserView>
-                  <News />
-                </BrowserView>
-              )}
-            </Grid>
-            <Grid item md={8} xs={12}>
-              {props.children}
-            </Grid>
-            <Grid item md={2} xs={12}>
-              {!noSideBar && (
-                <div>
-                  <Box style={{ marginTop: '25px' }} boxShadow={2}>
-                    <Grid container>
-                      <BrowserView>
-                        <TagsList tags={tags} />
-                      </BrowserView>
-                    </Grid>
-                  </Box>
-                  <MobileView>
-                    <News />
-                  </MobileView>
-                </div>
-              )}
-            </Grid>
-          </Grid>
-        </Box>
+        {/* <Box style={contentStyle}> */}
+        {/*  <Grid direction="row" justify={'center'} container spacing={2}> */}
+        {/*    <Grid item md={2} xs={12}> */}
+        {/*      {!noSideBar && ( */}
+        {/*        <BrowserView> */}
+        {/*          <News /> */}
+        {/*        </BrowserView> */}
+        {/*      )} */}
+        {/*    </Grid> */}
+        {/*    <Grid item md={8} xs={12}> */}
+        {/*      {props.children} */}
+        {/*    </Grid> */}
+        {/*    <Grid item md={2} xs={12}> */}
+        {/*      {!noSideBar && ( */}
+        {/*        <div> */}
+        {/*          <Box style={{ marginTop: '25px' }} boxShadow={2}> */}
+        {/*            <Grid container> */}
+        {/*              <BrowserView> */}
+        {/*                <TagsList tags={tags} /> */}
+        {/*              </BrowserView> */}
+        {/*            </Grid> */}
+        {/*          </Box> */}
+        {/*          <MobileView> */}
+        {/*            <News /> */}
+        {/*          </MobileView> */}
+        {/*        </div> */}
+        {/*      )} */}
+        {/*    </Grid> */}
+        {/*  </Grid> */}
+        {/* </Box> */}
         <Footer />
       </div>
     </JssStylesProvider>

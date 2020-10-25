@@ -2,6 +2,7 @@ import databaseUtils from '../db/database.js';
 import { TABLES } from '../db/constants.js';
 
 const getNotifications = async (_, { limit, offset }, context) => {
+  console.log('WE ARE HERE  !!!!!!!!!!!!!!!!!!!', context);
   if (!context.user) {
     throw new Error("You're not authorized");
   }

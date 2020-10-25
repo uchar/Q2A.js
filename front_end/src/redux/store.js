@@ -1,6 +1,5 @@
 import { createStore } from 'redux';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { diffString, diff } from 'json-diff';
 import {
   THEME_ACTION,
   ALL_TAGS_ACTION,
@@ -10,25 +9,31 @@ import {
   CURRENT_USER_ACTION,
   SELECTED_QUESTION,
 } from './constants';
+import { LANGUAGES } from '../common/utlities/languageUtilities';
 
 const reducer = (
   state = {
-    currentUser: { language: 'fa', theme: 'light' },
+    currentUser: { language: LANGUAGES.ENGLISH, theme: 'light' },
     tags: [],
     questions: [],
     currentTag: '',
   },
   action
 ) => {
-  console.log('Start reducer : ', action, state);
+  // console.log(action, state);
   switch (action.type) {
+    // Merge state of server with client
     case HYDRATE:
       // eslint-disable-next-line no-case-declarations
       const newState = {
         ...action.payload,
       };
-      newState.currentUser.language = state.currentUser.language;
-      newState.currentUser.theme = state.currentUser.theme;
+      if (state.currentUser.id) {
+        newState.currentUser = state.currentUser;
+      } else {
+        newState.currentUser = false;
+      }
+
       return newState;
     case THEME_ACTION:
       return {

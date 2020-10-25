@@ -62,8 +62,8 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
     if (unReadNotifications > 0) onNotificationCountChange(unReadNotifications);
     setNotifications(notifications.concat(newNotifications));
   };
-  useEffect(() => {
-    loadMoreNotifications();
+  useEffect(async () => {
+    return loadMoreNotifications();
   }, []);
 
   const fetchMoreData = async () => {

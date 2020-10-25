@@ -6,12 +6,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import LoginLayout from '../common/layouts/LoginLayout';
-import ErrorMessage from '../common/components/ErrorMessage';
-import CardButton from '../common/components/CardButton';
-import { login } from '../API/utilities';
-import GoogleLoginButton from '../common/components/GoogleLoginButton';
-import { getStrings } from '../common/utlities/languageUtilities';
+import LoginLayout from '../../common/layouts/LoginLayout';
+import ErrorMessage from '../../common/components/ErrorMessage';
+import CardButton from '../../common/components/CardButton';
+import { login } from '../../API/utilities';
+import GoogleLoginButton from '../../common/components/GoogleLoginButton';
+import { getStrings } from '../../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {

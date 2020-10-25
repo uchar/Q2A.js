@@ -14,10 +14,9 @@ import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../A
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
-import { getStrings } from '../../utlities/languageUtilities';
-import { SET_READ_ALL_NOTIFICATIONS, UPDATE_USER } from '../../../API/mutations';
-import { CURRENT_USER_ACTION, THEME_ACTION } from '../../../redux/constants';
-import { darkTheme } from '../../theme';
+import {  getLanguage, getStrings } from '../../utlities/languageUtilities';
+import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
+import { CURRENT_USER_ACTION } from '../../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -103,6 +102,7 @@ const Header = ({}) => {
 
   const refreshUser = async () => {
     const userResult = await getCurrentUser();
+    console.log('Dispatching refreshed user ', userResult);
     dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
   };
 
@@ -149,7 +149,7 @@ const Header = ({}) => {
     setNotificationCount(count);
   };
 
-  const handleMenuItemClick = async (newLanguage) => {
+  const handleMenuLanguageItemClick = async (newLanguage) => {
     handleLanguageMenuClose();
     let language = '';
     console.log(newLanguage);
@@ -158,21 +158,28 @@ const Header = ({}) => {
     } else {
       language = 'fa';
     }
-    await updateCurrentUser({
-      language,
-    });
-    await refreshUser();
+    if (getLanguage() !== language) {
+      try {
+        await updateCurrentUser({
+          language,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+
+      window.location.replace(`/${language}`);
+    }
   };
 
   return (
     <div className={classes.grow}>
       <AppBar color="transparent" position="static">
         <Toolbar>
-          <NotificationsBox
-            notificationAnchor={notificationAnchor}
-            onClose={handleNotificationsMenuClose}
-            onNotificationCountChange={handleNotificationCountChange}
-          />
+          {/*<NotificationsBox*/}
+          {/*  notificationAnchor={notificationAnchor}*/}
+          {/*  onClose={handleNotificationsMenuClose}*/}
+          {/*  onNotificationCountChange={handleNotificationCountChange}*/}
+          {/*/>*/}
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleLanguageMenuOpen}>
               <Translate />
@@ -266,12 +273,11 @@ const Header = ({}) => {
           </div>
         </Toolbar>
       </AppBar>
-
       <Menu
         open={isLanguageMenuOpen}
         anchorEl={languageAnchorEl}
         onClose={handleLanguageMenuClose}
-        onItemClick={handleMenuItemClick}
+        onItemClick={handleMenuLanguageItemClick}
         items={[{ name: 'English' }, { name: 'Persian' }]}
       />
     </div>

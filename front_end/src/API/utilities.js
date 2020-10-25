@@ -10,6 +10,7 @@ export const doGraphQLQuery = async (query, params) => {
   }
   const client = getStandaloneApolloClient(jwtToken);
   const result = await client.query({ query, variables: params });
+  console.log('RESULT ! ', result);
   return result.data;
 };
 
@@ -56,9 +57,9 @@ export const getCurrentUser = async () => {
   if (jwtToken) {
     try {
       const user = await localStorage.getItem('USER');
-      if (user) {
-        return JSON.parse(user);
-      }
+      // if (user) {
+      //   return JSON.parse(user);
+      // }
       const result = await doGraphQLQuery(GET_MY_USER);
       console.log('RESULT OF GET USER : ', result);
       await localStorage.setItem('USER', JSON.stringify(result.getUser));
