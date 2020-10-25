@@ -33,36 +33,36 @@ const Layout = (props) => {
     <JssStylesProvider>
       <div style={layoutStyle}>
         <Header />
-        {/* <Box style={contentStyle}> */}
-        {/*  <Grid direction="row" justify={'center'} container spacing={2}> */}
-        {/*    <Grid item md={2} xs={12}> */}
-        {/*      {!noSideBar && ( */}
-        {/*        <BrowserView> */}
-        {/*          <News /> */}
-        {/*        </BrowserView> */}
-        {/*      )} */}
-        {/*    </Grid> */}
-        {/*    <Grid item md={8} xs={12}> */}
-        {/*      {props.children} */}
-        {/*    </Grid> */}
-        {/*    <Grid item md={2} xs={12}> */}
-        {/*      {!noSideBar && ( */}
-        {/*        <div> */}
-        {/*          <Box style={{ marginTop: '25px' }} boxShadow={2}> */}
-        {/*            <Grid container> */}
-        {/*              <BrowserView> */}
-        {/*                <TagsList tags={tags} /> */}
-        {/*              </BrowserView> */}
-        {/*            </Grid> */}
-        {/*          </Box> */}
-        {/*          <MobileView> */}
-        {/*            <News /> */}
-        {/*          </MobileView> */}
-        {/*        </div> */}
-        {/*      )} */}
-        {/*    </Grid> */}
-        {/*  </Grid> */}
-        {/* </Box> */}
+        <Box style={contentStyle}>
+          <Grid direction="row" justify={'center'} container spacing={2}>
+            <Grid item md={2} xs={12}>
+              {!noSideBar && (
+                <BrowserView>
+                  <News />
+                </BrowserView>
+              )}
+            </Grid>
+            <Grid item md={8} xs={12}>
+              {props.children}
+            </Grid>
+            <Grid item md={2} xs={12}>
+              {!noSideBar && (
+                <div>
+                  <Box style={{ marginTop: '25px' }} boxShadow={2}>
+                    <Grid container>
+                      <BrowserView>
+                        <TagsList tags={tags} />
+                      </BrowserView>
+                    </Grid>
+                  </Box>
+                  <MobileView>
+                    <News />
+                  </MobileView>
+                </div>
+              )}
+            </Grid>
+          </Grid>
+        </Box>
         <Footer />
       </div>
     </JssStylesProvider>

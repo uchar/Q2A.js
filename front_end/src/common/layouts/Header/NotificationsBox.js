@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
 import Loading from '../../components/Loading';
-import { doGraphQLQuery } from '../../../API/utilities';
+import { doGraphQLQuery, isSignedIn } from '../../../API/utilities';
 import { GET_NOTIFICATIONS } from '../../../API/queries';
 import { parseContent } from '../../parsers/parser';
 import { timeAgo } from '../../utlities/generalUtilities';
@@ -53,14 +53,17 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
   const [notifications, setNotifications] = React.useState([]);
 
   const loadMoreNotifications = async () => {
-    const response = await doGraphQLQuery(GET_NOTIFICATIONS, { offset, limit });
-    const newNotifications = response.getNotifications;
-    let unReadNotifications = 0;
-    newNotifications.forEach((notification) => {
-      if (!notification.read) unReadNotifications += 1;
-    });
-    if (unReadNotifications > 0) onNotificationCountChange(unReadNotifications);
-    setNotifications(notifications.concat(newNotifications));
+    if (isSignedIn()) {
+      console.log('We have user ! getting notfs');
+      const response = await doGraphQLQuery(GET_NOTIFICATIONS, { offset, limit });
+      const newNotifications = response.getNotifications;
+      let unReadNotifications = 0;
+      newNotifications.forEach((notification) => {
+        if (!notification.read) unReadNotifications += 1;
+      });
+      if (unReadNotifications > 0) onNotificationCountChange(unReadNotifications);
+      setNotifications(notifications.concat(newNotifications));
+    }
   };
   useEffect(async () => {
     return loadMoreNotifications();
