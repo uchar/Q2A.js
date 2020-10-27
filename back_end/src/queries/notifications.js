@@ -1,6 +1,6 @@
 import databaseUtils from '../db/database.js';
 import { TABLES } from '../constants.js';
-import { createAuthorizationErrorResponse } from '../utility';
+import { createAuthorizationErrorResponse } from '../utility.js';
 
 const getNotifications = async (_, { limit, offset }, context) => {
   if (!context.user) {

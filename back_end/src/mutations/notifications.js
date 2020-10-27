@@ -13,9 +13,18 @@ export const NOTIFICATION_REASON = {
   COMMENT_HIDED: 'COMMENT_HIDED',
 };
 
-const saveNotification = async (reason, userId, title, content, metaData) => {
+const saveNotification = async (reason, creatorId, receiverId, title, content, metaData) => {
   const Notification = databaseUtils().loadModel(TABLES.NOTIFICATION_TABLE);
-  await Notification.create({ reason, userId, title, content, metaData: JSON.stringify(metaData) });
+  console.log('Notifications:', reason, title, content, metaData, creatorId, receiverId);
+  console.log('model:', Notification);
+  await Notification.create({
+    reason,
+    title,
+    content,
+    metaData: JSON.stringify(metaData),
+    creatorId,
+    receiverId,
+  });
 };
 
 const setReadAllNotifications = async (_, __, context) => {
