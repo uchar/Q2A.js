@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { POST_TYPES, TABLES } from '../db/constants.js';
-import { createSuccessResponse, findUserByName } from '../utility.js';
+import { POST_TYPES, TABLES } from '../constants.js';
+import { createSuccessResponse, findUserByName, checkInputValidation } from '../utility.js';
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
 
 const questionSchema = yup.object().shape({
@@ -17,13 +17,6 @@ const answerSchema = yup.object().shape({
 const commentSchema = yup.object().shape({
   content: yup.string().required().min(10),
 });
-
-const checkInputValidation = async (schema, schemaParams, context) => {
-  if (!context.user) {
-    throw new Error("You're not authorized");
-  }
-  await schema.isValid(schemaParams);
-};
 
 const createPost = async (inputParams, context) => {
   const user = await findUserByName(context.user.publicName);

@@ -8,7 +8,7 @@ const isInTestMode = process.env.JEST_WORKER_ID;
 const databaseUtils = () => {
   const makeDb = async () => {
     const sequelize = isInTestMode
-      ? new Sequelize('sqlite::memory:')
+      ? new Sequelize('sqlite::memory:', { logging: false })
       : new Sequelize(config.database, config.user, config.password, {
           host: config.host,
           port: config.port,

@@ -2,19 +2,7 @@ import hashEquals from 'hash-equals';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import databaseUtils from './db/database.js';
-import { TABLES } from './db/constants.js';
-
-const STATUS_CODE = {
-  VALIDATION_ERROR: 'VALIDATION_ERROR',
-  OTHER_ERROR: 'OTHER_ERROR',
-  SUCCESS: 'SUCCESS',
-};
-
-const LOGIN_STATUS_CODE = {
-  NO_USER: 'User not found',
-  INVALID_LOGIN: 'Username or password is wrong',
-  GOOGLE_LOGIN_ERROR: 'We encountered error while trying to reach your account',
-};
+import { TABLES, STATUS_CODE } from './constants.js';
 
 const createJWTToken = (user) => {
   const token = jwt.sign({ id: user.id, publicName: user.publicName }, process.env.JWT_SECRET, {
@@ -29,6 +17,14 @@ const findUserByName = async (publicName) => {
   return User.findOne({
     where: {
       publicName,
+    },
+  });
+};
+const findUserById = async (id) => {
+  const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
+  return User.findOne({
+    where: {
+      id,
     },
   });
 };
@@ -58,6 +54,37 @@ const createSuccessResponse = (message = '') => {
   };
 };
 
+const createAuthorizationErrorResponse = (message = '') => {
+  return {
+    statusCode: STATUS_CODE.AUTHORIZATION_ERROR,
+    message,
+  };
+};
+
+const createInputErrorResponse = (message = '') => {
+  return {
+    statusCode: STATUS_CODE.INPUT_ERROR,
+    message,
+  };
+};
+
+const checkInputValidation = async (schema, schemaParams, context) => {
+  if (context === null) {
+    return createAuthorizationErrorResponse();
+  }
+  const user = await findUserById(context.user.id);
+  if (!user) {
+    return createValidationResponse();
+  }
+
+  try {
+    await schema.validate(schemaParams);
+    return true;
+  } catch (e) {
+    return createInputErrorResponse(e.message);
+  }
+};
+
 const legacyHash = (password, salt) => {
   return crypto
     .createHash('sha1')
@@ -74,8 +101,7 @@ const isInTestMode = () => {
 };
 
 export {
-  STATUS_CODE,
-  LOGIN_STATUS_CODE,
+  checkInputValidation,
   createJWTToken,
   findUserByName,
   findUserByEmail,
@@ -84,4 +110,7 @@ export {
   legacyHash,
   isLegacyPasswordValid,
   isInTestMode,
+  createAuthorizationErrorResponse,
+  createInputErrorResponse,
+  findUserById,
 };

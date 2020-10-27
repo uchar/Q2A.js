@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import databaseUtils from '../db/database.js';
-import { POST_TYPES, TABLES } from '../db/constants.js';
+import { POST_TYPES, TABLES } from '../constants.js';
 
 const { Op } = Sequelize;
 

@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import databaseUtils from './database.js';
-import { TABLES as tables } from './constants.js';
+import { TABLES as tables } from '../constants.js';
 
 const { DataTypes } = Sequelize;
 

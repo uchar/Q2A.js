@@ -14,6 +14,11 @@ export default gql`
     fa
   }
 
+  enum Theme {
+    LIGHT
+    DARK
+  }
+
   enum PostType {
     QUESTION
     ANSWER
@@ -36,7 +41,7 @@ export default gql`
     profileImage: String
     about: String
     language: Language
-    theme: String
+    theme: Theme
   }
 
   type User {
