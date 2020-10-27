@@ -72,8 +72,8 @@ const checkInputValidation = async (schema, schemaParams, context) => {
   if (context === null) {
     return createAuthorizationErrorResponse();
   }
-  const userId = await findUserById(context.user.id);
-  if (!userId) {
+  const user = await findUserById(context.user.id);
+  if (!user) {
     return createValidationResponse();
   }
 
