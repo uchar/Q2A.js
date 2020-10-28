@@ -1,6 +1,7 @@
+import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
 import { TABLES } from '../constants.js';
-import { createSuccessResponse, createAuthorizationErrorResponse } from '../utility.js';
+import { createSuccessResponse, createAuthorizationErrorResponse, checkInputValidation } from '../utility.js';
 
 export const NOTIFICATION_REASON = {
   QUESTION_CLAPPED: 'QUESTION_CLAPPED',
@@ -14,17 +15,28 @@ export const NOTIFICATION_REASON = {
 };
 
 const saveNotification = async (reason, creatorId, receiverId, title, content, metaData) => {
-  const Notification = databaseUtils().loadModel(TABLES.NOTIFICATION_TABLE);
-  console.log('Notifications:', reason, title, content, metaData, creatorId, receiverId);
-  console.log('model:', Notification);
-  await Notification.create({
-    reason,
-    title,
-    content,
-    metaData: JSON.stringify(metaData),
-    creatorId,
-    receiverId,
+  const notificationSchema = await yup.object().shape({
+    reason: yup.string(),
+    title: yup.string().required(),
+    content: yup.string(),
+    metaData: yup.string(),
   });
+  const validationResult = await checkInputValidation(
+    notificationSchema,
+    { reason, title, content, metaData },
+    { user: { id: creatorId } }
+  );
+  if (validationResult === true) {
+    const Notification = databaseUtils().loadModel(TABLES.NOTIFICATION_TABLE);
+    await Notification.create({
+      reason,
+      creatorId,
+      receiverId,
+      title,
+      content,
+      metaData: JSON.stringify(metaData),
+    });
+  }
 };
 
 const setReadAllNotifications = async (_, __, context) => {
@@ -36,7 +48,7 @@ const setReadAllNotifications = async (_, __, context) => {
     {
       read: true,
     },
-    { where: { userId: context.user.id } }
+    { where: { receiverId: context.user.id } }
   );
   return createSuccessResponse();
 };
