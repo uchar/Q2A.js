@@ -6,6 +6,7 @@ global.beforeEach(async () => {
   await createDatabasePromise;
 
   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
+  const Notification = await databaseUtils().loadModel(TABLES.NOTIFICATION_TABLE);
   const user = await User.create({
     publicName: 'test_name',
     email: 'test@test.com',
@@ -15,4 +16,5 @@ global.beforeEach(async () => {
   });
   global.test_user = user.dataValues;
   global.User = User;
+  global.Notification = Notification;
 });

@@ -133,11 +133,12 @@ const prepareDatabase = async () => {
   Clap.belongsTo(Post);
   Clap.belongsTo(User);
   Post.hasMany(Clap);
-  Notification.belongsTo(User);
-  User.hasMany(Notification);
+  Notification.belongsTo(User, { as: 'creator' });
+  Notification.belongsTo(User, { as: 'receiver' });
+  User.hasMany(Notification, { foreignKey: 'creatorId' });
   Medal.belongsTo(User);
   User.hasMany(Medal);
-  await sequelize.sync({ force: false });
+  await sequelize.sync({ force: true });
   databaseUtils().cacheModel(tables.USER_TABLE, User);
   databaseUtils().cacheModel(tables.POST_TABLE, Post);
   databaseUtils().cacheModel(tables.TAG_TABLE, Tag);

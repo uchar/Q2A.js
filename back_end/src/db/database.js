@@ -9,7 +9,11 @@ const databaseUtils = () => {
   const makeDb = async () => {
     const sequelize = isInTestMode
       ? new Sequelize('sqlite::memory:', { logging: false })
-      : new Sequelize(config.database, config.user, config.password, {
+      : // new Sequelize({
+        //   dialect: 'sqlite',
+        //   storage: './database.sqlite',
+        // })
+        new Sequelize(config.database, config.user, config.password, {
           host: config.host,
           port: config.port,
           dialect: 'mysql',
