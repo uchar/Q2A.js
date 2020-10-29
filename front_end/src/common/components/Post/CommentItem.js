@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import Link from 'next/link';
 import { parseContent } from '../../parsers/parser';
+import {getLanguage} from "../../utlities/languageUtilities";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,7 @@ export default function CommentItem({ content, user, language }) {
   return (
     <div className={classes.root}>
       <div> {parsedContent}</div>
-      <Link prefetch={false} href={`/user/[id]`} as={`/user/${publicName}`}>
+      <Link prefetch={false} href={`/[lang]/user/[id]`} as={`/${getLanguage()}/user/${publicName}`}>
         <Typography variant="button" className={classes.name}>
           {publicName}
         </Typography>

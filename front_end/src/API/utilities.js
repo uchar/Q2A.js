@@ -1,29 +1,48 @@
+import jwt from 'jsonwebtoken';
 import { GET_MY_USER } from './queries';
 import { UPDATE_USER, UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
 
-export const doGraphQLQuery = async (query, params) => {
+const getJwtToken = () => {
   let jwtToken;
   if (process.browser) {
-    jwtToken = await localStorage.getItem('JWT_TOKEN');
+    jwtToken = localStorage.getItem('JWT_TOKEN');
+    if (jwtToken) {
+      const decodedToken = jwt.decode(jwtToken, { complete: true });
+      const expiredAt = decodedToken.payload.exp;
+      const currentTime = Math.floor(new Date().getTime() / 1000);
+      // If less than 30 minutes left in session
+      if (currentTime + 60 * 30 >= expiredAt) {
+        jwtToken = undefined;
+        localStorage.removeItem(jwtToken);
+      }
+    }
   }
-  const client = getStandaloneApolloClient(jwtToken);
-  const result = await client.query({ query, variables: params });
-  return result.data;
+
+  return jwtToken;
 };
 
-export const doGraphQLMutation = async (mutation, params) => {
-  let jwtToken;
-  if (process.browser) {
-    jwtToken = await localStorage.getItem('JWT_TOKEN');
+const doGraphQLQuery = async (query, params) => {
+  const jwtToken = getJwtToken();
+  try {
+    const client = getStandaloneApolloClient(jwtToken);
+    const result = await client.query({ query, variables: params });
+    return result.data;
+  } catch (e) {
+    console.log('Query failed with error', e);
+    return undefined;
   }
+};
+
+const doGraphQLMutation = async (mutation, params) => {
+  const jwtToken = getJwtToken();
   const client = getStandaloneApolloClient(jwtToken);
   const result = await client.mutate({ mutation, variables: params });
   return result.data;
 };
 
-export const login = async (username, password) => {
+const login = async (username, password) => {
   const client = getStandaloneApolloClient();
   const result = await client.mutate({ mutation: USER_LOGIN, variables: { username, password } });
   const jwtToken = result.data.login;
@@ -31,7 +50,7 @@ export const login = async (username, password) => {
   return jwtToken;
 };
 
-export const loginWithGoogle = async (googleJwtToken) => {
+const loginWithGoogle = async (googleJwtToken) => {
   const client = getStandaloneApolloClient();
   const result = await client.mutate({
     mutation: USER_GOOGLE_LOGIN,
@@ -42,7 +61,7 @@ export const loginWithGoogle = async (googleJwtToken) => {
   return jwtToken;
 };
 
-export const signUp = async (email, username, password) => {
+const signUp = async (email, username, password) => {
   const client = getStandaloneApolloClient();
   const result = await client.mutate({ mutation: USER_SIGN_UP, variables: { email, username, password } });
   const jwtToken = result.data.signUp;
@@ -51,16 +70,15 @@ export const signUp = async (email, username, password) => {
 };
 
 // load locally if USER key exist in asyncstorage nad force refresh is false
-export const getCurrentUser = async () => {
-  const jwtToken = localStorage.getItem('JWT_TOKEN');
+const getCurrentUser = async () => {
+  const jwtToken = getJwtToken();
   if (jwtToken) {
     try {
-      const user = await localStorage.getItem('USER');
+      const user = localStorage.getItem('USER');
       if (user) {
         return JSON.parse(user);
       }
       const result = await doGraphQLQuery(GET_MY_USER);
-      console.log('RESULT OF GET USER : ', result);
       await localStorage.setItem('USER', JSON.stringify(result.getUser));
       return result.getUser;
     } catch (error) {
@@ -70,17 +88,36 @@ export const getCurrentUser = async () => {
   return false;
 };
 
-export const uploadFile = async (file) => {
+const uploadFile = async (file) => {
   return doGraphQLMutation(UPLOAD_FILE, { file });
 };
 
-export const getCurrentUserId = async () => {
+const getCurrentUserId = async () => {
   const user = await getCurrentUser();
   if (user) return user.id;
   return '';
 };
-export const updateCurrentUser = async (params) => {
+const updateCurrentUser = async (params) => {
   await doGraphQLMutation(UPDATE_USER, { input: { ...params } });
   await localStorage.removeItem('USER');
   return getCurrentUser();
+};
+
+const isSignedIn =  () => {
+  const jwtToken = getJwtToken();
+  if (jwtToken) return true;
+  return false;
+};
+
+export {
+  updateCurrentUser,
+  getCurrentUserId,
+  uploadFile,
+  getCurrentUser,
+  signUp,
+  login,
+  loginWithGoogle,
+  doGraphQLMutation,
+  doGraphQLQuery,
+  isSignedIn,
 };

@@ -6,7 +6,7 @@ import { TABLES, STATUS_CODE } from './constants.js';
 
 const createJWTToken = (user) => {
   const token = jwt.sign({ id: user.id, publicName: user.publicName }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
+    expiresIn: '7d',
     algorithm: 'HS256',
   });
   return token;

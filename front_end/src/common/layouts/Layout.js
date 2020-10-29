@@ -29,10 +29,9 @@ const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
   const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
-  console.log('RENDER Layout ');
   return (
     <JssStylesProvider>
-      <div style={layoutStyle} >
+      <div style={layoutStyle}>
         <Header />
         <Box style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>

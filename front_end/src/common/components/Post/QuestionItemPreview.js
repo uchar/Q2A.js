@@ -9,6 +9,7 @@ import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
+import {getLanguage} from "../../utlities/languageUtilities";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,7 +112,7 @@ const QuestionItemPreview = DeepMemo(function ({
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
-        <Link href={`/[id]/[title]`} as={`/${id}/${encodeURIComponent(title)}`}>
+        <Link href={`/${getLanguage()}/[id]/[title]`} as={`/${getLanguage()}/${id}/${encodeURIComponent(title)}`}>
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>

@@ -27,11 +27,8 @@ const signUp = async (_, { email, username, password }) => {
 };
 
 const login = async (_, { username, password }) => {
-  console.log('a', databaseUtils);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
-  console.log('b');
   const user = await findUserByName(username);
-  console.log('c');
   if (!user) {
     throw new Error(LOGIN_STATUS_CODE.NO_USER);
   }

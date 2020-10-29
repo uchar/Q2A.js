@@ -31,8 +31,8 @@ const ProfileImageWithName = DeepMemo(function ({ profileImage, href, as, create
   return (
     <div className={classes.root}>
       <ProfileImage
-        href={href}
-        as={as}
+        href={`/[lang]/user/[id]`}
+        as={`/${getLanguage()}${as}`}
         profileImage={profileImage}
         showMedal
         tooltip={`${publicName} تا به حال ${score} امتیاز گرفته است `}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
 import { isMobile } from 'react-device-detect';
+import { getLanguage } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   viewCourseButton: {
@@ -74,7 +75,7 @@ const CardButton = (props) => {
   return (
     <div {...props}>
       {url && url.length > 0 ? (
-        <Link prefetch={false} href={url}>
+        <Link prefetch={false} href={`/${getLanguage()}${url}`}>
           <SButton
             onClick={onSubmit}
             style={{ marginTop: props.buttonTopMargin ? props.buttonTopMargin : '0px' }}

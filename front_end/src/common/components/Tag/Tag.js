@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';
 import { DeepMemo } from '../../utlities/generalUtilities';
+import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -23,7 +24,11 @@ const Tag = DeepMemo(function Tag(props) {
   const { tag, count } = props;
   const label = count ? `${tag}  ${count}` : tag;
   return (
-    <Link prefetch={false} href="/tag/[tag]" as={`/tag/${encodeURIComponent(tag)}`}>
+    <Link
+      prefetch={false}
+      href={`/${getLanguage()}/tag/[tag]`}
+      as={`/${getLanguage()}/tag/${encodeURIComponent(tag)}`}
+    >
       <Box boxShadow={1} border={1} className={classes.box}>
         <Typography style={{ fontSize: 10 }}>{label}</Typography>
       </Box>
