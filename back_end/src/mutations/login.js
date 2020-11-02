@@ -14,10 +14,15 @@ import {
 const signUp = async (_, { email, username, password, language }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+  // https://stackoverflow.com/a/12019115/2586447
   const loginUserSchema = await yup.object().shape({
     email: yup.string().email().required(),
-    username: yup.string().required().min(3, ''),
-    password: yup.string().required().min(3, ''),
+    username: yup
+      .string()
+      .required()
+      .min(3)
+      .matches(/^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/),
+    password: yup.string().required().min(6),
     language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
   });
   await checkInputValidationWithoutContext(loginUserSchema, {
