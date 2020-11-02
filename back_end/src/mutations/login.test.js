@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { signUp } from './login.js';
+import { signUp, login } from './login.js';
 import { findUserById } from '../utility.js';
+import { LOGIN_ERRORS } from '../constants.js';
 
 describe('how user graphql api work', () => {
   const data = {
@@ -30,6 +31,17 @@ describe('how user graphql api work', () => {
     if (user)
       expect(`Sign up should give error with:' ${email},${username},${password},${language}`).toBe(false);
   };
+
+  const testLoginWrongInput = async (username, password, errorMessage) => {
+    let user;
+    try {
+      user = await login(null, { username, password });
+    } catch (e) {
+      expect(e.message).toBe(errorMessage);
+    }
+    if (user) expect(`Login should give error with:' ${username},${password},`).toBe(false);
+  };
+
   test('Sign up with correct username and password works', async () => {
     const user = await userSignUp(data.email, data.username, data.password, data.language);
     const decodedUser = await jwt.decode(user);
@@ -52,5 +64,14 @@ describe('how user graphql api work', () => {
     await testSignUpWrongInput(data.email, 'er', data.password, data.language);
     await testSignUpWrongInput(data.email, '_wrong_username', data.password, data.language);
   });
-  test("if login with the wrong username or password shouldn't work", async () => {});
+  test('if Login with the correct username and password works', async () => {
+    const user = await login(null, { username: 'test_name', password: '123654' });
+    expect(user).toBeTruthy();
+  });
+
+  test('if Login with wrong username or password should not work', async () => {
+    await testLoginWrongInput('test_name', 'wrong_password', LOGIN_ERRORS.INVALID_LOGIN);
+    await testLoginWrongInput('wrong_test_name', '123654', LOGIN_ERRORS.NO_USER);
+    await testLoginWrongInput('wrong_test_name', 'wrong_password', LOGIN_ERRORS.NO_USER);
+  });
 });
