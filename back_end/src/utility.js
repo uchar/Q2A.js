@@ -30,9 +30,7 @@ const findUserById = async (id) => {
 };
 
 const findUserByEmail = async (email) => {
-  console.log('1');
   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-  console.log('2');
   return User.findOne({
     where: {
       email,
@@ -85,6 +83,10 @@ const checkInputValidation = async (schema, schemaParams, context) => {
   }
 };
 
+const checkInputValidationWithoutContext = async (schema, schemaParams) => {
+  await schema.validate(schemaParams);
+  return true;
+};
 const legacyHash = (password, salt) => {
   return crypto
     .createHash('sha1')
@@ -113,4 +115,5 @@ export {
   createAuthorizationErrorResponse,
   createInputErrorResponse,
   findUserById,
+  checkInputValidationWithoutContext,
 };

@@ -1,24 +1,46 @@
 import bcrypt from 'bcrypt';
 import axios from 'axios';
+import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { TABLES, LOGIN_STATUS_CODE } from '../constants.js';
-import { createJWTToken, findUserByEmail, findUserByName, isLegacyPasswordValid } from '../utility.js';
+import { TABLES, LOGIN_ERRORS, LANGUAGE } from '../constants.js';
+import {
+  createJWTToken,
+  findUserByEmail,
+  findUserByName,
+  isLegacyPasswordValid,
+  checkInputValidationWithoutContext,
+} from '../utility.js';
 
-const signUp = async (_, { email, username, password }) => {
+const signUp = async (_, { email, username, password, language }) => {
+  console.log('language:', language);
   const newPasswordHash = await bcrypt.hash(password, 10);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+  const loginUserSchema = await yup.object().shape({
+    email: yup.string().email().required(),
+    username: yup.string().required().min(3, ''),
+    password: yup.string().required().min(3, ''),
+    language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+  });
+  console.log('loginUserSchema:', loginUserSchema.email);
+  await checkInputValidationWithoutContext(loginUserSchema, {
+    email,
+    username,
+    password,
+    language,
+  });
   let user = await findUserByName(username);
   if (user) {
-    throw new Error('User already exist');
+    throw new Error(LOGIN_ERRORS.EXIST_USER);
   }
   user = await findUserByEmail(email);
   if (user) {
-    throw new Error('Email already exist');
+    throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
   }
   await User.create({
-    publicName: username,
     email,
+    publicName: username,
     password: newPasswordHash,
+    language,
     isLegacyAuthentication: false,
     isEmailVerified: false,
   });
@@ -30,7 +52,7 @@ const login = async (_, { username, password }) => {
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const user = await findUserByName(username);
   if (!user) {
-    throw new Error(LOGIN_STATUS_CODE.NO_USER);
+    throw new Error(LOGIN_ERRORS.NO_USER);
   }
   if (user.isLegacyAuthentication) {
     const isValid = isLegacyPasswordValid(password, user.legacyPasswordSalt, user.legacyPassword);
@@ -47,13 +69,13 @@ const login = async (_, { username, password }) => {
       );
       return createJWTToken(user);
     }
-    throw new Error(LOGIN_STATUS_CODE.INVALID_LOGIN);
+    throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
   } else {
     const isValid = await bcrypt.compare(password, user.password);
     if (isValid) {
       return createJWTToken(user);
     }
-    throw new Error(LOGIN_STATUS_CODE.INVALID_LOGIN);
+    throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
   }
 };
 
@@ -62,13 +84,13 @@ const googleLogin = async (_, { jwtToken }) => {
     const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${jwtToken}`);
     if (response.status !== 200) {
       console.log('Wrong status in googleLogin', jwtToken, response);
-      throw new Error(LOGIN_STATUS_CODE.GOOGLE_LOGIN_ERROR);
+      throw new Error(LOGIN_ERRORS.GOOGLE_LOGIN_ERROR);
     }
     const googleIdData = response.data;
     console.log('googleIdData : ', googleIdData);
     if (googleIdData.aud !== process.env.GOOGLE_CLIENT_ID) {
       console.log('Wrong aud in googleLogin', jwtToken, response);
-      throw new Error(LOGIN_STATUS_CODE.GOOGLE_LOGIN_ERROR);
+      throw new Error(LOGIN_ERRORS.GOOGLE_LOGIN_ERROR);
     }
     const { email, name } = googleIdData;
     const publicName = name.replace(' ', '_');
