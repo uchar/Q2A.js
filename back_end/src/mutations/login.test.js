@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { signUp } from './login.js';
+import { findUserById } from '../utility.js';
 
 describe('how user graphql api work', () => {
   const data = {
@@ -9,28 +11,25 @@ describe('how user graphql api work', () => {
     language: 'en',
   };
   const userSignUp = async () => {
-    console.log('???');
-    const { User } = global;
     const user = await signUp(null, {
       email: data.email,
       username: data.username,
       password: data.password,
       language: data.language,
     });
-    const findUserById = async (id) => {
-      return User.findOne({
-        where: {
-          id,
-        },
-      });
-    };
-    const decodedUser = await jwt.decode(user);
-    const result = await findUserById(decodedUser.id);
-    console.log(result);
-    return result;
+
+    return user;
   };
   test('Sign up with correct username and password works', async () => {
-    const decodedUser = await userSignUp();
-    console.log(decodedUser);
+    const user = await userSignUp();
+    const decodedUser = await jwt.decode(user);
+    const result = await findUserById(decodedUser.id);
+    const isValidPassword = await bcrypt.compare(data.password, result.password);
+    expect(decodedUser.publicName).toBe(data.username);
+    expect(decodedUser.exp - decodedUser.iat).toBe(60 * 60 * 24 * 7); // 7 days
+    expect(result.publicName).toBe(data.username);
+    expect(result.email).toBe(data.email);
+    expect(result.language).toBe(data.language);
+    expect(isValidPassword).toBe(true);
   });
 });

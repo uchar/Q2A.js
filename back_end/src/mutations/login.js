@@ -12,7 +12,6 @@ import {
 } from '../utility.js';
 
 const signUp = async (_, { email, username, password, language }) => {
-  console.log('language:', language);
   const newPasswordHash = await bcrypt.hash(password, 10);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const loginUserSchema = await yup.object().shape({
@@ -21,7 +20,6 @@ const signUp = async (_, { email, username, password, language }) => {
     password: yup.string().required().min(3, ''),
     language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
   });
-  console.log('loginUserSchema:', loginUserSchema.email);
   await checkInputValidationWithoutContext(loginUserSchema, {
     email,
     username,
