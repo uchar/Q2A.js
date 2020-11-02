@@ -137,7 +137,7 @@ export default gql`
   type Mutation {
     login(username: String!, password: String!): String
     googleLogin(jwtToken: String!): String
-    signUp(email: String!, username: String!, password: String!): String
+    signUp(email: String!, username: String!, password: String!, language: Language!): String
     addQuestion(title: String!, content: String!, tags: [String]!): Result
     addAnswer(postId: String!, content: String!): Result
     addComment(postId: String!, content: String!): Result
