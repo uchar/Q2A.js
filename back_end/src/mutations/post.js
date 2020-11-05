@@ -99,7 +99,6 @@ const updateComment = async (_, { id, content }, context) => {
 
 const updateQuestion = async (_, { id, title, content, tags }, context) => {
   await checkInputValidation(questionSchema, { title, content, tags }, context);
-  console.log('Context user : ', context.user);
   const questionTags = {};
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -120,6 +119,7 @@ const addAnswer = async (_, { postId, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
   const parentPost = await getParentPost(postId);
   const url = await getUrlFromPost(parentPost);
+
   await createPost(
     {
       type: POST_TYPES.ANSWER,

@@ -3,17 +3,24 @@ import { updateUser } from './user.js';
 import { findUserById } from '../utility';
 
 describe('how user graphql api work', () => {
-  const callUpdateUser = async (userID, data) => {
+  const data = {
+    publicName: 'public_name_updated',
+    profileImage: 'profile_image_updated.png',
+    about: 'about_test_updated',
+    language: 'en',
+    theme: 'dark',
+  };
+  const callUpdateUser = async (userId, input) => {
     return updateUser(
       null,
       {
-        input: data,
+        input,
       },
-      userID ? { user: { id: userID } } : null
+      userId ? { user: { id: userId } } : null
     );
   };
 
-  const createUserAndUpdate = async (fieldNames, fieldValues) => {
+  const createUser = async () => {
     const { User } = global;
     const oldUser = await User.create({
       publicName: 'test_name',
@@ -25,32 +32,52 @@ describe('how user graphql api work', () => {
       language: 'en',
       theme: 'light',
     });
-    const data = {};
-    fieldNames.forEach((fieldName, index) => {
-      data[fieldName] = fieldValues[index];
-    });
 
-    const updateResult = await callUpdateUser(oldUser.id, data);
-
-    return { updateResult, oldUser };
+    return { oldUser, data };
   };
 
   const testWrongInput = async (fieldNames, fieldValues) => {
-    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues);
+    const updateData = {};
+    fieldNames.forEach((fieldName, index) => {
+      updateData[fieldName] = fieldValues[index];
+    });
+    const { oldUser } = await createUser();
+    let updateResult;
+    try {
+      updateResult = await callUpdateUser(oldUser.id, updateData);
+    } catch (e) {
+      expect(e.name).toBe('ValidationError');
+    }
+    expect(updateResult).toBeFalsy();
     const updatedUser = await findUserById(oldUser.id);
-    expect(updateResult.statusCode).toBe(STATUS_CODE.INPUT_ERROR);
     fieldNames.forEach((fieldName) => {
       expect(updatedUser[fieldName]).toBe(oldUser[fieldName]);
     });
   };
   const testCorrectInput = async (fieldNames, fieldValues) => {
-    const { updateResult, oldUser } = await createUserAndUpdate(fieldNames, fieldValues);
+    const updateData = {};
+    fieldNames.forEach((fieldName, index) => {
+      updateData[fieldName] = fieldValues[index];
+    });
+    const { oldUser } = await createUser();
+    const updateResult = await callUpdateUser(oldUser.id, updateData);
     const updatedUser = await findUserById(oldUser.id);
     expect(updateResult.statusCode).toBe(STATUS_CODE.SUCCESS);
     fieldNames.forEach((fieldName, index) => {
       expect(updatedUser[fieldName]).toBe(fieldValues[index]);
     });
   };
+
+  test('if correct input for mutation/updateUser should give success', async () => {
+    await testCorrectInput(
+      ['publicName', 'profileImage', 'about', 'language', 'theme'],
+      [data.publicName, data.profileImage, data.about, data.language, data.theme]
+    );
+    await testCorrectInput(
+      ['publicName', 'about', 'language', 'theme'],
+      [data.publicName, data.about, data.language, data.theme]
+    );
+  });
 
   test('if wrong input for mutation/updateUser should give error', async () => {
     await testWrongInput(['language'], ['ru']);
@@ -62,35 +89,8 @@ describe('how user graphql api work', () => {
     await testWrongInput(['theme'], ['yellow']);
   });
 
-  test('if correct input for mutation/updateUser should give success', async () => {
-    const data = {
-      publicName: 'public_name_updated',
-      profileImage: 'profile_image_updated.png',
-      about: 'about_test_updated',
-      language: 'en',
-      theme: 'dark',
-    };
-    await testCorrectInput(
-      ['publicName', 'profileImage', 'about', 'language', 'theme'],
-      [data.publicName, data.profileImage, data.about, data.language, data.theme]
-    );
-    await testCorrectInput(
-      ['publicName', 'about', 'language', 'theme'],
-      [data.publicName, data.about, data.language, data.theme]
-    );
-  });
-
   test(`if updateUser not work with wrong id`, async () => {
-    const data = {
-      publicName: 'public_name_updated',
-      profileImage: 'profile_image_updated.png',
-      about: 'about_test_updated',
-      language: 'en',
-      theme: 'dark',
-    };
-    const updateResult = await callUpdateUser('wrong_id', data);
-    const updateResult2 = await callUpdateUser(null, data);
-    expect(updateResult2.statusCode).toBe(STATUS_CODE.AUTHORIZATION_ERROR);
-    expect(updateResult.statusCode).toBe(STATUS_CODE.VALIDATION_ERROR);
+    await expect(callUpdateUser(null, data)).rejects.toThrow(STATUS_CODE.AUTHORIZATION_ERROR);
+    await expect(callUpdateUser('wrong_id', data)).rejects.toThrow(STATUS_CODE.VALIDATION_ERROR);
   });
 });
