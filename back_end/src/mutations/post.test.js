@@ -1,4 +1,4 @@
-import { addQuestion, updateQuestion } from './post.js';
+import { addQuestion, updateQuestion, addAnswer } from './post.js';
 import { STATUS_CODE } from '../constants.js';
 
 describe('how post graphql api work', () => {
@@ -62,6 +62,21 @@ describe('how post graphql api work', () => {
     if (result) expect(`Update Question should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
+  const testAddAnswerWrongInput = async (postId, content, errorMessage, typeErrorFlage) => {
+    const userAddQuestion = global.test_user;
+    let result;
+    try {
+      result = await addAnswer(
+        null,
+        { postId, content },
+        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      );
+    } catch (e) {
+      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      else expect(e.message).toBe(errorMessage);
+    }
+    if (result) expect(`add Answer Question should give error with:' ${postId},${content}`).toBe(false);
+  };
   // AddQuestion
   test('if correct input for addQuestion should give success', async () => {
     const result = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
@@ -112,16 +127,22 @@ describe('how post graphql api work', () => {
     await testUpdateQuestionWrongInput(questionId, 'wrong', 'wrong_content', ['c++']);
   });
 
-  // // addAnswer
-  // test('if correct input for addAnswer should give success', async () => {
-  //   const userAddQuestion = global.test_user;
-  //   const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
-  //   const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
-  //   const result = await addAnswer(
-  //     null,
-  //     { postId: questionId, content: questionUpdatedData.content },
-  //     { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
-  //   );
-  //   console.log('result:', result);
-  // });
+  // addAnswer
+  test('if correct input for addAnswer should give success', async () => {
+    const userAddQuestion = global.test_user;
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    const result = await addAnswer(
+      null,
+      { postId: questionId, content: questionUpdatedData.content },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+  });
+  test("if wrong input for addAnswer shouldn't work", async () => {
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    await testAddAnswerWrongInput(220, questionUpdatedData.content, STATUS_CODE.INPUT_ERROR, false);
+    await testAddAnswerWrongInput(questionId, 'wrong_content', 'ValidationError', true);
+  });
 });

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { POST_TYPES, TABLES } from '../constants.js';
+import { POST_TYPES, TABLES, STATUS_CODE } from '../constants.js';
 import { createSuccessResponse, findUserByName, checkInputValidation } from '../utility.js';
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
 
@@ -117,7 +117,12 @@ const updateQuestion = async (_, { id, title, content, tags }, context) => {
 
 const addAnswer = async (_, { postId, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
+  console.log('postId:', postId);
   const parentPost = await getParentPost(postId);
+  console.log('parentPost:', parentPost);
+  if (parentPost === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
   const url = await getUrlFromPost(parentPost);
 
   await createPost(
@@ -128,9 +133,16 @@ const addAnswer = async (_, { postId, content }, context) => {
     },
     context
   );
-  await saveNotification(NOTIFICATION_REASON.ANSWER_RECEIVED, parentPost.userId, parentPost.title, content, {
-    url,
-  });
+  await saveNotification(
+    NOTIFICATION_REASON.ANSWER_RECEIVED,
+    context.user.id,
+    parentPost.userId,
+    parentPost.title,
+    content,
+    {
+      url,
+    }
+  );
   return createSuccessResponse();
 };
 
