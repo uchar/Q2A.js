@@ -122,6 +122,10 @@ export default gql`
     statusCode: StatusCode
     message: String
   }
+  type AddResult {
+    id: String!
+    statusCode: StatusCode
+  }
 
   type Query {
     latestQuestions(tag: String, limit: Int, offset: Int): [Question]
@@ -138,9 +142,9 @@ export default gql`
     login(username: String!, password: String!): String
     googleLogin(jwtToken: String!): String
     signUp(email: String!, username: String!, password: String!, language: Language!): String
-    addQuestion(title: String!, content: String!, tags: [String]!): Result
-    addAnswer(postId: String!, content: String!): Result
-    addComment(postId: String!, content: String!): Result
+    addQuestion(title: String!, content: String!, tags: [String]!): AddResult
+    addAnswer(postId: String!, content: String!): AddResult
+    addComment(postId: String!, content: String!): AddResult
     updateQuestion(id: String!, title: String!, content: String!, tags: [String]!): Result
     updateAnswer(id: String!, content: String!): Result
     updateComment(id: String!, content: String!): Result

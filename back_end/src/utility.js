@@ -52,6 +52,13 @@ const createSuccessResponse = (message = '') => {
   };
 };
 
+const createAddSuccessResponse = (id) => {
+  return {
+    id,
+    statusCode: STATUS_CODE.SUCCESS,
+  };
+};
+
 const createAuthorizationErrorResponse = (message = '') => {
   return {
     statusCode: STATUS_CODE.AUTHORIZATION_ERROR,
@@ -112,4 +119,5 @@ export {
   createInputErrorResponse,
   findUserById,
   checkInputValidationWithoutContext,
+  createAddSuccessResponse,
 };
