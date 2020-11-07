@@ -91,11 +91,15 @@ const updateAnswer = async (_, { id, content }, context) => {
 
 const updateComment = async (_, { id, content }, context) => {
   await checkInputValidation(commentSchema, { content }, context);
+  const commentId = await getParentPost(id);
+  if (commentId === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
   await updatePost(
     {
       content,
     },
-    id,
+    commentId,
     context
   );
   return createSuccessResponse(``);
@@ -152,8 +156,11 @@ const addAnswer = async (_, { postId, content }, context) => {
 const addComment = async (_, { postId, content }, context) => {
   await checkInputValidation(commentSchema, { content }, context);
   const parentPost = await getParentPost(postId);
+  if (parentPost === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
   const url = await getUrlFromPost(parentPost);
-  await createPost(
+  const resultCreatePost = await createPost(
     {
       type: POST_TYPES.COMMENT,
       content,
@@ -161,8 +168,10 @@ const addComment = async (_, { postId, content }, context) => {
     },
     context
   );
+  const CreatePostId = resultCreatePost.id;
   await saveNotification(
     NOTIFICATION_REASON.COMMENT_RECEIVED,
+    context.user.id,
     parentPost.userId,
     parentPost.title ? parentPost.title : parentPost.content,
     content,
@@ -170,7 +179,7 @@ const addComment = async (_, { postId, content }, context) => {
       url,
     }
   );
-  return createSuccessResponse();
+  return { CreatePostId, messageAddComment: createSuccessResponse() };
 };
 
 export { addComment, addAnswer, updateQuestion, updateComment, updateAnswer, addQuestion };

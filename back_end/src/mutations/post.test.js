@@ -1,4 +1,4 @@
-import { addQuestion, updateQuestion, addAnswer, updateAnswer } from './post.js';
+import { addQuestion, updateQuestion, addAnswer, updateAnswer, addComment, updateComment } from './post.js';
 import { STATUS_CODE } from '../constants.js';
 
 describe('how post graphql api work', () => {
@@ -92,6 +92,37 @@ describe('how post graphql api work', () => {
       else expect(e.message).toBe(errorMessage);
     }
     if (result) expect(`Update Answer should give error with:' ${answerId},${content}`).toBe(false);
+  };
+
+  const testAddCommentWrongInput = async (postId, content, errorMessage, typeErrorFlage) => {
+    const userAddQuestion = global.test_user;
+    let result;
+    try {
+      result = await addComment(
+        null,
+        { postId, content },
+        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      );
+    } catch (e) {
+      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      else expect(e.message).toBe(errorMessage);
+    }
+    if (result) expect(`add comment Question should give error with:' ${postId},${content}`).toBe(false);
+  };
+  const testUpdateAddCommentWrongInput = async (commentId, content, errorMessage, typeErrorFlage) => {
+    const userAddQuestion = global.test_user;
+    let result;
+    try {
+      result = await updateComment(
+        null,
+        { id: commentId, content },
+        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      );
+    } catch (e) {
+      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      else expect(e.message).toBe(errorMessage);
+    }
+    if (result) expect(`Update Answer should give error with:' ${commentId},${content}`).toBe(false);
   };
   // AddQuestion
   test('if correct input for addQuestion should give success', async () => {
@@ -191,5 +222,56 @@ describe('how post graphql api work', () => {
     await testUpdateAddAnswerWrongInput(CreatePostId, 'wrong_updateAnswer', 'ValidationError', true);
     await testUpdateAddAnswerWrongInput(null, questionData.content, STATUS_CODE.INPUT_ERROR, false);
     await testUpdateAddAnswerWrongInput(200, questionData.content, STATUS_CODE.INPUT_ERROR, false);
+  });
+
+  // addComment
+  test('if correct input for addComment should give success', async () => {
+    const userAddQuestion = global.test_user;
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    const { messageAddComment } = await addComment(
+      null,
+      { postId: questionId, content: questionUpdatedData.content },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    expect(messageAddComment.statusCode).toBe(STATUS_CODE.SUCCESS);
+  });
+  test("if wrong input for addComment shouldn't work", async () => {
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    await testAddCommentWrongInput(220, questionUpdatedData.content, STATUS_CODE.INPUT_ERROR, false);
+    await testAddCommentWrongInput(questionId, 'wrong', 'ValidationError', true);
+  });
+
+  // updateComment
+  test('if correct input for updateComment should give success', async () => {
+    const userAddQuestion = global.test_user;
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    const { CreatePostId } = await addComment(
+      null,
+      { postId: questionId, content: questionUpdatedData.content },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    const updateContentComment = 'After writing out longhand these combinations I can sense patterns';
+    const result = await updateComment(
+      null,
+      { id: CreatePostId, content: updateContentComment },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+  });
+  test("if wrong input for updateComment shouldn't work", async () => {
+    const userAddQuestion = global.test_user;
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    const { CreatePostId } = await addComment(
+      null,
+      { postId: questionId, content: questionUpdatedData.content },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    await testUpdateAddCommentWrongInput(CreatePostId, 'wrong', 'ValidationError', true);
+    await testUpdateAddCommentWrongInput(null, questionData.content, STATUS_CODE.INPUT_ERROR, false);
+    await testUpdateAddCommentWrongInput(200, questionData.content, STATUS_CODE.INPUT_ERROR, false);
   });
 });
