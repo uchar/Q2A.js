@@ -75,11 +75,15 @@ const addQuestion = async (_, { title, content, tags }, context) => {
 
 const updateAnswer = async (_, { id, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
+  const answerId = await getParentPost(id);
+  if (answerId === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
   await updatePost(
     {
       content,
     },
-    id,
+    answerId,
     context
   );
   return createSuccessResponse(``);
@@ -117,15 +121,13 @@ const updateQuestion = async (_, { id, title, content, tags }, context) => {
 
 const addAnswer = async (_, { postId, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
-  console.log('postId:', postId);
   const parentPost = await getParentPost(postId);
-  console.log('parentPost:', parentPost);
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
   }
   const url = await getUrlFromPost(parentPost);
 
-  await createPost(
+  const resultCreatePost = await createPost(
     {
       type: POST_TYPES.ANSWER,
       content,
@@ -133,6 +135,7 @@ const addAnswer = async (_, { postId, content }, context) => {
     },
     context
   );
+  const CreatePostId = resultCreatePost.id;
   await saveNotification(
     NOTIFICATION_REASON.ANSWER_RECEIVED,
     context.user.id,
@@ -143,7 +146,7 @@ const addAnswer = async (_, { postId, content }, context) => {
       url,
     }
   );
-  return createSuccessResponse();
+  return { CreatePostId, messageAddAnswer: createSuccessResponse() };
 };
 
 const addComment = async (_, { postId, content }, context) => {

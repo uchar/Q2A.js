@@ -1,4 +1,4 @@
-import { addQuestion, updateQuestion, addAnswer } from './post.js';
+import { addQuestion, updateQuestion, addAnswer, updateAnswer } from './post.js';
 import { STATUS_CODE } from '../constants.js';
 
 describe('how post graphql api work', () => {
@@ -77,6 +77,22 @@ describe('how post graphql api work', () => {
     }
     if (result) expect(`add Answer Question should give error with:' ${postId},${content}`).toBe(false);
   };
+
+  const testUpdateAddAnswerWrongInput = async (answerId, content, errorMessage, typeErrorFlage) => {
+    const userAddQuestion = global.test_user;
+    let result;
+    try {
+      result = await updateAnswer(
+        null,
+        { id: answerId, content },
+        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      );
+    } catch (e) {
+      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      else expect(e.message).toBe(errorMessage);
+    }
+    if (result) expect(`Update Answer should give error with:' ${answerId},${content}`).toBe(false);
+  };
   // AddQuestion
   test('if correct input for addQuestion should give success', async () => {
     const result = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
@@ -132,17 +148,48 @@ describe('how post graphql api work', () => {
     const userAddQuestion = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
-    const result = await addAnswer(
+    const { messageAddAnswer } = await addAnswer(
       null,
       { postId: questionId, content: questionUpdatedData.content },
       { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
     );
-    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+    expect(messageAddAnswer.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for addAnswer shouldn't work", async () => {
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
     await testAddAnswerWrongInput(220, questionUpdatedData.content, STATUS_CODE.INPUT_ERROR, false);
     await testAddAnswerWrongInput(questionId, 'wrong_content', 'ValidationError', true);
+  });
+  // updateAnswer
+  test('if correct input for updateAnswer should give success', async () => {
+    const userAddQuestion = global.test_user;
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    const { CreatePostId } = await addAnswer(
+      null,
+      { postId: questionId, content: questionUpdatedData.content },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    const updateContentAnswer = 'After writing out longhand these combinations I can sense patterns';
+    const result = await updateAnswer(
+      null,
+      { id: CreatePostId, content: updateContentAnswer },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+  });
+  test("if wrong input for updateAnswer shouldn't work", async () => {
+    const userAddQuestion = global.test_user;
+    const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
+    const questionId = question.message.match(/(?<=\/)(.*?)(?=\/)/g)[0];
+    const { CreatePostId } = await addAnswer(
+      null,
+      { postId: questionId, content: questionUpdatedData.content },
+      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+    );
+    await testUpdateAddAnswerWrongInput(CreatePostId, 'wrong_updateAnswer', 'ValidationError', true);
+    await testUpdateAddAnswerWrongInput(null, questionData.content, STATUS_CODE.INPUT_ERROR, false);
+    await testUpdateAddAnswerWrongInput(200, questionData.content, STATUS_CODE.INPUT_ERROR, false);
   });
 });
