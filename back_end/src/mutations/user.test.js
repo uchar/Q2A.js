@@ -11,13 +11,7 @@ describe('how user graphql api work', () => {
     theme: 'dark',
   };
   const callUpdateUser = async (userId, input) => {
-    return updateUser(
-      null,
-      {
-        input,
-      },
-      userId ? { user: { id: userId } } : null
-    );
+    return updateUser(null, input, userId ? { user: { id: userId } } : null);
   };
 
   const createUser = async () => {

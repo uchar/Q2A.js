@@ -139,12 +139,12 @@ const addComment = async (_, { postId, content }, context) => {
 const updateAnswer = async (_, { id, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  const answerId = await Post.findOne({
+  const answer = await Post.findOne({
     where: {
       id,
     },
   });
-  if (id === null || answerId === null || answerId.id === null) {
+  if (id === null || answer === null || answer.id === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
   }
   await updatePost(
@@ -160,19 +160,19 @@ const updateAnswer = async (_, { id, content }, context) => {
 const updateComment = async (_, { id, content }, context) => {
   await checkInputValidation(commentSchema, { content }, context);
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  const commentId = await Post.findOne({
+  const comment = await Post.findOne({
     where: {
       id,
     },
   });
-  if (id === null || commentId === null || commentId.id === null) {
+  if (id === null || comment === null || comment.id === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
   }
   await updatePost(
     {
       content,
     },
-    commentId,
+    comment,
     context
   );
   return createSuccessResponse(``);

@@ -19,13 +19,13 @@ describe('how post graphql api work', () => {
   };
 
   const testAddQuestionWrongInput = async (title, content, tags) => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     let result;
     try {
       result = await addQuestion(
         null,
         { title, content, tags },
-        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+        { user: { id: user.id, publicName: user.publicName } }
       );
     } catch (e) {
       expect(e.name).toBe('ValidationError');
@@ -34,16 +34,16 @@ describe('how post graphql api work', () => {
   };
 
   const newAddQuestion = async (title, content, tags) => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const result = await addQuestion(
       null,
       { title, content, tags },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     return result;
   };
   const testUpdateQuestionWrongInput = async (questionId, title, content, tags) => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     let result;
     try {
       result = await updateQuestion(
@@ -54,7 +54,7 @@ describe('how post graphql api work', () => {
           content,
           tags,
         },
-        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+        { user: { id: user.id, publicName: user.publicName } }
       );
     } catch (e) {
       expect(e.name).toBe('ValidationError');
@@ -62,66 +62,66 @@ describe('how post graphql api work', () => {
     if (result) expect(`Update Question should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
-  const testAddAnswerWrongInput = async (postId, content, errorMessage, typeErrorFlage) => {
-    const userAddQuestion = global.test_user;
+  const testAddAnswerWrongInput = async (postId, content, errorMessage, typeErrorFlag) => {
+    const user = global.test_user;
     let result;
     try {
       result = await addAnswer(
         null,
         { postId, content },
-        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+        { user: { id: user.id, publicName: user.publicName } }
       );
     } catch (e) {
-      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
     }
     if (result) expect(`add Answer Question should give error with:' ${postId},${content}`).toBe(false);
   };
 
-  const testUpdateAddAnswerWrongInput = async (answerId, content, errorMessage, typeErrorFlage) => {
-    const userAddQuestion = global.test_user;
+  const testUpdateAddAnswerWrongInput = async (answerId, content, errorMessage, typeErrorFlag) => {
+    const user = global.test_user;
     console.log('testUpdateAddAnswerWrongInput answerId:', answerId);
     let result;
     try {
       result = await updateAnswer(
         null,
         { id: answerId, content },
-        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+        { user: { id: user.id, publicName: user.publicName } }
       );
     } catch (e) {
-      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
     }
     console.log('result:', result);
     if (result) expect(`Update Answer should give error with:' ${answerId},${content}`).toBe(false);
   };
 
-  const testAddCommentWrongInput = async (postId, content, errorMessage, typeErrorFlage) => {
-    const userAddQuestion = global.test_user;
+  const testAddCommentWrongInput = async (postId, content, errorMessage, typeErrorFlag) => {
+    const user = global.test_user;
     let result;
     try {
       result = await addComment(
         null,
         { postId, content },
-        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+        { user: { id: user.id, publicName: user.publicName } }
       );
     } catch (e) {
-      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
     }
     if (result) expect(`add comment Question should give error with:' ${postId},${content}`).toBe(false);
   };
-  const testUpdateAddCommentWrongInput = async (commentId, content, errorMessage, typeErrorFlage) => {
-    const userAddQuestion = global.test_user;
+  const testUpdateAddCommentWrongInput = async (commentId, content, errorMessage, typeErrorFlag) => {
+    const user = global.test_user;
     let result;
     try {
       result = await updateComment(
         null,
         { id: commentId, content },
-        { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+        { user: { id: user.id, publicName: user.publicName } }
       );
     } catch (e) {
-      if (typeErrorFlage) expect(e.name).toBe(errorMessage);
+      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
     }
     if (result) expect(`Update Answer should give error with:' ${commentId},${content}`).toBe(false);
@@ -149,7 +149,7 @@ describe('how post graphql api work', () => {
 
   // Update AddQuestion
   test('if correct input for updateQuestion give success', async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const result = await updateQuestion(
       null,
@@ -159,7 +159,7 @@ describe('how post graphql api work', () => {
         content: questionUpdatedData.content,
         tags: questionUpdatedData.tags,
       },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
     expect(result.message).toBeTruthy();
@@ -176,13 +176,13 @@ describe('how post graphql api work', () => {
 
   // addAnswer
   test('if correct input for addAnswer give success', async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.id;
     const result = await addAnswer(
       null,
       { postId: questionId, content: questionUpdatedData.content },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
@@ -194,30 +194,30 @@ describe('how post graphql api work', () => {
   });
   // updateAnswer
   test('if correct input for updateAnswer give success', async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.id;
     const createPostResult = await addAnswer(
       null,
       { postId: questionId, content: questionUpdatedData.content },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     const updateContentAnswer = 'After writing out longhand these combinations I can sense patterns';
     const result = await updateAnswer(
       null,
       { id: createPostResult.id, content: updateContentAnswer },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for updateAnswer shouldn't work", async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.id;
     const { createPostResult } = await addAnswer(
       null,
       { postId: questionId, content: questionUpdatedData.content },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     await testUpdateAddAnswerWrongInput(createPostResult, 'wrong_updateAnswer', 'ValidationError', true);
     await testUpdateAddAnswerWrongInput(null, questionData.content, STATUS_CODE.INPUT_ERROR, false);
@@ -226,13 +226,13 @@ describe('how post graphql api work', () => {
 
   // addComment
   test('if correct input for addComment give success', async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.id;
     const result = await addComment(
       null,
       { postId: questionId, content: questionUpdatedData.content },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
@@ -245,30 +245,30 @@ describe('how post graphql api work', () => {
 
   // updateComment
   test('if correct input for updateComment give success', async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.id;
     const createPostResult = await addComment(
       null,
       { postId: questionId, content: questionUpdatedData.content },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     const updateContentComment = 'After writing out longhand these combinations I can sense patterns';
     const result = await updateComment(
       null,
       { id: createPostResult.id, content: updateContentComment },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for updateComment shouldn't work", async () => {
-    const userAddQuestion = global.test_user;
+    const user = global.test_user;
     const question = await newAddQuestion(questionData.title, questionData.content, questionData.tags);
     const questionId = question.id;
     const createPostResult = await addComment(
       null,
       { postId: questionId, content: questionUpdatedData.content },
-      { user: { id: userAddQuestion.id, publicName: userAddQuestion.publicName } }
+      { user: { id: user.id, publicName: user.publicName } }
     );
     const { id } = createPostResult;
     await testUpdateAddCommentWrongInput(id, 'wrong', 'ValidationError', true);
