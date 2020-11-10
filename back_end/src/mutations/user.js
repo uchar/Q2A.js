@@ -3,7 +3,7 @@ import databaseUtils from '../db/database.js';
 import { TABLES, LANGUAGE, THEME } from '../constants.js';
 import { createSuccessResponse, checkInputValidation } from '../utility.js';
 
-const updateUser = async (_, { input }, context) => {
+const updateUser = async (_, input, context) => {
   const SUPPORTED_FORMATS = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg'];
   const updateUserSchema = await yup.object().shape({
     profileImage: yup.mixed().test('Image type', 'Your image type is wrong .', (value) => {
@@ -22,26 +22,17 @@ const updateUser = async (_, { input }, context) => {
     theme: yup.mixed().oneOf([THEME.LIGHT, THEME.DARK]),
   });
 
-  const validationResult = await checkInputValidation(
+  await checkInputValidation(
     updateUserSchema,
     { profileImage: input.profileImage, about: input.about, language: input.language, theme: input.theme },
     context
   );
 
-  if (validationResult === true) {
-    const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
-    await User.update(
-      {
-        ...input,
-      },
-      {
-        where: { id: context.user.id },
-      }
-    );
-    return createSuccessResponse();
-  }
-
-  return validationResult;
+  const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
+  await User.update(input, {
+    where: { id: context.user.id },
+  });
+  return createSuccessResponse();
 };
 
 export { updateUser };

@@ -52,6 +52,13 @@ const createSuccessResponse = (message = '') => {
   };
 };
 
+const createAddSuccessResponse = (id) => {
+  return {
+    id,
+    statusCode: STATUS_CODE.SUCCESS,
+  };
+};
+
 const createAuthorizationErrorResponse = (message = '') => {
   return {
     statusCode: STATUS_CODE.AUTHORIZATION_ERROR,
@@ -67,20 +74,16 @@ const createInputErrorResponse = (message = '') => {
 };
 
 const checkInputValidation = async (schema, schemaParams, context) => {
-  if (context === null) {
-    return createAuthorizationErrorResponse();
+  if (context === null || context.user === null || context.user.id === null) {
+    throw new Error(STATUS_CODE.AUTHORIZATION_ERROR);
   }
   const user = await findUserById(context.user.id);
   if (!user) {
-    return createValidationResponse();
+    throw new Error(STATUS_CODE.VALIDATION_ERROR);
   }
 
-  try {
-    await schema.validate(schemaParams);
-    return true;
-  } catch (e) {
-    return createInputErrorResponse(e.message);
-  }
+  await schema.validate(schemaParams);
+  return true;
 };
 
 const checkInputValidationWithoutContext = async (schema, schemaParams) => {
@@ -116,4 +119,5 @@ export {
   createInputErrorResponse,
   findUserById,
   checkInputValidationWithoutContext,
+  createAddSuccessResponse,
 };

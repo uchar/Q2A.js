@@ -1,7 +1,12 @@
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { POST_TYPES, TABLES } from '../constants.js';
-import { createSuccessResponse, findUserByName, checkInputValidation } from '../utility.js';
+import { POST_TYPES, TABLES, STATUS_CODE } from '../constants.js';
+import {
+  createSuccessResponse,
+  findUserByName,
+  checkInputValidation,
+  createAddSuccessResponse,
+} from '../utility.js';
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
 
 const questionSchema = yup.object().shape({
@@ -70,11 +75,78 @@ const addQuestion = async (_, { title, content, tags }, context) => {
     context
   );
   const newPost = resultOfPost.dataValues;
-  return createSuccessResponse(`/${newPost.id}/${encodeURIComponent(newPost.title)}`);
+  return createAddSuccessResponse(newPost.id);
+};
+
+const addAnswer = async (_, { postId, content }, context) => {
+  await checkInputValidation(answerSchema, { content }, context);
+  const parentPost = await getParentPost(postId);
+  if (parentPost === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
+  const url = await getUrlFromPost(parentPost);
+  const createPostResult = await createPost(
+    {
+      type: POST_TYPES.ANSWER,
+      content,
+      parentId: postId,
+    },
+    context
+  );
+  const createPostId = createPostResult.id;
+  await saveNotification(
+    NOTIFICATION_REASON.ANSWER_RECEIVED,
+    context.user.id,
+    parentPost.userId,
+    parentPost.title,
+    content,
+    {
+      url,
+    }
+  );
+  return createAddSuccessResponse(createPostId);
+};
+
+const addComment = async (_, { postId, content }, context) => {
+  await checkInputValidation(commentSchema, { content }, context);
+  const parentPost = await getParentPost(postId);
+  if (parentPost === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
+  const url = await getUrlFromPost(parentPost);
+  const createPostResult = await createPost(
+    {
+      type: POST_TYPES.COMMENT,
+      content,
+      parentId: postId,
+    },
+    context
+  );
+  const createPostId = createPostResult.id;
+  await saveNotification(
+    NOTIFICATION_REASON.COMMENT_RECEIVED,
+    context.user.id,
+    parentPost.userId,
+    parentPost.title ? parentPost.title : parentPost.content,
+    content,
+    {
+      url,
+    }
+  );
+  return createAddSuccessResponse(createPostId);
 };
 
 const updateAnswer = async (_, { id, content }, context) => {
   await checkInputValidation(answerSchema, { content }, context);
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const answer = await Post.findOne({
+    where: {
+      id,
+    },
+  });
+  if (id === null || answer === null || answer.id === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
   await updatePost(
     {
       content,
@@ -87,11 +159,20 @@ const updateAnswer = async (_, { id, content }, context) => {
 
 const updateComment = async (_, { id, content }, context) => {
   await checkInputValidation(commentSchema, { content }, context);
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const comment = await Post.findOne({
+    where: {
+      id,
+    },
+  });
+  if (id === null || comment === null || comment.id === null) {
+    throw new Error(STATUS_CODE.INPUT_ERROR);
+  }
   await updatePost(
     {
       content,
     },
-    id,
+    comment,
     context
   );
   return createSuccessResponse(``);
@@ -99,7 +180,6 @@ const updateComment = async (_, { id, content }, context) => {
 
 const updateQuestion = async (_, { id, title, content, tags }, context) => {
   await checkInputValidation(questionSchema, { title, content, tags }, context);
-  console.log('Context user : ', context.user);
   const questionTags = {};
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -114,48 +194,6 @@ const updateQuestion = async (_, { id, title, content, tags }, context) => {
     context
   );
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
-};
-
-const addAnswer = async (_, { postId, content }, context) => {
-  await checkInputValidation(answerSchema, { content }, context);
-  const parentPost = await getParentPost(postId);
-  const url = await getUrlFromPost(parentPost);
-  await createPost(
-    {
-      type: POST_TYPES.ANSWER,
-      content,
-      parentId: postId,
-    },
-    context
-  );
-  await saveNotification(NOTIFICATION_REASON.ANSWER_RECEIVED, parentPost.userId, parentPost.title, content, {
-    url,
-  });
-  return createSuccessResponse();
-};
-
-const addComment = async (_, { postId, content }, context) => {
-  await checkInputValidation(commentSchema, { content }, context);
-  const parentPost = await getParentPost(postId);
-  const url = await getUrlFromPost(parentPost);
-  await createPost(
-    {
-      type: POST_TYPES.COMMENT,
-      content,
-      parentId: postId,
-    },
-    context
-  );
-  await saveNotification(
-    NOTIFICATION_REASON.COMMENT_RECEIVED,
-    parentPost.userId,
-    parentPost.title ? parentPost.title : parentPost.content,
-    content,
-    {
-      url,
-    }
-  );
-  return createSuccessResponse();
 };
 
 export { addComment, addAnswer, updateQuestion, updateComment, updateAnswer, addQuestion };
