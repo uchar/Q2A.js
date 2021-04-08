@@ -152,7 +152,6 @@ const Header = ({}) => {
   const handleMenuLanguageItemClick = async (newLanguage) => {
     handleLanguageMenuClose();
     let language = '';
-    console.log(newLanguage);
     if (newLanguage.toLowerCase() === 'english') {
       language = 'en';
     } else {

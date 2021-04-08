@@ -130,8 +130,7 @@ export const GET_USER = gql`
       score
       profileImage
       about
-        language
-        theme
+      theme
       answers {
         id
         content

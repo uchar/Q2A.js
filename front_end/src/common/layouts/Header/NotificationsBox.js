@@ -55,9 +55,7 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
 
   const loadMoreNotifications = async () => {
     if (isSignedIn()) {
-      console.log('We have user ! getting notfs');
       const response = await doGraphQLQuery(GET_NOTIFICATIONS, { offset, limit });
-      console.log("??",response)
       const newNotifications = response.getNotifications;
       let unReadNotifications = 0;
       newNotifications.forEach((notification) => {

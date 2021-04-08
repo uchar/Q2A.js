@@ -29,7 +29,6 @@ const doGraphQLQuery = async (query, params) => {
   try {
     const client = getStandaloneApolloClient(jwtToken);
     const variables = { language: getLanguage(), ...params };
-    console.log('VARIABLES : ', variables);
     const result = await client.query({ query, variables });
     return result.data;
   } catch (e) {
