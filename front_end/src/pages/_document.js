@@ -19,6 +19,10 @@ export default class Q2aDocument extends Document {
   }
 }
 
+Q2aDocument.getStaticProps = async ({ locale }) => {
+  console.log('WHOLY SHIT ', locale);
+  return {};
+};
 // `getInitialProps` belongs to `_document` (instead of `_app`),
 // it's compatible with server-side generation (SSG).
 Q2aDocument.getInitialProps = async (ctx) => {
@@ -45,6 +49,7 @@ Q2aDocument.getInitialProps = async (ctx) => {
   // 4. page.render
 
   // Render app and page and get the context of the page with collected side effects.
+
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 

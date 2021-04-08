@@ -70,6 +70,7 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
 
   const { latestQuestions, popularQuestions, mostViewsQuestions, noAnswersQuestions } = questions;
 
+  console.log('RENDERING ', latestQuestions, latestQuestions.length);
   const getTitle = () => {
     const titles = getStrings().SITE_MAIN_PAGE_TAB_HEADERS;
     let title = titles[currentTab];
@@ -78,7 +79,6 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
     }
     return title;
   };
-  console.log('RENDER LatestQuestions ');
 
   return (
     <div className={classes.root}>

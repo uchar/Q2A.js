@@ -26,8 +26,7 @@ const Tag = DeepMemo(function Tag(props) {
   return (
     <Link
       prefetch={false}
-      href={`/${getLanguage()}/tag/[tag]`}
-      as={`/${getLanguage()}/tag/${encodeURIComponent(tag)}`}
+      href={`/tag/${encodeURIComponent(tag)}`}
     >
       <Box boxShadow={1} border={1} className={classes.box}>
         <Typography style={{ fontSize: 10 }}>{label}</Typography>

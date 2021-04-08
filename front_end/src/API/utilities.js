@@ -3,6 +3,7 @@ import { GET_MY_USER } from './queries';
 import { UPDATE_USER, UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
+import { getLanguage } from '../common/utlities/languageUtilities';
 
 const getJwtToken = () => {
   let jwtToken;
@@ -27,7 +28,9 @@ const doGraphQLQuery = async (query, params) => {
   const jwtToken = getJwtToken();
   try {
     const client = getStandaloneApolloClient(jwtToken);
-    const result = await client.query({ query, variables: params });
+    const variables = { language: getLanguage(), ...params };
+    console.log('VARIABLES : ', variables);
+    const result = await client.query({ query, variables });
     return result.data;
   } catch (e) {
     console.log('Query failed with error', e);
@@ -38,7 +41,8 @@ const doGraphQLQuery = async (query, params) => {
 const doGraphQLMutation = async (mutation, params) => {
   const jwtToken = getJwtToken();
   const client = getStandaloneApolloClient(jwtToken);
-  const result = await client.mutate({ mutation, variables: params });
+  const variables = { language: getLanguage(), ...params };
+  const result = await client.mutate({ mutation, variables });
   return result.data;
 };
 

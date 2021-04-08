@@ -75,7 +75,7 @@ const CardButton = (props) => {
   return (
     <div {...props}>
       {url && url.length > 0 ? (
-        <Link prefetch={false} href={`/${getLanguage()}${url}`}>
+        <Link prefetch={false} href={`${url}`}>
           <SButton
             onClick={onSubmit}
             style={{ marginTop: props.buttonTopMargin ? props.buttonTopMargin : '0px' }}

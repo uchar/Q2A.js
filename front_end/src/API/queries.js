@@ -25,17 +25,17 @@ const QUESTION = `{
   }`;
 
 export const ALL_QUESTIONS = gql`
-  query($tag: String) {
-    latestQuestions(tag: $tag,limit: 20,offset: 0) ${QUESTION}
-    popularQuestions(tag: $tag,limit: 20,offset: 0)  ${QUESTION}
-    mostViewsQuestions(tag: $tag,limit: 20,offset: 0)  ${QUESTION}
-    noAnswersQuestions(tag: $tag,limit: 20,offset: 0)  ${QUESTION}
+  query($language:Language!,$tag: String) {
+    latestQuestions(language: $language,tag: $tag,limit: 20,offset: 0) ${QUESTION}
+    popularQuestions(language: $language,tag: $tag,limit: 20,offset: 0)  ${QUESTION}
+    mostViewsQuestions(language: $language,tag: $tag,limit: 20,offset: 0)  ${QUESTION}
+    noAnswersQuestions(language: $language,tag: $tag,limit: 20,offset: 0)  ${QUESTION}
   }
 `;
 
 export const GET_QUESTION = gql`
-  query($id: String!) {
-    getQuestion(id: $id) {
+  query($language:Language!,$id: String!) {
+    getQuestion(language: $language,id: $id) {
       id
       title
       content
@@ -74,8 +74,8 @@ export const GET_QUESTION = gql`
 `;
 
 export const ALL_TAGS = gql`
-  query($limit: Int, $offset: Int) {
-    getTags(limit: $limit, offset: $offset) {
+  query($language:Language!,$limit: Int, $offset: Int) {
+    getTags(language: $language, limit: $limit, offset: $offset) {
       id
       title
       used
@@ -84,8 +84,8 @@ export const ALL_TAGS = gql`
 `;
 
 export const GET_TAG = gql`
-  query($tag: String!) {
-    getTagDetail(tag: $tag) {
+  query($language:Language!,$tag: String!) {
+    getTagDetail(language: $language, tag: $tag) {
       id
       title
       content
@@ -95,8 +95,8 @@ export const GET_TAG = gql`
 `;
 
 export const GET_NOTIFICATIONS = gql`
-  query($limit: Int!, $offset: Int!) {
-    getNotifications(limit: $limit, offset: $offset) {
+  query($language:Language!,$limit: Int!, $offset: Int!) {
+    getNotifications(language: $language, limit: $limit, offset: $offset) {
       id
       reason
       title
@@ -123,8 +123,8 @@ export const GET_MY_USER = gql`
 `;
 
 export const GET_USER = gql`
-  query($id: String!) {
-    getUser(id: $id) {
+  query($language:Language!,$id: String!) {
+    getUser(language: $language,id: $id) {
       id
       publicName
       score

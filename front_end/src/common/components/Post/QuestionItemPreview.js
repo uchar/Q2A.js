@@ -99,8 +99,7 @@ const QuestionItemPreview = DeepMemo(function ({
       <CardContent>
         <div className={classes.topSection}>
           <ProfileImageWithName
-            href={`/user/[id]`}
-            as={`/user/${publicName}`}
+            href={`/user/${publicName}`}
             profileImage={profileImage}
             createdAt={createdAt}
             publicName={publicName}
@@ -109,8 +108,7 @@ const QuestionItemPreview = DeepMemo(function ({
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
         <Link
-          href={`/${getLanguage()}/[id]/[title]`}
-          as={`/${getLanguage()}/${id}/${encodeURIComponent(title)}`}
+          href={`/${id}/${encodeURIComponent(title)}`}
         >
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}

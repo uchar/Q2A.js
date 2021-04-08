@@ -128,28 +128,34 @@ export default gql`
   }
 
   type Query {
-    latestQuestions(tag: String, limit: Int, offset: Int): [Question]
-    popularQuestions(tag: String, limit: Int, offset: Int): [Question]
-    mostViewsQuestions(tag: String, limit: Int, offset: Int): [Question]
-    noAnswersQuestions(tag: String, limit: Int, offset: Int): [Question]
-    getTags(limit: Int, offset: Int): [Tag]
-    getTagDetail(tag: String!): Tag
-    getQuestion(id: String!): Question
-    getUser(id: String): User
-    getNotifications(limit: Int!, offset: Int!): [Notification]
+    latestQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
+    popularQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
+    mostViewsQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
+    noAnswersQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
+    getTags(language: Language!, limit: Int, offset: Int): [Tag]
+    getTagDetail(language: Language!, tag: String!): Tag
+    getQuestion(language: Language!, id: String!): Question
+    getUser(language: Language!, id: String): User
+    getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
   }
   type Mutation {
-    login(username: String!, password: String!): String
-    googleLogin(jwtToken: String!): String
-    signUp(email: String!, username: String!, password: String!, language: Language!): String
-    addQuestion(title: String!, content: String!, tags: [String]!): AddResult
-    addAnswer(postId: String!, content: String!): AddResult
-    addComment(postId: String!, content: String!): AddResult
-    updateQuestion(id: String!, title: String!, content: String!, tags: [String]!): Result
-    updateAnswer(id: String!, content: String!): Result
-    updateComment(id: String!, content: String!): Result
-    uploadFile(file: Upload!): File!
-    updateUser(input: UpdateUserInput!): Result
-    setReadAllNotifications: Result
+    login(language: Language!, username: String!, password: String!): String
+    googleLogin(language: Language!, jwtToken: String!): String
+    signUp(language: Language!, email: String!, username: String!, password: String!): String
+    addQuestion(language: Language!, title: String!, content: String!, tags: [String]!): AddResult
+    addAnswer(language: Language!, postId: String!, content: String!): AddResult
+    addComment(language: Language!, postId: String!, content: String!): AddResult
+    updateQuestion(
+      language: Language!
+      id: String!
+      title: String!
+      content: String!
+      tags: [String]!
+    ): Result
+    updateAnswer(language: Language!, id: String!, content: String!): Result
+    updateComment(language: Language!, id: String!, content: String!): Result
+    uploadFile(language: Language!, file: Upload!): File!
+    updateUser(language: Language!, input: UpdateUserInput!): Result
+    setReadAllNotifications(language: Language!): Result
   }
 `;

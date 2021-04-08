@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import axios from 'axios';
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { TABLES, LOGIN_ERRORS, LANGUAGE } from '../constants.js';
+import { TABLES, LOGIN_ERRORS } from '../constants.js';
 import {
   createJWTToken,
   findUserByEmail,
@@ -10,7 +10,7 @@ import {
   checkInputValidationWithoutContext,
 } from '../utility.js';
 
-const signUp = async (_, { email, username, password, language }) => {
+const signUp = async (_, { email, username, password }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   // https://stackoverflow.com/a/12019115/2586447
@@ -22,13 +22,11 @@ const signUp = async (_, { email, username, password, language }) => {
       .min(3)
       .matches(/^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/),
     password: yup.string().required().min(6),
-    language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
   });
   await checkInputValidationWithoutContext(loginUserSchema, {
     email,
     username,
     password,
-    language,
   });
   let user = await findUserByName(username);
   if (user) {
@@ -42,7 +40,6 @@ const signUp = async (_, { email, username, password, language }) => {
     email,
     publicName: username,
     password: newPasswordHash,
-    language,
     isEmailVerified: false,
   });
   user = await findUserByName(username);

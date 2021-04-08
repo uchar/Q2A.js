@@ -78,7 +78,7 @@ const ProfileImage = ({ profileImage, size, href, as, showMedal, tooltip }) => {
   // );
   if (href) {
     return (
-      <Link prefetch={false} href={href} as={as}>
+      <Link prefetch={false} href={href} >
         {imageComponent}
       </Link>
     );

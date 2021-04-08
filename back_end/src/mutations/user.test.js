@@ -7,7 +7,6 @@ describe('how user graphql api work', () => {
     publicName: 'public_name_updated',
     profileImage: 'profile_image_updated.png',
     about: 'about_test_updated',
-    language: 'en',
     theme: 'dark',
   };
   const callUpdateUser = async (userId, input) => {
@@ -20,10 +19,8 @@ describe('how user graphql api work', () => {
       publicName: 'test_name',
       profileImage: 'test_image.png',
       email: 'test@test.com',
-      isLegacyAuthentication: false,
       isEmailVerified: true,
       about: 'about_test',
-      language: 'en',
       theme: 'light',
     });
 
@@ -64,19 +61,14 @@ describe('how user graphql api work', () => {
 
   test('if correct input for mutation/updateUser should give success', async () => {
     await testCorrectInput(
-      ['publicName', 'profileImage', 'about', 'language', 'theme'],
-      [data.publicName, data.profileImage, data.about, data.language, data.theme]
+      ['publicName', 'profileImage', 'about', 'theme'],
+      [data.publicName, data.profileImage, data.about, data.theme]
     );
-    await testCorrectInput(
-      ['publicName', 'about', 'language', 'theme'],
-      [data.publicName, data.about, data.language, data.theme]
-    );
+    await testCorrectInput(['publicName', 'about', 'theme'], [data.publicName, data.about, data.theme]);
   });
 
   test('if wrong input for mutation/updateUser should give error', async () => {
-    await testWrongInput(['language'], ['ru']);
-    await testWrongInput(['language', 'about'], ['ru', 'updated_about']);
-    await testWrongInput(['about', 'language'], ['updated_about', 'ru']);
+    await testWrongInput(['about', 'theme'], ['updated_about', 'wrong_theme']);
     await testWrongInput(['profileImage'], ['test_updated_image.jpgg']);
     await testWrongInput(['profileImage'], ['test_updated_image']);
     await testWrongInput(['profileImage'], [{ shouldNotBeJson: 'wrong_value' }]);

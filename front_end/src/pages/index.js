@@ -1,19 +1,50 @@
 import React from 'react';
-import Head from 'next/head';
-import { getInitialLocale } from '../common/utlities/languageUtilities';
+import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import Layout from '../common/layouts/Layout';
+import LatestQuestion from '../common/components/Post/LatestQuestions';
+import { ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
+import { doGraphQLQuery } from '../API/utilities';
+import { ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';
+import { wrapper } from '../redux/store';
+import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
 
-const Index = () => {
-  React.useEffect(async () => {
-    const initialLanguage = await getInitialLocale();
-    if (typeof window !== 'undefined') {
-      window.location.replace(`/${initialLanguage}`);
-    }
-  });
+const useStyles = makeStyles((theme) => ({
+  root: {
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+function MainPage() {
+  const classes = useStyles();
+  const questions = useSelector((state) => state.questions);
   return (
-    <Head>
-      <meta name="robots" content="noindex, nofollow" />
-    </Head>
+    <Box className={classes.root}>
+      <LatestQuestion questions={questions} />
+    </Box>
   );
+}
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
 };
 
-export default Index;
+export const getStaticProps = async (props) =>
+  addRevalidateAndRedux(
+    props,
+    wrapper.getStaticProps(async ({ store }) => {
+      const questionsResponse = await doGraphQLQuery(ALL_QUESTIONS);
+      const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
+      store.dispatch({ type: ALL_QUESTIONS_ACTION, payload: questionsResponse });
+      store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
+    })
+  );
+
+MainPage.getLayout = (page) => <Layout>{page}</Layout>;
+
+export default MainPage;

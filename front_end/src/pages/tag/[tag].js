@@ -2,19 +2,17 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import Layout from '../../../common/layouts/Layout';
-import LatestQuestion from '../../../common/components/Post/LatestQuestions';
-import { doGraphQLQuery } from '../../../API/utilities';
-import { ALL_QUESTIONS, ALL_TAGS, GET_USER } from '../../../API/queries';
-import { wrapper } from '../../../redux/store';
+import Layout from '../../common/layouts/Layout';
+import LatestQuestion from '../../common/components/Post/LatestQuestions';
+import { doGraphQLQuery } from '../../API/utilities';
+import { ALL_QUESTIONS, ALL_TAGS } from '../../API/queries';
+import { wrapper } from '../../redux/store';
 import {
   ALL_QUESTIONS_ACTION,
   ALL_TAGS_ACTION,
   CURRENT_TAG_ACTION,
-  SELECTED_USER_ACTION,
-} from '../../../redux/constants';
-import { addRevalidateAndRedux } from '../../../common/utlities/generalUtilities';
-import MainPage from '../../index';
+} from '../../redux/constants';
+import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

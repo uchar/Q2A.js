@@ -29,7 +29,7 @@ export default function CommentItem({ content, user, language }) {
   return (
     <div className={classes.root}>
       <div> {parsedContent}</div>
-      <Link prefetch={false} href={`/[lang]/user/[id]`} as={`/${getLanguage()}/user/${publicName}`}>
+      <Link prefetch={false} href={`/user/${publicName}`}>
         <Typography variant="button" className={classes.name}>
           {publicName}
         </Typography>

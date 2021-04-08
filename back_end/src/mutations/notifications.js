@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { TABLES } from '../constants.js';
+import { LANGUAGE, TABLES } from '../constants.js';
 import { createSuccessResponse, createAuthorizationErrorResponse, checkInputValidation } from '../utility.js';
 
 export const NOTIFICATION_REASON = {
@@ -14,16 +14,17 @@ export const NOTIFICATION_REASON = {
   COMMENT_HIDED: 'COMMENT_HIDED',
 };
 
-const saveNotification = async (reason, creatorId, receiverId, title, content, metaData) => {
+const saveNotification = async (language, reason, creatorId, receiverId, title, content, metaData) => {
   const notificationSchema = await yup.object().shape({
     reason: yup.string(),
     title: yup.string().required(),
     content: yup.string(),
     metaData: yup.string(),
+    language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
   });
   const validationResult = await checkInputValidation(
     notificationSchema,
-    { reason, title, content, metaData },
+    { language, reason, title, content, metaData },
     { user: { id: creatorId } }
   );
   if (validationResult === true) {
@@ -34,12 +35,13 @@ const saveNotification = async (reason, creatorId, receiverId, title, content, m
       receiverId,
       title,
       content,
+      language,
       metaData: JSON.stringify(metaData),
     });
   }
 };
 
-const setReadAllNotifications = async (_, __, context) => {
+const setReadAllNotifications = async (_, { language }, context) => {
   if (!context.user) {
     createAuthorizationErrorResponse();
   }
@@ -48,7 +50,7 @@ const setReadAllNotifications = async (_, __, context) => {
     {
       read: true,
     },
-    { where: { receiverId: context.user.id } }
+    { where: { language, receiverId: context.user.id } }
   );
   return createSuccessResponse();
 };

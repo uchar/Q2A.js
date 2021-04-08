@@ -256,7 +256,7 @@ const Header = ({}) => {
               backgroundColor={'secondary'}
             />
           )}
-          <Link prefetch={false} href="/[lang]" as={`/${getLanguage()}/`}>
+          <Link prefetch={false}  href={`/`}>
             <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h2" noWrap>
               {getStrings().SITE_TITLE}
             </Typography>

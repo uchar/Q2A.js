@@ -12,7 +12,6 @@ createDatabasePromise.then(async () => {
     publicName: process.env.SUPER_ADMIN_USERNAME,
     profileImage: 'q2a_admin.png',
     about: 'Some descriptions about q2a_admin',
-    language: 'en',
     theme: 'light',
     accessLevel: 'SUPER_ADMIN',
     score: 0,
@@ -25,12 +24,14 @@ createDatabasePromise.then(async () => {
     content:
       'JavaScript (/ˈdʒɑːvəˌskrɪpt/),[8] often abbreviated as JS, is a programming language that conforms to the ECMAScript specification.[9] JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.',
     used: 1,
+    language: 'en',
   });
   await Tag.create({
     title: 'next.js',
     content:
       'Next.js is an open-source React front-end development web framework that enables functionality such as server-side rendering and generating static websites for React based web applications. It is a production-ready framework that allows developers to quickly create static and dynamic JAMstack websites and is used widely by many large companies.',
     used: 1,
+    language: 'en',
   });
   await Post.create({
     type: 'QUESTION',
@@ -41,6 +42,7 @@ createDatabasePromise.then(async () => {
     viewsCount: 0,
     votesCount: 0,
     answersCount: 0,
+    userId: 1,
     tag1: 'javascript',
     tag2: 'next.js',
   });
