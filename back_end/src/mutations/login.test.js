@@ -9,14 +9,12 @@ describe('how user graphql api work', () => {
     username: 'test_name_login',
     email: 'test_login@test.com',
     password: '123654',
-    language: 'en',
   };
-  const userSignUp = async (email, username, password, language) => {
+  const userSignUp = async (email, username, password) => {
     const user = await signUp(null, {
       email,
       username,
       password,
-      language,
     });
 
     return user;
@@ -51,7 +49,6 @@ describe('how user graphql api work', () => {
     expect(decodedUser.exp - decodedUser.iat).toBe(60 * 60 * 24 * 7); // 7 days
     expect(result.publicName).toBe(data.username);
     expect(result.email).toBe(data.email);
-    expect(result.language).toBe(data.language);
     expect(isValidPassword).toBe(true);
   });
 

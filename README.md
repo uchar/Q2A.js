@@ -46,13 +46,13 @@ What it does :
 ### Run :
 #### backend
 ```
-cd back_end && yarn 
+cd back_end && yarn dev
 ```
 
 #### frontend :
 
 ```
-cd front_end && yarn
+cd front_end && yarn dev
 ```
 
 

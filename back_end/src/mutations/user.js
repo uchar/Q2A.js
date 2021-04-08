@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
-import { TABLES, LANGUAGE, THEME } from '../constants.js';
+import { TABLES, THEME } from '../constants.js';
 import { createSuccessResponse, checkInputValidation } from '../utility.js';
 
 const updateUser = async (_, input, context) => {
@@ -18,13 +18,12 @@ const updateUser = async (_, input, context) => {
       return true;
     }),
     about: yup.string(),
-    language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
     theme: yup.mixed().oneOf([THEME.LIGHT, THEME.DARK]),
   });
 
   await checkInputValidation(
     updateUserSchema,
-    { profileImage: input.profileImage, about: input.about, language: input.language, theme: input.theme },
+    { profileImage: input.profileImage, about: input.about, theme: input.theme },
     context
   );
 

@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import QuestionItem from '../../../common/components/Post/QuestionItem';
-import Layout from '../../../common/layouts/Layout';
-import CKEditor from '../../../common/components/Editor/CKEditor';
-import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
-import Loading from '../../../common/components/Loading';
-import AnswerItem from '../../../common/components/Post/AnswerItem';
-import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
-import { getStrings } from '../../../common/utlities/languageUtilities';
-import { ADD_ANSWER } from '../../../API/mutations';
-import ErrorMessage from '../../../common/components/ErrorMessage';
-import { addRevalidateAndRedux } from '../../../common/utlities/generalUtilities';
-import { wrapper } from '../../../redux/store';
-import { ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../../redux/constants';
+import QuestionItem from '../../common/components/Post/QuestionItem';
+import Layout from '../../common/layouts/Layout';
+import CKEditor from '../../common/components/Editor/CKEditor';
+import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
+import Loading from '../../common/components/Loading';
+import AnswerItem from '../../common/components/Post/AnswerItem';
+import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
+import { getStrings } from '../../common/utlities/languageUtilities';
+import { ADD_ANSWER } from '../../API/mutations';
+import ErrorMessage from '../../common/components/ErrorMessage';
+import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
+import { wrapper } from '../../redux/store';
+import { ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

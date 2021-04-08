@@ -31,14 +31,13 @@ const ProfileImageWithName = DeepMemo(function ({ profileImage, href, as, create
   return (
     <div className={classes.root}>
       <ProfileImage
-        href={`/[lang]/user/[id]`}
-        as={`/${getLanguage()}${as}`}
+        href={`${as}`}
         profileImage={profileImage}
         showMedal
         tooltip={`${publicName} تا به حال ${score} امتیاز گرفته است `}
       />
       <div className={classes.nameDateSection}>
-        <Link prefetch={false} href={href} as={as}>
+        <Link prefetch={false} href={href} >
           <Typography variant="subtitle1" color="textPrimary" className={classes.name}>
             {publicName}
           </Typography>

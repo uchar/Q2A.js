@@ -3,13 +3,11 @@ import databaseUtils from '../db/database';
 import { STATUS_CODE, TABLES } from '../constants';
 
 describe('how notification graphql api work', () => {
-  const createUser = async (publicName = 'test_name', email = 'test@test.com', language = 'fa') => {
+  const createUser = async (publicName = 'test_name', email = 'test@test.com') => {
     const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
     const user = await User.create({
       publicName,
       email,
-      language,
-      isLegacyAuthentication: false,
       isEmailVerified: true,
     });
     return user;
@@ -22,12 +20,14 @@ describe('how notification graphql api work', () => {
     metaData: 'metaData',
     type: 'ok',
     read: false,
+    language: 'en',
   };
   test('if correct input for mutation/notification/saveNotification should give success', async () => {
     const creatorUser = await createUser('user_name_creator', 'test_user_creator@test.com');
     const receiverUser = await createUser('user_name_receiver', 'test_user_receiver@test.com');
 
     await saveNotification(
+      data.language,
       data.reason,
       creatorUser.id,
       receiverUser.id,
@@ -60,6 +60,7 @@ describe('how notification graphql api work', () => {
     for (let i = 0; i < numberOfTests; i += 1) {
       promises.push(
         saveNotification(
+          data.language,
           data.reason,
           creatorUser.id,
           receiverUser.id,
@@ -80,7 +81,11 @@ describe('how notification graphql api work', () => {
         },
       });
     };
-    const setReadAllResult = await setReadAllNotifications(null, null, { user: { id: receiverUser.id } });
+    const setReadAllResult = await setReadAllNotifications(
+      null,
+      { language: data.language },
+      { user: { id: receiverUser.id } }
+    );
     const findNotificationResult = await findNotificationByReceiverId(receiverUser.id);
     expect(setReadAllResult.statusCode).toBe(STATUS_CODE.SUCCESS);
     for (let j = 0; j < numberOfTests; j += 1) {

@@ -57,6 +57,7 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
     if (isSignedIn()) {
       console.log('We have user ! getting notfs');
       const response = await doGraphQLQuery(GET_NOTIFICATIONS, { offset, limit });
+      console.log("??",response)
       const newNotifications = response.getNotifications;
       let unReadNotifications = 0;
       newNotifications.forEach((notification) => {
@@ -104,7 +105,7 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
           } catch (e) {}
 
           return (
-            <Link prefetch={false} href={`/[lang]/[id]/[title]`} as={`/${getLanguage()}${url}`}>
+            <Link prefetch={false} href={`${url}`}>
               <Paper key={row} dir={'rtl'} boxShadow={3} className={classes.notificationBox}>
                 <div
                   style={{

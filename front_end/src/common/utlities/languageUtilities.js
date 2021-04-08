@@ -9,7 +9,8 @@ const LANGUAGES = {
   PERSIAN: 'fa',
 };
 
-const updateLanguageBaseOnUrl = () => {
+const updateLanguageBaseOnUrl = (locale) => {
+  currentLanguage = locale;
   if (typeof window !== 'undefined' && window.location) {
     const { pathname } = window.location;
     const pathParts = pathname.split('/');
@@ -23,7 +24,7 @@ const updateLanguageBaseOnUrl = () => {
 };
 const getLanguage = () => {
   if (!currentLanguage) {
-    updateLanguageBaseOnUrl();
+    throw new Error('Language not set!');
   }
   return currentLanguage;
 };
@@ -36,11 +37,7 @@ const getStrings = () => {
 };
 
 const getInitialLocale = async () => {
-  // first check if user choose any language before
   try {
-    const user = await getCurrentUser();
-    if (user) return user.language;
-    // user probably not login
     const browserLanguage = navigator.language.split('-')[0];
     let userLanguage = LANGUAGES.ENGLISH;
     Object.keys(LANGUAGES).forEach((key) => {

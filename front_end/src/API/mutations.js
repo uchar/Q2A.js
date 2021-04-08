@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const ADD_QUESTION = gql`
-  mutation($title: String!, $content: String!, $tags: [String]!) {
-    addQuestion(title: $title, content: $content, tags: $tags) {
+  mutation($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
+    addQuestion(language: $language, title: $title, content: $content, tags: $tags) {
       id
       statusCode
     }
@@ -10,8 +10,8 @@ export const ADD_QUESTION = gql`
 `;
 
 export const ADD_ANSWER = gql`
-  mutation($postId: String!, $content: String!) {
-    addAnswer(postId: $postId, content: $content) {
+  mutation($language: Language!, $postId: String!, $content: String!) {
+    addAnswer(language: $language, postId: $postId, content: $content) {
       id
       statusCode
     }
@@ -19,8 +19,8 @@ export const ADD_ANSWER = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation($postId: String!, $content: String!) {
-    addComment(postId: $postId, content: $content) {
+  mutation($language: Language!, $postId: String!, $content: String!) {
+    addComment(language: $language, postId: $postId, content: $content) {
       id
       statusCode
     }
@@ -28,8 +28,8 @@ export const ADD_COMMENT = gql`
 `;
 
 export const UPDATE_QUESTION = gql`
-  mutation($id: String!, $title: String!, $content: String!, $tags: [String]!) {
-    updateQuestion(id: $id, title: $title, content: $content, tags: $tags) {
+  mutation($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
+    updateQuestion(language: $language, id: $id, title: $title, content: $content, tags: $tags) {
       id
       statusCode
     }
@@ -37,8 +37,8 @@ export const UPDATE_QUESTION = gql`
 `;
 
 export const UPDATE_ANSWER = gql`
-  mutation($id: String!, $content: String!) {
-    updateAnswer(id: $id, content: $content) {
+  mutation($language: Language!, $id: String!, $content: String!) {
+    updateAnswer(language: $language, id: $id, content: $content) {
       id
       statusCode
     }
@@ -46,8 +46,8 @@ export const UPDATE_ANSWER = gql`
 `;
 
 export const UPDATE_COMMENT = gql`
-  mutation($id: String!, $content: String!) {
-    updateComment(id: $id, content: $content) {
+  mutation($language: Language!, $id: String!, $content: String!) {
+    updateComment(language: $language, id: $id, content: $content) {
       id
       statusCode
     }
@@ -55,25 +55,25 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const USER_LOGIN = gql`
-  mutation($username: String!, $password: String!) {
-    login(username: $username, password: $password)
+  mutation($language: Language!, $username: String!, $password: String!) {
+    login(language: $language, username: $username, password: $password)
   }
 `;
 
 export const USER_GOOGLE_LOGIN = gql`
-  mutation($jwtToken: String!) {
-    googleLogin(jwtToken: $jwtToken)
+  mutation($language: Language!, $jwtToken: String!) {
+    googleLogin(language: $language, jwtToken: $jwtToken)
   }
 `;
 
 export const USER_SIGN_UP = gql`
-  mutation($email: String!, $username: String!, $password: String!) {
-    signUp(email: $email, username: $username, password: $password)
+  mutation($language: Language!, $email: String!, $username: String!, $password: String!) {
+    signUp(language: $language, email: $email, username: $username, password: $password)
   }
 `;
 export const UPLOAD_FILE = gql`
-  mutation($file: Upload!) {
-    uploadFile(file: $file) {
+  mutation($language: Language!, $file: Upload!) {
+    uploadFile(language: $language, file: $file) {
       filename
       mimetype
       encoding
@@ -82,8 +82,8 @@ export const UPLOAD_FILE = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation($input: UpdateUserInput!) {
-    updateUser(input: $input) {
+  mutation($language: Language!, $input: UpdateUserInput!) {
+    updateUser(language: $language, input: $input) {
       statusCode
       message
     }
@@ -91,8 +91,8 @@ export const UPDATE_USER = gql`
 `;
 
 export const SET_READ_ALL_NOTIFICATIONS = gql`
-  mutation {
-    setReadAllNotifications {
+  mutation($language: Language!) {
+    setReadAllNotifications(language: $language) {
       statusCode
       message
     }

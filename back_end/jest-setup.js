@@ -13,7 +13,6 @@ global.beforeAll(async () => {
     email: 'test@test.com',
     username: 'test_name',
     password: '123654',
-    language: 'en',
   });
   const findUserById = async (id) => {
     return User.findOne({

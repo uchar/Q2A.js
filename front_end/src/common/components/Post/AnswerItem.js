@@ -98,8 +98,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <ProfileImageWithName
-            href={`/user/[id]`}
-            as={`/user/${publicName}`}
+            href={`/user/${publicName}`}
             profileImage={profileImage}
             createdAt={createdAt}
             publicName={publicName}

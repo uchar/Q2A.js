@@ -3,7 +3,8 @@ import engMoment from 'moment';
 import persianMoment from 'jalali-moment';
 import 'moment/locale/fa';
 import isEqual from 'react-fast-compare';
-import { getLanguage, LANGUAGES } from './languageUtilities';
+import { getLanguage, LANGUAGES, updateLanguageBaseOnUrl } from './languageUtilities';
+import Q2aDocument from '../../pages/_document';
 
 export const getFullUrl = (name) => {
   if (!name) {
@@ -45,7 +46,9 @@ export const getTagsArray = (tag1, tag2, tag3, tag4, tag5) => {
 
 // build page every revalidateSeconds
 export const addRevalidateAndRedux = async (props, reduxStaticProps, revalidateSeconds = 50) => {
+  updateLanguageBaseOnUrl(props.locale);
   const getStaticProps = await reduxStaticProps(props);
+
   getStaticProps.revalidate = revalidateSeconds;
   return getStaticProps;
 };

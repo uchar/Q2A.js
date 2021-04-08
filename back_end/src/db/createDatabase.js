@@ -11,12 +11,8 @@ const prepareDatabase = async () => {
     publicName: Sequelize.STRING,
     profileImage: Sequelize.STRING,
     about: Sequelize.TEXT,
-    language: {
-      type: Sequelize.STRING(6),
-      allowNull: false,
-    },
     theme: {
-      type: Sequelize.STRING(6),
+      type: DataTypes.ENUM(['light', 'dark']),
       allowNull: false,
       defaultValue: 'light',
     },
@@ -86,6 +82,10 @@ const prepareDatabase = async () => {
   const Tag = sequelize.define(tables.TAG_TABLE, {
     title: Sequelize.STRING(64),
     content: Sequelize.TEXT,
+    language: {
+      type: Sequelize.STRING(2),
+      allowNull: false,
+    },
     used: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -110,6 +110,10 @@ const prepareDatabase = async () => {
     title: Sequelize.TEXT,
     content: Sequelize.TEXT,
     metaData: Sequelize.TEXT,
+    language: {
+      type: Sequelize.STRING(2),
+      allowNull: false,
+    },
     read: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
@@ -119,6 +123,10 @@ const prepareDatabase = async () => {
   const Medal = sequelize.define(tables.Medal_TABLE, {
     type: DataTypes.ENUM(['GOLD', 'SILVER', 'BRONZE']),
     name: Sequelize.STRING(64),
+    language: {
+      type: Sequelize.STRING(2),
+      allowNull: false,
+    },
   });
   Post.belongsTo(User);
   User.hasMany(Clap);
