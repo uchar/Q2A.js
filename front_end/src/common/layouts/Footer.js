@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Typography } from '@material-ui/core';
+import { getStrings } from '../utlities/languageUtilities';
+import QuestionItemPreview from '../components/Post/QuestionItemPreview';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,37 +42,37 @@ export default function Footer(props) {
       <Grid direction="row" justify={'center'} container spacing={2}>
         <Grid item md={2} xs={0}></Grid>
         <Grid item md={2} xs={7}>
-          {getFooterTitle('لینک های پر کاربرد')}
-          {getFooterText('آخرین سوال ها')}
-          {getFooterText('پرسیدن سوال')}
-          {getFooterText('تگ ها')}
-          {getFooterText('قوانین')}
+          {getFooterTitle(getStrings().Footer_Title)}
+          {getFooterText(getStrings().Footer_Link1)}
+          {getFooterText(getStrings().Footer_Link2)}
+          {getFooterText(getStrings().Footer_Link3)}
+          {getFooterText(getStrings().Footer_Link4)}
         </Grid>
         <Grid item md={2} xs={7}>
-          {getFooterTitle('لینک های پر کاربرد')}
-          {getFooterText('آخرین سوال ها')}
-          {getFooterText('پرسیدن سوال')}
-          {getFooterText('تگ ها')}
-          {getFooterText('قوانین')}
+          {getFooterTitle(getStrings().Footer_Title)}
+          {getFooterText(getStrings().Footer_Link1)}
+          {getFooterText(getStrings().Footer_Link2)}
+          {getFooterText(getStrings().Footer_Link3)}
+          {getFooterText(getStrings().Footer_Link4)}
         </Grid>
         <Grid item md={2} xs={7}>
-          {getFooterTitle('لینک های پر کاربرد')}
-          {getFooterText('آخرین سوال ها')}
-          {getFooterText('پرسیدن سوال')}
-          {getFooterText('تگ ها')}
-          {getFooterText('قوانین')}
+          {getFooterTitle(getStrings().Footer_Title)}
+          {getFooterText(getStrings().Footer_Link1)}
+          {getFooterText(getStrings().Footer_Link2)}
+          {getFooterText(getStrings().Footer_Link3)}
+          {getFooterText(getStrings().Footer_Link4)}
         </Grid>
         <Grid item md={2} xs={7}>
-          {getFooterTitle('لینک های پر کاربرد')}
-          {getFooterText('آخرین سوال ها')}
-          {getFooterText('پرسیدن سوال')}
-          {getFooterText('تگ ها')}
-          {getFooterText('قوانین')}
+          {getFooterTitle(getStrings().Footer_Title)}
+          {getFooterText(getStrings().Footer_Link1)}
+          {getFooterText(getStrings().Footer_Link2)}
+          {getFooterText(getStrings().Footer_Link3)}
+          {getFooterText(getStrings().Footer_Link4)}
         </Grid>
         <Grid item md={2} xs={0}></Grid>
       </Grid>
       <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center', marginTop: '50px' }}>
-        {'ساخته شده با عشق توسط فرم ساز اختصاصی هفت خط کد'}
+        {getStrings().Footer_Love}
       </Typography>
     </Paper>
   );

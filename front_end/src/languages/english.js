@@ -38,6 +38,12 @@ const STRINGS = {
   ASK_Expansion_PANEL2_SUBTITLE1: 'What did you do ? and why do you think its wrong ?',
   ASK_Expansion_PANEL3_TITLE: 'Show your code',
   ASK_Expansion_PANEL3_SUBTITLE1: 'If possible, Share minimum code so others can help you better',
+  Footer_Title: 'Useful links',
+  Footer_Link1: 'Latest questions',
+  Footer_Link2: 'ask',
+  Footer_Link3: 'tags',
+  Footer_Link4: 'rules',
+  Footer_Love: 'Created With Love by Q2A.js',
 };
 
 export default STRINGS;

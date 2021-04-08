@@ -39,6 +39,12 @@ const STRINGS = {
   ASK_Expansion_PANEL3_TITLE: 'نشان دادن کد',
   ASK_Expansion_PANEL3_SUBTITLE1:
     'در صورت نیاز ، حداقل کدی را که دیگران برای حل مشکل شما نیاز دارند را به اشتراک بگذارید.',
+  Footer_Title: 'لینک های پر کاربرد',
+  Footer_Link1: 'آخرین سوال ها',
+  Footer_Link2: 'پرسیدن سوال',
+  Footer_Link3: 'تگ ها',
+  Footer_Link4: 'قوانین',
+  Footer_Love: 'ساخته شده با عشق توسط فرم ساز اختصاصی کی تو ای',
 };
 
 export default STRINGS;
