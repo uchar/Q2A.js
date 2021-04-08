@@ -20,7 +20,6 @@ export class UploadAdapter {
     const { loader } = this;
     uploadFile(file)
       .then((result) => {
-        console.log('RESULT OF UPLOAD : ', result);
         loader.uploaded = true;
         const url = getFullUrl(result.uploadFile.filename);
         resolve({

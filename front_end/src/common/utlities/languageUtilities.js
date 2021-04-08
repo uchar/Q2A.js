@@ -39,22 +39,21 @@ const getInitialLocale = async () => {
   // first check if user choose any language before
   try {
     const user = await getCurrentUser();
-    console.log('USER LAnguage is : ', user);
-    return user.language;
+    if (user) return user.language;
+    // user probably not login
+    const browserLanguage = navigator.language.split('-')[0];
+    let userLanguage = LANGUAGES.ENGLISH;
+    Object.keys(LANGUAGES).forEach((key) => {
+      if (browserLanguage === LANGUAGES[key]) {
+        userLanguage = LANGUAGES[key];
+      }
+    });
+    return userLanguage;
   } catch (e) {
     console.log(e);
-    // user probably not login
+    // in case of exception use english version
+    return LANGUAGES.ENGLISH;
   }
-  // fallback method, use browser language
-  const browserLanguage = navigator.language.split('-')[0];
-  Object.keys(LANGUAGES).forEach((key) => {
-    if (browserLanguage === LANGUAGES[key]) {
-      return LANGUAGES[key];
-    }
-  });
-
-  // There is no user and Application not support the browser language
-  return LANGUAGES.ENGLISH;
 };
 
 export { LANGUAGES, getLanguage, getStrings, getInitialLocale, updateLanguageBaseOnUrl };

@@ -22,7 +22,6 @@ const QUESTION = `{
     tag3
     tag4
     tag5
-    isLegacyContent
   }`;
 
 export const ALL_QUESTIONS = gql`
@@ -51,18 +50,15 @@ export const GET_QUESTION = gql`
       tag3
       tag4
       tag5
-      isLegacyContent
       answers {
         id
         content
         ${userType}
-        isLegacyContent
         votesCount
         createdAt
         comments {
           id
           content
-          isLegacyContent
           ${userType}
           createdAt
         }
@@ -70,7 +66,6 @@ export const GET_QUESTION = gql`
       comments {
         id
         content
-        isLegacyContent
         ${userType}
         createdAt
       }
@@ -156,7 +151,6 @@ export const GET_USER = gql`
         tag3
         tag4
         tag5
-        isLegacyContent
       }
       clapItems {
         type
@@ -164,7 +158,6 @@ export const GET_USER = gql`
           id
           content
           ${userType}
-          isLegacyContent
           votesCount
           createdAt
         }
@@ -182,7 +175,6 @@ export const GET_USER = gql`
           tag3
           tag4
           tag5
-          isLegacyContent
         }
       }
     }

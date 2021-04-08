@@ -37,7 +37,7 @@ const PostToolbar = ({
   const handleCloseShare = () => {
     setShareAnchor(undefined);
   };
-  
+
   return (
     <Grid container className={`${classes.root} ${className}`} spacing={1} direction="row" justify="flex-end">
       <ShareDialog

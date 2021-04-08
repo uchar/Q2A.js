@@ -224,7 +224,6 @@ const User = () => {
             cursor: 'pointer',
           }}
           onClick={() => {
-            console.log('??');
             setDescriptionEditMode(!isDescriptionEditMode);
           }}
         />

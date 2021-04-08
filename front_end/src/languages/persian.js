@@ -1,7 +1,7 @@
 const STRINGS = {
   SITE_TITLE: 'کیو تو ای',
-  SITE_MAIN_PAGE_TAB_HEADERS:['جدید ترین ها', 'محبوبترین ها', 'پربازدیدترین ها', 'بدون پاسخ ها'],
-  IN :"در",
+  SITE_MAIN_PAGE_TAB_HEADERS: ['جدید ترین ها', 'محبوبترین ها', 'پربازدیدترین ها', 'بدون پاسخ ها'],
+  IN: 'در',
   SEARCH_HINT: 'جست و جو ...',
   DEMO_TIME_AGO_QUESTION: ' سوال کرد ',
   DEMO_TIME_AGO_ANSWER: ' پاسخ داد ',

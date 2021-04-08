@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, CardContent, Grid, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { legacyParseContent } from '../../parsers/legacyParser';
 import { parseContent } from '../../parsers/parser';
 import CommentsSection from './CommentsSection';
 import ProfileImageWithName from '../ProfileImageWithName';
@@ -32,7 +31,6 @@ const AnswerItem = DeepMemo(function AnswerItem({
   votesCount,
   comments,
   rootId,
-  isLegacyContent,
   language,
 }) {
   const classes = useStyles();
@@ -51,9 +49,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
     getUser();
   }, []);
   const userWhoAnsweredId = user.id;
-  const parsedContent = isLegacyContent
-    ? legacyParseContent(content)
-    : parseContent(content, language);
+  const parsedContent =  parseContent(content, language);
 
   const handleEditDataChanged = (event, editor) => {
     const data = editor.getData();

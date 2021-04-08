@@ -22,23 +22,37 @@ https://7khatcode.liara.run/
 
 
 ## How to run :
+### Preparation
+Install nodejs 14+ (you can use nvm)
+Make a new Database.
+In backend and front_end folder rename .sample.env to .env and fill it's fields
 
-### backend :
-
-Make a new Database. 
-
-Rename .sample.env to .env and fill it's fields
-
-Run this :
+Install packages:
 
 ```
-cd back_end && yarn && yarn dev
+cd back_end && yarn && cd ../front_end && yarn
 ```
 
-### frontend :
+### Setup 
 
 ```
-cd front_end && yarn && yarn dev
+cd back_end && yarn setup
+```
+
+What it does : 
+
+- Create empty database and add some initial data 
+
+### Run :
+#### backend
+```
+cd back_end && yarn 
+```
+
+#### frontend :
+
+```
+cd front_end && yarn
 ```
 
 

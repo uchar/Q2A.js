@@ -37,8 +37,7 @@ const STRINGS = {
   ASK_Expansion_PANEL2_TITLE: 'Description',
   ASK_Expansion_PANEL2_SUBTITLE1: 'What did you do ? and why do you think its wrong ?',
   ASK_Expansion_PANEL3_TITLE: 'Show your code',
-  ASK_Expansion_PANEL3_SUBTITLE1:
-    'If possible, Share minimum code so others can help you better',
+  ASK_Expansion_PANEL3_SUBTITLE1: 'If possible, Share minimum code so others can help you better',
 };
 
 export default STRINGS;

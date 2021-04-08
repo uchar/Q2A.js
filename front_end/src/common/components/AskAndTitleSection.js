@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AskAndTitleSection = DeepMemo(function AskAndTitleSection({ title, className }) {
   const classes = useStyles();
-  console.log('RENDER AskAndTitleSection ');
   return (
     <div className={`${classes.root} ${className}`}>
       <Typography className={classes.title} variant="h2">

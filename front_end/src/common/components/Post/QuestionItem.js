@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
-import { legacyParseContent } from '../../parsers/legacyParser';
 import { parseContent } from '../../parsers/parser';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
@@ -55,7 +54,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   tag3,
   tag4,
   tag5,
-  isLegacyContent,
   language,
 }) {
   const classes = useStyles();
@@ -66,9 +64,8 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  const parsedContent = isLegacyContent
-    ? legacyParseContent(content, 'textPrimary')
-    : parseContent(content, language);
+  const parsedContent = parseContent(content, language);
+  console.log('parsedContent', parsedContent);
 
   useEffect(() => {
     const getUserId = async () => {
