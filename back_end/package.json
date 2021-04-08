@@ -8,24 +8,24 @@
     "node": "14.x"
   },
   "dependencies": {
-    "apollo-server": "2.18.2",
-    "apollo-server-express": "2.18.2",
-    "aws-sdk": "2.775.0",
-    "axios": "0.20.0",
-    "bcrypt": "5.0.0",
+    "apollo-server": "2.22.2",
+    "apollo-server-express": "2.22.2",
+    "aws-sdk": "2.882.0",
+    "axios": "0.21.1",
+    "bcrypt": "5.0.1",
     "crypto": "1.0.1",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "graphql": "15.3.0",
+    "graphql": "15.5.0",
     "hash-equals": "0.0.3",
     "jsonwebtoken": "8.5.1",
     "mysql": "2.18.1",
     "mysql2": "2.2.5",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
-    "sequelize": "6.3.5",
-    "uuid": "8.3.1",
-    "yup": "0.29.3"
+    "sequelize": "6.6.2",
+    "uuid": "8.3.2",
+    "yup": "0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
