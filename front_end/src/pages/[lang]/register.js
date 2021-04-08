@@ -50,7 +50,6 @@ const Register = () => {
         onSubmit={async (values, { setErrors }) => {
           try {
             const result = await signUp(values.email, values.username, values.password);
-            console.log('RESULT OF LOGIN : ', result);
             return router.replace('/');
           } catch (err) {
             setErrors({ api: err.toString() });

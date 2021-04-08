@@ -33,11 +33,8 @@ const prepareDatabase = async () => {
     },
     email: Sequelize.STRING(64),
     password: Sequelize.STRING(64),
-    legacyPasswordSalt: { type: 'BINARY(16)' },
-    legacyPassword: { type: 'BINARY(20)' },
     lastLogin: Sequelize.DATE,
     lastWrite: Sequelize.DATE,
-    isLegacyAuthentication: Sequelize.BOOLEAN,
     isEmailVerified: Sequelize.BOOLEAN,
   });
   const Post = sequelize.define(tables.POST_TABLE, {
@@ -58,11 +55,6 @@ const prepareDatabase = async () => {
     },
     title: Sequelize.STRING(256),
     content: Sequelize.TEXT,
-    isLegacyContent: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
     viewsCount: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -138,7 +130,7 @@ const prepareDatabase = async () => {
   User.hasMany(Notification, { foreignKey: 'creatorId' });
   Medal.belongsTo(User);
   User.hasMany(Medal);
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false });
   databaseUtils().cacheModel(tables.USER_TABLE, User);
   databaseUtils().cacheModel(tables.POST_TABLE, Post);
   databaseUtils().cacheModel(tables.TAG_TABLE, Tag);

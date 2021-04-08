@@ -142,7 +142,6 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   data={values.content}
                   onChange={(event, editor) => {
                     const data = editor.getData();
-                    console.log('DATA : ', data);
                     setValues({ ...values, content: data });
                   }}
                 />

@@ -7,7 +7,6 @@ import {
   createJWTToken,
   findUserByEmail,
   findUserByName,
-  isLegacyPasswordValid,
   checkInputValidationWithoutContext,
 } from '../utility.js';
 
@@ -44,7 +43,6 @@ const signUp = async (_, { email, username, password, language }) => {
     publicName: username,
     password: newPasswordHash,
     language,
-    isLegacyAuthentication: false,
     isEmailVerified: false,
   });
   user = await findUserByName(username);
@@ -52,34 +50,15 @@ const signUp = async (_, { email, username, password, language }) => {
 };
 
 const login = async (_, { username, password }) => {
-  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const user = await findUserByName(username);
   if (!user) {
     throw new Error(LOGIN_ERRORS.NO_USER);
   }
-  if (user.isLegacyAuthentication) {
-    const isValid = isLegacyPasswordValid(password, user.legacyPasswordSalt, user.legacyPassword);
-    if (isValid) {
-      const newPasswordHash = await bcrypt.hash(password, 10);
-      await User.update(
-        {
-          password: newPasswordHash,
-          isLegacyAuthentication: false,
-          legacyPassword: null,
-          legacyPasswordSalt: null,
-        },
-        { where: { id: user.id } }
-      );
-      return createJWTToken(user);
-    }
-    throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
-  } else {
-    const isValid = await bcrypt.compare(password, user.password);
-    if (isValid) {
-      return createJWTToken(user);
-    }
-    throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
+  const isValid = await bcrypt.compare(password, user.password);
+  if (isValid) {
+    return createJWTToken(user);
   }
+  throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
 };
 
 const googleLogin = async (_, { jwtToken }) => {
@@ -103,7 +82,6 @@ const googleLogin = async (_, { jwtToken }) => {
     await User.create({
       publicName,
       email,
-      isLegacyAuthentication: false,
       isEmailVerified: true,
     });
     user = await findUserByName(publicName);

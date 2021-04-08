@@ -4,6 +4,9 @@
   "main": "src/server.js",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "apollo-server": "2.18.2",
     "apollo-server-express": "2.18.2",
@@ -48,6 +51,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "setup": "node src/setup/index.js",
     "converter": "nodemon src/tableUpgrade.js",
     "deploy": "liara deploy --app 7khatcode-api --port 4000 --platform node",
     "test": "./node_modules/.bin/jest --coverage",

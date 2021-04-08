@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 export const ADD_QUESTION = gql`
   mutation($title: String!, $content: String!, $tags: [String]!) {
     addQuestion(title: $title, content: $content, tags: $tags) {
+      id
       statusCode
-      message
     }
   }
 `;
@@ -12,8 +12,8 @@ export const ADD_QUESTION = gql`
 export const ADD_ANSWER = gql`
   mutation($postId: String!, $content: String!) {
     addAnswer(postId: $postId, content: $content) {
+      id
       statusCode
-      message
     }
   }
 `;
@@ -21,8 +21,8 @@ export const ADD_ANSWER = gql`
 export const ADD_COMMENT = gql`
   mutation($postId: String!, $content: String!) {
     addComment(postId: $postId, content: $content) {
+      id
       statusCode
-      message
     }
   }
 `;
@@ -30,8 +30,8 @@ export const ADD_COMMENT = gql`
 export const UPDATE_QUESTION = gql`
   mutation($id: String!, $title: String!, $content: String!, $tags: [String]!) {
     updateQuestion(id: $id, title: $title, content: $content, tags: $tags) {
+      id
       statusCode
-      message
     }
   }
 `;
@@ -39,8 +39,8 @@ export const UPDATE_QUESTION = gql`
 export const UPDATE_ANSWER = gql`
   mutation($id: String!, $content: String!) {
     updateAnswer(id: $id, content: $content) {
+      id
       statusCode
-      message
     }
   }
 `;
@@ -48,8 +48,8 @@ export const UPDATE_ANSWER = gql`
 export const UPDATE_COMMENT = gql`
   mutation($id: String!, $content: String!) {
     updateComment(id: $id, content: $content) {
+      id
       statusCode
-      message
     }
   }
 `;

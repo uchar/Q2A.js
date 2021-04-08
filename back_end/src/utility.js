@@ -1,4 +1,3 @@
-import hashEquals from 'hash-equals';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import databaseUtils from './db/database.js';
@@ -97,10 +96,6 @@ const legacyHash = (password, salt) => {
     .digest();
 };
 
-const isLegacyPasswordValid = (password, salt, hashToCheckAgainst) => {
-  return hashEquals(legacyHash(password, salt.toString()).toString(), hashToCheckAgainst.toString());
-};
-
 const isInTestMode = () => {
   return process.env.JEST_WORKER_ID;
 };
@@ -113,7 +108,6 @@ export {
   createValidationResponse,
   createSuccessResponse,
   legacyHash,
-  isLegacyPasswordValid,
   isInTestMode,
   createAuthorizationErrorResponse,
   createInputErrorResponse,

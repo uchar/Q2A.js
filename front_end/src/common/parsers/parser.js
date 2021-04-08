@@ -12,6 +12,10 @@ let extraTextStyle = {};
 let isTextPrimary = true;
 let isRTL = false;
 
+const getTagName = (node) => {
+  if (node && node.tagName) return node.tagName.toLowerCase();
+  return null;
+};
 const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) => {
   let isBold = false;
   let isItalic = false;
@@ -62,31 +66,32 @@ const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) =>
 const convertNodeToReactElements = (node, typoGraphyTypes = []) => {
   let reactElements = [];
   node.childNodes.forEach((childNode) => {
-    if (childNode.nodeType === 3) {
+    const tagName = getTagName(childNode);
+    if (childNode.nodeType  === 3) {
       reactElements.push(makeInlineTypoGraphy(childNode.rawText, typoGraphyTypes));
-    } else if (childNode.tagName === 'p') {
+    } else if (tagName === 'p') {
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, typoGraphyTypes));
-    } else if (childNode.tagName === 'i') {
+    } else if (tagName === 'i') {
       const newTypes = [...typoGraphyTypes];
       newTypes.push('italic');
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
-    } else if (childNode.tagName === 'strong') {
+    } else if (tagName === 'strong') {
       const newTypes = [...typoGraphyTypes];
       newTypes.push('strong');
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
-    } else if (childNode.tagName === 'a') {
+    } else if (tagName === 'a') {
       const newTypes = [...typoGraphyTypes];
       newTypes.push(`link-${childNode.rawAttributes.href}`);
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
-    } else if (childNode.tagName === 'code') {
+    } else if (tagName === 'code') {
       const newTypes = [...typoGraphyTypes];
       newTypes.push('code');
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, newTypes));
-    } else if (childNode.tagName === 'ul') {
+    } else if (tagName === 'ul') {
       reactElements = reactElements.concat(handleListTag(childNode, 'bullet'));
-    } else if (childNode.tagName === 'ol') {
+    } else if (tagName === 'ol') {
       reactElements = reactElements.concat(handleListTag(childNode, 'number'));
-    } else if (childNode.tagName === 'figure') {
+    } else if (tagName === 'figure') {
       reactElements = reactElements.concat(handleImageTag(childNode));
     }
   });
@@ -143,14 +148,15 @@ const handleImageTag = (node) => {
   });
 
   node.childNodes.forEach((childNode) => {
-    if (childNode.tagName === 'img') {
+    const tagName = getTagName(childNode);
+    if (tagName === 'img') {
       const imageStyle = { maxWidth: '90%' };
       const halfSizeImageStyle = { maxWidth: '50%', float: 'right' };
       reactElements.push(
         <img style={isHalfSize ? halfSizeImageStyle : imageStyle} src={childNode.rawAttributes.src} />
       );
     }
-    if (childNode.tagName === 'figcaption') {
+    if (tagName === 'figcaption') {
       const captionElements = convertNodeToReactElements(childNode);
       reactElements.push(
         <div style={{ flex: 1, textAlign: 'center' }}>{captionElements.map((element) => element)}</div>
@@ -163,15 +169,16 @@ const handleImageTag = (node) => {
 const handleQuoteTag = (node) => {
   let reactElements = [];
   node.childNodes.forEach((childNode) => {
+    const tagName = getTagName(childNode);
     if (childNode.nodeType === 3) {
       reactElements.push(<div style={{ flex: 1 }}> {makeInlineTypoGraphy(childNode.rawText)}</div>);
-    } else if (childNode.tagName === 'p') {
+    } else if (tagName === 'p') {
       reactElements = reactElements.concat(<div style={{ flex: 1 }}>{handlePTag(childNode)}</div>);
-    } else if (childNode.tagName === 'ul') {
+    } else if (tagName === 'ul') {
       reactElements = reactElements.concat(
         <div style={{ flex: 1 }}>{handleListTag(childNode, 'bullet')}</div>
       );
-    } else if (childNode.tagName === 'ol') {
+    } else if (tagName === 'ol') {
       reactElements = reactElements.concat(
         <div style={{ flex: 1 }}>{handleListTag(childNode, 'number')}</div>
       );
@@ -198,20 +205,22 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
     comment: false, // retrieve comments (hurt performance slightly)
   });
   let reactElements = [];
+
   root.childNodes.forEach((childNode) => {
+    const tagName = getTagName(childNode);
     if (childNode.nodeType === 3) {
       reactElements.push(makeInlineTypoGraphy(childNode.rawText));
-    } else if (childNode.tagName === 'p') {
+    } else if (tagName === 'p') {
       reactElements = reactElements.concat(handlePTag(childNode));
-    } else if (childNode.tagName === 'pre') {
+    } else if (tagName === 'pre') {
       reactElements = reactElements.concat(handleCodeTag(childNode));
-    } else if (childNode.tagName === 'ul') {
+    } else if (tagName === 'ul') {
       reactElements = reactElements.concat(handleListTag(childNode, 'bullet'));
-    } else if (childNode.tagName === 'ol') {
+    } else if (tagName === 'ol') {
       reactElements = reactElements.concat(handleListTag(childNode, 'number'));
-    } else if (childNode.tagName === 'blockquote') {
+    } else if (tagName === 'blockquote') {
       reactElements = reactElements.concat(handleQuoteTag(childNode));
-    } else if (childNode.tagName === 'figure') {
+    } else if (tagName === 'figure') {
       reactElements = reactElements.concat(handleImageTag(childNode));
     }
   });
@@ -220,5 +229,19 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
   isRTL = false;
   return (
     <div style={{ flex: 1, margin: '10px 10px 5px 10px' }}>{reactElements.map((element) => element)}</div>
+  );
+};
+
+export const replacePTagWithTypoGraphy = (valueToParse, textColor = 'textPrimary') => {
+  return (
+    <Typography color={textColor} style={{ textAlign: 'right', marginTop: '0px', fontSize: '14px' }}>
+      {renderHTML(
+        valueToParse
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .replace(/<\/?[^>]+>/gi, '')
+      )}
+    </Typography>
   );
 };

@@ -113,7 +113,7 @@ const Header = ({}) => {
   }, []);
 
   const handleProfileMenuOpen = async (event) => {
-    return router.push(`/user/${user.publicName}`);
+    return router.push(`/${getLanguage()}/user/${user.publicName}`);
   };
   const handleNotificationMenuOpen = async (event) => {
     setNotificationAnchor(event.currentTarget);

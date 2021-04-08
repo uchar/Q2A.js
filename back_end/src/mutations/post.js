@@ -32,7 +32,7 @@ const createPost = async (inputParams, context) => {
 const updatePost = async (inputParams, postId, context) => {
   const user = await findUserByName(context.user.publicName);
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  return Post.update({ ...inputParams, isLegacyContent: false }, { where: { userId: user.id, id: postId } });
+  return Post.update({ ...inputParams }, { where: { userId: user.id, id: postId } });
 };
 
 const getParentPost = async (parentId) => {

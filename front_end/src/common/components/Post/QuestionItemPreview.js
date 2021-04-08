@@ -3,13 +3,12 @@ import clsx from 'clsx';
 import { Box, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
-import { legacyParseContent, replacePTagWithTypoGraphy } from '../../parsers/legacyParser';
-import { parseContent } from '../../parsers/parser';
+import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
-import {getLanguage} from "../../utlities/languageUtilities";
+import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +69,6 @@ const QuestionItemPreview = DeepMemo(function ({
   tag3,
   tag4,
   tag5,
-  isLegacyContent,
   language,
 }) {
   const classes = useStyles();
@@ -88,9 +86,7 @@ const QuestionItemPreview = DeepMemo(function ({
   let parsedContent = <div />;
 
   if (expanded || content.length < 600) {
-    parsedContent = isLegacyContent
-      ? legacyParseContent(content, 'textSecondary')
-      : parseContent(content, language);
+    parsedContent = parseContent(content, language);
   } else {
     parsedContent = (
       <div style={{ marginTop: '5px' }}>
@@ -112,7 +108,10 @@ const QuestionItemPreview = DeepMemo(function ({
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
-        <Link href={`/${getLanguage()}/[id]/[title]`} as={`/${getLanguage()}/${id}/${encodeURIComponent(title)}`}>
+        <Link
+          href={`/${getLanguage()}/[id]/[title]`}
+          as={`/${getLanguage()}/${id}/${encodeURIComponent(title)}`}
+        >
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>
