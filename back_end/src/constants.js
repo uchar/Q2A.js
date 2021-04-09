@@ -1,13 +1,17 @@
 const TABLES = {
   USER_TABLE: 'user',
   POST_TABLE: 'post',
+  BLOG_POST_TABLE: 'blogpost',
   TAG_TABLE: 'tag',
   CLAP_TABLE: 'clap',
   NOTIFICATION_TABLE: 'notification',
   Medal_TABLE: 'medal',
   POST_TAG_TABLE: 'posttag',
 };
-
+const BLOG_POST_TYPES = {
+  POST: 'POST',
+  COMMENT: 'COMMENT',
+};
 const POST_TYPES = {
   ANSWER: 'ANSWER',
   QUESTION: 'QUESTION',
@@ -39,4 +43,4 @@ const THEME = {
   DARK: 'dark',
 };
 
-export { TABLES, POST_TYPES, STATUS_CODE, LOGIN_ERRORS, LANGUAGE, THEME };
+export { TABLES, POST_TYPES, STATUS_CODE, LOGIN_ERRORS, LANGUAGE, THEME, BLOG_POST_TYPES };
