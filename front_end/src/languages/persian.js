@@ -10,6 +10,7 @@ const STRINGS = {
   DEMO_UP_VOTE: '25 مثبت',
   DEMO_VIEWS: '25 بازدید',
   DEMO_ANSWERS: '0 جواب',
+  SIGN_IN_GOOGLE: 'ورود با گوگل',
   SIGN_IN_TITLE: 'ورود',
   SIGN_IN_EMAIL: 'یوزرنیم',
   SIGN_IN_PASSWORD: 'پسورد',
