@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { useSelector } from 'react-redux';

@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
 import { isMobile } from 'react-device-detect';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { getLanguage } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,16 +39,7 @@ const SButton = (props) => {
   const classes = useStyles();
 
   const timer = React.useRef();
-  const {
-    text,
-    shouldShowLoading,
-    type,
-    onClick,
-    fullWidth,
-    loading,
-    style,
-    className,
-  } = props;
+  const { text, shouldShowLoading, type, onClick, fullWidth, loading, style, className } = props;
   React.useEffect(() => {
     return () => {
       clearTimeout(timer.current);
@@ -58,6 +50,7 @@ const SButton = (props) => {
     return onClick();
   };
   const buttonText = shouldShowLoading && loading ? 'Sending' : text;
+
   const loadingComponent =
     shouldShowLoading && loading ? (
       <CircularProgress size={24} className={classes.buttonProgress} />
@@ -69,7 +62,7 @@ const SButton = (props) => {
       <Button
         type={type}
         variant="contained"
-        color={ 'primary'}
+        color={'primary'}
         component="span"
         className={clsx(classes.viewCourseButton, className)}
         style={style}
@@ -86,21 +79,22 @@ const SButton = (props) => {
 
 // eslint-disable-next-line complexity
 const CardButton = (props) => {
+  const router = useRouter();
   const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading, style, className } = props;
   return (
-    <div {...props}>
+    <div>
       {url && url.length > 0 ? (
         <SButton
-          onClick={onSubmit}
+          onClick={async () => {
+            return router.push(url);
+          }}
           style={style}
           text={text}
           shouldShowLoading={shouldShowLoading}
           loading={loading}
           fullWidth={fullWidth}
           className={className}
-        >
-          <Link prefetch={false} href={`${url}`}></Link>
-        </SButton>
+        ></SButton>
       ) : (
         <SButton
           onClick={onSubmit}
