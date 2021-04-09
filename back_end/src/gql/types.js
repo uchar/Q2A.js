@@ -40,7 +40,6 @@ export default gql`
   input UpdateUserInput {
     profileImage: String
     about: String
-    language: Language
     theme: Theme
   }
 

@@ -14,7 +14,7 @@ import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../A
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
-import { getLanguage, getStrings } from '../../utlities/languageUtilities';
+import { getLanguage, getStrings, LANGUAGES } from '../../utlities/languageUtilities';
 import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
 import { CURRENT_USER_ACTION } from '../../../redux/constants';
 
@@ -139,10 +139,13 @@ const Header = ({}) => {
 
   const handleThemeChange = async () => {
     const newTheme = themeType === 'dark' ? 'light' : 'dark';
-    await updateCurrentUser({
-      theme: newTheme,
-    });
-    return refreshUser();
+    dispatch({ type: CURRENT_USER_ACTION, payload: { theme: newTheme } });
+    if ((await getCurrentUser()) !== false) {
+      await updateCurrentUser({
+        theme: newTheme,
+      });
+      return refreshUser();
+    }
   };
 
   const handleNotificationCountChange = (count) => {
