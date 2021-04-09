@@ -26,16 +26,10 @@ const getJwtToken = () => {
 
 const doGraphQLQuery = async (query, params) => {
   const jwtToken = getJwtToken();
-  try {
-    const client = getStandaloneApolloClient(jwtToken);
-    const variables = { language: getLanguage(), ...params };
-    console.log('VARIABLES : ', variables);
-    const result = await client.query({ query, variables });
-    return result.data;
-  } catch (e) {
-    console.log('Query failed with error', e);
-    return undefined;
-  }
+  const client = getStandaloneApolloClient(jwtToken);
+  const variables = { language: getLanguage(), ...params };
+  const result = await client.query({ query, variables });
+  return result.data;
 };
 
 const doGraphQLMutation = async (mutation, params) => {

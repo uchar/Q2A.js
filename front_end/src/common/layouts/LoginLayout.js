@@ -21,7 +21,7 @@ const form = {
 const LoginLayout = (props) => (
   <Layout noSideBar>
     <Grid container justify="center" alignItems={'center'} style={{ margin: '70px 0px 110px 0px' }}>
-      <Grid item xs={0} sm={3} />
+      <Grid item display={{ xs: 'none' }} sm={3} />
       <Grid item xs={12} sm={6}>
         <Box boxShadow={3} style={paper}>
           <Box
@@ -43,7 +43,7 @@ const LoginLayout = (props) => (
           </div>
         </Box>
       </Grid>
-      <Grid item xs={0} sm={3} />
+      <Grid item display={{ xs: 'none' }} sm={3} />
     </Grid>
   </Layout>
 );

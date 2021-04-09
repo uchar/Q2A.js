@@ -88,7 +88,6 @@ const Post = () => {
           color="primary"
           className={classes.button}
           loading={false}
-          shouldShowLoading={false}
         >
           {getStrings().ASK_BUTTON_SENDING}
         </Button>

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyItems: 'center',
     justifyContent: 'center',
-    margin: theme.spacing(10, '5%', 3, '5%'),
+    margin: theme.spacing(3, '5%', 1, '5%'),
     width: 'auto',
     textAlign: 'center',
   },
@@ -70,7 +70,6 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
 
   const { latestQuestions, popularQuestions, mostViewsQuestions, noAnswersQuestions } = questions;
 
-  console.log('RENDERING ', latestQuestions, latestQuestions.length);
   const getTitle = () => {
     const titles = getStrings().SITE_MAIN_PAGE_TAB_HEADERS;
     let title = titles[currentTab];

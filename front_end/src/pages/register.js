@@ -42,7 +42,7 @@ const Register = () => {
   };
   return (
     <div>
-      <GoogleLoginButton buttonText="عضویت با گوگل" />
+      <GoogleLoginButton buttonText={getStrings().SIGN_IN_GOOGLE}  />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik

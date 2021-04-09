@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 1, 0, 3),
   },
   tagsSection: {
-    margin: theme.spacing(1.5, 0, 0.5, 2),
+    margin: theme.spacing(1.5, 2, 0.5, 2),
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -69,7 +69,6 @@ const QuestionItemPreview = DeepMemo(function ({
   tag3,
   tag4,
   tag5,
-  language,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
@@ -86,7 +85,7 @@ const QuestionItemPreview = DeepMemo(function ({
   let parsedContent = <div />;
 
   if (expanded || content.length < 600) {
-    parsedContent = parseContent(content, language);
+    parsedContent = parseContent(content, getLanguage());
   } else {
     parsedContent = (
       <div style={{ marginTop: '5px' }}>
@@ -107,9 +106,7 @@ const QuestionItemPreview = DeepMemo(function ({
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
-        <Link
-          href={`/${id}/${encodeURIComponent(title)}`}
-        >
+        <Link href={`/${id}/${encodeURIComponent(title)}`}>
           <Typography color="textPrimary" variant="h1" className={classes.title}>
             {title}
           </Typography>

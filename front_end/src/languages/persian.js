@@ -1,5 +1,7 @@
 const STRINGS = {
   SITE_TITLE: 'کیو تو ای',
+  HEADER_REGISTER_BUTTON: 'عضویت',
+  HEADER_LOGIN_BUTTON: 'ورود',
   SITE_MAIN_PAGE_TAB_HEADERS: ['جدید ترین ها', 'محبوبترین ها', 'پربازدیدترین ها', 'بدون پاسخ ها'],
   IN: 'در',
   SEARCH_HINT: 'جست و جو ...',
@@ -8,6 +10,7 @@ const STRINGS = {
   DEMO_UP_VOTE: '25 مثبت',
   DEMO_VIEWS: '25 بازدید',
   DEMO_ANSWERS: '0 جواب',
+  SIGN_IN_GOOGLE: 'ورود با گوگل',
   SIGN_IN_TITLE: 'ورود',
   SIGN_IN_EMAIL: 'یوزرنیم',
   SIGN_IN_PASSWORD: 'پسورد',

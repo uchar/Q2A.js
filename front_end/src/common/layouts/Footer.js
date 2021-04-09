@@ -40,7 +40,7 @@ export default function Footer(props) {
       }}
     >
       <Grid direction="row" justify={'center'} container spacing={2}>
-        <Grid item md={2} xs={0}></Grid>
+        <Grid item md={2} display={{ xs: 'none' }}></Grid>
         <Grid item md={2} xs={7}>
           {getFooterTitle(getStrings().Footer_Title)}
           {getFooterText(getStrings().Footer_Link1)}
@@ -69,7 +69,7 @@ export default function Footer(props) {
           {getFooterText(getStrings().Footer_Link3)}
           {getFooterText(getStrings().Footer_Link4)}
         </Grid>
-        <Grid item md={2} xs={0}></Grid>
+        <Grid item md={2} display={{ xs: 'none' }}></Grid>
       </Grid>
       <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center', marginTop: '50px' }}>
         {getStrings().Footer_Love}

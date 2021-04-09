@@ -19,10 +19,6 @@ export default class Q2aDocument extends Document {
   }
 }
 
-Q2aDocument.getStaticProps = async ({ locale }) => {
-  console.log('WHOLY SHIT ', locale);
-  return {};
-};
 // `getInitialProps` belongs to `_document` (instead of `_app`),
 // it's compatible with server-side generation (SSG).
 Q2aDocument.getInitialProps = async (ctx) => {

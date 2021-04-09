@@ -1,5 +1,7 @@
 const STRINGS = {
   SITE_TITLE: 'Q2A.js',
+  HEADER_REGISTER_BUTTON: 'Register',
+  HEADER_LOGIN_BUTTON: 'Login',
   SITE_MAIN_PAGE_TAB_HEADERS: ['New', 'Most Vote', 'Most View', 'No Answer'],
   IN: 'In',
   SEARCH_HINT: 'Search ...',
@@ -8,6 +10,7 @@ const STRINGS = {
   DEMO_UP_VOTE: '0 vote',
   DEMO_VIEWS: '0 view',
   DEMO_ANSWERS: '0 answer',
+  SIGN_IN_GOOGLE: 'Login with google',
   SIGN_IN_TITLE: 'Login',
   SIGN_IN_EMAIL: 'Username',
   SIGN_IN_PASSWORD: 'Password',

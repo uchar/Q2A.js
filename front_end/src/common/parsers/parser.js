@@ -41,8 +41,8 @@ const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) =>
         fontWeight: isBold ? '700' : '500',
         fontStyle: isItalic ? 'italic' : 'normal',
         backgroundColor: isCode ? '#eeeeee' : 'default',
-        fontSize: '14px',
         marginLeft: '1px',
+        textAlign: 'initial',
         marginRight: '1px',
         ...linkStyle,
         ...inputStyle,
@@ -54,7 +54,7 @@ const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) =>
   );
   if (link) {
     return (
-      <a href={link} target="_blank">
+      <a href={link} target="_blank" rel="noreferrer">
         {' '}
         {typographyObject}
       </a>
@@ -67,7 +67,7 @@ const convertNodeToReactElements = (node, typoGraphyTypes = []) => {
   let reactElements = [];
   node.childNodes.forEach((childNode) => {
     const tagName = getTagName(childNode);
-    if (childNode.nodeType  === 3) {
+    if (childNode.nodeType === 3) {
       reactElements.push(makeInlineTypoGraphy(childNode.rawText, typoGraphyTypes));
     } else if (tagName === 'p') {
       reactElements = reactElements.concat(convertNodeToReactElements(childNode, typoGraphyTypes));
@@ -234,7 +234,7 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
 
 export const replacePTagWithTypoGraphy = (valueToParse, textColor = 'textPrimary') => {
   return (
-    <Typography color={textColor} style={{ textAlign: 'right', marginTop: '0px', fontSize: '14px' }}>
+    <Typography color={textColor} style={{ textAlign: 'right', marginTop: '0px' }}>
       {renderHTML(
         valueToParse
           .replace(/&lt;/g, '<')

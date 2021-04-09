@@ -26,7 +26,7 @@ const Login = () => {
   const router = useRouter();
   return (
     <div>
-      <GoogleLoginButton buttonText="ورود با گوگل" />
+      <GoogleLoginButton buttonText={getStrings().SIGN_IN_GOOGLE} />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik
@@ -92,12 +92,7 @@ const Login = () => {
                 </Link>
               </div>
               <div style={{ textAlign: 'center', marginTop: '5px' }}>
-                <Link
-                  prefetch={false}
-                  href={`/register`}
-                  variant="body2"
-                  style={{ flex: 1 }}
-                >
+                <Link prefetch={false} href={`/register`} variant="body2" style={{ flex: 1 }}>
                   {getStrings().Register}
                 </Link>
               </div>

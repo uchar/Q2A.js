@@ -24,11 +24,11 @@ const contentStyle = {
 const AskLayout = (props) => {
   return (
     <JssStylesProvider>
-      <div style={layoutStyle} dir="rtl">
+      <div style={layoutStyle} >
         <Header />
         <Box style={contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
-            <Grid item md={0} xs={12}></Grid>
+            <Grid item display={{ md: 'none', xs: 'none' }} xs={12}></Grid>
             <Grid item md={8} xs={12}>
               {props.children}
             </Grid>

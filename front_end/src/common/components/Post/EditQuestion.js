@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, CardContent, makeStyles, TextField, Typography } from '@material-ui/core';
+import { CardContent, makeStyles, TextField, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -12,6 +12,7 @@ import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
+import CardButton from '../CardButton';
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -112,7 +113,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                 <Typography className={classes.title} gutterBottom>
                   {getStrings().ASK_TITLE}
                 </Typography>
-                <Typography variant="body2" component="p" className={classes.subtitle}>
+                <Typography variant="body2" className={classes.subtitle}>
                   {getStrings().ASK_SUBTITLE}
                 </Typography>
                 <div>
@@ -135,7 +136,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                 <Typography className={classes.title} gutterBottom>
                   {getStrings().ASK_DESCRIPTION_TITLE}
                 </Typography>
-                <Typography variant="body2" component="p" className={classes.subtitle}>
+                <Typography variant="body2" className={classes.subtitle}>
                   {getStrings().ASK_DESCRIPTION_SUBTITLE}
                 </Typography>
                 <CKEditor
@@ -148,7 +149,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                 {errors.content && <ErrorMessage className={classes.error} text={errors.content} />}
               </div>
               <div className={classes.section}>
-                <Typography variant="body2" component="p" className={classes.tagTitle}>
+                <Typography variant="body2" className={classes.tagTitle}>
                   {getStrings().ASK_TAGS}
                 </Typography>
                 <Autocomplete
@@ -172,7 +173,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             </CardContent>
             {
               <div style={{ flex: 1, flexDirection: 'row' }}>
-                <Button
+                <CardButton
                   type="submit"
                   onSubmit={handleSubmit}
                   variant="contained"
@@ -180,20 +181,18 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   className={classes.button}
                   loading={isSubmitting}
                   shouldShowLoading={!(errors.title && errors.content && errors.tags)}
-                >
-                  {editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
-                </Button>
+                  text={editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
+                />
                 {editMode && (
-                  <Button
+                  <CardButton
                     onClick={onEditFinished}
                     variant="contained"
                     color="secondary"
                     className={classes.button}
                     loading={isSubmitting}
                     shouldShowLoading={!(errors.title && errors.content && errors.tags)}
-                  >
-                    {'لغو'}
-                  </Button>
+                    text={editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
+                  />
                 )}
               </div>
             }

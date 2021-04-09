@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getStrings } from '../utlities/languageUtilities';
@@ -39,46 +39,40 @@ class Expansion extends React.Component {
     const { expanded } = this.state;
     return (
       <div className={classes.root}>
-        <Typography className={classes.heading} component="p">
-          {getStrings().ASK_Expansion_TITLE}
-        </Typography>
-        <Typography
-          className={classes.secondaryHeading}
-          component="p"
-          style={{ marginBottom: '25px', marginTop: '5px' }}
-        >
+        <Typography className={classes.heading}>{getStrings().ASK_Expansion_TITLE}</Typography>
+        <Typography className={classes.secondaryHeading} style={{ marginBottom: '25px', marginTop: '5px' }}>
           {getStrings().ASK_Expansion_SUBTITLE}
         </Typography>
-        <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Accordion expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL1_TITLE}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography component="p">
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
               {getStrings().ASK_Expansion_PANEL1_SUBTITLE1}
               <br />
               {getStrings().ASK_Expansion_PANEL1_SUBTITLE2}
               <br />
               {getStrings().ASK_Expansion_PANEL1_SUBTITLE3}
             </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL2_TITLE}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography component="p">{getStrings().ASK_Expansion_PANEL2_SUBTITLE1}</Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>{getStrings().ASK_Expansion_PANEL2_SUBTITLE1}</Typography>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL3_TITLE}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography component="p">{getStrings().ASK_Expansion_PANEL3_SUBTITLE1}</Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>{getStrings().ASK_Expansion_PANEL3_SUBTITLE1}</Typography>
+          </AccordionDetails>
+        </Accordion>
       </div>
     );
   }

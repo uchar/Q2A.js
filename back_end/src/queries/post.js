@@ -66,32 +66,32 @@ const getQuestion = async (_, { language, id }) => {
   return question;
 };
 
-const getAnswers = async (_, { language, id }) => {
+const getAnswers = async ({ id }) => {
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const answers = await Post.findAll({
-    where: { language, type: POST_TYPES.ANSWER, parentId: id },
+    where: { type: POST_TYPES.ANSWER, parentId: id },
     include: [User],
     order: [['votesCount', 'DESC']],
   });
   return answers;
 };
 
-const getComments = async (_, { language, id }) => {
+const getComments = async ({ id }) => {
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
   const User = databaseUtils().loadModel(TABLES.USER_TABLE);
   const comments = await Post.findAll({
-    where: { language, type: POST_TYPES.COMMENT, parentId: id },
+    where: { type: POST_TYPES.COMMENT, parentId: id },
     include: [User],
     order: [['createdAt', 'ASC']],
   });
   return comments;
 };
 
-const getUserQuestions = async (_, { language, id }) => {
+const getUserQuestions = async ({ id }) => {
   const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
   const questions = await Post.findAll({
-    where: { language, type: POST_TYPES.QUESTION, userId: id },
+    where: { type: POST_TYPES.QUESTION, userId: id },
     order: [['createdAt', 'DESC']],
     limit: 30,
     offset: 0,
@@ -99,11 +99,11 @@ const getUserQuestions = async (_, { language, id }) => {
   return questions;
 };
 
-const getUserAnswers = async (_, { language, id }) => {
+const getUserAnswers = async ({ id }) => {
   const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
 
   const answers = await Post.findAll({
-    where: { language, type: POST_TYPES.ANSWER, userId: id },
+    where: { type: POST_TYPES.ANSWER, userId: id },
     order: [['createdAt', 'DESC']],
     limit: 30,
     offset: 0,
@@ -111,7 +111,7 @@ const getUserAnswers = async (_, { language, id }) => {
   return answers;
 };
 
-const getUserClapItems = async (_, { language, id }) => {
+const getUserClapItems = async ({ id }) => {
   const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
   const Clap = await databaseUtils().loadModel(TABLES.CLAP_TABLE);
 
@@ -121,7 +121,7 @@ const getUserClapItems = async (_, { language, id }) => {
       model: Clap,
       where: { userId: id },
     },
-    where: { language, [Op.or]: [{ type: POST_TYPES.QUESTION }, { type: POST_TYPES.ANSWER }] },
+    where: { [Op.or]: [{ type: POST_TYPES.QUESTION }, { type: POST_TYPES.ANSWER }] },
     order: [['createdAt', 'DESC']],
     limit: 30,
     offset: 0,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CustomUploadAdapterPlugin } from './UploadAdapter';
+import {getLanguage} from "../../utlities/languageUtilities";
 
 export default class CKEditor extends React.Component {
   componentDidMount() {
@@ -16,8 +17,8 @@ export default class CKEditor extends React.Component {
     const { toolbar } = this.props;
     const config = {
       language: {
-        ui: 'fa',
-        content: 'fa',
+        ui: getLanguage(),
+        content: getLanguage(),
       },
       extraPlugins: [CustomUploadAdapterPlugin],
     };
