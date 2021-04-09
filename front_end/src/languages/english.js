@@ -1,5 +1,7 @@
 const STRINGS = {
   SITE_TITLE: 'Q2A.js',
+  HEADER_REGISTER_BUTTON: 'Register',
+  HEADER_LOGIN_BUTTON: 'Login',
   SITE_MAIN_PAGE_TAB_HEADERS: ['New', 'Most Vote', 'Most View', 'No Answer'],
   IN: 'In',
   SEARCH_HINT: 'Search ...',

@@ -39,12 +39,11 @@ class Expansion extends React.Component {
     const { expanded } = this.state;
     return (
       <div className={classes.root}>
-        <Typography className={classes.heading} component="p">
+        <Typography className={classes.heading} >
           {getStrings().ASK_Expansion_TITLE}
         </Typography>
         <Typography
           className={classes.secondaryHeading}
-          component="p"
           style={{ marginBottom: '25px', marginTop: '5px' }}
         >
           {getStrings().ASK_Expansion_SUBTITLE}
@@ -54,7 +53,7 @@ class Expansion extends React.Component {
             <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL1_TITLE}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography component="p">
+            <Typography >
               {getStrings().ASK_Expansion_PANEL1_SUBTITLE1}
               <br />
               {getStrings().ASK_Expansion_PANEL1_SUBTITLE2}
@@ -68,7 +67,7 @@ class Expansion extends React.Component {
             <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL2_TITLE}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography component="p">{getStrings().ASK_Expansion_PANEL2_SUBTITLE1}</Typography>
+            <Typography >{getStrings().ASK_Expansion_PANEL2_SUBTITLE1}</Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
@@ -76,7 +75,7 @@ class Expansion extends React.Component {
             <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL3_TITLE}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography component="p">{getStrings().ASK_Expansion_PANEL3_SUBTITLE1}</Typography>
+            <Typography >{getStrings().ASK_Expansion_PANEL3_SUBTITLE1}</Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>

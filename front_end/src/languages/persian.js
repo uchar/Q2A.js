@@ -1,5 +1,7 @@
 const STRINGS = {
   SITE_TITLE: 'کیو تو ای',
+  HEADER_REGISTER_BUTTON: 'عضویت',
+  HEADER_LOGIN_BUTTON: 'ورود',
   SITE_MAIN_PAGE_TAB_HEADERS: ['جدید ترین ها', 'محبوبترین ها', 'پربازدیدترین ها', 'بدون پاسخ ها'],
   IN: 'در',
   SEARCH_HINT: 'جست و جو ...',

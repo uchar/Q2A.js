@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     fontSize: '13px',
-    height: '30%',
+    margin: theme.spacing(1, 0, 1, 0),
   },
 }));
 
@@ -242,7 +242,7 @@ const Header = ({}) => {
               className={classes.buttons}
               url={'/login'}
               shouldShowLoading={false}
-              text={'ورود'}
+              text={getStrings().HEADER_LOGIN_BUTTON}
               backgroundColor={'secondary'}
             />
           )}
@@ -251,11 +251,11 @@ const Header = ({}) => {
               className={classes.buttons}
               url={'/register'}
               shouldShowLoading={false}
-              text={'عضویت'}
+              text={getStrings().HEADER_REGISTER_BUTTON}
               backgroundColor={'secondary'}
             />
           )}
-          <Link prefetch={false}  href={`/`}>
+          <Link prefetch={false} href={`/`}>
             <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h2" noWrap>
               {getStrings().SITE_TITLE}
             </Typography>

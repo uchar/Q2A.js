@@ -41,7 +41,6 @@ const makeInlineTypoGraphy = (content, typoGraphyTypes = [], inputStyle = {}) =>
         fontWeight: isBold ? '700' : '500',
         fontStyle: isItalic ? 'italic' : 'normal',
         backgroundColor: isCode ? '#eeeeee' : 'default',
-        fontSize: '14px',
         marginLeft: '1px',
         marginRight: '1px',
         ...linkStyle,
@@ -234,7 +233,7 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
 
 export const replacePTagWithTypoGraphy = (valueToParse, textColor = 'textPrimary') => {
   return (
-    <Typography color={textColor} style={{ textAlign: 'right', marginTop: '0px', fontSize: '14px' }}>
+    <Typography color={textColor} style={{ textAlign: 'right', marginTop: '0px' }}>
       {renderHTML(
         valueToParse
           .replace(/&lt;/g, '<')

@@ -13,7 +13,7 @@ const ErrorMessage = (props) => {
   const classes = useStyles();
   return (
     <div {...rest}>
-      <Typography variant="p" className={classes.text}>
+      <Typography variant="body1" className={classes.text}>
         {text}
       </Typography>
     </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
 import { isMobile } from 'react-device-detect';
+import clsx from 'clsx';
 import { getLanguage } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,8 +38,16 @@ const SButton = (props) => {
   const classes = useStyles();
 
   const timer = React.useRef();
-  const { text, shouldShowLoading, type, onClick, fullWidth, loading } = props;
-
+  const {
+    text,
+    shouldShowLoading,
+    type,
+    onClick,
+    fullWidth,
+    loading,
+    style,
+    className,
+  } = props;
   React.useEffect(() => {
     return () => {
       clearTimeout(timer.current);
@@ -48,58 +57,60 @@ const SButton = (props) => {
   const handleButtonClick = async () => {
     return onClick();
   };
-
+  const buttonText = shouldShowLoading && loading ? 'Sending' : text;
+  const loadingComponent =
+    shouldShowLoading && loading ? (
+      <CircularProgress size={24} className={classes.buttonProgress} />
+    ) : (
+      <div />
+    );
   return (
     <div className={classes.wrapper}>
       <Button
         type={type}
         variant="contained"
-        color={props.backgroundColor ? props.backgroundColor : 'primary'}
+        color={ 'primary'}
         component="span"
-        className={classes.viewCourseButton}
-        {...props}
-        disabled={shouldShowLoading ? loading : false}
+        className={clsx(classes.viewCourseButton, className)}
+        style={style}
+        disabled={shouldShowLoading && loading ? loading : false}
         onClick={shouldShowLoading ? handleButtonClick : onClick}
         fullWidth={fullWidth}
       >
-        {shouldShowLoading && loading ? 'Sending' : text}
+        {buttonText}
       </Button>
-      {shouldShowLoading ? loading && <CircularProgress size={24} className={classes.buttonProgress} /> : ''}
+      {loadingComponent}
     </div>
   );
 };
 
+// eslint-disable-next-line complexity
 const CardButton = (props) => {
-  const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading } = props;
-
+  const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading, style, className } = props;
   return (
     <div {...props}>
       {url && url.length > 0 ? (
-        <Link prefetch={false} href={`${url}`}>
-          <SButton
-            onClick={onSubmit}
-            style={{ marginTop: props.buttonTopMargin ? props.buttonTopMargin : '0px' }}
-            text={text}
-            {...props}
-            shouldShowLoading={shouldShowLoading}
-            loading={loading}
-            fullWidth={fullWidth}
-            backgroundColor={props.backgroundColor}
-          />
-        </Link>
+        <SButton
+          onClick={onSubmit}
+          style={style}
+          text={text}
+          shouldShowLoading={shouldShowLoading}
+          loading={loading}
+          fullWidth={fullWidth}
+          className={className}
+        >
+          <Link prefetch={false} href={`${url}`}></Link>
+        </SButton>
       ) : (
         <SButton
           onClick={onSubmit}
-          style={{
-            marginTop: props.buttonTopMargin ? props.buttonTopMargin : '0px',
-          }}
-          {...props}
           text={text}
+          style={style}
           shouldShowLoading={shouldShowLoading}
           loading={loading}
           type={type || ''}
           fullWidth={fullWidth}
-          backgroundColor={props.backgroundColor}
+          className={className}
         />
       )}
     </div>

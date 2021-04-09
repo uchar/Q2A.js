@@ -128,7 +128,7 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
       </InfiniteScroll>
     ) : (
       <div className={classes.noNotifications}>
-        <Typography variant={'p'}>{'اعلان جدیدی وجود ندارد'}</Typography>,
+        <Typography variant={'body1'}>{'اعلان جدیدی وجود ندارد'}</Typography>,
       </div>
     );
   return (
