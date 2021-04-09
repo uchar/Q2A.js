@@ -33,6 +33,18 @@ createDatabasePromise.then(async () => {
     used: 1,
     language: 'en',
   });
+  await Tag.create({
+    title: 'javascript',
+    content: 'زبان برنامه نویسی جاوااسکریپت',
+    used: 1,
+    language: 'fa',
+  });
+  await Tag.create({
+    title: 'next.js',
+    content: '',
+    used: 1,
+    language: 'fa',
+  });
   await Post.create({
     type: 'QUESTION',
     language: 'en',
@@ -46,6 +58,18 @@ createDatabasePromise.then(async () => {
     tag1: 'javascript',
     tag2: 'next.js',
   });
-
+  await Post.create({
+    type: 'QUESTION',
+    language: 'fa',
+    title: 'طولانی بودن زمان بیلد و کامپایل کد ',
+    content:
+      '<p>من با vs۲۰۱۹ و c++ کار می کنم یکی از مشکلات عمده ای که وجود داره طولانی بودن زمان بیلد و کامپایل کد هستش چندین روش در خود سایت مایکروسافت پیشنهاد شده بود که اعمالشون کردم شما از چه روش هایی برای کاهش زمان بیلد و کامپایل استفاده می کنید؟</p>',
+    viewsCount: 0,
+    votesCount: 0,
+    answersCount: 0,
+    userId: 1,
+    tag1: 'javascript',
+    tag2: 'next.js',
+  });
   console.log('Setup finished successfully');
 });
