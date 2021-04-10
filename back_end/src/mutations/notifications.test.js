@@ -2,7 +2,7 @@ import { saveNotification, NOTIFICATION_REASON, setReadAllNotifications } from '
 import databaseUtils from '../db/database';
 import { STATUS_CODE, TABLES } from '../constants';
 
-describe('how notification graphql api work', () => {
+describe('notification api', () => {
   const createUser = async (publicName = 'test_name', email = 'test@test.com') => {
     const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
     const user = await User.create({
@@ -22,6 +22,7 @@ describe('how notification graphql api work', () => {
     read: false,
     language: 'en',
   };
+
   test('if correct input for mutation/notification/saveNotification should give success', async () => {
     const creatorUser = await createUser('user_name_creator', 'test_user_creator@test.com');
     const receiverUser = await createUser('user_name_receiver', 'test_user_receiver@test.com');
@@ -44,15 +45,15 @@ describe('how notification graphql api work', () => {
         },
       });
     };
-    const resultUser = await findNotificationByReceiverId(receiverUser.id);
-    expect(resultUser.receiverId).toBe(receiverUser.id);
-    expect(resultUser.reason).toBe(data.reason);
-    expect(resultUser.creatorId).toBe(creatorUser.id);
-    expect(resultUser.title).toBe(data.title);
-    console.log('resultUser:', resultUser.read);
+    const notification = await findNotificationByReceiverId(receiverUser.id);
+    expect(notification.receiverId).toBe(receiverUser.id);
+    expect(notification.reason).toBe(data.reason);
+    expect(notification.creatorId).toBe(creatorUser.id);
+    expect(notification.title).toBe(data.title);
+    expect(notification.read).toBe(false);
   });
 
-  test('if read all notifications return success', async () => {
+  test('if read all notifications works', async () => {
     const receiverUser = await createUser('user_name_receiver', 'test_user_receiver@test.com');
     const creatorUser = await createUser(`user_name_creator$`, 'test_user_creator@test.com');
     const promises = [];

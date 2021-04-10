@@ -4,7 +4,7 @@ import { signUp, login } from './login.js';
 import { findUserById } from '../utility.js';
 import { LOGIN_ERRORS } from '../constants.js';
 
-describe('how user graphql api work', () => {
+describe('login workflow', () => {
   const data = {
     username: 'test_name_login',
     email: 'test_login@test.com',
@@ -52,7 +52,7 @@ describe('how user graphql api work', () => {
     expect(isValidPassword).toBe(true);
   });
 
-  test("if Sign up with the wrong username or password shouldn't work", async () => {
+  test("if Sign up with the wrong username or password don't work", async () => {
     await testSignUpWrongInput('wrong_email', data.username, 'correct_password', data.language);
     await testSignUpWrongInput(data.email, data.username, '12', data.language);
     await testSignUpWrongInput('wrong_email', 'ab', 'er', data.language);
@@ -61,6 +61,7 @@ describe('how user graphql api work', () => {
     await testSignUpWrongInput(data.email, 'er', data.password, data.language);
     await testSignUpWrongInput(data.email, '_wrong_username', data.password, data.language);
   });
+
   test('if Login with the correct username and password works', async () => {
     const user = await login(null, { username: 'test_name', password: '123654' });
     expect(user).toBeTruthy();

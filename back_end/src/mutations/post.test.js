@@ -1,7 +1,7 @@
 import { addQuestion, updateQuestion, addAnswer, updateAnswer, addComment, updateComment } from './post.js';
 import { STATUS_CODE } from '../constants.js';
 
-describe('how post graphql api work', () => {
+describe('post mutations api', () => {
   const questionData = {
     title: 'How to add a display filter in Alpine.JS like in Vue?',
     content:
@@ -44,6 +44,7 @@ describe('how post graphql api work', () => {
     );
     return result;
   };
+
   const testUpdateQuestionWrongInput = async (language, questionId, title, content, tags) => {
     const user = global.test_user;
     let result;
@@ -81,7 +82,7 @@ describe('how post graphql api work', () => {
     if (result) expect(`add Answer Question should give error with:' ${postId},${content}`).toBe(false);
   };
 
-  const testUpdateAddAnswerWrongInput = async (language, answerId, content, errorMessage, typeErrorFlag) => {
+  const testUpdateAnswerWrongInput = async (language, answerId, content, errorMessage, typeErrorFlag) => {
     const user = global.test_user;
     console.log('testUpdateAddAnswerWrongInput answerId:', answerId);
     let result;
@@ -114,13 +115,7 @@ describe('how post graphql api work', () => {
     }
     if (result) expect(`add comment Question should give error with:' ${postId},${content}`).toBe(false);
   };
-  const testUpdateAddCommentWrongInput = async (
-    language,
-    commentId,
-    content,
-    errorMessage,
-    typeErrorFlag
-  ) => {
+  const testUpdateCommentWrongInput = async (language, commentId, content, errorMessage, typeErrorFlag) => {
     const user = global.test_user;
     let result;
     try {
@@ -146,7 +141,8 @@ describe('how post graphql api work', () => {
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 
-  test("if wrong input for addQuestion shouldn't work", async () => {
+  test("if wrong input for addQuestion doesn't work", async () => {
+    await testAddQuestionWrongInput('wrong', questionData.title, questionData.content, questionData.tags);
     await testAddQuestionWrongInput(questionData.language, 'wrong', questionData.content, questionData.tags);
     await testAddQuestionWrongInput(
       questionData.language,
@@ -168,7 +164,7 @@ describe('how post graphql api work', () => {
     await testAddQuestionWrongInput('wrong', 'wrong_content', ['wrong']);
   });
 
-  // Update AddQuestion
+  // Update Question
   test('if correct input for updateQuestion give success', async () => {
     const user = global.test_user;
     const question = await addNewQuestion(
@@ -200,6 +196,13 @@ describe('how post graphql api work', () => {
       questionData.tags
     );
     const questionId = question.id;
+    await testUpdateQuestionWrongInput(
+      'wrong',
+      questionId,
+      questionData.title,
+      questionData.content,
+      questionData.tags
+    );
     await testUpdateQuestionWrongInput(
       questionData.language,
       questionId,
@@ -239,6 +242,8 @@ describe('how post graphql api work', () => {
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
       { user: { id: user.id, publicName: user.publicName } }
     );
+    console.log('1');
+
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for addAnswer shouldn't work", async () => {
@@ -301,21 +306,21 @@ describe('how post graphql api work', () => {
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
       { user: { id: user.id, publicName: user.publicName } }
     );
-    await testUpdateAddAnswerWrongInput(
+    await testUpdateAnswerWrongInput(
       questionData.language,
       createPostResult,
       'wrong_updateAnswer',
       'ValidationError',
       true
     );
-    await testUpdateAddAnswerWrongInput(
+    await testUpdateAnswerWrongInput(
       questionData.language,
       null,
       questionData.content,
       STATUS_CODE.INPUT_ERROR,
       false
     );
-    await testUpdateAddAnswerWrongInput(
+    await testUpdateAnswerWrongInput(
       questionData.language,
       200,
       questionData.content,
@@ -357,6 +362,7 @@ describe('how post graphql api work', () => {
       false
     );
     await testAddCommentWrongInput(questionData.language, questionId, 'wrong', 'ValidationError', true);
+    await testAddCommentWrongInput('wrong', questionId, questionData.content, 'ValidationError', true);
   });
 
   // updateComment
@@ -397,15 +403,16 @@ describe('how post graphql api work', () => {
       { user: { id: user.id, publicName: user.publicName } }
     );
     const { id } = createPostResult;
-    await testUpdateAddCommentWrongInput(questionData.language, id, 'wrong', 'ValidationError', true);
-    await testUpdateAddCommentWrongInput(
+    await testUpdateCommentWrongInput('wrong', id, questionData.content, 'ValidationError', true);
+    await testUpdateCommentWrongInput(questionData.language, id, 'wrong', 'ValidationError', true);
+    await testUpdateCommentWrongInput(
       questionData.language,
       null,
       questionData.content,
       STATUS_CODE.INPUT_ERROR,
       false
     );
-    await testUpdateAddCommentWrongInput(
+    await testUpdateCommentWrongInput(
       questionData.language,
       200,
       questionData.content,

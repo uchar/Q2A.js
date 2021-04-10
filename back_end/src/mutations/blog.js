@@ -8,9 +8,9 @@ const addBlogPost = async (_, params, context) => {
   await checkInputValidation(
     yup.object().shape({
       title: yup.string().required().min(10),
-      content: yup.string().required().min(25),
+      content: yup.string().required().min(100),
       tags: yup.array().required().min(2).max(5),
-      language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+      language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
     }),
     inputParams,
     context
