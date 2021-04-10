@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import { checkInputValidation, createAddSuccessResponse, findUserByName } from '../utility';
-import { BLOG_POST_TYPES, LANGUAGE, TABLES } from '../constants';
-import databaseUtils from '../db/database';
+import { checkInputValidation, createAddSuccessResponse, findUserByName } from '../utility.js';
+import { BLOG_POST_TYPES, LANGUAGE, TABLES } from '../constants.js';
+import databaseUtils from '../db/database.js';
 
 const addBlogPost = async (_, params, context) => {
   const inputParams = { ...params };

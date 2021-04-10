@@ -242,7 +242,6 @@ describe('post mutations api', () => {
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
       { user: { id: user.id, publicName: user.publicName } }
     );
-    console.log('1');
 
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });

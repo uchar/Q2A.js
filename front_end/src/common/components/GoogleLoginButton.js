@@ -55,7 +55,6 @@ const GoogleLoginButton = (props) => {
           }
         }}
         onFailure={(response) => {
-          console.log('Error', response);
           setError(response.toString());
         }}
         cookiePolicy={'single_host_origin'}

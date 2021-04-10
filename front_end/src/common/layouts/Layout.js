@@ -27,6 +27,7 @@ const contentStyle = {
 
 const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
+  const blogPosts = useSelector((state) => state.blogPosts);
   const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
   return (
@@ -38,7 +39,7 @@ const Layout = (props) => {
             <Grid item md={2} xs={12}>
               {!noSideBar && (
                 <BrowserView>
-                  <News />
+                  <News blogPosts={blogPosts} />
                 </BrowserView>
               )}
             </Grid>
@@ -56,7 +57,7 @@ const Layout = (props) => {
                     </Grid>
                   </Box>
                   <MobileView>
-                    <News />
+                    <News blogPosts={blogPosts} />
                   </MobileView>
                 </div>
               )}

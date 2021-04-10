@@ -25,24 +25,18 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
 
   test('if getBlogPosts work', async () => {
     const BlogPost = databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
-    const user = global.test_user;
 
     await BlogPost.destroy({
       where: {},
       truncate: true,
     });
     const postCounts = 3;
-    const promisses = [];
+    const promises = [];
     for (let i = 0; i < postCounts; i += 1)
-      promisses.push(addBlogPost(data.language, data.title, data.content, data.tags));
+      promises.push(addBlogPost(data.language, data.title, data.content, data.tags));
 
-    await Promise.all(promisses);
-    const posts = await getBlogPosts(
-      null,
-      { language: data.language, limit: 10, offset: 0 },
-      { user: { id: user.id, publicName: user.publicName } }
-    );
+    await Promise.all(promises);
+    const posts = await getBlogPosts(null, { language: data.language, limit: 10, offset: 0 });
     expect(posts.length).toBe(3);
-    console.log('POSTS ', posts.length);
   });
 });

@@ -1,11 +1,8 @@
 import React from 'react';
-import clsx from 'clsx';
-import { Box, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Link from 'next/link';
+import { Box, CardContent, makeStyles, Typography } from '@material-ui/core';
 import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from './PostStatistics';
+import PostStatistics from '../Post/PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import { getLanguage } from '../../utlities/languageUtilities';
@@ -31,16 +28,6 @@ const useStyles = makeStyles((theme) => ({
   tagsSection: {
     margin: theme.spacing(1.5, 2, 0.5, 2),
   },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
   title: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(0),
@@ -54,45 +41,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionItemPreview = DeepMemo(function ({
+const BlogItemPreview = DeepMemo(function ({
   id,
   title,
   content,
   user,
-  createdAt,
   viewsCount,
   votesCount,
-  answersCount,
-  isExpanded,
+  commentsCount,
   tag1,
   tag2,
   tag3,
   tag4,
   tag5,
+  createdAt,
+  updatedAt,
 }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
     return <div></div>;
   }
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
   let parsedContent = <div />;
 
-  if (expanded || content.length < 600) {
-    parsedContent = parseContent(content, getLanguage());
-  } else {
-    parsedContent = (
-      <div style={{ marginTop: '5px' }}>
-        {replacePTagWithTypoGraphy(`${content.substring(0, 600)}...`, 'textSecondary')}
-      </div>
-    );
-  }
+  parsedContent = parseContent(content, getLanguage());
+
   return (
     <Box boxShadow={2} className={classes.root}>
       <CardContent>
@@ -104,33 +79,16 @@ const QuestionItemPreview = DeepMemo(function ({
             publicName={publicName}
             score={score}
           />
-          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={commentsCount} />
         </div>
-        <Link href={`/${id}/${encodeURIComponent(title)}`}>
-          <Typography color="textPrimary" variant="h1" className={classes.title}>
-            {title}
-          </Typography>
-        </Link>
+        <Typography color="textPrimary" variant="h1" className={classes.title}>
+          {title}
+        </Typography>
       </CardContent>
-      <div className={classes.detailSection}>
-        {parsedContent}
-        <CardActions disableSpacing>
-          {content.length >= 400 && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-        </CardActions>
-      </div>
-
+      <div className={classes.detailSection}>{parsedContent}</div>
       <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
     </Box>
   );
 });
 
-export default QuestionItemPreview;
+export default BlogItemPreview;

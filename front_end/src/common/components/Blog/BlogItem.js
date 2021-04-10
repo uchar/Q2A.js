@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionItem = DeepMemo(function QuestionItem({
+const BlogItem = DeepMemo(function QuestionItem({
   id,
   title,
   content,
@@ -65,7 +65,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const parsedContent = parseContent(content, language);
-  console.log('parsedContent', parsedContent);
 
   useEffect(() => {
     const getUserId = async () => {
@@ -141,4 +140,4 @@ const QuestionItem = DeepMemo(function QuestionItem({
     </Box>
   );
 });
-export default QuestionItem;
+export default BlogItem;

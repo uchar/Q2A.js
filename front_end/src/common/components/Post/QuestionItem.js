@@ -65,7 +65,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
   const parsedContent = parseContent(content, language);
-  console.log('parsedContent', parsedContent);
 
   useEffect(() => {
     const getUserId = async () => {
