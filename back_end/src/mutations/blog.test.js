@@ -26,7 +26,7 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
     } catch (e) {
       expect(e.name).toBe('ValidationError');
     }
-    if (result) expect(`Add Question should give error with:' ${title},${content},${tags}`).toBe(false);
+    if (result) expect(`Add blog post should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
   const addNewBlogPost = async (language, title, content, tags) => {
