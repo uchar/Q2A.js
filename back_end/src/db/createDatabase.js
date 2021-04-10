@@ -69,16 +69,57 @@ const prepareDatabase = async () => {
       defaultValue: 0,
       validate: { min: 0 },
     },
-    tag1: Sequelize.STRING(64),
-    tag2: Sequelize.STRING(64),
-    tag3: Sequelize.STRING(64),
-    tag4: Sequelize.STRING(64),
-    tag5: Sequelize.STRING(64),
+    tag1: Sequelize.STRING(48),
+    tag2: Sequelize.STRING(48),
+    tag3: Sequelize.STRING(48),
+    tag4: Sequelize.STRING(48),
+    tag5: Sequelize.STRING(48),
     parentId: {
       type: Sequelize.UUID,
       primaryKey: false,
     },
   });
+
+  const BlogPost = sequelize.define(tables.BLOG_POST_TABLE, {
+    type: {
+      type: DataTypes.ENUM(['POST', 'COMMENT', 'POST_HIDDEN', 'COMMENT_HIDDEN']),
+      allowNull: false,
+    },
+    language: {
+      type: Sequelize.STRING(2),
+      allowNull: false,
+    },
+    title: Sequelize.STRING(256),
+    content: Sequelize.TEXT,
+    viewsCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
+    votesCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
+    commentsCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
+    tag1: Sequelize.STRING(48),
+    tag2: Sequelize.STRING(48),
+    tag3: Sequelize.STRING(48),
+    tag4: Sequelize.STRING(48),
+    tag5: Sequelize.STRING(48),
+    parentId: {
+      type: Sequelize.UUID,
+      primaryKey: false,
+    },
+  });
+
   const Tag = sequelize.define(tables.TAG_TABLE, {
     title: Sequelize.STRING(64),
     content: Sequelize.TEXT,
@@ -93,9 +134,11 @@ const prepareDatabase = async () => {
       validate: { min: 0 },
     },
   });
+
   const Clap = sequelize.define(tables.CLAP_TABLE, {
     count: Sequelize.INTEGER,
   });
+
   const Notification = sequelize.define(tables.NOTIFICATION_TABLE, {
     reason: DataTypes.ENUM([
       'QUESTION_CLAPPED',
@@ -128,6 +171,7 @@ const prepareDatabase = async () => {
       allowNull: false,
     },
   });
+  BlogPost.belongsTo(User);
   Post.belongsTo(User);
   User.hasMany(Clap);
   Clap.belongsTo(Post);
@@ -145,6 +189,7 @@ const prepareDatabase = async () => {
   databaseUtils().cacheModel(tables.CLAP_TABLE, Clap);
   databaseUtils().cacheModel(tables.NOTIFICATION_TABLE, Notification);
   databaseUtils().cacheModel(tables.Medal_TABLE, Medal);
+  databaseUtils().cacheModel(tables.BLOG_POST_TABLE, BlogPost);
 };
 
 const createDatabasePromise = prepareDatabase().then(() => {

@@ -74,7 +74,7 @@ export const GET_QUESTION = gql`
 `;
 
 export const ALL_TAGS = gql`
-  query($language:Language!,$limit: Int, $offset: Int) {
+  query($language: Language!, $limit: Int, $offset: Int) {
     getTags(language: $language, limit: $limit, offset: $offset) {
       id
       title
@@ -83,8 +83,29 @@ export const ALL_TAGS = gql`
   }
 `;
 
+export const ALL_BLOG_POSTS = gql`
+  query($language: Language!, $limit: Int!, $offset: Int!) {
+    getBlogPosts(language: $language, limit: $limit, offset: $offset) {
+      id
+      title
+      content
+      ${userType}
+      viewsCount
+      votesCount
+      commentsCount
+      tag1
+      tag2
+      tag3
+      tag4
+      tag5
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const GET_TAG = gql`
-  query($language:Language!,$tag: String!) {
+  query($language: Language!, $tag: String!) {
     getTagDetail(language: $language, tag: $tag) {
       id
       title
@@ -95,7 +116,7 @@ export const GET_TAG = gql`
 `;
 
 export const GET_NOTIFICATIONS = gql`
-  query($language:Language!,$limit: Int!, $offset: Int!) {
+  query($language: Language!, $limit: Int!, $offset: Int!) {
     getNotifications(language: $language, limit: $limit, offset: $offset) {
       id
       reason

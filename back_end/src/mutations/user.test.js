@@ -2,7 +2,7 @@ import { STATUS_CODE } from '../constants.js';
 import { updateUser } from './user.js';
 import { findUserById } from '../utility';
 
-describe('how user graphql api work', () => {
+describe('user mutation api (updateUser,..)', () => {
   const data = {
     publicName: 'public_name_updated',
     profileImage: 'profile_image_updated.png',
@@ -59,7 +59,7 @@ describe('how user graphql api work', () => {
     });
   };
 
-  test('if correct input for mutation/updateUser should give success', async () => {
+  test('if correct input for mutation/updateUser give success', async () => {
     await testCorrectInput(
       ['publicName', 'profileImage', 'about', 'theme'],
       [data.publicName, data.profileImage, data.about, data.theme]

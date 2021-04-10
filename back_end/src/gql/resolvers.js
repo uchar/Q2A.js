@@ -10,6 +10,7 @@ import {
   getUserClapItems,
   getUserQuestions,
 } from '../queries/post.js';
+import { addBlogPost } from '../mutations/blog.js';
 import { getAllTags, getTagDetail } from '../queries/tag.js';
 import { getUser } from '../queries/user.js';
 import { getNotifications } from '../queries/notifications.js';
@@ -25,6 +26,7 @@ import {
   updateQuestion,
 } from '../mutations/post.js';
 import { uploadFile } from '../mutations/upload.js';
+import { getBlogPosts } from '../queries/blog.js';
 
 export default {
   Query: {
@@ -37,6 +39,7 @@ export default {
     getTagDetail,
     getUser,
     getNotifications,
+    getBlogPosts,
   },
   Mutation: {
     login,
@@ -51,6 +54,7 @@ export default {
     addAnswer,
     addComment,
     setReadAllNotifications,
+    addBlogPost,
   },
   Question: {
     answers: getAnswers,

@@ -76,7 +76,6 @@ export default gql`
     tag3: String
     tag4: String
     tag5: String
-    isLegacyContent: Boolean
     answers: [Answer]
     comments: [Comment]
   }
@@ -126,6 +125,24 @@ export default gql`
     statusCode: StatusCode
   }
 
+  type BlogPost {
+    id: String!
+    title: String!
+    content: String!
+    user: User!
+    viewsCount: Int!
+    votesCount: Int!
+    commentsCount: Int!
+    tag1: String
+    tag2: String
+    tag3: String
+    tag4: String
+    tag5: String
+    comments: [Comment]
+    createdAt: String!
+    updatedAt: String!
+  }
+
   type Query {
     latestQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
     popularQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
@@ -136,12 +153,15 @@ export default gql`
     getQuestion(language: Language!, id: String!): Question
     getUser(language: Language!, id: String): User
     getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
+    getBlogPosts(language: Language!, limit: Int!, offset: Int!): [BlogPost]
   }
+
   type Mutation {
     login(language: Language!, username: String!, password: String!): String
     googleLogin(language: Language!, jwtToken: String!): String
     signUp(language: Language!, email: String!, username: String!, password: String!): String
     addQuestion(language: Language!, title: String!, content: String!, tags: [String]!): AddResult
+    addBlogPost(language: Language!, title: String!, content: String!, tags: [String]!): AddResult
     addAnswer(language: Language!, postId: String!, content: String!): AddResult
     addComment(language: Language!, postId: String!, content: String!): AddResult
     updateQuestion(

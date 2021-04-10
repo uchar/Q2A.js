@@ -15,17 +15,14 @@ import 'nprogress/nprogress.css';
 NProgress.configure({ showSpinner: true });
 
 Router.onRouteChangeStart = () => {
-  // console.log('onRouteChnageStart triggered');
   NProgress.start();
 };
 
 Router.onRouteChangeComplete = () => {
-  // console.log('onRouteChnageComplete triggered');
   NProgress.done();
 };
 
 Router.onRouteChangeError = () => {
-  // console.log('onRouteChnageError triggered');
   NProgress.done();
 };
 

@@ -8,6 +8,7 @@ import {
   SELECTED_USER_ACTION,
   CURRENT_USER_ACTION,
   SELECTED_QUESTION,
+  ALL_BLOG_POSTS_ACTION,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -20,7 +21,6 @@ const reducer = (
   },
   action
 ) => {
-  // console.log(action, state);
   switch (action.type) {
     // Merge state of server with client
     case HYDRATE:
@@ -54,6 +54,11 @@ const reducer = (
       return {
         ...state,
         questions: action.payload,
+      };
+    case ALL_BLOG_POSTS_ACTION:
+      return {
+        ...state,
+        blogPosts: action.payload,
       };
     case SELECTED_USER_ACTION:
       return {

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionItem = DeepMemo(function QuestionItem({
+const BlogItem = DeepMemo(function QuestionItem({
   id,
   title,
   content,
@@ -140,4 +140,4 @@ const QuestionItem = DeepMemo(function QuestionItem({
     </Box>
   );
 });
-export default QuestionItem;
+export default BlogItem;

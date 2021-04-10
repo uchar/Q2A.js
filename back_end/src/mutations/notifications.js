@@ -19,12 +19,11 @@ const saveNotification = async (language, reason, creatorId, receiverId, title, 
     reason: yup.string(),
     title: yup.string().required(),
     content: yup.string(),
-    metaData: yup.string(),
-    language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+    language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
   });
   const validationResult = await checkInputValidation(
     notificationSchema,
-    { language, reason, title, content, metaData },
+    { language, reason, title, content },
     { user: { id: creatorId } }
   );
   if (validationResult === true) {

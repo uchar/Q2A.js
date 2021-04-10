@@ -1,6 +1,6 @@
 import React from 'react';
 import { CustomUploadAdapterPlugin } from './UploadAdapter';
-import {getLanguage} from "../../utlities/languageUtilities";
+import { getLanguage } from '../../utlities/languageUtilities';
 
 export default class CKEditor extends React.Component {
   componentDidMount() {

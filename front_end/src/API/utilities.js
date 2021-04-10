@@ -78,7 +78,6 @@ const getCurrentUser = async () => {
       }
       const result = await doGraphQLQuery(GET_MY_USER);
       await localStorage.setItem('USER', JSON.stringify(result.getUser));
-      console.log('Result of server ', result);
       return result.getUser;
     } catch (error) {
       return false;

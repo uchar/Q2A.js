@@ -13,17 +13,17 @@ const questionSchema = yup.object().shape({
   title: yup.string().required().min(10),
   content: yup.string().required().min(25),
   tags: yup.array().required().min(2).max(5),
-  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
 });
 
 const answerSchema = yup.object().shape({
   content: yup.string().required().min(20),
-  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
 });
 
 const commentSchema = yup.object().shape({
   content: yup.string().required().min(10),
-  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
 });
 
 const createPost = async (inputParams, context) => {
@@ -83,7 +83,7 @@ const addQuestion = async (_, { language, title, content, tags }, context) => {
 };
 
 const addAnswer = async (_, { language, postId, content }, context) => {
-  await checkInputValidation(answerSchema, { content }, context);
+  await checkInputValidation(answerSchema, { content, language }, context);
   const parentPost = await getParentPost(postId);
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
