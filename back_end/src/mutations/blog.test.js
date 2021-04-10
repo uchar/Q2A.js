@@ -2,7 +2,7 @@ import { addBlogPost } from './blog.js';
 import { STATUS_CODE } from '../constants.js';
 
 describe('blog mutations api', () => {
-  const questionData = {
+  const data = {
     title: 'NEXT.js — The Ultimate React Framework\n',
     content: `Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, it puts you and your team in the pit of success when building React applications.
 Next.js has the best-in-class “Developer Experience” and many built-in features;
@@ -40,28 +40,16 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
   };
 
   test('if correct input for add blog post give success', async () => {
-    const result = await addNewBlogPost(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const result = await addNewBlogPost(data.language, data.title, data.content, data.tags);
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 
   test("if wrong input for addBlogPost doesn't work", async () => {
-    await testAddBlogPostWrongInput('wrong', questionData.title, questionData.content, questionData.tags);
-    await testAddBlogPostWrongInput(questionData.language, 'wrong', questionData.content, questionData.tags);
-    await testAddBlogPostWrongInput(
-      questionData.language,
-      questionData.title,
-      'wrong_content',
-      questionData.tags
-    );
-    await testAddBlogPostWrongInput(questionData.language, questionData.title, questionData.content, [
-      'wrong',
-    ]);
-    await testAddBlogPostWrongInput(questionData.language, questionData.title, questionData.content, [
+    await testAddBlogPostWrongInput('wrong', data.title, data.content, data.tags);
+    await testAddBlogPostWrongInput(data.language, 'wrong', data.content, data.tags);
+    await testAddBlogPostWrongInput(data.language, data.title, 'wrong_content', data.tags);
+    await testAddBlogPostWrongInput(data.language, data.title, data.content, ['wrong']);
+    await testAddBlogPostWrongInput(data.language, data.title, data.content, [
       'html',
       'c',
       'c#',
