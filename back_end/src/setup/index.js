@@ -41,7 +41,7 @@ createDatabasePromise.then(async () => {
   });
   await Tag.create({
     title: 'next.js',
-    content: '',
+    content: '....',
     used: 1,
     language: 'fa',
   });

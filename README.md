@@ -23,8 +23,10 @@ https://7khatcode.liara.run/
 
 ## How to run :
 ### Preparation
-Install nodejs 14+ (you can use nvm)
+Install nodejs 14.16.x (you can use [nvm](https://github.com/coreybutler/nvm-windows/releases))
+
 Make a new Database.
+
 In backend and front_end folder rename .sample.env to .env and fill it's fields
 
 Install packages:

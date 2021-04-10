@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": "14.x"
+    "node": "14.16.x"
   },
   "dependencies": {
     "apollo-server": "2.22.2",
