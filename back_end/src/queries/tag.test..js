@@ -2,7 +2,7 @@ import { getBlogPosts } from './blog.js';
 import { BLOG_POST_TYPES, TABLES } from '../constants.js';
 import databaseUtils from '../db/database';
 
-describe('blog query api', () => {
+describe('blog mutations api', () => {
   const data = {
     title: 'NEXT.js — The Ultimate React Framework\n',
     content: `Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, it puts you and your team in the pit of success when building React applications.
@@ -24,8 +24,12 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
   };
 
   test('if getBlogPosts work', async () => {
-    await clearTimeout(TABLES.BLOG_POST_TABLE);
+    const BlogPost = databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
 
+    await BlogPost.destroy({
+      where: {},
+      truncate: true,
+    });
     const postCounts = 3;
     const promises = [];
     for (let i = 0; i < postCounts; i += 1)
