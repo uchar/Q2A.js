@@ -1,5 +1,6 @@
 import { addBlogPost } from './blog.js';
 import { STATUS_CODE } from '../constants.js';
+import { makeContext } from '../testUtility';
 
 describe('blog mutations api', () => {
   const data = {
@@ -15,14 +16,9 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
   };
 
   const testAddBlogPostWrongInput = async (language, title, content, tags) => {
-    const user = global.test_user;
     let result;
     try {
-      result = await addBlogPost(
-        null,
-        { title, content, tags },
-        { user: { id: user.id, publicName: user.publicName } }
-      );
+      result = await addBlogPost(null, { title, content, tags }, makeContext());
     } catch (e) {
       expect(e.name).toBe('ValidationError');
     }
@@ -30,12 +26,7 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
   };
 
   const addNewBlogPost = async (language, title, content, tags) => {
-    const user = global.test_user;
-    const result = await addBlogPost(
-      null,
-      { language, title, content, tags },
-      { user: { id: user.id, publicName: user.publicName } }
-    );
+    const result = await addBlogPost(null, { language, title, content, tags }, makeContext());
     return result;
   };
 
