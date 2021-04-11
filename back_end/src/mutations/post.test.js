@@ -1,26 +1,8 @@
 import { addQuestion, updateQuestion, addAnswer, updateAnswer, addComment, updateComment } from './post.js';
 import { STATUS_CODE } from '../constants.js';
-import { makeContext } from '../testUtility';
+import { makeContext, questionData, questionUpdatedData } from '../testUtility';
 
 describe('post mutations api', () => {
-  const questionData = {
-    title: 'How to add a display filter in Alpine.JS like in Vue?',
-    content:
-      'How can I show date-time in a human-readable format in Alpine.js? I ' +
-      'would add a filter in Vuejs to do the same and looking for a similar solution in Alpine.js.',
-    tags: ['js', 'vue'],
-    language: 'en',
-  };
-  const questionUpdatedData = {
-    title: 'Generate combinations from 2D array',
-    content:
-      'After writing out longhand these combinations I can sense patterns, like there are ' +
-      'some fixed positions and then index moves from left to right, then left again and everything but cannot wrap my head around the ' +
-      'multidimensionallity and how to implement? Loop inside loop inside loop, recursion or what? I am looking for general directions.',
-    tags: ['python', 'openCv'],
-    language: 'en',
-  };
-
   const testAddQuestionWrongInput = async (language, title, content, tags) => {
     let result;
     try {
