@@ -4,9 +4,19 @@ import { getNotifications } from './notifications';
 import { clearTable, makeContext, notificationData } from '../testUtility';
 
 describe('notification query api', () => {
+  const checkNotificationCounts = async (countToBe) => {
+    const notifs = await getNotifications(
+      null,
+      { language: notificationData.language, limit: 10, offset: 0 },
+      makeContext()
+    );
+    expect(notifs.length).toBe(countToBe);
+  };
+
   test('if getNotifications work', async () => {
     const user = global.test_user;
     await clearTable(TABLES.NOTIFICATION_TABLE);
+    await checkNotificationCounts(0);
 
     const testCount = 3;
     const promises = [];
@@ -22,11 +32,6 @@ describe('notification query api', () => {
         )
       );
     await Promise.all(promises);
-    const notifs = await getNotifications(
-      null,
-      { language: notificationData.language, limit: 10, offset: 0 },
-      makeContext()
-    );
-    expect(notifs.length).toBe(testCount);
+    await checkNotificationCounts(testCount);
   });
 });
