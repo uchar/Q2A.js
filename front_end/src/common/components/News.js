@@ -47,16 +47,17 @@ export default function News({ blogPosts }) {
         <Link href={`/blog`}>
           <Typography className={classes.title}>Latest on blog</Typography>
         </Link>
-        {blogPosts.map((blogPost) => {
-          return (
-            <div key={blogPost.id}>
-              <Link href={`/blog`}>
-                <Typography className={classes.blogPost}>{blogPost.title}</Typography>
-              </Link>
-              <Divider className={classes.divider} />
-            </div>
-          );
-        })}
+        {blogPosts &&
+          blogPosts.map((blogPost) => {
+            return (
+              <div key={blogPost.id}>
+                <Link href={`/blog`}>
+                  <Typography className={classes.blogPost}>{blogPost.title}</Typography>
+                </Link>
+                <Divider className={classes.divider} />
+              </div>
+            );
+          })}
       </Box>
     </div>
   );

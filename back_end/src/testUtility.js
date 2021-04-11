@@ -30,6 +30,14 @@ const questionData = {
   tags: ['js', 'vue'],
   language: LANGUAGES.ENGLISH,
 };
+const answerData = {
+  language: LANGUAGES.ENGLISH,
+  content: 'some random test answer for some random question',
+};
+const commentData = {
+  language: LANGUAGES.ENGLISH,
+  content: 'some random comment for some random question or answer',
+};
 const questionUpdatedData = {
   title: 'Generate combinations from 2D array',
   content:
@@ -86,13 +94,15 @@ const compartDataToBeResult = (data, result) => {
 
 export {
   questionData,
-  clearTable,
-  makeContext,
   questionUpdatedData,
   tagData,
   createData,
   blogData,
+  answerData,
+  commentData,
   createDuplicateData,
   notificationData,
   compartDataToBeResult,
+  clearTable,
+  makeContext,
 };

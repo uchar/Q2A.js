@@ -33,7 +33,7 @@ const Login = () => {
         initialValues={{ username: '', password: '' }}
         onSubmit={async (values, { setErrors }) => {
           try {
-            const result = await login(values.username, values.password);
+            await login(values.username, values.password);
             return router.replace('/');
           } catch (err) {
             setErrors({ api: err.toString() });

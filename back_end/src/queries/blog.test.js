@@ -8,6 +8,6 @@ describe('blog query api', () => {
     const testCount = 3;
     await createDuplicateData(testCount, TABLES.BLOG_POST_TABLE, blogData, true);
     const posts = await getBlogPosts(null, { language: blogData.language, limit: 10, offset: 0 });
-    expect(posts.length).toBe(testCount);
+    expect(posts).toHaveLength(testCount);
   });
 });
