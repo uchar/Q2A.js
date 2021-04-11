@@ -20,7 +20,6 @@ const getJwtToken = () => {
       }
     }
   }
-
   return jwtToken;
 };
 
@@ -42,7 +41,10 @@ const doGraphQLMutation = async (mutation, params) => {
 
 const login = async (username, password) => {
   const client = getStandaloneApolloClient();
-  const result = await client.mutate({ mutation: USER_LOGIN, variables: { username, password } });
+  const result = await client.mutate({
+    mutation: USER_LOGIN,
+    variables: { language: getLanguage(), username, password },
+  });
   const jwtToken = result.data.login;
   await localStorage.setItem('JWT_TOKEN', jwtToken);
   return jwtToken;
@@ -52,7 +54,7 @@ const loginWithGoogle = async (googleJwtToken) => {
   const client = getStandaloneApolloClient();
   const result = await client.mutate({
     mutation: USER_GOOGLE_LOGIN,
-    variables: { jwtToken: googleJwtToken },
+    variables: { language: getLanguage(), jwtToken: googleJwtToken },
   });
   const jwtToken = result.data.googleLogin;
   await localStorage.setItem('JWT_TOKEN', jwtToken);
@@ -61,7 +63,10 @@ const loginWithGoogle = async (googleJwtToken) => {
 
 const signUp = async (email, username, password) => {
   const client = getStandaloneApolloClient();
-  const result = await client.mutate({ mutation: USER_SIGN_UP, variables: { email, username, password } });
+  const result = await client.mutate({
+    mutation: USER_SIGN_UP,
+    variables: { language: getLanguage(), email, username, password },
+  });
   const jwtToken = result.data.signUp;
   await localStorage.setItem('JWT_TOKEN', jwtToken);
   return jwtToken;
@@ -76,8 +81,10 @@ const getCurrentUser = async () => {
       if (user) {
         return JSON.parse(user);
       }
+      console.log('before get user');
       const result = await doGraphQLQuery(GET_MY_USER);
       await localStorage.setItem('USER', JSON.stringify(result.getUser));
+      console.log(result);
       return result.getUser;
     } catch (error) {
       return false;

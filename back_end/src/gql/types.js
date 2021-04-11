@@ -151,7 +151,7 @@ export default gql`
     getTags(language: Language!, limit: Int, offset: Int): [Tag]
     getTagDetail(language: Language!, tag: String!): Tag
     getQuestion(language: Language!, id: String!): Question
-    getUser(language: Language!, id: String): User
+    getUser(language: Language, id: String): User
     getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
     getBlogPosts(language: Language!, limit: Int!, offset: Int!): [BlogPost]
   }

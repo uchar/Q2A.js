@@ -1,34 +1,12 @@
 import { addQuestion, updateQuestion, addAnswer, updateAnswer, addComment, updateComment } from './post.js';
 import { STATUS_CODE } from '../constants.js';
+import { makeContext, questionData, questionUpdatedData } from '../testUtility';
 
 describe('post mutations api', () => {
-  const questionData = {
-    title: 'How to add a display filter in Alpine.JS like in Vue?',
-    content:
-      'How can I show date-time in a human-readable format in Alpine.js? I ' +
-      'would add a filter in Vuejs to do the same and looking for a similar solution in Alpine.js.',
-    tags: ['js', 'vue'],
-    language: 'en',
-  };
-  const questionUpdatedData = {
-    title: 'Generate combinations from 2D array',
-    content:
-      'After writing out longhand these combinations I can sense patterns, like there are ' +
-      'some fixed positions and then index moves from left to right, then left again and everything but cannot wrap my head around the ' +
-      'multidimensionallity and how to implement? Loop inside loop inside loop, recursion or what? I am looking for general directions.',
-    tags: ['python', 'openCv'],
-    language: 'en',
-  };
-
   const testAddQuestionWrongInput = async (language, title, content, tags) => {
-    const user = global.test_user;
     let result;
     try {
-      result = await addQuestion(
-        null,
-        { title, content, tags },
-        { user: { id: user.id, publicName: user.publicName } }
-      );
+      result = await addQuestion(null, { title, content, tags }, makeContext());
     } catch (e) {
       expect(e.name).toBe('ValidationError');
     }
@@ -36,17 +14,11 @@ describe('post mutations api', () => {
   };
 
   const addNewQuestion = async (language, title, content, tags) => {
-    const user = global.test_user;
-    const result = await addQuestion(
-      null,
-      { language, title, content, tags },
-      { user: { id: user.id, publicName: user.publicName } }
-    );
+    const result = await addQuestion(null, { language, title, content, tags }, makeContext());
     return result;
   };
 
   const testUpdateQuestionWrongInput = async (language, questionId, title, content, tags) => {
-    const user = global.test_user;
     let result;
     try {
       result = await updateQuestion(
@@ -58,7 +30,7 @@ describe('post mutations api', () => {
           content,
           tags,
         },
-        { user: { id: user.id, publicName: user.publicName } }
+        makeContext()
       );
     } catch (e) {
       expect(e.name).toBe('ValidationError');
@@ -67,14 +39,9 @@ describe('post mutations api', () => {
   };
 
   const testAddAnswerWrongInput = async (language, postId, content, errorMessage, typeErrorFlag) => {
-    const user = global.test_user;
     let result;
     try {
-      result = await addAnswer(
-        null,
-        { language, postId, content },
-        { user: { id: user.id, publicName: user.publicName } }
-      );
+      result = await addAnswer(null, { language, postId, content }, makeContext());
     } catch (e) {
       if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
@@ -83,15 +50,10 @@ describe('post mutations api', () => {
   };
 
   const testUpdateAnswerWrongInput = async (language, answerId, content, errorMessage, typeErrorFlag) => {
-    const user = global.test_user;
     console.log('testUpdateAddAnswerWrongInput answerId:', answerId);
     let result;
     try {
-      result = await updateAnswer(
-        null,
-        { language, id: answerId, content },
-        { user: { id: user.id, publicName: user.publicName } }
-      );
+      result = await updateAnswer(null, { language, id: answerId, content }, makeContext());
     } catch (e) {
       if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
@@ -101,14 +63,9 @@ describe('post mutations api', () => {
   };
 
   const testAddCommentWrongInput = async (language, postId, content, errorMessage, typeErrorFlag) => {
-    const user = global.test_user;
     let result;
     try {
-      result = await addComment(
-        null,
-        { language, postId, content },
-        { user: { id: user.id, publicName: user.publicName } }
-      );
+      result = await addComment(null, { language, postId, content }, makeContext());
     } catch (e) {
       if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
@@ -116,14 +73,9 @@ describe('post mutations api', () => {
     if (result) expect(`add comment Question should give error with:' ${postId},${content}`).toBe(false);
   };
   const testUpdateCommentWrongInput = async (language, commentId, content, errorMessage, typeErrorFlag) => {
-    const user = global.test_user;
     let result;
     try {
-      result = await updateComment(
-        null,
-        { language, id: commentId, content },
-        { user: { id: user.id, publicName: user.publicName } }
-      );
+      result = await updateComment(null, { language, id: commentId, content }, makeContext());
     } catch (e) {
       if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
@@ -166,7 +118,6 @@ describe('post mutations api', () => {
 
   // Update Question
   test('if correct input for updateQuestion give success', async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -182,7 +133,7 @@ describe('post mutations api', () => {
         content: questionUpdatedData.content,
         tags: questionUpdatedData.tags,
       },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
     expect(result.message).toBeTruthy();
@@ -229,7 +180,6 @@ describe('post mutations api', () => {
 
   // addAnswer
   test('if correct input for addAnswer give success', async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -240,7 +190,7 @@ describe('post mutations api', () => {
     const result = await addAnswer(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
 
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
@@ -270,7 +220,6 @@ describe('post mutations api', () => {
   });
   // updateAnswer
   test('if correct input for updateAnswer give success', async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -281,18 +230,17 @@ describe('post mutations api', () => {
     const createPostResult = await addAnswer(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     const updateContentAnswer = 'After writing out longhand these combinations I can sense patterns';
     const result = await updateAnswer(
       null,
       { language: questionData.language, id: createPostResult.id, content: updateContentAnswer },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for updateAnswer shouldn't work", async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -303,7 +251,7 @@ describe('post mutations api', () => {
     const { createPostResult } = await addAnswer(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     await testUpdateAnswerWrongInput(
       questionData.language,
@@ -330,7 +278,6 @@ describe('post mutations api', () => {
 
   // addComment
   test('if correct input for addComment give success', async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -341,7 +288,7 @@ describe('post mutations api', () => {
     const result = await addComment(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
@@ -366,7 +313,6 @@ describe('post mutations api', () => {
 
   // updateComment
   test('if correct input for updateComment give success', async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -377,18 +323,17 @@ describe('post mutations api', () => {
     const createPostResult = await addComment(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     const updateContentComment = 'After writing out longhand these combinations I can sense patterns';
     const result = await updateComment(
       null,
       { language: questionData.language, id: createPostResult.id, content: updateContentComment },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for updateComment shouldn't work", async () => {
-    const user = global.test_user;
     const question = await addNewQuestion(
       questionData.language,
       questionData.title,
@@ -399,7 +344,7 @@ describe('post mutations api', () => {
     const createPostResult = await addComment(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
-      { user: { id: user.id, publicName: user.publicName } }
+      makeContext()
     );
     const { id } = createPostResult;
     await testUpdateCommentWrongInput('wrong', id, questionData.content, 'ValidationError', true);

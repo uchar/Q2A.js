@@ -1,7 +1,7 @@
 import databaseUtils from '../db/database.js';
 import { TABLES } from '../constants.js';
 
-const getAllTags = async (_, { language, offset, limit }) => {
+const getAllTags = async (_, { language, limit, offset }) => {
   const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);
   const tags = await Tag.findAll({
     where: { language },

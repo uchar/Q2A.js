@@ -137,15 +137,14 @@ export const GET_MY_USER = gql`
       publicName
       profileImage
       score
-      language
       theme
     }
   }
 `;
 
 export const GET_USER = gql`
-  query($language:Language!,$id: String!) {
-    getUser(language: $language,id: $id) {
+  query($language:Language,$id: String) {
+    getUser(language:$language,id: $id) {
       id
       publicName
       score
