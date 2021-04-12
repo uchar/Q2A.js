@@ -12,5 +12,4 @@ jobs:
         with:
           node-version: '14.16.x'
       - name: Install tests
-        working-directory: ./back_end
-        run: yarn && yarn test
+        run: cd front_end && yarn && cd ../back_end/ && yarn && yarn test
