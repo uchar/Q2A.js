@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Create .env file
-        run: echo "JWT_SECRET=${{ secrets.SuperSecret }}" >> ./back_end/.env
+        run: echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> ./back_end/.env
       - name: test
         run: cat ./back_end/.env
       - name: Use Node.js
