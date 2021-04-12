@@ -11,5 +11,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.16.x'
-      - name: Install tests
-        run: cd front_end && yarn && cd ../back_end/ && yarn && yarn test
+      - name: Run tests
+        run: yarn install_packages && yarn api_tests

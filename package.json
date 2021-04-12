@@ -1,0 +1,21 @@
+{
+  "name": "q2a.js",
+  "version": "1.0.0",
+  "main": "",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": "14.16.x"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+    "install_packages": "cd front_end && yarn && cd ../back_end && yarn",
+    "api_tests": "cd back_end && yarn test",
+    "api_setup": "cd back_end && yarn setup",
+    "api_run_dev": "cd back_end && yarn dev",
+    "api_frontend_run_dev": "cd front_end && yarn dev"
+  }
+}
