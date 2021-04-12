@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { signUp, login } from './login.js';
-import { findUserById } from '../utility.js';
-import { LOGIN_ERRORS } from '../constants.js';
+import { signUp, login } from '../../mutations/login.js';
+import { findUserById } from '../../utility.js';
+import { LOGIN_ERRORS } from '../../constants.js';
 
 describe('login workflow', () => {
   const data = {

@@ -1,6 +1,6 @@
-import { addBlogPost } from './blog.js';
-import { STATUS_CODE } from '../constants.js';
-import { makeContext } from '../testUtility';
+import { addBlogPost } from '../../mutations/blog.js';
+import { STATUS_CODE } from '../../constants.js';
+import { makeContext } from '../../testUtility';
 
 describe('blog mutations api', () => {
   const data = {

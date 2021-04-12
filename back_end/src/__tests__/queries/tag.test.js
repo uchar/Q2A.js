@@ -1,6 +1,12 @@
-import { TABLES } from '../constants.js';
-import { clearTable, compartDataToBeResult, createData, createDuplicateData, tagData } from '../testUtility';
-import { getAllTags, getTagDetail } from './tag';
+import { TABLES } from '../../constants.js';
+import {
+  clearTable,
+  compartDataToBeResult,
+  createData,
+  createDuplicateData,
+  tagData,
+} from '../../testUtility';
+import { getAllTags, getTagDetail } from '../../queries/tag';
 
 describe('tag queries api', () => {
   test('if getAllTags work', async () => {

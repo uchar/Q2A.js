@@ -1,5 +1,5 @@
-import { answerData, clearTable, makeContext, questionData } from '../testUtility';
-import { POST_TYPES, TABLES } from '../constants';
+import { answerData, clearTable, makeContext, questionData } from '../../testUtility';
+import { POST_TYPES, TABLES } from '../../constants';
 import {
   getAnswers,
   getComments,
@@ -10,9 +10,9 @@ import {
   getQuestion,
   getUserAnswers,
   getUserQuestions,
-} from './post';
-import { addAnswer, addComment, addQuestion } from '../mutations/post';
-import databaseUtils from '../db/database';
+} from '../../queries/post';
+import { addAnswer, addComment, addQuestion } from '../../mutations/post';
+import databaseUtils from '../../db/database';
 
 describe('post query api', () => {
   const createQuestion = async (defaultParams, newParams) => {

@@ -1,176 +1,24 @@
-import Sequelize from 'sequelize';
 import databaseUtils from './database.js';
 import { TABLES as tables } from '../constants.js';
-
-const { DataTypes } = Sequelize;
+import UserModel from '../models/User.js';
+import PostModel from '../models/Post.js';
+import BlogPostModel from '../models/BlogPost.js';
+import TagModel from '../models/Tag.js';
+import ClapModel from '../models/Clap.js';
+import NotificationModel from '../models/Notification.js';
+import MedalModel from '../models/Medal.js';
 
 const prepareDatabase = async () => {
   const sequelize = await databaseUtils().getSequelize();
 
-  const User = sequelize.define(tables.USER_TABLE, {
-    publicName: Sequelize.STRING,
-    profileImage: Sequelize.STRING,
-    about: Sequelize.TEXT,
-    theme: {
-      type: DataTypes.ENUM(['light', 'dark']),
-      allowNull: false,
-      defaultValue: 'light',
-    },
-    accessLevel: {
-      type: DataTypes.ENUM(['GUEST', 'USER_CONFIRMED', 'USER_NOT_CONFIRMED', 'ADMIN', 'SUPER_ADMIN']),
-      allowNull: false,
-      defaultValue: 'USER_CONFIRMED',
-    },
-    score: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    email: Sequelize.STRING(64),
-    password: Sequelize.STRING(64),
-    lastLogin: Sequelize.DATE,
-    lastWrite: Sequelize.DATE,
-    isEmailVerified: Sequelize.BOOLEAN,
-  });
-  const Post = sequelize.define(tables.POST_TABLE, {
-    type: {
-      type: DataTypes.ENUM([
-        'QUESTION',
-        'ANSWER',
-        'COMMENT',
-        'QUESTION_HIDDEN',
-        'ANSWER_HIDDEN',
-        'COMMENT_HIDDEN',
-      ]),
-      allowNull: false,
-    },
-    language: {
-      type: Sequelize.STRING(2),
-      allowNull: false,
-    },
-    title: Sequelize.STRING(256),
-    content: Sequelize.TEXT,
-    viewsCount: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    votesCount: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    answersCount: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    tag1: Sequelize.STRING(48),
-    tag2: Sequelize.STRING(48),
-    tag3: Sequelize.STRING(48),
-    tag4: Sequelize.STRING(48),
-    tag5: Sequelize.STRING(48),
-    parentId: {
-      type: Sequelize.UUID,
-      primaryKey: false,
-    },
-  });
+  const User = sequelize.define(tables.USER_TABLE, UserModel);
+  const Post = sequelize.define(tables.POST_TABLE, PostModel);
+  const BlogPost = sequelize.define(tables.BLOG_POST_TABLE, BlogPostModel);
+  const Tag = sequelize.define(tables.TAG_TABLE, TagModel);
+  const Clap = sequelize.define(tables.CLAP_TABLE, ClapModel);
+  const Notification = sequelize.define(tables.NOTIFICATION_TABLE, NotificationModel);
+  const Medal = sequelize.define(tables.Medal_TABLE, MedalModel);
 
-  const BlogPost = sequelize.define(tables.BLOG_POST_TABLE, {
-    type: {
-      type: DataTypes.ENUM(['POST', 'COMMENT', 'POST_HIDDEN', 'COMMENT_HIDDEN']),
-      allowNull: false,
-    },
-    language: {
-      type: Sequelize.STRING(2),
-      allowNull: false,
-    },
-    title: Sequelize.STRING(256),
-    content: Sequelize.TEXT,
-    viewsCount: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    votesCount: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    commentsCount: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-    tag1: Sequelize.STRING(48),
-    tag2: Sequelize.STRING(48),
-    tag3: Sequelize.STRING(48),
-    tag4: Sequelize.STRING(48),
-    tag5: Sequelize.STRING(48),
-    parentId: {
-      type: Sequelize.UUID,
-      primaryKey: false,
-    },
-  });
-
-  const Tag = sequelize.define(tables.TAG_TABLE, {
-    title: Sequelize.STRING(64),
-    content: Sequelize.TEXT,
-    language: {
-      type: Sequelize.STRING(2),
-      allowNull: false,
-    },
-    used: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: { min: 0 },
-    },
-  });
-
-  const Clap = sequelize.define(tables.CLAP_TABLE, {
-    count: Sequelize.INTEGER,
-  });
-
-  const Notification = sequelize.define(tables.NOTIFICATION_TABLE, {
-    reason: DataTypes.ENUM([
-      'QUESTION_CLAPPED',
-      'ANSWER_CLAPPED',
-      'COMMENT_CLAPPED',
-      'ANSWER_RECEIVED',
-      'COMMENT_RECEIVED',
-      'QUESTION_HIDED',
-      'ANSWER_HIDED',
-      'COMMENT_HIDED',
-    ]),
-    title: Sequelize.TEXT,
-    content: Sequelize.TEXT,
-    metaData: Sequelize.TEXT,
-    language: {
-      type: Sequelize.STRING(2),
-      allowNull: false,
-    },
-    read: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-  });
-  const Medal = sequelize.define(tables.Medal_TABLE, {
-    type: DataTypes.ENUM(['GOLD', 'SILVER', 'BRONZE']),
-    name: Sequelize.STRING(64),
-    language: {
-      type: Sequelize.STRING(2),
-      allowNull: false,
-    },
-  });
   BlogPost.belongsTo(User);
   Post.belongsTo(User);
   User.hasMany(Clap);

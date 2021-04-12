@@ -1,6 +1,6 @@
-import { STATUS_CODE } from '../constants.js';
-import { updateUser } from './user.js';
-import { findUserById } from '../utility';
+import { STATUS_CODE } from '../../constants.js';
+import { updateUser } from '../../mutations/user.js';
+import { findUserById } from '../../utility';
 
 describe('user mutation api (updateUser,..)', () => {
   const data = {

@@ -1,6 +1,13 @@
-import { addQuestion, updateQuestion, addAnswer, updateAnswer, addComment, updateComment } from './post.js';
-import { STATUS_CODE } from '../constants.js';
-import { makeContext, questionData, questionUpdatedData } from '../testUtility';
+import {
+  addQuestion,
+  updateQuestion,
+  addAnswer,
+  updateAnswer,
+  addComment,
+  updateComment,
+} from '../../mutations/post.js';
+import { STATUS_CODE } from '../../constants.js';
+import { makeContext, questionData, questionUpdatedData } from '../../testUtility';
 
 describe('post mutations api', () => {
   const testAddQuestionWrongInput = async (language, title, content, tags) => {

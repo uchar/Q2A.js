@@ -1,5 +1,5 @@
 {
-  "name": "7khatcode_backend",
+  "name": "q2a_api",
   "version": "1.0.0",
   "main": "src/server.js",
   "license": "MIT",

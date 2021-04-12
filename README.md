@@ -32,13 +32,13 @@ In backend and front_end folder rename .sample.env to .env and fill it's fields
 Install packages:
 
 ```
-cd back_end && yarn && cd ../front_end && yarn
+yarn install_packages
 ```
 
 ### Setup 
 
 ```
-cd back_end && yarn setup
+yarn api_setup
 ```
 
 What it does : 
@@ -48,14 +48,14 @@ What it does :
 ### Run :
 #### backend
 ```
-cd back_end && yarn dev
+yarn api_run_dev
 ```
 
 #### frontend :
 
 ```
-cd front_end && yarn dev
+yarn fronend_run_dev
 ```
 
 
-###### This project is work in progress and under heavy development if you are interested in development contact me : omid.es73@gmail.com
+###### This project is work in progress and under  development feel free to create issue for discussion
