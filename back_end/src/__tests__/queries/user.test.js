@@ -1,5 +1,5 @@
-import { getUser } from './user';
-import { makeContext } from '../testUtility';
+import { getUser } from '../../queries/user';
+import { makeContext } from '../../testUtility';
 
 describe('user query api', () => {
   test('if getUser with an id work', async () => {

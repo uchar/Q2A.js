@@ -1,6 +1,10 @@
-import { saveNotification, NOTIFICATION_REASON, setReadAllNotifications } from './notifications';
-import databaseUtils from '../db/database';
-import { STATUS_CODE, TABLES } from '../constants';
+import {
+  saveNotification,
+  NOTIFICATION_REASON,
+  setReadAllNotifications,
+} from '../../mutations/notifications';
+import databaseUtils from '../../db/database';
+import { STATUS_CODE, TABLES } from '../../constants';
 
 describe('notification api', () => {
   const createUser = async (publicName = 'test_name', email = 'test@test.com') => {

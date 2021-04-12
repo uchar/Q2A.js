@@ -1,7 +1,7 @@
-import { TABLES } from '../constants.js';
-import { saveNotification } from '../mutations/notifications';
-import { getNotifications } from './notifications';
-import { clearTable, makeContext, notificationData } from '../testUtility';
+import { TABLES } from '../../constants.js';
+import { saveNotification } from '../../mutations/notifications';
+import { getNotifications } from '../../queries/notifications';
+import { clearTable, makeContext, notificationData } from '../../testUtility';
 
 describe('notification query api', () => {
   const checkNotificationCounts = async (countToBe) => {

@@ -1,6 +1,6 @@
-import { getBlogPosts } from './blog.js';
-import { TABLES } from '../constants.js';
-import { blogData, clearTable, createDuplicateData } from '../testUtility';
+import { getBlogPosts } from '../../queries/blog.js';
+import { TABLES } from '../../constants.js';
+import { blogData, clearTable, createDuplicateData } from '../../testUtility';
 
 describe('blog query api', () => {
   test('if getBlogPosts work', async () => {
