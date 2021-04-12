@@ -16,6 +16,6 @@
     "api_tests": "cd back_end && yarn test",
     "api_setup": "cd back_end && yarn setup",
     "api_run_dev": "cd back_end && yarn dev",
-    "api_frontend_run_dev": "cd front_end && yarn dev"
+    "frontend_run_dev": "cd front_end && yarn dev"
   }
 }
