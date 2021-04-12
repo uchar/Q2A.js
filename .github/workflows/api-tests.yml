@@ -1,10 +1,6 @@
-name: Node.js CI
+name: Run api tests
 
 on: [push, pull_request]
-
-defaults:
-  run:
-    working-directory: ./back_end
 
 jobs:
   build:
@@ -15,5 +11,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.16.x'
-      - run: yarn
-      - run: yarn test
+      - name: Install tests
+        working-directory: ./back_end
+        run: yarn && yarn test
