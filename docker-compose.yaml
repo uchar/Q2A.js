@@ -14,6 +14,7 @@ services:
       - db-config:/etc/mysql
       - db-data:/var/lib/mysql
       - ./db/backup/files/:/data_backup/data
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci']
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
@@ -35,6 +36,8 @@ services:
       - mysqldb
     depends_on:
       - mysqldb
+    environment:
+      WAIT_HOSTS: mysql:3306
     stdin_open: true
     tty: true
     ports:
