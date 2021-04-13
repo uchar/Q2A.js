@@ -47,7 +47,6 @@ services:
     links:
       - api
     depends_on:
-      - mysqldb
       - api
     stdin_open: true
     tty: true
