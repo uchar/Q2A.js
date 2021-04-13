@@ -37,7 +37,7 @@ services:
     depends_on:
       - mysqldb
     environment:
-      WAIT_HOSTS: mysql:3306
+      WAIT_HOSTS: mysqldb:3306
     stdin_open: true
     tty: true
     ports:
