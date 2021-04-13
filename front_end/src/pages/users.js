@@ -27,13 +27,6 @@ function UsersPage() {
   );
 }
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
-
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,

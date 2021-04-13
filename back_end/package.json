@@ -48,11 +48,10 @@
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "prod": "node src/server.js",
     "setup": "node src/setup/index.js",
     "converter": "nodemon src/tableUpgrade.js",
-    "deploy": "liara deploy --app 7khatcode-api --port 4000 --platform node",
     "test": "./node_modules/.bin/jest --coverage",
     "lint": "./node_modules/.bin/eslint --fix src/**/*.js src/**/*.test.js --no-error-on-unmatched-pattern"
   },

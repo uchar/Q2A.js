@@ -8,17 +8,18 @@ Q2A.js is question/answer forum (like stackoverflow) made with latest technologi
 
 # Demo : 
 
-https://7khatcode.liara.run/
+http://136.243.118.63:3000
 
 ## Features :
 
 - Fast And SEO Friendly
 - Server Side Generation powered by Next.js
-- Responsive ui
-- Multi SQL Database support 
-- Light/Dark theme support
 - Multi Language support
-- JssStylesProvider Support
+- Responsive ui
+- Different SQL Database support 
+- Light/Dark theme support
+- Easy to set up with docker
+
 
 
 ## How to run :
@@ -56,6 +57,17 @@ yarn api_run_dev
 ```
 yarn fronend_run_dev
 ```
+### Deploy with docker 
 
+- From root folder rename .sample.env to .env and fill it's fields
+- Run :
+```
+yarn deploy_docker
+```
+- For rebuilding images (e.g after pull):
+```
+yarn docker_rebuild_frontend
+yarn docker_rebuild_api
+```
 
 ###### This project is work in progress and under  development feel free to create issue for discussion
