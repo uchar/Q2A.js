@@ -11,6 +11,10 @@ export default {
     allowNull: false,
     defaultValue: 'light',
   },
+  language: {
+    type: DataTypes.ENUM(['en', 'fa']),
+    defaultValue: 'en',
+  },
   accessLevel: {
     type: DataTypes.ENUM(['GUEST', 'USER_CONFIRMED', 'USER_NOT_CONFIRMED', 'ADMIN', 'SUPER_ADMIN']),
     allowNull: false,

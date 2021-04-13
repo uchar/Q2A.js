@@ -78,6 +78,7 @@ export const ALL_TAGS = gql`
     getTags(language: $language, limit: $limit, offset: $offset) {
       id
       title
+      content
       used
     }
   }
