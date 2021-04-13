@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    ports:
+      - 3306:3306
+    volumes:
+      - db-config:/etc/mysql
+      - db-data:/var/lib/mysql
+      - ./db/backup/files/:/data_backup/data
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+      - db
+    environment:
+      PMA_HOST: mysqldb
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+  api:
+    build:
+      context: .
+      dockerfile: ./back_end/Dockerfile
+    image: q2a-api
+    depends_on:
+      - mysqldb
+    stdin_open: true
+    tty: true
+    ports:
+      - 4000:4000
+  frontend:
+    build:
+      context: .
+      dockerfile: ./front_end/Dockerfile
+    image: q2a-frontend
+    depends_on:
+      - mysqldb
+      - api
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+volumes:
+  db-config:
+  db-data:

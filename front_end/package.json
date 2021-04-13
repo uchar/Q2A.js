@@ -6,7 +6,8 @@
     "dev": "next dev",
     "deploy": "liara deploy --app 7khatcode --port 3000 --platform node",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prod": "yarn build && yarn start"
   },
   "engines": {
     "node": "14.16.x"
