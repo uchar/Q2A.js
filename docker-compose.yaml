@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  mysqldb:
+  mysql:
     image: mysql:5.7
     restart: always
     env_file: ./.env
@@ -19,9 +19,9 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     links:
-      - mysqldb
+      - mysql
     environment:
-      PMA_HOST: mysqldb
+      PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: always
@@ -33,11 +33,11 @@ services:
       dockerfile: ./back_end/Dockerfile
     image: q2a-api
     links:
-      - mysqldb
+      - mysql
     depends_on:
-      - mysqldb
+      - mysql
     environment:
-      WAIT_HOSTS: mysqldb:3306
+      WAIT_HOSTS: mysql:3306
     stdin_open: true
     tty: true
     ports:
