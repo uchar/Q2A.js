@@ -11,7 +11,7 @@ import ErrorMessage from '../common/components/ErrorMessage';
 import CardButton from '../common/components/CardButton';
 import { login } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
-import { getLanguage, getStrings } from '../common/utlities/languageUtilities';
+import { getStrings } from '../common/utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
