@@ -18,7 +18,7 @@
     "api_run_dev": "cd back_end && yarn dev",
     "frontend_run_dev": "cd front_end && yarn dev",
     "deploy_docker":"docker-compose up -d",
-    "docker_rebuild_frontend":" docker-compose up -d --no-deps --build front_end",
+    "docker_rebuild_frontend":" docker-compose up -d --no-deps --build frontend",
     "docker_rebuild_api":" docker-compose up -d --no-deps --build api"
   }
 }
