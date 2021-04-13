@@ -82,8 +82,8 @@ export const UPLOAD_FILE = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation($language: Language!, $input: UpdateUserInput!) {
-    updateUser(language: $language, input: $input) {
+  mutation($input: UpdateUserInput!) {
+    updateUser(input: $input) {
       statusCode
       message
     }

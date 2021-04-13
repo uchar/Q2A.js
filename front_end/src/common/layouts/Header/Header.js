@@ -14,7 +14,7 @@ import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../A
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
-import { getLanguage, getStrings, LANGUAGES } from '../../utlities/languageUtilities';
+import { getLanguage, getStrings } from '../../utlities/languageUtilities';
 import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
 import { CURRENT_USER_ACTION } from '../../../redux/constants';
 
@@ -96,7 +96,6 @@ const Header = ({}) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [notificationCount, setNotificationCount] = React.useState(0);
   const isLanguageMenuOpen = Boolean(languageAnchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const router = useRouter();
   const [notificationAnchor, setNotificationAnchor] = React.useState(null);
 
@@ -154,6 +153,7 @@ const Header = ({}) => {
 
   const handleMenuLanguageItemClick = async (newLanguage) => {
     handleLanguageMenuClose();
+    console.log('HERE');
     let language = '';
     if (newLanguage.toLowerCase() === 'english') {
       language = 'en';
@@ -168,8 +168,7 @@ const Header = ({}) => {
       } catch (e) {
         console.log(e);
       }
-
-      window.location.replace(`/${language}`);
+      return router.push(router.asPath, router.asPath, { locale: language });
     }
   };
 

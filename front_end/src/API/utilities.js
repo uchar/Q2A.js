@@ -31,10 +31,10 @@ const doGraphQLQuery = async (query, params) => {
   return result.data;
 };
 
-const doGraphQLMutation = async (mutation, params) => {
+const doGraphQLMutation = async (mutation, params, addLanguage = true) => {
   const jwtToken = getJwtToken();
   const client = getStandaloneApolloClient(jwtToken);
-  const variables = { language: getLanguage(), ...params };
+  const variables = addLanguage ? { language: getLanguage(), ...params } : params;
   const result = await client.mutate({ mutation, variables });
   return result.data;
 };
@@ -81,7 +81,6 @@ const getCurrentUser = async () => {
       if (user) {
         return JSON.parse(user);
       }
-      console.log('before get user');
       const result = await doGraphQLQuery(GET_MY_USER);
       await localStorage.setItem('USER', JSON.stringify(result.getUser));
       console.log(result);
@@ -103,7 +102,7 @@ const getCurrentUserId = async () => {
   return '';
 };
 const updateCurrentUser = async (params) => {
-  await doGraphQLMutation(UPDATE_USER, { input: { ...params } });
+  await doGraphQLMutation(UPDATE_USER, { input: { ...params } }, false);
   await localStorage.removeItem('USER');
   return getCurrentUser();
 };

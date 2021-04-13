@@ -41,6 +41,7 @@ export default gql`
     profileImage: String
     about: String
     theme: Theme
+    language: Language
   }
 
   type User {
@@ -174,7 +175,7 @@ export default gql`
     updateAnswer(language: Language!, id: String!, content: String!): Result
     updateComment(language: Language!, id: String!, content: String!): Result
     uploadFile(language: Language!, file: Upload!): File!
-    updateUser(language: Language!, input: UpdateUserInput!): Result
+    updateUser(input: UpdateUserInput!): Result
     setReadAllNotifications(language: Language!): Result
   }
 `;

@@ -41,12 +41,15 @@ const STRINGS = {
   ASK_Expansion_PANEL2_SUBTITLE1: 'What did you do ? and why do you think its wrong ?',
   ASK_Expansion_PANEL3_TITLE: 'Show your code',
   ASK_Expansion_PANEL3_SUBTITLE1: 'If possible, Share minimum code so others can help you better',
-  Footer_Title: 'Useful links',
-  Footer_Link1: 'Latest questions',
-  Footer_Link2: 'ask',
-  Footer_Link3: 'tags',
-  Footer_Link4: 'rules',
-  Footer_Love: 'Created With Love by Q2A.js',
+  FOOTER_TITLE: 'Useful links',
+  FOOTER_LINK1: 'Latest questions',
+  FOOTER_LINK2: 'ask',
+  FOOTER_LINK3: 'tags',
+  FOOTER_LINK4: 'rules',
+  FOOTER_LOVE: 'Created With Love by Q2A.js',
+  TAGS_PAGE_TITLE: 'Tags',
+  TAGS_PAGE_DESCRIPTION:
+    'A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.',
 };
 
 export default STRINGS;

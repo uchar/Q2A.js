@@ -42,12 +42,15 @@ const STRINGS = {
   ASK_Expansion_PANEL3_TITLE: 'نشان دادن کد',
   ASK_Expansion_PANEL3_SUBTITLE1:
     'در صورت نیاز ، حداقل کدی را که دیگران برای حل مشکل شما نیاز دارند را به اشتراک بگذارید.',
-  Footer_Title: 'لینک های پر کاربرد',
-  Footer_Link1: 'آخرین سوال ها',
-  Footer_Link2: 'پرسیدن سوال',
-  Footer_Link3: 'تگ ها',
-  Footer_Link4: 'قوانین',
-  Footer_Love: 'ساخته شده با عشق توسط فرم ساز اختصاصی کی تو ای',
+  FOOTER_TITLE: 'لینک های پر کاربرد',
+  FOOTER_LINK1: 'آخرین سوال ها',
+  FOOTER_LINK2: 'پرسیدن سوال',
+  FOOTER_LINK3: 'تگ ها',
+  FOOTER_LINK4: 'قوانین',
+  FOOTER_LOVE: 'ساخته شده با عشق توسط فرم ساز اختصاصی کی تو ای',
+  TAGS_PAGE_TITLE: 'تگ ها',
+  TAGS_PAGE_DESCRIPTION:
+    'تگ کلمه کلیدی ای است که برای دسته بندی سوالات استفاده می شود . استفاده درست از تگ به بقیه کاربرها کمک میکند که سوال شما را راحت تر پیدا کنند.',
 };
 
 export default STRINGS;
