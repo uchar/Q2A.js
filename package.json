@@ -16,6 +16,10 @@
     "api_tests": "cd back_end && yarn test",
     "api_setup": "cd back_end && yarn setup",
     "api_run_dev": "cd back_end && yarn dev",
-    "frontend_run_dev": "cd front_end && yarn dev"
+    "api_run_prod":"cd back_end && yarn prod",
+    "frontend_run_dev": "cd front_end && yarn dev",
+    "frontend_run_prod": "cd front_end && yarn build && yarn start",
+    "api_run_docker":"cd back_end && docker build -t q2a-api . &&  docker run -d --name q2a-api-demo --network mysqlnetwork -p 4000:4000  q2a-api",
+    "frontend_run_docker":"cd front_end && docker build -t q2a-ui . &&  docker run -d --name q2a-ui-demo --network mysqlnetwork -p 3000:3000  q2a-ui"
   }
 }
