@@ -12,14 +12,16 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: theme.spacing(6),
+    fontSize: '22px',
+    fontWeight: '700',
   },
 }));
 
-const AskAndTitleSection = DeepMemo(function AskAndTitleSection({ title, className }) {
+const AskAndTitleSection = DeepMemo(function AskAndTitleSection({ title,className }) {
   const classes = useStyles();
   return (
     <div className={`${classes.root} ${className}`}>
-      <Typography className={classes.title} variant="h2">
+      <Typography className={classes.title} variant="h1">
         {title}
       </Typography>
       <CardButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />

@@ -74,14 +74,14 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
     const titles = getStrings().SITE_MAIN_PAGE_TAB_HEADERS;
     let title = titles[currentTab];
     if (tag && !isMobile) {
-      title += `${getStrings().IN} [${tag}]`;
+      title += ` ${getStrings().IN} [${tag}]`;
     }
     return title;
   };
 
   return (
     <div className={classes.root}>
-      <AskAndTitleSection className={classes.askAndTitleSection} title={getTitle()} />
+      <AskAndTitleSection className={classes.askAndTitleSection} title={getTitle()}/>
       <AppBar position="static" color="default" fullWidth className={classes.appBar}>
         <Tabs
           value={currentTab}
