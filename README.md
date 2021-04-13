@@ -8,7 +8,7 @@ Q2A.js is question/answer forum (like stackoverflow) made with latest technologi
 
 # Demo : 
 
-https://7khatcode.liara.run/
+http://136.243.118.63:3000
 
 ## Features :
 
