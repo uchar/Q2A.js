@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, CardContent, makeStyles, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from '../Post/PostStatistics';
@@ -90,5 +91,20 @@ const BlogItemPreview = DeepMemo(function ({
     </Box>
   );
 });
-
+BlogItemPreview.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  viewsCount: PropTypes.number.isRequired,
+  votesCount: PropTypes.number.isRequired,
+  commentsCount: PropTypes.number.isRequired,
+  tag1: PropTypes.string.isRequired,
+  tag2: PropTypes.string.isRequired,
+  tag3: PropTypes.string,
+  tag4: PropTypes.string,
+  tag5: PropTypes.string,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+};
 export default BlogItemPreview;

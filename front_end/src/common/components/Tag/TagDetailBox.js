@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   const classes = useStyles();
   const { tag, count, description } = props;
-  console.log('DESCRIPTION IS ', description);
   return (
     <Box boxShadow={2} className={classes.root}>
       <div className={classes.tagParent}>

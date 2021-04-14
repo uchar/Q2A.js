@@ -16,6 +16,7 @@ createDatabasePromise.then(async () => {
     theme: 'light',
     accessLevel: 'SUPER_ADMIN',
     score: 0,
+    language: 'en',
     email: process.env.SUPER_ADMIN_EMAIL,
     password: await bcrypt.hash(process.env.SUPER_ADMIN_PASSWORD, 10),
     isEmailVerified: true,

@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GmailTreeView() {
+export default function NavigationMenu() {
   const classes = useStyles();
 
   return (
