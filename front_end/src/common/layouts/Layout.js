@@ -46,7 +46,7 @@ const Layout = (props) => {
         <Box className={classes.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
-              {!noSideBar && <Navigation></Navigation>}
+              {!noSideBar && <Navigation />}
             </Grid>
             <Grid item md={8} xs={12}>
               {props.children}

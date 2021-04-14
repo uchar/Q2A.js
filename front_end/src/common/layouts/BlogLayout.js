@@ -40,7 +40,7 @@ const BlogLayout = (props) => {
         <Box className={classes.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
-              {<Navigation></Navigation>}
+              <Navigation />
             </Grid>
             <Grid item md={8} xs={12}>
               {props.children}
