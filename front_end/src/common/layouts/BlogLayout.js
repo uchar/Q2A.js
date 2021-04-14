@@ -1,53 +1,59 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserView } from 'react-device-detect';
+import { useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import Header from './Header/Header';
 import Footer from './Footer';
 import JssStylesProvider from './JssStylesProvider';
-import Expansion from '../components/Expansion';
 import TagsList from '../components/Tag/TagsList';
-import News from '../components/News';
-import {useSelector} from "react-redux";
+import Navigation from '../components/MainPageColumns/Navigation';
 
-const layoutStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  width: '100%',
-  overflowX: 'hidden',
-};
-
-const contentStyle = {
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '0px 2% 0px 2%',
-};
-
+const useStyles = makeStyles((theme) => ({
+  layoutStyle: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    width: '100%',
+    overflowX: 'hidden',
+  },
+  contentStyle: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0px 2% 0px 0.5%',
+  },
+  tagBox: {
+    marginTop: theme.spacing(3),
+  },
+  newsBox: {},
+}));
 const BlogLayout = (props) => {
+  const classes = useStyles();
+
   const tags = useSelector((state) => state.tags);
   return (
     <JssStylesProvider>
-      <div style={layoutStyle}>
+      <div className={classes.layoutStyle}>
         <Header />
-        <Box style={contentStyle}>
+        <Box className={classes.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
-            <Grid item md={10} xs={12}>
+            <Grid item md={2} xs={12}>
+              {<Navigation></Navigation>}
+            </Grid>
+            <Grid item md={8} xs={12}>
               {props.children}
             </Grid>
-            <Grid item md={2} display={{ xs: 'none' }} style={{ marginTop: '25px' }}>
+            <Grid item md={2} display={{ xs: 'none' }}>
               <div>
-                <Box style={{ marginTop: '25px' }} boxShadow={2}>
+                <Box className={classes.tagBox} boxShadow={2}>
                   <Grid container>
                     <BrowserView>
                       <TagsList tags={tags} />
                     </BrowserView>
                   </Grid>
                 </Box>
-                <MobileView>
-                  <News />
-                </MobileView>
               </div>
             </Grid>
           </Grid>
