@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, CardContent, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
+import { parseContent} from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from '../Post/PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
@@ -92,7 +92,7 @@ const BlogItemPreview = DeepMemo(function ({
   );
 });
 BlogItemPreview.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,

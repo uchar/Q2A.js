@@ -23,12 +23,7 @@ const LatestBlogPosts = ({ blogPosts }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {blogPosts &&
-        blogPosts.map((post) => (
-          <div key={post.id}>
-            <BlogItemPreview {...post} />
-          </div>
-        ))}
+      {blogPosts && blogPosts.map((post) => <BlogItemPreview key={post.id} {...post} />)}
     </div>
   );
 };

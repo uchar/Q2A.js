@@ -36,26 +36,26 @@ const BlogLayout = (props) => {
   return (
     <JssStylesProvider>
       <div className={classes.layoutStyle}>
-        {/*<Header />*/}
+        <Header />
         <Box className={classes.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
-            {/* <Grid item md={2} xs={12}> */}
-            {/*  {<Navigation></Navigation>} */}
-            {/* </Grid> */}
+            <Grid item md={2} xs={12}>
+              {<Navigation></Navigation>}
+            </Grid>
             <Grid item md={8} xs={12}>
               {props.children}
             </Grid>
-            {/* <Grid item md={2} display={{ xs: 'none' }}> */}
-            {/*  <div> */}
-            {/*    <Box className={classes.tagBox} boxShadow={2}> */}
-            {/*      <Grid container> */}
-            {/*        <BrowserView> */}
-            {/*          <TagsList tags={tags} /> */}
-            {/*        </BrowserView> */}
-            {/*      </Grid> */}
-            {/*    </Box> */}
-            {/*  </div> */}
-            {/* </Grid> */}
+            <Grid item md={2} display={{ xs: 'none' }}>
+              <div>
+                <Box className={classes.tagBox} boxShadow={2}>
+                  <Grid container>
+                    <BrowserView>
+                      <TagsList tags={tags} />
+                    </BrowserView>
+                  </Grid>
+                </Box>
+              </div>
+            </Grid>
           </Grid>
         </Box>
         <Footer />

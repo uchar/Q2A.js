@@ -127,7 +127,7 @@ export default gql`
   }
 
   type BlogPost {
-    id: String!
+    id: Int!
     title: String!
     content: String!
     user: User!
