@@ -21,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 26,
-    textAlign: 'left',
+    textAlign: 'initial',
     marginRight: theme.spacing(2),
     marginTop: theme.spacing(1),
   },
-  subtitle: { marginRight: theme.spacing(2), marginBottom: theme.spacing(2), textAlign: 'left' },
+  subtitle: { marginRight: theme.spacing(2), marginBottom: theme.spacing(2), textAlign: 'initial' },
   tagTitle: { margin: theme.spacing(6, 0, 0, 0) },
-  titleInput: { margin: theme.spacing(0, 1, 2, 1), textAlign: 'left' },
+  titleInput: { margin: theme.spacing(0, 1, 2, 1), textAlign: 'initial' },
   autoComplete: {
     margin: theme.spacing(2, 0, 0, 0),
   },
