@@ -67,6 +67,9 @@ const STRINGS = {
   POST_TOOLBAR_EDIT: 'ویرایش',
   POST_TOOLBAR_SHARE: 'اشتراک',
   POST_TO_SHORT_ANSWER: 'حداقل تعداد کاراکتر برای پاسخ 15 است',
+  NOTIFICATION_BOX_RECEIVED_COMMENT: 'کامنتی دریافت کردید',
+  NOTIFICATION_BOX_RECEIVED_ANSWER: 'پاسخی دریافت کردید',
+  NOTIFICATION_BOX_NO_NEW_NOTIFICATION: 'اعلان جدیدی وجود ندارد',
 };
 
 export default STRINGS;

@@ -69,6 +69,9 @@ const STRINGS = {
   POST_TOOLBAR_EDIT: 'Edit',
   POST_TOOLBAR_SHARE: 'Share',
   POST_TO_SHORT_ANSWER: 'Answer needs at least 15 characters',
+  NOTIFICATION_BOX_RECEIVED_COMMENT: 'You received a comment',
+  NOTIFICATION_BOX_RECEIVED_ANSWER: 'You received an answer',
+  NOTIFICATION_BOX_NO_NEW_NOTIFICATION: 'No new notification',
 };
 
 export default STRINGS;

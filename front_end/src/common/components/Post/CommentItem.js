@@ -3,6 +3,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { parseContent } from '../../parsers/parser';
+import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,15 +18,15 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     color: '#ff00ee',
     fontSize: '10px',
-    margin: theme.spacing(1.5, 0, 2, 0),
+    margin: theme.spacing(2, 0, 2, 0),
   },
 }));
 
-export default function CommentItem({ content, user, language }) {
+export default function CommentItem({ content, user }) {
   const classes = useStyles();
   const { publicName } = user;
 
-  const parsedContent = parseContent(content, language, { fontSize: '12px' });
+  const parsedContent = parseContent(content, getLanguage(), { fontSize: '12px' });
   return (
     <div className={classes.root}>
       <div> {parsedContent}</div>
@@ -39,6 +40,5 @@ export default function CommentItem({ content, user, language }) {
 }
 CommentItem.propTypes = {
   content: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
 };
