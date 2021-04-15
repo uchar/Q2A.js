@@ -15,7 +15,7 @@ import ErrorMessage from '../../common/components/ErrorMessage';
 import { addRevalidateAndRedux, isInClientBrowser } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
 import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
-import CardButton from '../../common/components/CardButton';
+import Q2aButton from '../../common/components/Q2aButton';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -68,9 +68,7 @@ const Post = () => {
     <Box className={classes.paper}>
       <QuestionItem {...question} />
       {question.answers.map((answer) => {
-        return (
-          <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer}></AnswerItem>
-        );
+        return <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer} />;
       })}
       <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
         <Typography style={{ fontSize: 22, textAlign: 'initial', marginBottom: '20px' }}>
@@ -83,9 +81,9 @@ const Post = () => {
           }}
         />
       </div>
-      <div style={{ textAlign: 'left', marginTop: '25px' }}>
-        <CardButton
-          onClick={submitAnswer}
+      <div style={{ textAlign: 'initial', marginTop: '25px' }}>
+        <Q2aButton
+          onSubmit={submitAnswer}
           variant="contained"
           color="primary"
           className={classes.button}

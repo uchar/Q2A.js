@@ -75,7 +75,7 @@ const SButton = (props) => {
 };
 
 // eslint-disable-next-line complexity
-const CardButton = (props) => {
+const Q2aButton = (props) => {
   const router = useRouter();
   const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading, style, className } = props;
   return (
@@ -108,4 +108,4 @@ const CardButton = (props) => {
   );
 };
 
-export default CardButton;
+export default Q2aButton;

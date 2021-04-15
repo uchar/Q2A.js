@@ -13,7 +13,7 @@ import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
-import CardButton from '../CardButton';
+import Q2aButton from '../Q2aButton';
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -181,7 +181,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             </CardContent>
             {
               <div className={classes.submitButtonsParent}>
-                <CardButton
+                <Q2aButton
                   type="submit"
                   onSubmit={handleSubmit}
                   variant="contained"
@@ -192,7 +192,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   text={editMode ? getStrings().ASK_BUTTON_EDIT_SUBMIT : getStrings().ASK_BUTTON_SEND_SUBMIT}
                 />
                 {editMode && (
-                  <CardButton
+                  <Q2aButton
                     onSubmit={onEditFinished}
                     variant="contained"
                     color="secondary"

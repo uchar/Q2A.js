@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { Divider } from '@material-ui/core';
 import LoginLayout from '../common/layouts/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage';
-import CardButton from '../common/components/CardButton';
+import Q2aButton from '../common/components/Q2aButton';
 import { login, signUp } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
@@ -100,7 +100,7 @@ const Register = () => {
               />
               {errors.password && touched.password && <ErrorMessage text={errors.password} />}
               {errors.api && <ErrorMessage style={{ marginTop: '18px' }} text={errors.api} />}
-              <CardButton
+              <Q2aButton
                 text={getStrings().Register_TITLE}
                 fullWidth={true}
                 onSubmit={handleSubmit}

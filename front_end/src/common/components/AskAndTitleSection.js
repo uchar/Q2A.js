@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import CardButton from './CardButton';
+import Q2aButton from './Q2aButton';
 import { getStrings } from '../utlities/languageUtilities';
 import { DeepMemo } from '../utlities/generalUtilities';
 
@@ -25,7 +25,7 @@ const AskAndTitleSection = DeepMemo(function AskAndTitleSection({ title, classNa
       <Typography className={classes.title} variant="h1">
         {title}
       </Typography>
-      <CardButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />
+      <Q2aButton url={'/ask'} shouldShowLoading={false} text={getStrings().ASK_QUESTION_BUTTON} />
     </div>
   );
 });
