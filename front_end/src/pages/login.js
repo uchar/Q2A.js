@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import LoginLayout from '../common/layouts/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage';
-import CardButton from '../common/components/CardButton';
+import Q2aButton from '../common/components/Q2aButton';
 import { login } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
@@ -76,7 +76,7 @@ const Login = () => {
                 autoComplete="current-password"
               />
               {errors.password && touched.password && <ErrorMessage text={errors.password} />}
-              <CardButton
+              <Q2aButton
                 type="submit"
                 text={getStrings().SIGN_IN_TITLE}
                 onSubmit={handleSubmit}

@@ -70,4 +70,3 @@ yarn docker_rebuild_frontend
 yarn docker_rebuild_api
 ```
 
-###### This project is work in progress and under  development feel free to create issue for discussion

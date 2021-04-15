@@ -238,7 +238,9 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
   isTextPrimary = true;
   isRTL = false;
   return (
-    <div style={{ flex: 1, margin: '10px 10px 5px 10px' }}>
+    <div
+      style={{ flex: 1, margin: '10px 10px 5px 10px', textAlign: isLanguageRtl(language) ? 'right' : 'left' }}
+    >
       {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
     </div>
   );

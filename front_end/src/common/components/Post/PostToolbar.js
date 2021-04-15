@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ShareDialog from '../ShareDialog';
+import { getStrings } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', padding: theme.spacing(3, 2, 1, 0) },
@@ -49,7 +50,7 @@ const PostToolbar = ({
       />
       {showShare &&
         getItem(
-          'اشتراک',
+          getStrings().POST_TOOLBAR_SHARE,
           (event) => {
             setShareAnchor(event.currentTarget);
           },
@@ -57,7 +58,7 @@ const PostToolbar = ({
         )}
       {showEdit &&
         getItem(
-          'ویرایش',
+          getStrings().POST_TOOLBAR_EDIT,
           (event) => {
             editCallBack(event);
           },
@@ -65,7 +66,7 @@ const PostToolbar = ({
         )}
       {showComment &&
         getItem(
-          'کامنت',
+          getStrings().POST_TOOLBAR_COMMENT,
           (event) => {
             commentCallback(event);
           },
@@ -73,7 +74,7 @@ const PostToolbar = ({
         )}
       {showDisable &&
         getItem(
-          'غیر فعال کردن',
+          getStrings().POST_TOOLBAR_DEACTIVE,
           (event) => {
             disableCallback(event);
           },
