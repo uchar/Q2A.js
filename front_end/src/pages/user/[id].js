@@ -5,14 +5,13 @@ import { Button, Tab, Tabs, AppBar, Typography, Box, Avatar, CircularProgress } 
 import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
-import { useRouter } from 'next/router';
 import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utilities';
-import {ALL_BLOG_POSTS, ALL_TAGS, GET_USER} from '../../API/queries';
+import { ALL_BLOG_POSTS, ALL_TAGS, GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import { addRevalidateAndRedux, getFullUrl } from '../../common/utlities/generalUtilities';
 import ErrorMessage from '../../common/components/ErrorMessage';
@@ -21,7 +20,13 @@ import CKEditor from '../../common/components/Editor/CKEditor';
 import { parseContent } from '../../common/parsers/parser';
 import SaveCancelButtons from '../../common/components/SaveCancelButtons';
 import { wrapper } from '../../redux/store';
-import {ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, CURRENT_USER_ACTION, SELECTED_USER_ACTION} from '../../redux/constants';
+import {
+  ALL_BLOG_POSTS_ACTION,
+  ALL_TAGS_ACTION,
+  CURRENT_USER_ACTION,
+  SELECTED_USER_ACTION,
+} from '../../redux/constants';
+import { getStrings } from '../../common/utlities/languageUtilities';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -172,7 +177,7 @@ const User = () => {
               disabled={loadingNewImage}
               style={{ justifySelf: 'center', margin: '-25px 0px 45px 0px' }}
             >
-              آپلود عکس
+              {getStrings().PROFILE_IMAGE_UPLOAD}
             </Button>
           </label>
           {uploadError && <ErrorMessage style={{ margin: '-30px 0px 25px 0px' }} text={uploadError} />}
@@ -237,14 +242,14 @@ const User = () => {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="سوال ها" icon={<PersonIcon />} {...a11yProps(0)} />
-          <Tab label="جواب ها" icon={<StatsIcon />} {...a11yProps(1)} />
-          <Tab label="تشویق ها" icon={<QuestionsIcon />} {...a11yProps(2)} />
+          <Tab label={getStrings().PROFILE_QUESTIONS} icon={<PersonIcon />} {...a11yProps(0)} />
+          <Tab label={getStrings().PROFILE_ANSWERS} icon={<StatsIcon />} {...a11yProps(1)} />
+          <Tab label={getStrings().PROFILE_CLAPPED} icon={<QuestionsIcon />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
       <TabPanel value={currentTabIndex} index={0}>
-        <div dir="rtl">
+        <div>
           {questions &&
             questions.map((question) => {
               const alteredQuestion = { ...question };
@@ -256,7 +261,7 @@ const User = () => {
         </div>
       </TabPanel>
       <TabPanel value={currentTabIndex} index={1} dir={theme.direction}>
-        <div dir="rtl">
+        <div>
           {answers &&
             answers.map((answer) => {
               const alteredAnswer = { ...answer };
@@ -268,7 +273,7 @@ const User = () => {
         </div>
       </TabPanel>
       <TabPanel value={currentTabIndex} index={2}>
-        <div dir="rtl">
+        <div>
           {clapItems &&
             clapItems.map((item) => {
               if (item.type === 'QUESTION') {

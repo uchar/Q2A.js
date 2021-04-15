@@ -88,10 +88,10 @@ const getComments = async ({ id }) => {
   return comments;
 };
 
-const getUserQuestions = async ({ id }) => {
+const getUserQuestions = async ({ id, language }) => {
   const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
   const questions = await Post.findAll({
-    where: { type: POST_TYPES.QUESTION, userId: id },
+    where: { type: POST_TYPES.QUESTION, userId: id, language },
     order: [['createdAt', 'DESC']],
     limit: 30,
     offset: 0,
@@ -99,11 +99,11 @@ const getUserQuestions = async ({ id }) => {
   return questions;
 };
 
-const getUserAnswers = async ({ id }) => {
+const getUserAnswers = async ({ id, language }) => {
   const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
-
+  console.log('CONTEXT IS : ', language);
   const answers = await Post.findAll({
-    where: { type: POST_TYPES.ANSWER, userId: id },
+    where: { type: POST_TYPES.ANSWER, userId: id, language },
     order: [['createdAt', 'DESC']],
     limit: 30,
     offset: 0,

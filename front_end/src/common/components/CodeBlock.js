@@ -5,6 +5,7 @@ import {
   tomorrowNightBright as dark,
 } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const CodeBlock = ({ code, lang }) => {
   const themeType = useSelector((state) => state.currentUser.theme);
@@ -29,5 +30,12 @@ const CodeBlock = ({ code, lang }) => {
       </SyntaxHighlighter>
     </div>
   );
+};
+CodeBlock.defaultProps = {
+  lang: 'javascript',
+};
+CodeBlock.propTypes = {
+  code: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 export default CodeBlock;

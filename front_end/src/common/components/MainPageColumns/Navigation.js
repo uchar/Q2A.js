@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { AccountBox, Announcement, Home, Loyalty, Reorder, Settings } from '@material-ui/icons';
+import { Announcement, Home, Loyalty, Reorder, Settings } from '@material-ui/icons';
 import Link from 'next/link';
+import { getStrings } from '../../utlities/languageUtilities';
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,7 @@ const useTreeItemStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 0),
   },
   labelIcon: {
-    marginRight: theme.spacing(1),
+    margin: theme.spacing(0, 1),
   },
   labelText: {
     fontWeight: '600',
@@ -131,14 +132,29 @@ export default function NavigationMenu() {
         defaultExpandIcon={<ArrowRightIcon />}
         defaultEndIcon={<div style={{ width: 24 }} />}
       >
-        <StyledTreeItem target={'/'} nodeId="1" labelText="Home" labelIcon={Home} />
-        <StyledTreeItem target={'/tags'} nodeId="2" labelText="Tags" labelIcon={Loyalty} />
-        <StyledTreeItem target={'/blog'} nodeId="3" labelText="Blog" labelIcon={Announcement} />
-        <StyledTreeItem target={'#'} nodeId="4" labelText="Admin Section" labelIcon={SupervisorAccountIcon}>
+        <StyledTreeItem target={'/'} nodeId="1" labelText={getStrings().NAVIGATION_HOME} labelIcon={Home} />
+        <StyledTreeItem
+          target={'/tags'}
+          nodeId="2"
+          labelText={getStrings().NAVIGATION_TAGS}
+          labelIcon={Loyalty}
+        />
+        <StyledTreeItem
+          target={'/blog'}
+          nodeId="3"
+          labelText={getStrings().NAVIGATION_BLOG}
+          labelIcon={Announcement}
+        />
+        <StyledTreeItem
+          target={'#'}
+          nodeId="4"
+          labelText={getStrings().NAVIGATION_ADMIN}
+          labelIcon={SupervisorAccountIcon}
+        >
           <StyledTreeItem
             nodeId="5"
             target={'#'}
-            labelText="Site Settings"
+            labelText={getStrings().NAVIGATION_SETTINGS}
             labelIcon={Settings}
             labelInfo="90"
             color="#1a73e8"
@@ -147,7 +163,7 @@ export default function NavigationMenu() {
           <StyledTreeItem
             nodeId="6"
             target={'#'}
-            labelText="Users list"
+            labelText={getStrings().NAVIGATION_USERS_LIST}
             labelIcon={Reorder}
             labelInfo="2,294"
             color="#e3742f"
@@ -156,7 +172,7 @@ export default function NavigationMenu() {
           <StyledTreeItem
             nodeId="7"
             target={'#'}
-            labelText="Questions List"
+            labelText={getStrings().NAVIGATION_QUESTIONS_LIST}
             labelIcon={Reorder}
             labelInfo="3,566"
             color="#a250f5"
@@ -165,7 +181,7 @@ export default function NavigationMenu() {
           <StyledTreeItem
             nodeId="9"
             target={'#'}
-            labelText="Tags List"
+            labelText={getStrings().NAVIGATION_TAGS_LIST}
             labelIcon={Reorder}
             labelInfo="733"
             color="#3c8039"

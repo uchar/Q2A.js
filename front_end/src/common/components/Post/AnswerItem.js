@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, CardContent, Grid, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { parseContent } from '../../parsers/parser';
 import CommentsSection from './CommentsSection';
 import ProfileImageWithName from '../ProfileImageWithName';
@@ -9,7 +10,7 @@ import PostToolbar from './PostToolbar';
 import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId } from '../../../API/utilities';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
-import { ADD_QUESTION, UPDATE_ANSWER, UPDATE_QUESTION, UPDATE_USER } from '../../../API/mutations';
+import { UPDATE_ANSWER } from '../../../API/mutations';
 import AddComment from './AddComment';
 import { DeepMemo } from '../../utlities/generalUtilities';
 import { GET_QUESTION } from '../../../API/queries';
@@ -49,7 +50,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
     getUser();
   }, []);
   const userWhoAnsweredId = user.id;
-  const parsedContent =  parseContent(content, language);
+  const parsedContent = parseContent(content, language);
 
   const handleEditDataChanged = (event, editor) => {
     const data = editor.getData();
@@ -130,4 +131,14 @@ const AnswerItem = DeepMemo(function AnswerItem({
     </Box>
   );
 });
+AnswerItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  rootId: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  votesCount: PropTypes.number.isRequired,
+  comments: PropTypes.array.isRequired,
+};
 export default AnswerItem;

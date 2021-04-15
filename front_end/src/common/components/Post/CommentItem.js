@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { parseContent } from '../../parsers/parser';
-import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,3 +37,8 @@ export default function CommentItem({ content, user, language }) {
     </div>
   );
 }
+CommentItem.propTypes = {
+  content: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+};

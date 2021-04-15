@@ -15,6 +15,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from 'react-share';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,5 +100,10 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
       </div>
     </Menu>
   );
+};
+ShareDialog.propTypes = {
+  shareTitle: PropTypes.string.isRequired,
+  shareBody: PropTypes.string,
+  handleClose: PropTypes.func.isRequired,
 };
 export default ShareDialog;

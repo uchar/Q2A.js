@@ -45,7 +45,7 @@ export default gql`
   }
 
   type User {
-    id: String
+    id: String!
     publicName: String
     profileImage: String
     score: Int
@@ -64,7 +64,7 @@ export default gql`
     answer: Answer
   }
   type Question {
-    id: String
+    id: String!
     title: String
     content: String
     user: User
@@ -82,7 +82,7 @@ export default gql`
   }
 
   type Answer {
-    id: String
+    id: String!
     content: String
     user: User
     votesCount: Int
@@ -92,7 +92,7 @@ export default gql`
   }
 
   type Comment {
-    id: String
+    id: String!
     content: String
     user: User
     isLegacyContent: Boolean
@@ -100,7 +100,7 @@ export default gql`
   }
 
   type Tag {
-    id: String
+    id: String!
     title: String
     content: String
     used: Int
@@ -127,7 +127,7 @@ export default gql`
   }
 
   type BlogPost {
-    id: Int!
+    id: String!
     title: String!
     content: String!
     user: User!

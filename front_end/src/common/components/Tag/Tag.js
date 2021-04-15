@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,5 +35,8 @@ const Tag = DeepMemo(function Tag(props) {
     </Link>
   );
 });
-
+Tag.propTypes = {
+  tag: PropTypes.string.isRequired,
+  count: PropTypes.number,
+};
 export default Tag;

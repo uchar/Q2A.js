@@ -4,6 +4,7 @@ import { IconButton, Typography } from '@material-ui/core';
 import ViewIcon from '@material-ui/icons/ArrowUpward';
 import UpVoteIcon from '@material-ui/icons/Visibility';
 import AnswerIcon from '@material-ui/icons/QuestionAnswer';
+import PropTypes from 'prop-types';
 import { DeepMemo } from '../../utlities/generalUtilities';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,5 +34,9 @@ const PostStatistics = DeepMemo(function PostStatistics({ votesCount, viewsCount
     </div>
   );
 });
-
+PostStatistics.propTypes = {
+  votesCount: PropTypes.number,
+  viewsCount: PropTypes.number,
+  answersCount: PropTypes.number,
+};
 export default PostStatistics;

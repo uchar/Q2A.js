@@ -16,8 +16,9 @@ const reducer = (
   state = {
     currentUser: { language: LANGUAGES.ENGLISH, theme: 'light' },
     tags: [],
-    questions: [],
+    questions: {},
     currentTag: '',
+    blogPosts: [],
   },
   action
 ) => {

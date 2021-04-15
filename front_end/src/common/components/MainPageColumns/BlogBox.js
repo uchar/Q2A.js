@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, CardContent, Divider, Typography } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
+import LatestBlogPosts from '../Blog/LatestBlogPosts';
+import {getStrings} from "../../utlities/languageUtilities";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function News({ blogPosts }) {
+export default function BlogBox({ blogPosts }) {
   const classes = useStyles();
 
   return (
     <div>
       <Box boxShadow={2} className={classes.root}>
         <Link href={`/blog`}>
-          <Typography className={classes.title}>Latest on blog</Typography>
+          <Typography className={classes.title}>{getStrings().NEWS_BOX_TITLE}</Typography>
         </Link>
         {blogPosts &&
           blogPosts.map((blogPost) => (
@@ -60,3 +63,6 @@ export default function News({ blogPosts }) {
     </div>
   );
 }
+BlogBox.propTypes = {
+  blogPosts: PropTypes.array.isRequired,
+};

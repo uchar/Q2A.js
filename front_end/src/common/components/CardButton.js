@@ -1,13 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Link from 'next/link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
 import { isMobile } from 'react-device-detect';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { getLanguage } from '../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   viewCourseButton: {
@@ -68,7 +66,6 @@ const SButton = (props) => {
         style={style}
         disabled={shouldShowLoading && loading ? loading : false}
         onClick={shouldShowLoading ? handleButtonClick : onClick}
-        fullWidth={fullWidth}
       >
         {buttonText}
       </Button>

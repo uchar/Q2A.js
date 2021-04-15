@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { loginWithGoogle } from '../../API/utilities';
 import ErrorMessage from './ErrorMessage';
 
@@ -13,9 +14,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GoogleLoginButton = (props) => {
+const GoogleLoginButton = ({ buttonText }) => {
   const classes = useStyles();
-  const { buttonText } = props;
   const [error, setError] = useState(false);
 
   const router = useRouter();
@@ -63,5 +63,7 @@ const GoogleLoginButton = (props) => {
     </div>
   );
 };
-
+GoogleLoginButton.propTypes = {
+  buttonText: PropTypes.string.isRequired,
+};
 export default GoogleLoginButton;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Typography, Tooltip } from '@material-ui/core';
+import { Avatar, Tooltip } from '@material-ui/core';
 
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { getFullUrl } from '../utlities/generalUtilities';
-// import Medal from './Medal';
 
 const useStyles = (size) =>
   makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const useStyles = (size) =>
     },
   }))();
 
-const ProfileImage = ({ profileImage, size, href, as, showMedal, tooltip }) => {
+const ProfileImage = ({ profileImage, size, href, tooltip }) => {
   const classes = useStyles(size);
   let imageComponent;
   if (profileImage) {
@@ -59,26 +59,9 @@ const ProfileImage = ({ profileImage, size, href, as, showMedal, tooltip }) => {
       </Tooltip>
     );
   }
-  // imageComponent = (
-  //   <div>
-  //     {imageComponent}
-  //     {showMedal && score && (
-  //       <div>
-  //         {/* <div className={classes.medalSection}> */}
-  //         {/*  <Medal className={classes.medal} backgroundColor="#CD7F32" color="white" count={'8'} /> */}
-  //         {/*  <Medal className={classes.medal} backgroundColor="silver" color="black" count={'22'} /> */}
-  //         {/*  <Medal className={classes.medal} backgroundColor="yellow" color="black" count={'2'} /> */}
-  //         {/* </div> */}
-  //         <Typography align={'center'} className={classes.score} variant="button">
-  //           {`${score} امتیاز`}
-  //         </Typography>
-  //       </div>
-  //     )}
-  //   </div>
-  // );
   if (href) {
     return (
-      <Link prefetch={false} href={href} >
+      <Link prefetch={false} href={href}>
         {imageComponent}
       </Link>
     );
@@ -88,7 +71,11 @@ const ProfileImage = ({ profileImage, size, href, as, showMedal, tooltip }) => {
 
 ProfileImage.defaultProps = {
   size: 60,
-  showMedal: true,
 };
-
+ProfileImage.propTypes = {
+  profileImage: PropTypes.string,
+  href: PropTypes.string,
+  tooltip: PropTypes.string,
+  size: PropTypes.number,
+};
 export default ProfileImage;

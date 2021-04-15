@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
 import { DeepMemo } from '../../utlities/generalUtilities';
 import Tag from './Tag';
 
@@ -38,11 +39,15 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
       <div className={classes.tagParent}>
         <Tag className={classes.tag} tag={tag} count={count} />
       </div>
-      <Typography color={'black'} className={classes.description}>
+      <Typography className={classes.description}>
         {description}
       </Typography>
     </Box>
   );
 });
-
+TagDetailBox.propTypes = {
+  tag: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+};
 export default TagDetailBox;

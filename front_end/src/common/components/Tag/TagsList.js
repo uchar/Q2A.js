@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import PropTypes from 'prop-types';
 import Tag from './Tag';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,3 +23,6 @@ export default function TagsList({ tags }) {
     </div>
   );
 }
+TagsList.propTypes = {
+  tags: PropTypes.array.isRequired,
+};

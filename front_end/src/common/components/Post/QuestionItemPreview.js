@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Box, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
@@ -132,5 +133,20 @@ const QuestionItemPreview = DeepMemo(function ({
     </Box>
   );
 });
-
+QuestionItemPreview.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  viewsCount: PropTypes.number.isRequired,
+  votesCount: PropTypes.number.isRequired,
+  answersCount: PropTypes.number.isRequired,
+  tag1: PropTypes.string.isRequired,
+  tag2: PropTypes.string.isRequired,
+  tag3: PropTypes.string,
+  tag4: PropTypes.string,
+  tag5: PropTypes.string,
+  createdAt: PropTypes.string.isRequired,
+  isExpanded: PropTypes.bool,
+};
 export default QuestionItemPreview;

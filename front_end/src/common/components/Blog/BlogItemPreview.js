@@ -92,7 +92,7 @@ const BlogItemPreview = DeepMemo(function ({
   );
 });
 BlogItemPreview.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
