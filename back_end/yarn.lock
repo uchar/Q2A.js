@@ -2015,7 +2015,7 @@ apollo-server-caching@^0.6.0:
   dependencies:
     lru-cache "^6.0.0"
 
-apollo-server-core@^2.22.2, apollo-server-core@^2.23.0:
+apollo-server-core@^2.23.0:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-2.23.0.tgz#65ac55a293205efa63eadbf09d30704d6a5974d3"
   integrity sha512-3/a4LPgRADc8CdT/nRh7W0CAqQv3Q4DJvakWQgKqGSqDEb/0u4IBynYjlQKuPBi4wwKdeK2Hb1wiQLl+zu4StQ==
@@ -2060,7 +2060,7 @@ apollo-server-errors@^2.5.0:
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.5.0.tgz#5d1024117c7496a2979e3e34908b5685fe112b68"
   integrity sha512-lO5oTjgiC3vlVg2RKr3RiXIIQ5pGXBFxYGGUkKDhTud3jMIhs+gel8L8zsEjKaKxkjHhCQAA/bcEfYiKkGQIvA==
 
-apollo-server-express@2.23.0, apollo-server-express@^2.22.2:
+apollo-server-express@2.23.0, apollo-server-express@^2.23.0:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/apollo-server-express/-/apollo-server-express-2.23.0.tgz#7a779e45522f3c8f68ac748fea1a09e982981549"
   integrity sha512-tzil7c51ODH0rT1Bc5VMksdWzHrYGavdLtnDz4M0ePiTm18Gc81HD7X/4DPczorerEpfwwkf2YlADtPQfRSxlw==
@@ -2099,13 +2099,13 @@ apollo-server-types@^0.7.0:
     apollo-server-caching "^0.6.0"
     apollo-server-env "^3.0.0"
 
-apollo-server@2.22.2:
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-2.22.2.tgz#77b1bfc8bc2f3b7468049dbe8c5b091460ba4ed5"
-  integrity sha512-Lt+7FxqweSMg2cn5HXksEhdZj1lOojJ+5RMNKys0hkKp9xP/qwHW7+NrFTcItRstHPz27filleAHjoziaWdpiA==
+apollo-server@2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-2.23.0.tgz#5dd84408ea7103fdeb664169c08cc97084fcc9a3"
+  integrity sha512-BS+8uAJV2qYLqu+y+KIQyfR3yN2muBtql6lvfwJh4fRgUo6HU5Cc3nTA9jHbgEWE/uiyEn4eqOv1kieHIQmH6w==
   dependencies:
-    apollo-server-core "^2.22.2"
-    apollo-server-express "^2.22.2"
+    apollo-server-core "^2.23.0"
+    apollo-server-express "^2.23.0"
     express "^4.0.0"
     graphql-subscriptions "^1.0.0"
     graphql-tools "^4.0.8"
