@@ -9,6 +9,14 @@ export const ADD_QUESTION = gql`
   }
 `;
 
+export const increaseViewCount = gql`
+  mutation($language: Language!, $id: String!) {
+    increaseViewCount(language: $language, id: $id) {
+      statusCode
+      message
+    }
+  }
+`;
 export const ADD_ANSWER = gql`
   mutation($language: Language!, $postId: String!, $content: String!) {
     addAnswer(language: $language, postId: $postId, content: $content) {

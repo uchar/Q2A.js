@@ -6,6 +6,7 @@ import {
   findUserByName,
   checkInputValidation,
   createAddSuccessResponse,
+  checkInputValidationWithoutContext,
 } from '../utility.js';
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
 
@@ -36,6 +37,13 @@ const updatePost = async (inputParams, postId, language, context) => {
   const user = await findUserByName(context.user.publicName);
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
   return Post.update({ ...inputParams }, { where: { userId: user.id, id: postId, language } });
+};
+
+const incrementColumnInPost = async (id, column, valueToIncrease = 1) => {
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const incrPart = {};
+  incrPart[column] = valueToIncrease;
+  return Post.increment(incrPart, { where: { id } });
 };
 
 const getParentPost = async (parentId) => {
@@ -88,6 +96,7 @@ const addAnswer = async (_, { language, postId, content }, context) => {
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
   }
+  await incrementColumnInPost(parentPost.id, 'answersCount');
   const url = await getUrlFromPost(parentPost);
   const createPostResult = await createPost(
     {
@@ -208,4 +217,23 @@ const updateQuestion = async (_, { language, id, title, content, tags }, context
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
 };
 
-export { addComment, addAnswer, updateQuestion, updateComment, updateAnswer, addQuestion };
+const increaseQuestionViewCount = async (_, { id }) => {
+  await checkInputValidationWithoutContext(
+    yup.object().shape({
+      id: yup.string().required(),
+    }),
+    { id }
+  );
+  await incrementColumnInPost(id, 'viewsCount');
+  return createSuccessResponse();
+};
+
+export {
+  addComment,
+  addAnswer,
+  updateQuestion,
+  updateComment,
+  updateAnswer,
+  addQuestion,
+  increaseQuestionViewCount,
+};

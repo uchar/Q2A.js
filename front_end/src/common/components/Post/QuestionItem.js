@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { parseContent } from '../../parsers/parser';
-import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
+import { DeepMemo, getTagsArray, isInClientBrowser } from '../../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
@@ -10,8 +10,9 @@ import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
-import { getCurrentUserId } from '../../../API/utilities';
+import { doGraphQLMutation, getCurrentUserId } from '../../../API/utilities';
 import { getLanguage } from '../../utlities/languageUtilities';
+import { increaseViewCount } from '../../../API/mutations';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +73,13 @@ const QuestionItem = DeepMemo(function QuestionItem({
       const userId = await getCurrentUserId();
       setCurrentUserId(userId);
     };
+    const incrViewCount = async () => {
+      if (isInClientBrowser()) {
+        await doGraphQLMutation(increaseViewCount, { id });
+      }
+    };
     getUserId();
+    incrViewCount();
   }, []);
 
   const handleEditFinished = () => {

@@ -4,7 +4,6 @@ import persianMoment from 'jalali-moment';
 import 'moment/locale/fa';
 import isEqual from 'react-fast-compare';
 import { getLanguage, LANGUAGES, updateLanguageBaseOnUrl } from './languageUtilities';
-import Q2aDocument from '../../pages/_document';
 
 export const getFullUrl = (name) => {
   if (!name) {
@@ -58,4 +57,8 @@ export const DeepMemo = (component) => React.memo(component, isEqual);
 export const isLanguageRtl = (language) => {
   if (language === 'fa' || language === 'ar' || language === 'he') return true;
   return false;
+};
+
+export const isInClientBrowser = () => {
+  return typeof window !== 'undefined';
 };
