@@ -65,6 +65,10 @@ const STRINGS = {
   NAVIGATION_USERS_LIST: 'لیست یوزرها',
   NAVIGATION_QUESTIONS_LIST: 'لیست سوالات',
   NAVIGATION_TAGS_LIST: 'لیست تگ ها',
+  POST_TOOLBAR_DEACTIVE: 'غیرفعال کردن ',
+  POST_TOOLBAR_COMMENT: 'کامنت',
+  POST_TOOLBAR_EDIT: 'ویرایش',
+  POST_TOOLBAR_SHARE: 'اشتراک',
 };
 
 export default STRINGS;

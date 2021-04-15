@@ -123,7 +123,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
       <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
       <PostToolbar
         showShare
-        shareTitle={`${title} - هفت خط کد`}
+        shareTitle={`${title} - q2a`}
         shareBody={content}
         showEdit={currentUserId === userWhoAskedId}
         showDisable={currentUserId === userWhoAskedId}

@@ -67,6 +67,10 @@ const STRINGS = {
   NAVIGATION_USERS_LIST: 'Users List',
   NAVIGATION_QUESTIONS_LIST: 'Questions List',
   NAVIGATION_TAGS_LIST: 'Tags List',
+  POST_TOOLBAR_DEACTIVE: 'Deactivate ',
+  POST_TOOLBAR_COMMENT: 'Comment',
+  POST_TOOLBAR_EDIT: 'Edit',
+  POST_TOOLBAR_SHARE: 'Share',
 };
 
 export default STRINGS;

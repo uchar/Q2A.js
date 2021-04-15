@@ -14,11 +14,7 @@ import { ADD_ANSWER, increaseQuestionViewCount } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { addRevalidateAndRedux, isInClientBrowser } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
-import {
-  ALL_BLOG_POSTS_ACTION,
-  ALL_TAGS_ACTION,
-  SELECTED_QUESTION,
-} from '../../redux/constants';
+import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
 import CardButton from '../../common/components/CardButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +73,7 @@ const Post = () => {
         );
       })}
       <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
-        <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
+        <Typography style={{ fontSize: 22, textAlign: 'initial', marginBottom: '20px' }}>
           {getStrings().YOUR_ANSWER}
         </Typography>
         <CKEditor
@@ -94,9 +90,8 @@ const Post = () => {
           color="primary"
           className={classes.button}
           loading={false}
-        >
-          {getStrings().ASK_BUTTON_SENDING}
-        </CardButton>
+          text={getStrings().ASK_BUTTON_SENDING}
+        />
       </div>
       {APIError && <ErrorMessage text={APIError} />}
     </Box>
