@@ -47,7 +47,7 @@
     "react-jss": "10.6.0",
     "react-redux": "7.2.3",
     "react-render-html": "0.6.0",
-    "react-required-if": "^1.0.3",
+    "react-required-if": "1.0.3",
     "react-scripts": "4.0.3",
     "react-share": "4.4.0",
     "react-spinners": "0.10.6",
