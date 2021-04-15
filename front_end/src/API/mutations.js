@@ -34,12 +34,11 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
-
 export const UPDATE_QUESTION = gql`
   mutation($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
     updateQuestion(language: $language, id: $id, title: $title, content: $content, tags: $tags) {
-      id
       statusCode
+      message
     }
   }
 `;
@@ -47,8 +46,8 @@ export const UPDATE_QUESTION = gql`
 export const UPDATE_ANSWER = gql`
   mutation($language: Language!, $id: String!, $content: String!) {
     updateAnswer(language: $language, id: $id, content: $content) {
-      id
       statusCode
+      message
     }
   }
 `;
@@ -56,8 +55,8 @@ export const UPDATE_ANSWER = gql`
 export const UPDATE_COMMENT = gql`
   mutation($language: Language!, $id: String!, $content: String!) {
     updateComment(language: $language, id: $id, content: $content) {
-      id
       statusCode
+      message
     }
   }
 `;
