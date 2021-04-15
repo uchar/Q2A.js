@@ -8,11 +8,6 @@ const STRINGS = {
   SITE_MAIN_PAGE_TAB_HEADERS: ['New', 'Most Vote', 'Most View', 'No Answer'],
   IN: 'In',
   SEARCH_HINT: 'Search ...',
-  DEMO_TIME_AGO_QUESTION: ' Asked ',
-  DEMO_TIME_AGO_ANSWER: ' Answered ',
-  DEMO_UP_VOTE: '0 vote',
-  DEMO_VIEWS: '0 view',
-  DEMO_ANSWERS: '0 answer',
   SIGN_IN_GOOGLE: 'Login with google',
   SIGN_IN_TITLE: 'Login',
   SIGN_IN_EMAIL: 'Username',
@@ -73,6 +68,7 @@ const STRINGS = {
   POST_TOOLBAR_COMMENT: 'Comment',
   POST_TOOLBAR_EDIT: 'Edit',
   POST_TOOLBAR_SHARE: 'Share',
+  POST_TO_SHORT_ANSWER: 'Answer needs at least 15 characters',
 };
 
 export default STRINGS;

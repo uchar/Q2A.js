@@ -5,11 +5,6 @@ const STRINGS = {
   SITE_MAIN_PAGE_TAB_HEADERS: ['جدید ترین ها', 'محبوبترین ها', 'پربازدیدترین ها', 'بدون پاسخ ها'],
   IN: 'در',
   SEARCH_HINT: 'جست و جو ...',
-  DEMO_TIME_AGO_QUESTION: ' سوال کرد ',
-  DEMO_TIME_AGO_ANSWER: ' پاسخ داد ',
-  DEMO_UP_VOTE: '25 مثبت',
-  DEMO_VIEWS: '25 بازدید',
-  DEMO_ANSWERS: '0 جواب',
   SIGN_IN_GOOGLE: 'ورود با گوگل',
   SIGN_IN_TITLE: 'ورود',
   SIGN_IN_EMAIL: 'یوزرنیم',
@@ -71,6 +66,7 @@ const STRINGS = {
   POST_TOOLBAR_COMMENT: 'کامنت',
   POST_TOOLBAR_EDIT: 'ویرایش',
   POST_TOOLBAR_SHARE: 'اشتراک',
+  POST_TO_SHORT_ANSWER: 'حداقل تعداد کاراکتر برای پاسخ 15 است',
 };
 
 export default STRINGS;
