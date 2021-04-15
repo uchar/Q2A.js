@@ -1,14 +1,15 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserView } from 'react-device-detect';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../components/Tag/TagsList';
 import JssStylesProvider from './JssStylesProvider';
-import News from '../components/MainPageColumns/News';
+import BlogBox from '../components/MainPageColumns/BlogBox';
 import Loading from '../components/Loading';
 import Navigation from '../components/MainPageColumns/Navigation';
 
@@ -54,7 +55,7 @@ const Layout = (props) => {
             <Grid item md={2} xs={12}>
               {!noSideBar && (
                 <div>
-                  <News className={classes.newsBox} blogPosts={blogPosts} />
+                  <BlogBox className={classes.newsBox} blogPosts={blogPosts} />
                   <Box className={classes.tagBox} boxShadow={2}>
                     <Grid container>
                       <BrowserView>
@@ -76,5 +77,8 @@ const Layout = (props) => {
 Layout.defaultProps = {
   noSideBar: false,
 };
-
+Layout.propTypes = {
+  children: PropTypes.object.isRequired,
+  noSideBar: PropTypes.bool.isRequired,
+};
 export default Layout;

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getStrings } from '../../utlities/languageUtilities';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
@@ -207,5 +208,12 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
 EditQuestion.defaultProps = {
   editMode: false,
 };
-
+EditQuestion.propTypes = {
+  editMode: PropTypes.bool.isRequired,
+  editId: PropTypes.string.isRequired,
+  editTitle: PropTypes.string.isRequired,
+  editTags: PropTypes.array.isRequired,
+  editContent: PropTypes.string.isRequired,
+  onEditFinished: PropTypes.func.isRequired,
+};
 export default EditQuestion;

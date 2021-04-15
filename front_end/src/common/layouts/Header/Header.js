@@ -101,7 +101,6 @@ const Header = ({}) => {
 
   const refreshUser = async () => {
     const userResult = await getCurrentUser();
-    console.log('Dispatching refreshed user ', userResult);
     dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
   };
 
@@ -153,7 +152,6 @@ const Header = ({}) => {
 
   const handleMenuLanguageItemClick = async (newLanguage) => {
     handleLanguageMenuClose();
-    console.log('HERE');
     let language = '';
     if (newLanguage.toLowerCase() === 'english') {
       language = 'en';

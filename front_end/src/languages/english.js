@@ -1,3 +1,6 @@
+import { Typography } from '@material-ui/core';
+import React from 'react';
+
 const STRINGS = {
   SITE_TITLE: 'Q2A.js',
   HEADER_REGISTER_BUTTON: 'Register',
@@ -50,6 +53,20 @@ const STRINGS = {
   TAGS_PAGE_TITLE: 'Tags',
   TAGS_PAGE_DESCRIPTION:
     'A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.',
+  NEWS_BOX_TITLE: 'Latest on blog',
+  YOUR_ANSWER: 'Your Answer',
+  PROFILE_IMAGE_UPLOAD: 'Upload image',
+  PROFILE_QUESTIONS: 'Questions',
+  PROFILE_ANSWERS: 'Answers',
+  PROFILE_CLAPPED: 'Liked',
+  NAVIGATION_HOME: 'Home',
+  NAVIGATION_TAGS: 'Tags',
+  NAVIGATION_BLOG: 'Blog',
+  NAVIGATION_ADMIN: 'Admin Section',
+  NAVIGATION_SETTINGS: 'Site Settings',
+  NAVIGATION_USERS_LIST: 'Users List',
+  NAVIGATION_QUESTIONS_LIST: 'Questions List',
+  NAVIGATION_TAGS_LIST: 'Tags List',
 };
 
 export default STRINGS;

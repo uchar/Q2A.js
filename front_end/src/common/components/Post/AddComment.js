@@ -1,12 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
+import BlogBox from '../MainPageColumns/BlogBox';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,5 +64,11 @@ const AddComment = ({ className, enable, onClose, postId, rootId }) => {
     </div>
   );
 };
-
+AddComment.propTypes = {
+  className: PropTypes.string,
+  enable: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
+  rootId: PropTypes.string.isRequired,
+};
 export default AddComment;

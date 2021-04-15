@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { DeepMemo, timeAgo } from '../utlities/generalUtilities';
 import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import ProfileImage from './ProfileImage';
@@ -25,19 +26,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileImageWithName = DeepMemo(function ({ profileImage, href, as, createdAt, publicName, score }) {
+const ProfileImageWithName = DeepMemo(function ({ profileImage, href, createdAt, publicName, score }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <ProfileImage
-        href={`${as}`}
+        href={`${href}`}
         profileImage={profileImage}
         showMedal
         tooltip={`${publicName} تا به حال ${score} امتیاز گرفته است `}
       />
       <div className={classes.nameDateSection}>
-        <Link prefetch={false} href={href} >
+        <Link prefetch={false} href={href}>
           <Typography variant="subtitle1" color="textPrimary" className={classes.name}>
             {publicName}
           </Typography>
@@ -50,5 +51,11 @@ const ProfileImageWithName = DeepMemo(function ({ profileImage, href, as, create
     </div>
   );
 });
-
+ProfileImageWithName.propTypes = {
+  profileImage: PropTypes.string.isRequired,
+  href: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  publicName: PropTypes.string,
+  score: PropTypes.number,
+};
 export default ProfileImageWithName;

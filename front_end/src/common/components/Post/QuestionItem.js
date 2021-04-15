@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import { parseContent } from '../../parsers/parser';
-import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
+import { DeepMemo, getTagsArray, isInClientBrowser } from '../../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
@@ -9,7 +10,9 @@ import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
-import { getCurrentUserId } from '../../../API/utilities';
+import { doGraphQLMutation, getCurrentUserId } from '../../../API/utilities';
+import { getLanguage } from '../../utlities/languageUtilities';
+import { increaseViewCount } from '../../../API/mutations';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +57,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   tag3,
   tag4,
   tag5,
-  language,
 }) {
   const classes = useStyles();
   const [currentUserId, setCurrentUserId] = React.useState('');
@@ -64,14 +66,20 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  const parsedContent = parseContent(content, language);
+  const parsedContent = parseContent(content, getLanguage());
 
   useEffect(() => {
     const getUserId = async () => {
       const userId = await getCurrentUserId();
       setCurrentUserId(userId);
     };
+    const incrViewCount = async () => {
+      if (isInClientBrowser()) {
+        await doGraphQLMutation(increaseViewCount, { id });
+      }
+    };
     getUserId();
+    incrViewCount();
   }, []);
 
   const handleEditFinished = () => {
@@ -126,6 +134,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
         commentCallback={() => {
           setIsCommentMode(!isCommentMode);
         }}
+        disableCallback={() => {}}
       />
 
       <AddComment
@@ -140,4 +149,21 @@ const QuestionItem = DeepMemo(function QuestionItem({
     </Box>
   );
 });
+
+QuestionItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  viewsCount: PropTypes.number.isRequired,
+  votesCount: PropTypes.number.isRequired,
+  answersCount: PropTypes.number.isRequired,
+  comments: PropTypes.array.isRequired,
+  tag1: PropTypes.string.isRequired,
+  tag2: PropTypes.string.isRequired,
+  tag3: PropTypes.string,
+  tag4: PropTypes.string,
+  tag5: PropTypes.string,
+  createdAt: PropTypes.string.isRequired,
+};
 export default QuestionItem;
