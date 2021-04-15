@@ -136,7 +136,7 @@ AnswerItem.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  rootId: PropTypes.string.isRequired,
+  rootId: PropTypes.string,
   user: PropTypes.object.isRequired,
   votesCount: PropTypes.number.isRequired,
   comments: PropTypes.array.isRequired,

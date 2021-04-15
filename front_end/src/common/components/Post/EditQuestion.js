@@ -6,6 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
 import { getStrings } from '../../utlities/languageUtilities';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
@@ -98,7 +99,8 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             await refreshQuestion();
             onEditFinished();
           } else {
-            return router.replace(`${result.message}`);
+            console.log('RESULT', result, `${result.id}/${values.title}`);
+            return router.push(`${result.id}/${values.title}`);
           }
         } catch (error) {
           setErrors({ api: error.toString() });
@@ -217,10 +219,10 @@ EditQuestion.defaultProps = {
 };
 EditQuestion.propTypes = {
   editMode: PropTypes.bool.isRequired,
-  editId: PropTypes.string.isRequired,
-  editTitle: PropTypes.string.isRequired,
-  editTags: PropTypes.array.isRequired,
-  editContent: PropTypes.string.isRequired,
-  onEditFinished: PropTypes.func.isRequired,
+  editId: requiredIf(PropTypes.string, (props) => props.editMode),
+  editTitle: requiredIf(PropTypes.string, (props) => props.editMode),
+  editTags: requiredIf(PropTypes.array, (props) => props.editMode),
+  editContent: requiredIf(PropTypes.string, (props) => props.editMode),
+  onEditFinished: requiredIf(PropTypes.func, (props) => props.editMode),
 };
 export default EditQuestion;
