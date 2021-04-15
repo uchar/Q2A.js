@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import QuestionItem from '../../common/components/Post/QuestionItem';
 import Layout from '../../common/layouts/Layout';
 import CKEditor from '../../common/components/Editor/CKEditor';
-import { ALL_TAGS, GET_QUESTION } from '../../API/queries';
+import { ALL_BLOG_POSTS, ALL_TAGS, GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
@@ -14,7 +14,13 @@ import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
-import { ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
+import {
+  ALL_BLOG_POSTS_ACTION,
+  ALL_QUESTIONS_ACTION,
+  ALL_TAGS_ACTION,
+  SELECTED_QUESTION,
+} from '../../redux/constants';
+import CardButton from '../../common/components/CardButton';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -72,7 +78,7 @@ const Post = () => {
       })}
       <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
         <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
-          {'پاسخ شما : '}
+          {getStrings().YOUR_ANSWER}
         </Typography>
         <CKEditor
           data={answerData}
@@ -82,7 +88,7 @@ const Post = () => {
         />
       </div>
       <div style={{ textAlign: 'left', marginTop: '25px' }}>
-        <Button
+        <CardButton
           onClick={submitAnswer}
           variant="contained"
           color="primary"
@@ -90,7 +96,7 @@ const Post = () => {
           loading={false}
         >
           {getStrings().ASK_BUTTON_SENDING}
-        </Button>
+        </CardButton>
       </div>
       {APIError && <ErrorMessage text={APIError} />}
     </Box>
@@ -110,6 +116,8 @@ export const getStaticProps = async (props) =>
       const { id } = props.params;
       const questionData = await doGraphQLQuery(GET_QUESTION, { id });
       const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
+      const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });
+      store.dispatch({ type: ALL_BLOG_POSTS_ACTION, payload: blogPostsResponse.getBlogPosts });
       store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
       store.dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
     })

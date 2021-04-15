@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux';
 import Layout from '../../common/layouts/Layout';
 import LatestQuestion from '../../common/components/Post/LatestQuestions';
 import { doGraphQLQuery } from '../../API/utilities';
-import { ALL_QUESTIONS, ALL_TAGS } from '../../API/queries';
+import { ALL_BLOG_POSTS, ALL_QUESTIONS, ALL_TAGS } from '../../API/queries';
 import { wrapper } from '../../redux/store';
 import {
+  ALL_BLOG_POSTS_ACTION,
   ALL_QUESTIONS_ACTION,
   ALL_TAGS_ACTION,
   CURRENT_TAG_ACTION,
@@ -44,6 +45,8 @@ export const getStaticProps = async (props) =>
       const { tag } = props.params;
       const questionsResponse = await doGraphQLQuery(ALL_QUESTIONS, { tag });
       const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
+      const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });
+      store.dispatch({ type: ALL_BLOG_POSTS_ACTION, payload: blogPostsResponse.getBlogPosts });
       store.dispatch({ type: ALL_QUESTIONS_ACTION, payload: questionsResponse });
       store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
       store.dispatch({ type: CURRENT_TAG_ACTION, payload: tag });

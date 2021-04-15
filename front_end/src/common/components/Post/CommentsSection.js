@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import CommentItem from './CommentItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,5 +25,8 @@ const CommentsSection = ({ className, comments }) => {
     </div>
   );
 };
-
+CommentsSection.propTypes = {
+  className: PropTypes.string,
+  comments: PropTypes.array.isRequired,
+};
 export default CommentsSection;

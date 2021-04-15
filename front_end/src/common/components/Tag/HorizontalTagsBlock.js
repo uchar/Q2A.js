@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import Tag from './Tag';
 import { DeepMemo } from '../../utlities/generalUtilities';
 
@@ -24,5 +24,7 @@ const HorizontalTagsBlock = DeepMemo(function HorizontalTagsBlock({ className, t
     </div>
   );
 });
-
+HorizontalTagsBlock.propTypes = {
+  tags: PropTypes.array.isRequired,
+};
 export default HorizontalTagsBlock;

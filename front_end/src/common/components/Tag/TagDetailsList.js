@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
 import TagDetailBox from './TagDetailBox';
 import { getStrings } from '../../utlities/languageUtilities';
 
@@ -21,10 +21,10 @@ export default function TagDetailsList({ tags }) {
   const classes = useStyles();
   return (
     <div>
-      <Typography bold color={'black'} className={classes.pageTitle} variant={'h1'}>
+      <Typography className={classes.pageTitle} variant={'h1'}>
         {getStrings().TAGS_PAGE_TITLE}
       </Typography>
-      <Typography bold color={'black'} className={classes.pageSubTitle} variant={'subtitle1'}>
+      <Typography className={classes.pageSubTitle} variant={'subtitle1'}>
         {getStrings().TAGS_PAGE_DESCRIPTION}
       </Typography>
       <Grid container justify={'center'} border={1} spacing={2} className={classes.root}>
@@ -38,3 +38,6 @@ export default function TagDetailsList({ tags }) {
     </div>
   );
 }
+TagDetailsList.propTypes = {
+  tags: PropTypes.array.isRequired,
+};

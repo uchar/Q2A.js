@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,5 +40,10 @@ const SaveCancelButtons = ({ className, onSave, onCancel, error }) => {
     </div>
   );
 };
-
+SaveCancelButtons.propTypes = {
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  clas: PropTypes.object,
+  error: PropTypes.string,
+};
 export default SaveCancelButtons;

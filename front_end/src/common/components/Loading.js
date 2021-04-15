@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/RiseLoader';
 import ClipLoader2 from 'react-spinners/CircleLoader';
 import { isBrowser } from 'react-device-detect';
+import PropTypes from 'prop-types';
 
 const override = css`
   display: block;
@@ -50,5 +51,10 @@ Loading.defaultProps = {
   mobileSize: 4,
   type: 'default',
 };
-
+Loading.propTypes = {
+  browserSize: PropTypes.number,
+  mobileSize: PropTypes.number,
+  type: PropTypes.string,
+  style: PropTypes.object,
+};
 export default Loading;

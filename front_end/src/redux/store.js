@@ -16,8 +16,9 @@ const reducer = (
   state = {
     currentUser: { language: LANGUAGES.ENGLISH, theme: 'light' },
     tags: [],
-    questions: [],
+    questions: {},
     currentTag: '',
+    blogPosts: [],
   },
   action
 ) => {
@@ -84,4 +85,4 @@ const reducer = (
 const makeStore = (context) => createStore(reducer);
 
 // export an assembled wrapper
-export const wrapper = createWrapper(makeStore, { debug: true });
+export const wrapper = createWrapper(makeStore, { debug: false });

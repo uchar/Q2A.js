@@ -45,7 +45,7 @@ export const getTagsArray = (tag1, tag2, tag3, tag4, tag5) => {
 };
 
 // build page every revalidateSeconds
-export const addRevalidateAndRedux = async (props, reduxStaticProps, revalidateSeconds = 50) => {
+export const addRevalidateAndRedux = async (props, reduxStaticProps, revalidateSeconds = 120) => {
   updateLanguageBaseOnUrl(props.locale);
   const getStaticProps = await reduxStaticProps(props);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import ShareDialog from '../ShareDialog';
 
 const useStyles = makeStyles((theme) => ({
@@ -88,5 +89,16 @@ PostToolbar.defaultProps = {
   showComment: false,
   showDisable: false,
 };
-
+PostToolbar.propTypes = {
+  className: PropTypes.string,
+  showShare: PropTypes.bool.isRequired,
+  shareTitle: PropTypes.string.isRequired,
+  shareBody: PropTypes.string.isRequired,
+  showEdit: PropTypes.bool.isRequired,
+  editCallBack: PropTypes.func.isRequired,
+  showComment: PropTypes.bool.isRequired,
+  commentCallback: PropTypes.func.isRequired,
+  showDisable: PropTypes.bool.isRequired,
+  disableCallback: PropTypes.func.isRequired,
+};
 export default PostToolbar;

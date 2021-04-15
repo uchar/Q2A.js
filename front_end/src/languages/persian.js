@@ -51,6 +51,20 @@ const STRINGS = {
   TAGS_PAGE_TITLE: 'تگ ها',
   TAGS_PAGE_DESCRIPTION:
     'تگ کلمه کلیدی ای است که برای دسته بندی سوالات استفاده می شود . استفاده درست از تگ به بقیه کاربرها کمک میکند که سوال شما را راحت تر پیدا کنند.',
+  NEWS_BOX_TITLE: 'آخرین ها در وبلاگ',
+  YOUR_ANSWER: 'پاسخ شما :',
+  PROFILE_IMAGE_UPLOAD: 'آپلود عکس',
+  PROFILE_QUESTIONS: 'سوال ها',
+  PROFILE_ANSWERS: 'جواب ها',
+  PROFILE_CLAPPED: 'تشویق ها',
+  NAVIGATION_HOME: 'خانه',
+  NAVIGATION_TAGS: 'تگ ها',
+  NAVIGATION_BLOG: 'وبلاگ',
+  NAVIGATION_ADMIN: 'پنل ادمین',
+  NAVIGATION_SETTINGS: 'تنظیمات سایت',
+  NAVIGATION_USERS_LIST: 'لیست یوزرها',
+  NAVIGATION_QUESTIONS_LIST: 'لیست سوالات',
+  NAVIGATION_TAGS_LIST: 'لیست تگ ها',
 };
 
 export default STRINGS;

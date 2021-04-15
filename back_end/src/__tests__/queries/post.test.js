@@ -75,6 +75,7 @@ describe('post query api', () => {
   const checkIfUserItemsAreInRightOrder = async (functionToCall, id) => {
     const posts = await functionToCall({
       id,
+      language: 'en',
     });
     expect(posts[0].title).toBe('question_test_3');
     expect(posts[1].title).toBe('question_test_2');
@@ -170,12 +171,14 @@ describe('post query api', () => {
     const q1 = await createQuestion(questionData, {});
     let posts = await getUserAnswers({
       id: user.id,
+      language: answerData.language,
     });
     expect(posts).toHaveLength(0);
     await createAnswer(answerData, q1.id);
     await createAnswer(answerData, q1.id);
     posts = await getUserAnswers({
       id: user.id,
+      language: answerData.language,
     });
     expect(posts).toHaveLength(2);
     expect(posts[0].content).toBe(answerData.content);

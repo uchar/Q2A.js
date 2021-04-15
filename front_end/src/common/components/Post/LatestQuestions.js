@@ -60,7 +60,7 @@ const getQuestionsList = (questions) => {
   });
 };
 
-const LatestQuestions = ({ tag, questions, tagRequest }) => {
+const LatestQuestions = ({ tag, questions }) => {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = React.useState(0);
 
@@ -81,8 +81,8 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
 
   return (
     <div className={classes.root}>
-      <AskAndTitleSection className={classes.askAndTitleSection} title={getTitle()}/>
-      <AppBar position="static" color="default" fullWidth className={classes.appBar}>
+      <AskAndTitleSection className={classes.askAndTitleSection} title={getTitle()} />
+      <AppBar position="static" color="default" className={classes.appBar}>
         <Tabs
           value={currentTab}
           onChange={handleCurrentTabChange}
@@ -112,5 +112,8 @@ const LatestQuestions = ({ tag, questions, tagRequest }) => {
     </div>
   );
 };
-
+LatestQuestions.propTypes = {
+  tag: PropTypes.string,
+  questions: PropTypes.object.isRequired,
+};
 export default LatestQuestions;

@@ -102,7 +102,7 @@ const handlePTag = (node) => {
   const reactElements = convertNodeToReactElements(node);
   return (
     <div style={{ textAlign: isRTL ? 'right' : 'left', flex: 1 }}>
-      {reactElements.map((element) => element)}
+      {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
     </div>
   );
 };
@@ -134,10 +134,18 @@ const handleListTag = (node, type) => {
       );
     listItemNumber += 1;
     reactElements = reactElements.concat(convertNodeToReactElements(childNode));
-    listItems.push(<ListItem>{reactElements.map((element) => element)}</ListItem>);
+    listItems.push(
+      <ListItem>
+        {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
+      </ListItem>
+    );
     reactElements = [];
   });
-  return <List style={{ marginRight: '-10px' }}>{listItems.map((item) => item)}</List>;
+  return (
+    <List style={{ marginRight: '-10px' }}>
+      {listItems.map((item, index) => React.cloneElement(item, { key: index }))}
+    </List>
+  );
 };
 
 const handleImageTag = (node) => {
@@ -159,7 +167,9 @@ const handleImageTag = (node) => {
     if (tagName === 'figcaption') {
       const captionElements = convertNodeToReactElements(childNode);
       reactElements.push(
-        <div style={{ flex: 1, textAlign: 'center' }}>{captionElements.map((element) => element)}</div>
+        <div style={{ flex: 1, textAlign: 'center' }}>
+          {captionElements.map((element, index) => React.cloneElement(element, { key: index }))}
+        </div>
       );
     }
   });
@@ -186,7 +196,7 @@ const handleQuoteTag = (node) => {
   });
   return (
     <blockquote style={{ textAlign: isRTL ? 'right' : 'left', flexDirection: 'row' }}>
-      {reactElements.map((element) => element)}
+      {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
     </blockquote>
   );
 };
@@ -228,7 +238,9 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
   isTextPrimary = true;
   isRTL = false;
   return (
-    <div style={{ flex: 1, margin: '10px 10px 5px 10px' }}>{reactElements.map((element) => element)}</div>
+    <div style={{ flex: 1, margin: '10px 10px 5px 10px' }}>
+      {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
+    </div>
   );
 };
 

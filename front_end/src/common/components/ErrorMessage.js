@@ -1,6 +1,7 @@
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -18,5 +19,8 @@ const ErrorMessage = (props) => {
       </Typography>
     </div>
   );
+};
+ErrorMessage.propTypes = {
+  text: PropTypes.string.isRequired,
 };
 export default ErrorMessage;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import BlogItemPreview from './BlogItemPreview';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,11 +24,11 @@ const LatestBlogPosts = ({ blogPosts }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {blogPosts.map((post) => {
-        return <BlogItemPreview key={post.id} {...post} />;
-      })}
+      {LatestBlogPosts && blogPosts.map((post) => <BlogItemPreview key={post.id} {...post} />)}
     </div>
   );
 };
-
+LatestBlogPosts.propTypes = {
+  blogPosts: PropTypes.array.isRequired,
+};
 export default LatestBlogPosts;
