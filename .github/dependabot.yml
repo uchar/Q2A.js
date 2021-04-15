@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/front_end" # Location of package manifests
     schedule:
-      interval: "daily
+      interval: "daily"
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/back_end" # Location of package manifests
     schedule:
