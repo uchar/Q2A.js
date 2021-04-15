@@ -38,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
   error: {
     margin: theme.spacing(2, 0, 0, 3),
   },
+  submitButtonsParent: {
+    display: 'flex',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
+  },
 }));
 
 const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEditFinished }) => {
@@ -161,6 +167,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   multiple
                   id="tags-outlined"
                   getOptionLabel={(option) => option.title}
+                  getOptionSelected={(o1, o2) => o1.title === o2.title}
                   filterSelectedOptions
                   onChange={(_, selectedTags) => {
                     setValues({ ...values, tags: selectedTags });
@@ -173,7 +180,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
               </div>
             </CardContent>
             {
-              <div style={{ flex: 1, flexDirection: 'row' }}>
+              <div className={classes.submitButtonsParent}>
                 <CardButton
                   type="submit"
                   onSubmit={handleSubmit}
@@ -182,17 +189,17 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   className={classes.button}
                   loading={isSubmitting}
                   shouldShowLoading={!(errors.title && errors.content && errors.tags)}
-                  text={editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
+                  text={editMode ? getStrings().ASK_BUTTON_EDIT_SUBMIT : getStrings().ASK_BUTTON_SEND_SUBMIT}
                 />
                 {editMode && (
                   <CardButton
-                    onClick={onEditFinished}
+                    onSubmit={onEditFinished}
                     variant="contained"
                     color="secondary"
                     className={classes.button}
                     loading={isSubmitting}
                     shouldShowLoading={!(errors.title && errors.content && errors.tags)}
-                    text={editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
+                    text={getStrings().ASK_BUTTON_CANCEL}
                   />
                 )}
               </div>

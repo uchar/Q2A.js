@@ -90,7 +90,7 @@ const Post = () => {
           color="primary"
           className={classes.button}
           loading={false}
-          text={getStrings().ASK_BUTTON_SENDING}
+          text={getStrings().ASK_BUTTON_SEND_SUBMIT}
         />
       </div>
       {APIError && <ErrorMessage text={APIError} />}

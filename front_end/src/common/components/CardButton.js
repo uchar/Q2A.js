@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
-  viewCourseButton: {
+  button: {
     color: '#ffffff',
     padding: '10px 28px 10px 28px',
     fontSize: isMobile ? 15 : 18,
@@ -62,7 +62,7 @@ const SButton = (props) => {
         variant="contained"
         color={'primary'}
         component="span"
-        className={clsx(classes.viewCourseButton, className)}
+        className={clsx(classes.button, className)}
         style={style}
         disabled={shouldShowLoading && loading ? loading : false}
         onClick={shouldShowLoading ? handleButtonClick : onClick}
