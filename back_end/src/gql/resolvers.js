@@ -24,6 +24,7 @@ import {
   updateAnswer,
   updateComment,
   updateQuestion,
+  increaseQuestionViewCount,
 } from '../mutations/post.js';
 import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts } from '../queries/blog.js';
@@ -55,6 +56,7 @@ export default {
     addComment,
     setReadAllNotifications,
     addBlogPost,
+    increaseViewCount: increaseQuestionViewCount,
   },
   Question: {
     answers: getAnswers,

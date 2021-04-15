@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,13 +10,12 @@ import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
 import { getStrings } from '../../common/utlities/languageUtilities';
-import { ADD_ANSWER } from '../../API/mutations';
+import { ADD_ANSWER, increaseQuestionViewCount } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
+import { addRevalidateAndRedux, isInClientBrowser } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
 import {
   ALL_BLOG_POSTS_ACTION,
-  ALL_QUESTIONS_ACTION,
   ALL_TAGS_ACTION,
   SELECTED_QUESTION,
 } from '../../redux/constants';
@@ -39,6 +38,7 @@ const Post = () => {
   const classes = useStyles();
   const [answerData, setAnswerData] = useState('');
   const [APIError, setAPIError] = React.useState(null);
+
   if (!question) return <Loading />;
 
   const refreshQuestion = async () => {

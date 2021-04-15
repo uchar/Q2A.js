@@ -5,11 +5,21 @@ import {
   updateAnswer,
   addComment,
   updateComment,
+  increaseQuestionViewCount,
 } from '../../mutations/post.js';
-import { STATUS_CODE } from '../../constants.js';
+import { STATUS_CODE, TABLES } from '../../constants.js';
 import { makeContext, questionData, questionUpdatedData } from '../../testUtility';
+import databaseUtils from '../../db/database';
 
 describe('post mutations api', () => {
+  const testCount = async (id, column, value) => {
+    const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+    const questionAfterIncrease = await Post.findOne({
+      where: { id },
+    });
+    expect(questionAfterIncrease[column]).toBe(value);
+  };
+
   const testAddQuestionWrongInput = async (language, title, content, tags) => {
     let result;
     try {
@@ -20,9 +30,12 @@ describe('post mutations api', () => {
     if (result) expect(`Add Question should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
-  const addNewQuestion = async (language, title, content, tags) => {
-    const result = await addQuestion(null, { language, title, content, tags }, makeContext());
-    return result;
+  const addNewQuestion = async () => {
+    const { language } = questionData;
+    const { title } = questionData;
+    const { content } = questionData;
+    const { tags } = questionData;
+    return addQuestion(null, { language, title, content, tags }, makeContext());
   };
 
   const testUpdateQuestionWrongInput = async (language, questionId, title, content, tags) => {
@@ -91,12 +104,7 @@ describe('post mutations api', () => {
   };
   // AddQuestion
   test('if correct input for addQuestion give success', async () => {
-    const result = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const result = await addNewQuestion();
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 
@@ -125,12 +133,7 @@ describe('post mutations api', () => {
 
   // Update Question
   test('if correct input for updateQuestion give success', async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const result = await updateQuestion(
       null,
       {
@@ -147,12 +150,7 @@ describe('post mutations api', () => {
   });
 
   test("if wrong input for updateQuestion shouldn't work", async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     await testUpdateQuestionWrongInput(
       'wrong',
@@ -187,28 +185,18 @@ describe('post mutations api', () => {
 
   // addAnswer
   test('if correct input for addAnswer give success', async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     const result = await addAnswer(
       null,
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
       makeContext()
     );
-
+    await testCount(questionId, 'answersCount', 1);
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for addAnswer shouldn't work", async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     await testAddAnswerWrongInput(
       questionData.language,
@@ -227,12 +215,7 @@ describe('post mutations api', () => {
   });
   // updateAnswer
   test('if correct input for updateAnswer give success', async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     const createPostResult = await addAnswer(
       null,
@@ -248,12 +231,7 @@ describe('post mutations api', () => {
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for updateAnswer shouldn't work", async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     const { createPostResult } = await addAnswer(
       null,
@@ -285,12 +263,7 @@ describe('post mutations api', () => {
 
   // addComment
   test('if correct input for addComment give success', async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     const result = await addComment(
       null,
@@ -300,12 +273,7 @@ describe('post mutations api', () => {
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for addComment shouldn't work", async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     await testAddCommentWrongInput(
       questionData.language,
@@ -320,12 +288,7 @@ describe('post mutations api', () => {
 
   // updateComment
   test('if correct input for updateComment give success', async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     const createPostResult = await addComment(
       null,
@@ -341,12 +304,7 @@ describe('post mutations api', () => {
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for updateComment shouldn't work", async () => {
-    const question = await addNewQuestion(
-      questionData.language,
-      questionData.title,
-      questionData.content,
-      questionData.tags
-    );
+    const question = await addNewQuestion();
     const questionId = question.id;
     const createPostResult = await addComment(
       null,
@@ -370,5 +328,13 @@ describe('post mutations api', () => {
       STATUS_CODE.INPUT_ERROR,
       false
     );
+  });
+
+  test('if increaseQuestionViewCount works', async () => {
+    const question = await addNewQuestion();
+    await increaseQuestionViewCount(null, { id: question.id });
+    await testCount(question.id, 'viewsCount', 1);
+    await increaseQuestionViewCount(null, { id: question.id });
+    await testCount(question.id, 'viewsCount', 2);
   });
 });

@@ -177,5 +177,6 @@ export default gql`
     uploadFile(language: Language!, file: Upload!): File!
     updateUser(input: UpdateUserInput!): Result
     setReadAllNotifications(language: Language!): Result
+    increaseViewCount(language: Language!, id: String!): Result
   }
 `;

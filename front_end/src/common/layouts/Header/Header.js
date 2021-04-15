@@ -101,7 +101,6 @@ const Header = ({}) => {
 
   const refreshUser = async () => {
     const userResult = await getCurrentUser();
-    console.log('Dispatching refreshed user ', userResult);
     dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
   };
 
