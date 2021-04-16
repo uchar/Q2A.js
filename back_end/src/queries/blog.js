@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
 import { BLOG_POST_TYPES, LANGUAGE, TABLES } from '../constants.js';
-import { checkInputValidationWithoutContext } from '../utility.js';
+import { checkInputValidation } from '../utility.js';
 
 const getBlogPosts = async (_, { language, limit, offset }) => {
-  await checkInputValidationWithoutContext(
+  await checkInputValidation(
     yup.object().shape({
       language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
       limit: yup.number().required().min(0),

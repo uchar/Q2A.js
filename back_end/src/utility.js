@@ -4,10 +4,14 @@ import databaseUtils from './db/database.js';
 import { TABLES, STATUS_CODE } from './constants.js';
 
 const createJWTToken = (user) => {
-  const token = jwt.sign({ id: user.id, publicName: user.publicName }, process.env.JWT_SECRET, {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  });
+  const token = jwt.sign(
+    { id: user.id, publicName: user.publicName, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '7d',
+      algorithm: 'HS256',
+    }
+  );
   return token;
 };
 
@@ -51,9 +55,10 @@ const createSuccessResponse = (message = '') => {
   };
 };
 
-const createAddSuccessResponse = (id) => {
+const createAddSuccessResponse = (id, url) => {
   return {
     id,
+    url,
     statusCode: STATUS_CODE.SUCCESS,
   };
 };
@@ -72,20 +77,7 @@ const createInputErrorResponse = (message = '') => {
   };
 };
 
-const checkInputValidation = async (schema, schemaParams, context) => {
-  if (context === null || context.user === null || context.user.id === null) {
-    throw new Error(STATUS_CODE.AUTHORIZATION_ERROR);
-  }
-  const user = await findUserById(context.user.id);
-  if (!user) {
-    throw new Error(STATUS_CODE.VALIDATION_ERROR);
-  }
-
-  await schema.validate(schemaParams);
-  return true;
-};
-
-const checkInputValidationWithoutContext = async (schema, schemaParams) => {
+const checkInputValidation = async (schema, schemaParams) => {
   await schema.validate(schemaParams);
   return true;
 };
@@ -112,6 +104,5 @@ export {
   createAuthorizationErrorResponse,
   createInputErrorResponse,
   findUserById,
-  checkInputValidationWithoutContext,
   createAddSuccessResponse,
 };

@@ -101,7 +101,6 @@ const getUserQuestions = async ({ id, language }) => {
 
 const getUserAnswers = async ({ id, language }) => {
   const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
-  console.log('CONTEXT IS : ', language);
   const answers = await Post.findAll({
     where: { type: POST_TYPES.ANSWER, userId: id, language },
     order: [['createdAt', 'DESC']],

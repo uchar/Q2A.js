@@ -1,8 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  enum AccessLevel {
-    GUEST
+  enum Role {
     USER_CONFIRMED
     USER_NOT_CONFIRMED
     ADMIN
@@ -52,7 +51,7 @@ export default gql`
     about: String
     language: String
     theme: String
-    accessLevel: AccessLevel
+    role: Role
     questions: [Question]
     answers: [Answer]
     clapItems: [ClapItem]
@@ -123,7 +122,8 @@ export default gql`
   }
   type AddResult {
     id: String!
-    statusCode: StatusCode
+    url: String
+    statusCode: StatusCode!
   }
 
   type BlogPost {
@@ -174,8 +174,8 @@ export default gql`
     ): Result
     updateAnswer(language: Language!, id: String!, content: String!): Result
     updateComment(language: Language!, id: String!, content: String!): Result
-    uploadFile(language: Language!, file: Upload!): File!
-    updateUser(input: UpdateUserInput!): Result
+    #    uploadFile(language: Language!, file: Upload!): File!
+    updateUser(id: String!, input: UpdateUserInput!): Result
     setReadAllNotifications(language: Language!): Result
     increaseViewCount(language: Language!, id: String!): Result
   }

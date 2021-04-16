@@ -14,7 +14,7 @@ createDatabasePromise.then(async () => {
     profileImage: 'q2a_admin.png',
     about: 'Some descriptions about q2a_admin',
     theme: 'light',
-    accessLevel: 'SUPER_ADMIN',
+    role: 'SUPER_ADMIN',
     score: 0,
     language: 'en',
     email: process.env.SUPER_ADMIN_EMAIL,

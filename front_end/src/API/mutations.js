@@ -4,6 +4,7 @@ export const ADD_QUESTION = gql`
   mutation($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
     addQuestion(language: $language, title: $title, content: $content, tags: $tags) {
       id
+      url
       statusCode
     }
   }
@@ -21,6 +22,7 @@ export const ADD_ANSWER = gql`
   mutation($language: Language!, $postId: String!, $content: String!) {
     addAnswer(language: $language, postId: $postId, content: $content) {
       id
+      url
       statusCode
     }
   }
@@ -30,6 +32,7 @@ export const ADD_COMMENT = gql`
   mutation($language: Language!, $postId: String!, $content: String!) {
     addComment(language: $language, postId: $postId, content: $content) {
       id
+      url
       statusCode
     }
   }
