@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
-import CardButton from '../../components/CardButton';
+import Q2aButton from '../../components/Q2aButton';
 import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
 import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
@@ -238,7 +238,7 @@ const Header = ({}) => {
             />
           </div>
           {!user && user !== undefined && (
-            <CardButton
+            <Q2aButton
               className={classes.buttons}
               url={'/login'}
               shouldShowLoading={false}
@@ -247,7 +247,7 @@ const Header = ({}) => {
             />
           )}
           {!user && user !== undefined && (
-            <CardButton
+            <Q2aButton
               className={classes.buttons}
               url={'/register'}
               shouldShowLoading={false}

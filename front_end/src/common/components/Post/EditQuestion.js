@@ -6,6 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
 import { getStrings } from '../../utlities/languageUtilities';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
@@ -13,7 +14,7 @@ import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
-import CardButton from '../CardButton';
+import Q2aButton from '../Q2aButton';
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -21,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 26,
-    textAlign: 'left',
+    textAlign: 'initial',
     marginRight: theme.spacing(2),
     marginTop: theme.spacing(1),
   },
-  subtitle: { marginRight: theme.spacing(2), marginBottom: theme.spacing(2), textAlign: 'left' },
+  subtitle: { marginRight: theme.spacing(2), marginBottom: theme.spacing(2), textAlign: 'initial' },
   tagTitle: { margin: theme.spacing(6, 0, 0, 0) },
-  titleInput: { margin: theme.spacing(0, 1, 2, 1), textAlign: 'left' },
+  titleInput: { margin: theme.spacing(0, 1, 2, 1), textAlign: 'initial' },
   autoComplete: {
     margin: theme.spacing(2, 0, 0, 0),
   },
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     margin: theme.spacing(2, 0, 0, 3),
+  },
+  submitButtonsParent: {
+    display: 'flex',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
   },
 }));
 
@@ -92,7 +99,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             await refreshQuestion();
             onEditFinished();
           } else {
-            return router.replace(`${result.message}`);
+            return router.push(`${result.id}/${values.title}`);
           }
         } catch (error) {
           setErrors({ api: error.toString() });
@@ -161,6 +168,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   multiple
                   id="tags-outlined"
                   getOptionLabel={(option) => option.title}
+                  getOptionSelected={(o1, o2) => o1.title === o2.title}
                   filterSelectedOptions
                   onChange={(_, selectedTags) => {
                     setValues({ ...values, tags: selectedTags });
@@ -173,8 +181,8 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
               </div>
             </CardContent>
             {
-              <div style={{ flex: 1, flexDirection: 'row' }}>
-                <CardButton
+              <div className={classes.submitButtonsParent}>
+                <Q2aButton
                   type="submit"
                   onSubmit={handleSubmit}
                   variant="contained"
@@ -182,17 +190,17 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   className={classes.button}
                   loading={isSubmitting}
                   shouldShowLoading={!(errors.title && errors.content && errors.tags)}
-                  text={editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
+                  text={editMode ? getStrings().ASK_BUTTON_EDIT_SUBMIT : getStrings().ASK_BUTTON_SEND_SUBMIT}
                 />
                 {editMode && (
-                  <CardButton
-                    onClick={onEditFinished}
+                  <Q2aButton
+                    onSubmit={onEditFinished}
                     variant="contained"
                     color="secondary"
                     className={classes.button}
                     loading={isSubmitting}
                     shouldShowLoading={!(errors.title && errors.content && errors.tags)}
-                    text={editMode ? 'تایید' : getStrings().ASK_BUTTON_SENDING}
+                    text={getStrings().ASK_BUTTON_CANCEL}
                   />
                 )}
               </div>
@@ -210,10 +218,10 @@ EditQuestion.defaultProps = {
 };
 EditQuestion.propTypes = {
   editMode: PropTypes.bool.isRequired,
-  editId: PropTypes.string.isRequired,
-  editTitle: PropTypes.string.isRequired,
-  editTags: PropTypes.array.isRequired,
-  editContent: PropTypes.string.isRequired,
-  onEditFinished: PropTypes.func.isRequired,
+  editId: requiredIf(PropTypes.string, (props) => props.editMode),
+  editTitle: requiredIf(PropTypes.string, (props) => props.editMode),
+  editTags: requiredIf(PropTypes.array, (props) => props.editMode),
+  editContent: requiredIf(PropTypes.string, (props) => props.editMode),
+  onEditFinished: requiredIf(PropTypes.func, (props) => props.editMode),
 };
 export default EditQuestion;

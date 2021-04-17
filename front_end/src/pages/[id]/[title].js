@@ -15,7 +15,7 @@ import ErrorMessage from '../../common/components/ErrorMessage';
 import { addRevalidateAndRedux, isInClientBrowser } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
 import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
-import CardButton from '../../common/components/CardButton';
+import Q2aButton from '../../common/components/Q2aButton';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px 52px 30px 20px',
     padding: '10px 60px 10px 60px',
   },
+  answerBox: { margin: '25px 25px 0px 25px', paddingTop: '20px' },
+  answerBoxTitle: { fontSize: 22, textAlign: 'initial', marginBottom: '20px' },
+  submitAnswerButtonParent: { textAlign: 'initial', marginTop: '25px' },
 }));
 
 const Post = () => {
@@ -45,7 +48,7 @@ const Post = () => {
   const submitAnswer = async () => {
     try {
       if (answerData.length < 15) {
-        setAPIError('حداقل تعداد کاراکتر برای پاسخ 15 است');
+        setAPIError(getStrings().POST_TO_SHORT_ANSWER);
         return;
       }
       setAPIError(null);
@@ -68,14 +71,10 @@ const Post = () => {
     <Box className={classes.paper}>
       <QuestionItem {...question} />
       {question.answers.map((answer) => {
-        return (
-          <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer}></AnswerItem>
-        );
+        return <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer} />;
       })}
-      <div style={{ margin: '25px 25px 0px 25px', paddingTop: '20px' }}>
-        <Typography style={{ fontSize: 22, textAlign: 'right', marginBottom: '20px' }}>
-          {getStrings().YOUR_ANSWER}
-        </Typography>
+      <div className={classes.answerBox}>
+        <Typography className={classes.answerBoxTitle}>{getStrings().YOUR_ANSWER}</Typography>
         <CKEditor
           data={answerData}
           onChange={(event, editor) => {
@@ -83,16 +82,15 @@ const Post = () => {
           }}
         />
       </div>
-      <div style={{ textAlign: 'left', marginTop: '25px' }}>
-        <CardButton
-          onClick={submitAnswer}
+      <div className={classes.submitAnswerButtonParent}>
+        <Q2aButton
+          onSubmit={submitAnswer}
           variant="contained"
           color="primary"
           className={classes.button}
           loading={false}
-        >
-          {getStrings().ASK_BUTTON_SENDING}
-        </CardButton>
+          text={getStrings().ASK_BUTTON_SEND_SUBMIT}
+        />
       </div>
       {APIError && <ErrorMessage text={APIError} />}
     </Box>

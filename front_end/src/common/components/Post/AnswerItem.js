@@ -15,6 +15,7 @@ import AddComment from './AddComment';
 import { DeepMemo } from '../../utlities/generalUtilities';
 import { GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
+import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +33,6 @@ const AnswerItem = DeepMemo(function AnswerItem({
   votesCount,
   comments,
   rootId,
-  language,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
     getUser();
   }, []);
   const userWhoAnsweredId = user.id;
-  const parsedContent = parseContent(content, language);
+  const parsedContent = parseContent(content, getLanguage());
 
   const handleEditDataChanged = (event, editor) => {
     const data = editor.getData();
@@ -123,6 +123,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
         showEdit={currentUserId === userWhoAnsweredId}
         showDisable={currentUserId === userWhoAnsweredId}
         editCallBack={handleEditCallback}
+        disableCallback={() => {}}
         showComment
         commentCallback={handleCommentCallback}
       />
@@ -135,8 +136,7 @@ AnswerItem.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  rootId: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
+  rootId: PropTypes.string,
   user: PropTypes.object.isRequired,
   votesCount: PropTypes.number.isRequired,
   comments: PropTypes.array.isRequired,
