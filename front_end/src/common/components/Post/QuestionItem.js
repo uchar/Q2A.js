@@ -10,7 +10,7 @@ import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
-import { doGraphQLMutation, getCurrentUserId } from '../../../API/utilities';
+import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
 import { getLanguage } from '../../utlities/languageUtilities';
 import { increaseViewCount } from '../../../API/mutations';
 
@@ -59,19 +59,17 @@ const QuestionItem = DeepMemo(function QuestionItem({
   tag5,
 }) {
   const classes = useStyles();
-  const [currentUserId, setCurrentUserId] = React.useState('');
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
+  const [isAccessEnough, setIsAccessEnough] = React.useState(false);
   const { publicName, profileImage, score } = user;
-  const userWhoAskedId = user.id;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
-
   const parsedContent = parseContent(content, getLanguage());
 
   useEffect(() => {
     const getUserId = async () => {
-      const userId = await getCurrentUserId();
-      setCurrentUserId(userId);
+      const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_POST);
+      setIsAccessEnough(isEnough);
     };
     const incrViewCount = async () => {
       if (isInClientBrowser()) {
@@ -125,8 +123,8 @@ const QuestionItem = DeepMemo(function QuestionItem({
         showShare
         shareTitle={`${title} - q2a`}
         shareBody={content}
-        showEdit={currentUserId === userWhoAskedId}
-        showDisable={currentUserId === userWhoAskedId}
+        showEdit={isAccessEnough}
+        showDisable={isAccessEnough}
         editCallBack={() => {
           setIsEditMode(true);
         }}

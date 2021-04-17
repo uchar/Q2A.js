@@ -12,8 +12,7 @@ const addBlogPost = async (_, params, context) => {
       tags: yup.array().required().min(2).max(5),
       language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
     }),
-    inputParams,
-    context
+    inputParams
   );
   const questionTags = {};
   inputParams.tags.forEach((tag, index) => {
@@ -24,7 +23,7 @@ const addBlogPost = async (_, params, context) => {
   const Post = databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
   const result = await Post.create({ userId: user.id, ...inputParams });
   const newPost = result.dataValues;
-  return createAddSuccessResponse(newPost.id);
+  return createAddSuccessResponse(newPost.id, `/${newPost.id}/${encodeURIComponent(params.title)}`);
 };
 
 export { addBlogPost };

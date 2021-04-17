@@ -9,8 +9,8 @@ describe('user mutation api (updateUser,..)', () => {
     about: 'about_test_updated',
     theme: 'dark',
   };
-  const callUpdateUser = async (userId, input) => {
-    return updateUser(null, input, userId ? { user: { id: userId } } : null);
+  const callUpdateUser = async (id, input) => {
+    return updateUser(null, { id, input });
   };
 
   const createUser = async () => {
@@ -73,10 +73,5 @@ describe('user mutation api (updateUser,..)', () => {
     await testWrongInput(['profileImage'], ['test_updated_image']);
     await testWrongInput(['profileImage'], [{ shouldNotBeJson: 'wrong_value' }]);
     await testWrongInput(['theme'], ['yellow']);
-  });
-
-  test(`if updateUser not work with wrong id`, async () => {
-    await expect(callUpdateUser(null, data)).rejects.toThrow(STATUS_CODE.AUTHORIZATION_ERROR);
-    await expect(callUpdateUser('wrong_id', data)).rejects.toThrow(STATUS_CODE.VALIDATION_ERROR);
   });
 });

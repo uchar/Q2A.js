@@ -99,7 +99,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             await refreshQuestion();
             onEditFinished();
           } else {
-            return router.push(`${result.id}/${values.title}`);
+            return router.push(result.url);
           }
         } catch (error) {
           setErrors({ api: error.toString() });

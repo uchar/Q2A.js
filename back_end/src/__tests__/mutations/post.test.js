@@ -70,7 +70,6 @@ describe('post mutations api', () => {
   };
 
   const testUpdateAnswerWrongInput = async (language, answerId, content, errorMessage, typeErrorFlag) => {
-    console.log('testUpdateAddAnswerWrongInput answerId:', answerId);
     let result;
     try {
       result = await updateAnswer(null, { language, id: answerId, content }, makeContext());
@@ -245,20 +244,6 @@ describe('post mutations api', () => {
       'ValidationError',
       true
     );
-    await testUpdateAnswerWrongInput(
-      questionData.language,
-      null,
-      questionData.content,
-      STATUS_CODE.INPUT_ERROR,
-      false
-    );
-    await testUpdateAnswerWrongInput(
-      questionData.language,
-      200,
-      questionData.content,
-      STATUS_CODE.INPUT_ERROR,
-      false
-    );
   });
 
   // addComment
@@ -314,20 +299,6 @@ describe('post mutations api', () => {
     const { id } = createPostResult;
     await testUpdateCommentWrongInput('wrong', id, questionData.content, 'ValidationError', true);
     await testUpdateCommentWrongInput(questionData.language, id, 'wrong', 'ValidationError', true);
-    await testUpdateCommentWrongInput(
-      questionData.language,
-      null,
-      questionData.content,
-      STATUS_CODE.INPUT_ERROR,
-      false
-    );
-    await testUpdateCommentWrongInput(
-      questionData.language,
-      200,
-      questionData.content,
-      STATUS_CODE.INPUT_ERROR,
-      false
-    );
   });
 
   test('if increaseQuestionViewCount works', async () => {
