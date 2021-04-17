@@ -6,9 +6,9 @@ export default class CKEditor extends React.Component {
   componentDidMount() {
     if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
       // eslint-disable-next-line global-require
-      this.ckEditor = require('@ckeditor/ckeditor5-react');
+      this.ckEditor = require('@ckeditor/ckeditor5-react').CKEditor;
       // eslint-disable-next-line global-require
-      this.editor = require('ckeditor5-build-7khatcode');
+      this.editor = require('ckeditor5-build-q2a.js');
       this.setState({ loadFinished: true });
     }
   }
