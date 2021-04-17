@@ -139,6 +139,7 @@ export const GET_MY_USER = gql`
       profileImage
       score
       theme
+      role
     }
   }
 `;

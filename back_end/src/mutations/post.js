@@ -33,10 +33,9 @@ const createPost = async (inputParams, context) => {
   return Post.create({ userId: user.id, ...inputParams });
 };
 
-const updatePost = async (inputParams, postId, language, context) => {
-  const user = await findUserByName(context.user.publicName);
+const updatePost = async (inputParams, postId, language) => {
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  return Post.update({ ...inputParams }, { where: { userId: user.id, id: postId, language } });
+  return Post.update({ ...inputParams }, { where: { id: postId, language } });
 };
 
 const incrementColumnInPost = async (id, column, valueToIncrease = 1) => {
@@ -154,33 +153,31 @@ const addComment = async (_, { language, postId, content }, context) => {
   return createAddSuccessResponse(createPostId);
 };
 
-const updateAnswer = async (_, { language, id, content }, context) => {
+const updateAnswer = async (_, { language, id, content }) => {
   await checkInputValidation(answerSchema, { language, content });
   await updatePost(
     {
       content,
     },
     id,
-    language,
-    context
+    language
   );
   return createSuccessResponse(``);
 };
 
-const updateComment = async (_, { language, id, content }, context) => {
+const updateComment = async (_, { language, id, content }) => {
   await checkInputValidation(commentSchema, { language, content });
   await updatePost(
     {
       content,
     },
     id,
-    language,
-    context
+    language
   );
   return createSuccessResponse(``);
 };
 
-const updateQuestion = async (_, { language, id, title, content, tags }, context) => {
+const updateQuestion = async (_, { language, id, title, content, tags }) => {
   await checkInputValidation(questionSchema, { language, title, content, tags });
   const questionTags = {};
   tags.forEach((tag, index) => {
@@ -193,8 +190,7 @@ const updateQuestion = async (_, { language, id, title, content, tags }, context
       ...questionTags,
     },
     id,
-    language,
-    context
+    language
   );
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
 };

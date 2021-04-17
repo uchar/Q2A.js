@@ -7,7 +7,13 @@ import CommentsSection from './CommentsSection';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import PostToolbar from './PostToolbar';
-import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId } from '../../../API/utilities';
+import {
+  doGraphQLMutation,
+  doGraphQLQuery,
+  getCurrentUserId,
+  isAccessLevelEnough,
+  USER_ACTIONS,
+} from '../../../API/utilities';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { UPDATE_ANSWER } from '../../../API/mutations';
@@ -37,15 +43,15 @@ const AnswerItem = DeepMemo(function AnswerItem({
   const classes = useStyles();
   const dispatch = useDispatch();
   const { publicName, profileImage, score } = user;
-  const [currentUserId, setCurrentUserId] = React.useState('');
+  const [isAccessEnough, setIsAccessEnough] = React.useState(false);
   const [isEditMode, setEditMode] = React.useState(false);
   const [editData, setEditData] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
   const [apiError, setAPIError] = React.useState(undefined);
   useEffect(() => {
     const getUser = async () => {
-      const userId = await getCurrentUserId();
-      setCurrentUserId(userId);
+      const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_POST);
+      setIsAccessEnough(isEnough);
     };
     getUser();
   }, []);
@@ -120,8 +126,8 @@ const AnswerItem = DeepMemo(function AnswerItem({
         showShare
         shareTitle={`پاسخ در هفت خط کد`}
         shareBody={content}
-        showEdit={currentUserId === userWhoAnsweredId}
-        showDisable={currentUserId === userWhoAnsweredId}
+        showEdit={isAccessEnough}
+        showDisable={isAccessEnough}
         editCallBack={handleEditCallback}
         disableCallback={() => {}}
         showComment
