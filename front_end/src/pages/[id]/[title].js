@@ -14,11 +14,7 @@ import { ADD_ANSWER, increaseQuestionViewCount } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { addRevalidateAndRedux, isInClientBrowser } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
-import {
-  ALL_BLOG_POSTS_ACTION,
-  ALL_TAGS_ACTION,
-  SELECTED_QUESTION,
-} from '../../redux/constants';
+import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
 import CardButton from '../../common/components/CardButton';
 
 const useStyles = makeStyles((theme) => ({

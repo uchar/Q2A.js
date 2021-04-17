@@ -1,6 +1,10 @@
 import React from 'react';
-import drawerWrapper from '../common/components/LandingPage/drawerWrapper';
+import Header from '../LandingPage/Layout/Header/Header';
 
 export default function landingPage() {
-  return <drawerWrapper />;
+  return (
+    <div style={{ height: '2000px' }}>
+      <Header />
+    </div>
+  );
 }
