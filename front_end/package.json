@@ -12,7 +12,7 @@
     "node": "14.16.x"
   },
   "dependencies": {
-    "@apollo/client": "3.3.14",
+    "@apollo/client": "3.3.15",
     "@ckeditor/ckeditor5-react": "2.1.0",
     "@emotion/core": "10.0.35",
     "@material-ui/core": "4.11.3",
@@ -62,7 +62,7 @@
     "@types/react": "^17.0.3",
     "babel-eslint": "^10.1.0",
     "babel-plugin-styled-components": "^1.12.0",
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.2.0",
