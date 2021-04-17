@@ -6435,6 +6435,13 @@ ms@2.1.2, ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+mysql-import@^5.0.21:
+  version "5.0.21"
+  resolved "https://registry.yarnpkg.com/mysql-import/-/mysql-import-5.0.21.tgz#704888f419251b8f7448ea59e6f32248be7abd5d"
+  integrity sha512-B9aLfeHD4rmdp89a5P1iw4tr3sFzR0ARiDs4TqatVhvYVMiC60kWODWU8DpEwM/psBQbAvPiTgPbVQlOmlFMQQ==
+  dependencies:
+    mysql "^2.18.1"
+
 mysql2@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-2.2.5.tgz#72624ffb4816f80f96b9c97fedd8c00935f9f340"
@@ -6449,7 +6456,7 @@ mysql2@2.2.5:
     seq-queue "^0.0.5"
     sqlstring "^2.3.2"
 
-mysql@2.18.1:
+mysql@2.18.1, mysql@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/mysql/-/mysql-2.18.1.tgz#2254143855c5a8c73825e4522baf2ea021766717"
   integrity sha512-Bca+gk2YWmqp2Uf6k5NFEurwY/0td0cpebAucFpY/3jhrwrVGuxU2uQFCHjU19SJfje0yQvi+rVWdq78hR5lig==

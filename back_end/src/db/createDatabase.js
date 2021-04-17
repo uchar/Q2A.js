@@ -30,7 +30,7 @@ const prepareDatabase = async () => {
   User.hasMany(Notification, { foreignKey: 'creatorId' });
   Medal.belongsTo(User);
   User.hasMany(Medal);
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false });
   databaseUtils().cacheModel(tables.USER_TABLE, User);
   databaseUtils().cacheModel(tables.POST_TABLE, Post);
   databaseUtils().cacheModel(tables.TAG_TABLE, Tag);

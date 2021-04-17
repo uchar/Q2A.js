@@ -38,11 +38,13 @@ export default {
     defaultValue: 0,
     validate: { min: 0 },
   },
-  tag1: Sequelize.STRING(48),
-  tag2: Sequelize.STRING(48),
-  tag3: Sequelize.STRING(48),
-  tag4: Sequelize.STRING(48),
-  tag5: Sequelize.STRING(48),
+  // Usually in forums reading items is a lot more than writing , so we try to denormalize wherever possible
+  // and not use M:N relationships and table joins
+  tag1: Sequelize.STRING(32),
+  tag2: Sequelize.STRING(32),
+  tag3: Sequelize.STRING(32),
+  tag4: Sequelize.STRING(32),
+  tag5: Sequelize.STRING(32),
   parentId: {
     type: Sequelize.UUID,
     primaryKey: false,

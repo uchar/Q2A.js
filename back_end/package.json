@@ -22,6 +22,7 @@
     "graphql-tools": "7.0.4",
     "jsonwebtoken": "8.5.1",
     "mysql": "2.18.1",
+    "mysql-import": "^5.0.21",
     "mysql2": "2.2.5",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
