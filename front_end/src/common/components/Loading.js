@@ -1,15 +1,9 @@
 import React from 'react';
-import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/RiseLoader';
 import ClipLoader2 from 'react-spinners/CircleLoader';
 import { isBrowser } from 'react-device-detect';
 import PropTypes from 'prop-types';
 
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
 
 const Loading = ({ style, browserSize, mobileSize, type }) => {
   return (
@@ -26,7 +20,6 @@ const Loading = ({ style, browserSize, mobileSize, type }) => {
       >
         {type === 'default' ? (
           <ClipLoader
-            css={override}
             size={isBrowser ? browserSize : mobileSize}
             color={'#f72865'}
             loading={true}
@@ -34,7 +27,6 @@ const Loading = ({ style, browserSize, mobileSize, type }) => {
           />
         ) : (
           <ClipLoader2
-            css={override}
             size={isBrowser ? browserSize : mobileSize}
             color={'#f72865'}
             loading={true}
