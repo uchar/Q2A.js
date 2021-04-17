@@ -31,6 +31,7 @@ function ElevationScroll(props) {
 
   return React.cloneElement(children, {
     elevation: trigger ? 4 : 0,
+    color: trigger ? 'primary' : 'secondary',
   });
 }
 
@@ -57,9 +58,6 @@ export default function Header(props) {
         </AppBar>
       </ElevationScroll>
       <Toolbar />
-      <Container>
-        <Box my={2}>{[...new Array(12)].map(() => ``).join('\n')}</Box>
-      </Container>
     </React.Fragment>
   );
 }
