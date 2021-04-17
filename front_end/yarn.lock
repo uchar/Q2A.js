@@ -5112,10 +5112,10 @@ cjs-module-lexer@^0.6.0:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-0.6.0.tgz#4186fcca0eae175970aee870b9fe2d6cf8d5655f"
   integrity sha512-uc2Vix1frTfnuzxxu1Hp4ktSvM3QaI4oXl4ZUqL1wjTu/BGki9TrCWoqLTg/drR1KwAEarXuRFCG2Svr1GxPFw==
 
-ckeditor5-build-q2a.js@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/ckeditor5-build-q2a.js/-/ckeditor5-build-q2a.js-1.0.2.tgz#ccf75897b8c91919bafd3f5434eea1ed1b6ce92e"
-  integrity sha512-5PHHu2xDshOdYw4d66f7kix+aAbPqN6YrBo4+OIYAwtro9ZshQYT8CIDWeaup20NvvI8yjJEYWqQyrPoiM/fzA==
+ckeditor5-build-q2a.js@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ckeditor5-build-q2a.js/-/ckeditor5-build-q2a.js-1.0.3.tgz#4a113e9e691e163daf9bdffa4c58c20ca4dd7a82"
+  integrity sha512-9PROXSdoCgSalTAwlv1WKPhvHIICxe5gwyVQXJx/S/VIc2/uP7h7XQBQELt+StKQT2DZQ7dJ6mxiQMfpIPbORQ==
   dependencies:
     "@ckeditor/ckeditor5-adapter-ckfinder" "^27.0.0"
     "@ckeditor/ckeditor5-autoformat" "^27.0.0"
