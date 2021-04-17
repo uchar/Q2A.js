@@ -7,7 +7,6 @@ const isPublic = rule({ cache: 'contextual' })(async () => {
 });
 
 const isAdmin = rule({ cache: 'contextual' })(async (parent, args, ctx) => {
-  console.log('isAdmin', parent, args, ctx);
   return ctx.user !== null && ctx.user.role === ROLE.ADMIN;
 });
 const isSuperAdmin = rule({ cache: 'contextual' })(async (parent, args, ctx) => {
@@ -38,6 +37,8 @@ const isSelf = rule({ cache: 'no_cache' })(async (parent, args, ctx, info) => {
     if (!post) return false;
   } else if (['updateUser'].includes(fieldName)) {
     if (args.id !== userId) return false;
+  } else if (['getNotifications'].includes(fieldName)) {
+    if (!userId) return false;
   } else {
     return false;
   }
