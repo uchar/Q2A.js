@@ -6,8 +6,8 @@ import {
   findUserByName,
   checkInputValidation,
   createAddSuccessResponse,
-  checkInputValidationWithoutContext,
 } from '../utility.js';
+
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
 
 const questionSchema = yup.object().shape({
@@ -33,10 +33,9 @@ const createPost = async (inputParams, context) => {
   return Post.create({ userId: user.id, ...inputParams });
 };
 
-const updatePost = async (inputParams, postId, language, context) => {
-  const user = await findUserByName(context.user.publicName);
+const updatePost = async (inputParams, postId, language) => {
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  return Post.update({ ...inputParams }, { where: { userId: user.id, id: postId, language } });
+  return Post.update({ ...inputParams }, { where: { id: postId, language } });
 };
 
 const incrementColumnInPost = async (id, column, valueToIncrease = 1) => {
@@ -71,7 +70,8 @@ const getUrlFromPost = async (post) => {
 };
 
 const addQuestion = async (_, { language, title, content, tags }, context) => {
-  await checkInputValidation(questionSchema, { language, title, content, tags }, context);
+  await checkInputValidation(questionSchema, { language, title, content, tags });
+
   const questionTags = {};
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -87,11 +87,11 @@ const addQuestion = async (_, { language, title, content, tags }, context) => {
     context
   );
   const newPost = resultOfPost.dataValues;
-  return createAddSuccessResponse(newPost.id);
+  return createAddSuccessResponse(newPost.id, `/${newPost.id}/${encodeURIComponent(title)}`);
 };
 
 const addAnswer = async (_, { language, postId, content }, context) => {
-  await checkInputValidation(answerSchema, { content, language }, context);
+  await checkInputValidation(answerSchema, { content, language });
   const parentPost = await getParentPost(postId);
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
@@ -123,7 +123,7 @@ const addAnswer = async (_, { language, postId, content }, context) => {
 };
 
 const addComment = async (_, { language, postId, content }, context) => {
-  await checkInputValidation(commentSchema, { language, content }, context);
+  await checkInputValidation(commentSchema, { language, content });
   const parentPost = await getParentPost(postId);
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
@@ -153,53 +153,32 @@ const addComment = async (_, { language, postId, content }, context) => {
   return createAddSuccessResponse(createPostId);
 };
 
-const updateAnswer = async (_, { language, id, content }, context) => {
-  await checkInputValidation(answerSchema, { language, content }, context);
-  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  const answer = await Post.findOne({
-    where: {
-      id,
-    },
-  });
-  if (id === null || answer === null || answer.id === null) {
-    throw new Error(STATUS_CODE.INPUT_ERROR);
-  }
+const updateAnswer = async (_, { language, id, content }) => {
+  await checkInputValidation(answerSchema, { language, content });
   await updatePost(
     {
       content,
     },
     id,
-    language,
-    context
+    language
   );
   return createSuccessResponse(``);
 };
 
-const updateComment = async (_, { language, id, content }, context) => {
-  await checkInputValidation(commentSchema, { language, content }, context);
-  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  const comment = await Post.findOne({
-    where: {
-      id,
-      language,
-    },
-  });
-  if (id === null || comment === null || comment.id === null) {
-    throw new Error(STATUS_CODE.INPUT_ERROR);
-  }
+const updateComment = async (_, { language, id, content }) => {
+  await checkInputValidation(commentSchema, { language, content });
   await updatePost(
     {
       content,
     },
-    comment,
-    language,
-    context
+    id,
+    language
   );
   return createSuccessResponse(``);
 };
 
-const updateQuestion = async (_, { language, id, title, content, tags }, context) => {
-  await checkInputValidation(questionSchema, { language, title, content, tags }, context);
+const updateQuestion = async (_, { language, id, title, content, tags }) => {
+  await checkInputValidation(questionSchema, { language, title, content, tags });
   const questionTags = {};
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -211,14 +190,13 @@ const updateQuestion = async (_, { language, id, title, content, tags }, context
       ...questionTags,
     },
     id,
-    language,
-    context
+    language
   );
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
 };
 
 const increaseQuestionViewCount = async (_, { id }) => {
-  await checkInputValidationWithoutContext(
+  await checkInputValidation(
     yup.object().shape({
       id: yup.string().required(),
     }),

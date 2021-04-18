@@ -1,6 +1,6 @@
 import databaseUtils from './db/database';
 import { LANGUAGES } from '../../front_end/src/common/utlities/languageUtilities';
-import { BLOG_POST_TYPES } from './constants';
+import { BLOG_POST_TYPES, POST_TYPES } from './constants';
 
 const notificationData = {
   language: 'en',
@@ -23,6 +23,7 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
 };
 
 const questionData = {
+  type: POST_TYPES.QUESTION,
   title: 'How to add a display filter in Alpine.JS like in Vue?',
   content:
     'How can I show date-time in a human-readable format in Alpine.js? I ' +
@@ -31,10 +32,12 @@ const questionData = {
   language: LANGUAGES.ENGLISH,
 };
 const answerData = {
+  type: POST_TYPES.ANSWER,
   language: LANGUAGES.ENGLISH,
   content: 'some random test answer for some random question',
 };
 const commentData = {
+  type: POST_TYPES.COMMENT,
   language: LANGUAGES.ENGLISH,
   content: 'some random comment for some random question or answer',
 };

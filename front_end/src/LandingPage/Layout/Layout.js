@@ -1,8 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { Box } from '@material-ui/core';
 import Header from './Header/Header';
 import JssStylesProvider from '../../common/layouts/JssStylesProvider';
+import Footer from '../../common/layouts/Footer';
 
 const useStyles = makeStyles(() => ({
   layoutStyle: {
@@ -20,7 +22,8 @@ const Layout = (props) => {
     <JssStylesProvider>
       <div className={classes.layoutStyle}>
         <Header />
-        {props.children}
+        <Box>{props.children}</Box>
+        <Footer />
       </div>
     </JssStylesProvider>
   );

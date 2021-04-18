@@ -9,6 +9,29 @@ const useStyles = makeStyles(() => ({
   root: {
     justifyContent: 'center',
     textAlign: 'center',
+    marginBottom: '35px',
+  },
+  title: {
+    textAlign: 'center',
+    maxWidth: 660,
+    marginTop: '10px',
+    marginBottom: '20px',
+    fontFamily: 'DM Sans',
+    fontWeight: 600,
+    fontSize: '20px',
+    lineHeight: 1.28,
+    color: '#000000',
+  },
+  description: {
+    textAlign: 'center',
+    margin: '0 auto 10px',
+    justifyContent: 'center',
+    maxWidth: 450,
+    fontFamily: 'DM Sans',
+    fontWeight: 'normal',
+    fontSize: '18px',
+    lineHeight: 1.87,
+    color: '#000000',
   },
 }));
 
@@ -18,8 +41,12 @@ const Feature = ({ data }) => {
     <Box className={classes.root}>
       <Image width={48} height={48} src={data?.icon} alt={data?.title} />
       <Box>
-        <Typography variant="h4">{data?.title}</Typography>
-        <Typography variant="h4">{data?.description}</Typography>
+        <Typography variant="h3" className={classes.title}>
+          {data?.title}
+        </Typography>
+        <Typography variant="h4" className={classes.description}>
+          {data?.description}
+        </Typography>
         {data?.path && (
           <Link href="/">
             <a href={data?.path}>LearnMore</a>

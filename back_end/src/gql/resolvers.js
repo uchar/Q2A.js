@@ -26,7 +26,7 @@ import {
   updateQuestion,
   increaseQuestionViewCount,
 } from '../mutations/post.js';
-import { uploadFile } from '../mutations/upload.js';
+// import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts } from '../queries/blog.js';
 
 export default {
@@ -47,7 +47,7 @@ export default {
     signUp,
     addQuestion,
     googleLogin,
-    uploadFile,
+    // uploadFile,
     updateUser,
     updateQuestion,
     updateAnswer,

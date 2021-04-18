@@ -74,6 +74,9 @@ const signUp = async (email, username, password) => {
 
 // load locally if USER key exist in asyncstorage nad force refresh is false
 const getCurrentUser = async () => {
+  // for logout
+  // localStorage.removeItem('JWT_TOKEN');
+  // localStorage.removeItem('USER');
   const jwtToken = getJwtToken();
   if (jwtToken) {
     try {
@@ -112,6 +115,31 @@ const isSignedIn = () => {
   if (jwtToken) return true;
   return false;
 };
+const USER_ACTIONS = {
+  EDIT_POST: 'EDIT_POST',
+  DISABLE_POST: 'DISABLE_POST',
+  ASK_QUESTION: 'ASK_QUESTION',
+};
+const USER_ROLE = {
+  USER_CONFIRMED: 'USER_CONFIRMED',
+  USER_NOT_CONFIRMED: 'USER_NOT_CONFIRMED',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN',
+};
+const isAdminOrMore = (user) => {
+  return user.role === USER_ROLE.ADMIN || user.role === USER_ROLE.SUPER_ADMIN;
+};
+
+// eslint-disable-next-line complexity
+const isAccessLevelEnough = async (action, itemsUserId) => {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  if (isAdminOrMore(user)) return true;
+  if (action === USER_ACTIONS.EDIT_POST || action === USER_ACTIONS.DISABLE_POST) {
+    if (user.id === itemsUserId) return true;
+  }
+  return false;
+};
 
 export {
   updateCurrentUser,
@@ -124,4 +152,6 @@ export {
   doGraphQLMutation,
   doGraphQLQuery,
   isSignedIn,
+  USER_ACTIONS,
+  isAccessLevelEnough,
 };

@@ -160,33 +160,6 @@ export default function NavigationMenu() {
             color="#1a73e8"
             bgColor="#e8f0fe"
           />
-          <StyledTreeItem
-            nodeId="6"
-            target={'#'}
-            labelText={getStrings().NAVIGATION_USERS_LIST}
-            labelIcon={Reorder}
-            labelInfo="2,294"
-            color="#e3742f"
-            bgColor="#fcefe3"
-          />
-          <StyledTreeItem
-            nodeId="7"
-            target={'#'}
-            labelText={getStrings().NAVIGATION_QUESTIONS_LIST}
-            labelIcon={Reorder}
-            labelInfo="3,566"
-            color="#a250f5"
-            bgColor="#f3e8fd"
-          />
-          <StyledTreeItem
-            nodeId="9"
-            target={'#'}
-            labelText={getStrings().NAVIGATION_TAGS_LIST}
-            labelIcon={Reorder}
-            labelInfo="733"
-            color="#3c8039"
-            bgColor="#e6f4ea"
-          />
         </StyledTreeItem>
       </TreeView>
     </div>

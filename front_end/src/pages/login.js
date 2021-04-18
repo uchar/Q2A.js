@@ -41,7 +41,7 @@ const Login = () => {
         }}
         validationSchema={Yup.object().shape({
           password: Yup.string().required('Required').min(6),
-          username: Yup.string().required('Required').min(6),
+          username: Yup.string().required('Required').min(4),
         })}
       >
         {(props) => {

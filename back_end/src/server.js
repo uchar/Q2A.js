@@ -3,9 +3,12 @@ import passport from 'passport';
 import passportJWT from 'passport-jwt';
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+import { applyMiddleware } from 'graphql-middleware';
+import { makeExecutableSchema } from 'graphql-tools';
 import createDatabasePromise from './db/createDatabase.js';
 import resolvers from './gql/resolvers.js';
-import types from './gql/types.js';
+import typeDefs from './gql/types.js';
+import { permissions } from './gql/permissions.js';
 
 const port = 4000;
 const path = '/graphql';
@@ -36,10 +39,15 @@ createDatabasePromise.then(() => {
       next();
     })(req, res, next);
   });
-
+  const schema = applyMiddleware(
+    makeExecutableSchema({
+      typeDefs,
+      resolvers,
+    }),
+    permissions
+  );
   const server = new ApolloServer({
-    typeDefs: types,
-    resolvers,
+    schema,
     context: ({ req }) => ({
       user: req.user,
     }),

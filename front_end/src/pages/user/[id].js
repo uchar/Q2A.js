@@ -268,7 +268,8 @@ const User = () => {
               alteredAnswer.user = {};
               alteredAnswer.user.publicName = publicName;
               alteredAnswer.user.profileImage = profileImage;
-              return <AnswerItem key={answer.id} {...alteredAnswer}></AnswerItem>;
+              alteredAnswer.comments = [];
+              return <AnswerItem key={answer.id} {...alteredAnswer}/>;
             })}
         </div>
       </TabPanel>
@@ -288,7 +289,8 @@ const User = () => {
                 answer.user = {};
                 answer.user.publicName = publicName;
                 answer.user.profileImage = profileImage;
-                return <AnswerItem key={answer.id} {...answer}></AnswerItem>;
+                answer.comments = [];
+                return <AnswerItem key={answer.id} {...answer}/>;
               }
             })}
         </div>

@@ -21,11 +21,12 @@ const saveNotification = async (language, reason, creatorId, receiverId, title, 
     content: yup.string(),
     language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
   });
-  const validationResult = await checkInputValidation(
-    notificationSchema,
-    { language, reason, title, content },
-    { user: { id: creatorId } }
-  );
+  const validationResult = await checkInputValidation(notificationSchema, {
+    language,
+    reason,
+    title,
+    content,
+  });
   if (validationResult === true) {
     const Notification = databaseUtils().loadModel(TABLES.NOTIFICATION_TABLE);
     await Notification.create({

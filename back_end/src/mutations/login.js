@@ -3,12 +3,7 @@ import axios from 'axios';
 import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
 import { TABLES, LOGIN_ERRORS } from '../constants.js';
-import {
-  createJWTToken,
-  findUserByEmail,
-  findUserByName,
-  checkInputValidationWithoutContext,
-} from '../utility.js';
+import { createJWTToken, findUserByEmail, findUserByName, checkInputValidation } from '../utility.js';
 
 const signUp = async (_, { email, username, password }) => {
   const newPasswordHash = await bcrypt.hash(password, 10);
@@ -23,7 +18,7 @@ const signUp = async (_, { email, username, password }) => {
       .matches(/^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/),
     password: yup.string().required().min(6),
   });
-  await checkInputValidationWithoutContext(loginUserSchema, {
+  await checkInputValidation(loginUserSchema, {
     email,
     username,
     password,

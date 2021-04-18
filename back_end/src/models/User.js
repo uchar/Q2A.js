@@ -15,8 +15,8 @@ export default {
     type: DataTypes.ENUM(['en', 'fa']),
     defaultValue: 'en',
   },
-  accessLevel: {
-    type: DataTypes.ENUM(['GUEST', 'USER_CONFIRMED', 'USER_NOT_CONFIRMED', 'ADMIN', 'SUPER_ADMIN']),
+  role: {
+    type: DataTypes.ENUM(['USER_CONFIRMED', 'USER_NOT_CONFIRMED', 'ADMIN', 'SUPER_ADMIN']),
     allowNull: false,
     defaultValue: 'USER_CONFIRMED',
   },

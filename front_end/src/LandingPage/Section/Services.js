@@ -49,28 +49,54 @@ const data = [
   },
 ];
 const useStyles = makeStyles((theme) => ({
-  root: { padding: theme.spacing(2), textAlign: 'center' },
+  root: { padding: theme.spacing(2), textAlign: 'center', backgroundColor: '#F9FAFC' },
   grid: {
     justifyContent: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    maxWidth: 660,
+    margin: '64px auto 10px',
+    fontFamily: 'headingSerif',
+    fontWeight: 600,
+    fontSize: '40px',
+    lineHeight: 1.33,
+    color: '#000000',
+  },
+  description: {
+    textAlign: 'center',
+    margin: '0 auto 64px',
+    justifyContent: 'center',
+    maxWidth: 990,
+    fontSize: '20px',
+    lineHeight: 1.87,
+    color: '#000000',
   },
 }));
 const Services = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Grid className={classes.root}>
       <Grid container className={classes.grid} border={1} spacing={2}>
-        <Typography variant="h1">Ultimate features you must appreciate</Typography>
-        <Typography variant="h3">
-          Get your blood tests delivered at let home collect sample from the victory of the managements that
-          supplies best design system guidelines ever. Email
-        </Typography>
+        <Grid item xs={12}>
+          <Typography variant="h1" className={classes.title}>
+            Ultimate features you must appreciate
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" className={classes.description}>
+            Get your blood tests delivered at let home collect sample from the victory of the managements that
+            supplies best design system guidelines ever. Email
+          </Typography>
+        </Grid>
+
         {data?.map((service) => (
-          <Grid item key={service.id}>
+          <Grid item key={service.id} md={4} xs={12}>
             <Feature key={service.id} data={service} />
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Grid>
   );
 };
 
