@@ -1,10 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Box, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
+import { parseContent } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
@@ -13,7 +13,7 @@ import { getLanguage } from '../../utlities/languageUtilities';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(5, 0, 5, 0),
+    margin: theme.spacing(1, 0, 2, 0),
     paddingBottom: theme.spacing(3),
     textAlign: 'center',
   },
@@ -23,16 +23,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  detailSection: {
+  titleSection: {
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
-    margin: theme.spacing(0, 1, 0, 3),
+    marginTop: theme.spacing(4),
   },
   tagsSection: {
-    margin: theme.spacing(1.5, 2, 0.5, 2),
+    margin: theme.spacing(0, 2, 0, 2),
   },
   expand: {
+    width: '1em',
+    height: '1em',
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
@@ -42,11 +44,14 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
+  content: {
+    paddingBottom: theme.spacing(1),
+  },
   title: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(0),
+    paddingTop: theme.spacing(1.5),
     textAlign: 'initial ',
     wordWrap: 'break-word',
+    color: '#3f51b5',
     cursor: 'pointer',
     '&:hover': {
       color: '#314285',
@@ -74,7 +79,7 @@ const QuestionItemPreview = DeepMemo(function ({
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
-    return <div></div>;
+    return <div />;
   }
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
@@ -85,14 +90,8 @@ const QuestionItemPreview = DeepMemo(function ({
 
   let parsedContent = <div />;
 
-  if (expanded || content.length < 600) {
+  if (expanded) {
     parsedContent = parseContent(content, getLanguage());
-  } else {
-    parsedContent = (
-      <div style={{ marginTop: '5px' }}>
-        {replacePTagWithTypoGraphy(`${content.substring(0, 600)}...`, 'textSecondary')}
-      </div>
-    );
   }
   return (
     <Box boxShadow={2} className={classes.root}>
@@ -107,28 +106,23 @@ const QuestionItemPreview = DeepMemo(function ({
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </div>
-        <Link href={`/${id}/${encodeURIComponent(title)}`}>
-          <Typography color="textPrimary" variant="h1" className={classes.title}>
-            {title}
-          </Typography>
-        </Link>
+        <div className={classes.titleSection}>
+          <Link href={`/${id}/${encodeURIComponent(title)}`}>
+            <Typography color="textPrimary" variant="h1" className={classes.title}>
+              {title}
+            </Typography>
+          </Link>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </div>
       </CardContent>
-      <div className={classes.detailSection}>
-        {parsedContent}
-        <CardActions disableSpacing>
-          {content.length >= 400 && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-        </CardActions>
-      </div>
-
+      <div className={classes.content}>{parsedContent}</div>
       <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
     </Box>
   );
