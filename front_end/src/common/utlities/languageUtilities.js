@@ -1,6 +1,7 @@
 import persian from '../../languages/persian';
 import english from '../../languages/english';
 import { getCurrentUser } from '../../API/utilities';
+import { isLanguageRtl } from './generalUtilities';
 
 let currentLanguage;
 
@@ -28,6 +29,9 @@ const getLanguage = () => {
   }
   return currentLanguage;
 };
+const isSiteRTL = () => {
+  return isLanguageRtl(getLanguage());
+};
 
 const getStrings = () => {
   if (getLanguage() === LANGUAGES.PERSIAN) {
@@ -53,4 +57,4 @@ const getInitialLocale = async () => {
   }
 };
 
-export { LANGUAGES, getLanguage, getStrings, getInitialLocale, updateLanguageBaseOnUrl };
+export { LANGUAGES, getLanguage, getStrings, getInitialLocale, updateLanguageBaseOnUrl, isSiteRTL };
