@@ -10,9 +10,20 @@
   "dependencies": {
 
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "husky": "4.3.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.test.js": "./node_modules/.bin/jest --passWithNoTests",
+    "*.js": "npm run lint"
+  },
   "scripts": {
-    "install_packages": "cd front_end && yarn && cd ../back_end && yarn",
+    "install_packages": "yarn && cd front_end && yarn && cd ../back_end && yarn",
     "api_tests": "cd back_end && yarn test",
     "api_setup": "cd back_end && yarn setup",
     "api_run_dev": "cd back_end && yarn dev",
