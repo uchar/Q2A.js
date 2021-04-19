@@ -14,8 +14,8 @@ export default gql`
   }
 
   enum Theme {
-    LIGHT
-    DARK
+    light
+    dark
   }
 
   enum PostType {
@@ -50,7 +50,7 @@ export default gql`
     score: Int
     about: String
     language: String
-    theme: String
+    theme: Theme
     role: Role
     questions: [Question]
     answers: [Answer]

@@ -15,17 +15,6 @@ const useStyles = (size) =>
       marginRight: theme.spacing(1),
       cursor: 'pointer',
     },
-    medalSection: {
-      flexDirection: 'row',
-      marginTop: theme.spacing(-1.7),
-      justifyContent: 'flex-start',
-      display: 'flex',
-      marginLeft: theme.spacing(1.6),
-    },
-    medal: {
-      marginRight: theme.spacing(0.3),
-      zIndex: 9,
-    },
     score: {
       fontSize: '9px',
       fontWeight: '800',
