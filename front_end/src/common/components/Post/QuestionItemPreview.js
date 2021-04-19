@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Box, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
@@ -11,10 +11,10 @@ import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import { getLanguage } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    margin: theme.spacing(1, 0, 2, 0),
-    paddingBottom: theme.spacing(3),
+    margin: (theme) => theme.spacing(1, 0, 2, 0),
+    paddingBottom: (theme) => theme.spacing(3),
     textAlign: 'center',
   },
   topSection: {
@@ -27,28 +27,29 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop: theme.spacing(4),
+    marginTop: (theme) => theme.spacing(4),
   },
   tagsSection: {
-    margin: theme.spacing(0, 2, 0, 2),
+    margin: (theme) => theme.spacing(0, 2, 0, 2),
   },
   expand: {
     width: '1em',
     height: '1em',
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
+    transition: (theme) =>
+      theme.transitions.create('transform', {
+        duration: (theme) => theme.transitions.duration.shortest,
+      }),
   },
   expandOpen: {
     transform: 'rotate(180deg)',
   },
   content: {
-    paddingBottom: theme.spacing(1),
+    paddingBottom: (theme) => theme.spacing(1),
   },
   title: {
-    paddingTop: theme.spacing(1.5),
+    paddingTop: (theme) => theme.spacing(1.5),
     textAlign: 'initial ',
     wordWrap: 'break-word',
     cursor: 'pointer',
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
       textDecorationLine: 'underline',
     },
   },
-}));
+};
 
 const QuestionItemPreview = DeepMemo(function ({
   id,
@@ -76,7 +77,6 @@ const QuestionItemPreview = DeepMemo(function ({
   tag4,
   tag5,
 }) {
-  const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
     return <div />;
@@ -88,15 +88,15 @@ const QuestionItemPreview = DeepMemo(function ({
     setExpanded(!expanded);
   };
 
-  let parsedContent = <div />;
+  let parsedContent = <Box />;
 
   if (expanded) {
     parsedContent = parseContent(content, getLanguage());
   }
   return (
-    <Box boxShadow={2} className={classes.root}>
+    <Box boxShadow={2} sx={styles.root}>
       <CardContent>
-        <div className={classes.topSection}>
+        <Box sx={styles.topSection}>
           <ProfileImageWithName
             href={`/user/${publicName}`}
             profileImage={profileImage}
@@ -105,25 +105,25 @@ const QuestionItemPreview = DeepMemo(function ({
             score={score}
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
-        </div>
-        <div className={classes.titleSection}>
+        </Box>
+        <Box sx={styles.titleSection}>
           <Link href={`/${id}/${encodeURIComponent(title)}`}>
-            <Typography color="textPrimary" variant="h1" className={classes.title}>
+            <Typography color="textPrimary" variant="h1" sx={styles.title}>
               {title}
             </Typography>
           </Link>
           <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
+            sx={clsx(styles.expand, {
+              [styles.expandOpen]: expanded,
             })}
             onClick={handleExpandClick}
           >
             <ExpandMoreIcon />
           </IconButton>
-        </div>
+        </Box>
       </CardContent>
-      <div className={classes.content}>{parsedContent}</div>
-      <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
+      <Box sx={styles.content}>{parsedContent}</Box>
+      <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
     </Box>
   );
 });

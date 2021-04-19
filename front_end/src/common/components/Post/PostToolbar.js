@@ -1,28 +1,27 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ShareDialog from '../ShareDialog';
 import { getStrings } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
-  root: { display: 'flex', padding: theme.spacing(3, 2, 1, 0) },
+const styles = {
+  root: { display: 'flex', padding: (theme) => theme.spacing(3, 3, 1, 3), justify: 'flex-end' },
   item: {
     textDecorationLine: 'underline',
-    marginRight: theme.spacing(2),
+    marginRight: (theme) => theme.spacing(2),
     cursor: 'pointer',
   },
-}));
+};
 
 const getItem = (title, onClick, className) => {
   return (
-    <Typography variant="button" color="textSecondary" className={className} onClick={onClick}>
+    <Typography variant="button" color="textSecondary" sx={className} onClick={onClick}>
       {title}
     </Typography>
   );
 };
 const PostToolbar = ({
-  className,
+  sx,
   showShare,
   shareTitle,
   shareBody,
@@ -33,7 +32,6 @@ const PostToolbar = ({
   showDisable,
   disableCallback,
 }) => {
-  const classes = useStyles();
   const [shareAnchor, setShareAnchor] = React.useState(null);
 
   const handleCloseShare = () => {
@@ -41,7 +39,7 @@ const PostToolbar = ({
   };
 
   return (
-    <Grid container className={`${classes.root} ${className}`} spacing={1} direction="row" justify="flex-end">
+    <Grid container sx={{ ...sx, ...styles.root }} spacing={1}>
       <ShareDialog
         shareTitle={shareTitle}
         shareBody={shareBody}
@@ -54,7 +52,7 @@ const PostToolbar = ({
           (event) => {
             setShareAnchor(event.currentTarget);
           },
-          classes.item
+          styles.item
         )}
       {showEdit &&
         getItem(
@@ -62,7 +60,7 @@ const PostToolbar = ({
           (event) => {
             editCallBack(event);
           },
-          classes.item
+          styles.item
         )}
       {showComment &&
         getItem(
@@ -70,7 +68,7 @@ const PostToolbar = ({
           (event) => {
             commentCallback(event);
           },
-          classes.item
+          styles.item
         )}
       {showDisable &&
         getItem(
@@ -78,7 +76,7 @@ const PostToolbar = ({
           (event) => {
             disableCallback(event);
           },
-          classes.item
+          styles.item
         )}
     </Grid>
   );
@@ -91,7 +89,7 @@ PostToolbar.defaultProps = {
   showDisable: false,
 };
 PostToolbar.propTypes = {
-  className: PropTypes.string,
+  sx: PropTypes.object,
   showShare: PropTypes.bool.isRequired,
   shareTitle: PropTypes.string.isRequired,
   shareBody: PropTypes.string.isRequired,

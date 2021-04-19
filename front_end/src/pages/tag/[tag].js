@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Layout from '../../common/layouts/Layout';
@@ -15,19 +14,18 @@ import {
 } from '../../redux/constants';
 import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   paper: {
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: (theme) => theme.palette.text.secondary,
   },
-}));
+};
 
 const Tag = () => {
-  const classes = useStyles();
   const tag = useSelector((state) => state.currentTag);
   const questions = useSelector((state) => state.questions);
   return (
-    <Box className={classes.paper}>
+    <Box sx={styles.paper}>
       <LatestQuestion questions={questions} tag={tag} />
     </Box>
   );

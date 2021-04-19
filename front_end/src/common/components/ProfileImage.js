@@ -6,13 +6,13 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { getFullUrl } from '../utlities/generalUtilities';
 
-const useStyles = (size) =>
-  makeStyles((theme) => ({
+const styles = (size) => {
+  return {
     avatar: {
       width: size,
       height: size,
       backgroundColor: 'white',
-      marginRight: theme.spacing(1),
+      marginRight:(theme)=> theme.spacing(1),
       cursor: 'pointer',
     },
     score: {
@@ -20,25 +20,26 @@ const useStyles = (size) =>
       fontWeight: '800',
       flex: 1,
       display: 'flex',
-      marginLeft: theme.spacing(2.2),
-      marginTop: theme.spacing(0.3),
+      marginLeft:(theme)=> theme.spacing(2.2),
+      marginTop: (theme)=>theme.spacing(0.3),
     },
-  }))();
+  };
+};
 
 const ProfileImage = ({ profileImage, size, href, tooltip }) => {
-  const classes = useStyles(size);
+  const classes = styles(size);
   let imageComponent;
   if (profileImage) {
     imageComponent = (
       <div>
-        <Avatar aria-label="recipe" className={classes.avatar} src={getFullUrl(profileImage)}>
-          <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+        <Avatar aria-label="recipe" sx={classes.avatar} src={getFullUrl(profileImage)}>
+          <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />
         </Avatar>
       </div>
     );
   } else {
     imageComponent = (
-      <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+      <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />
     );
   }
   if (tooltip) {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 import { AppBar, Badge, IconButton, InputBase, Toolbar, Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Translate from '@material-ui/icons/Translate';
@@ -9,8 +9,6 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import Link from 'next/link';
-import clsx from 'clsx';
-import List from '@material-ui/core/List';
 import Q2aButton from '../../components/Q2aButton';
 import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
 import ProfileImage from '../../components/ProfileImage';
@@ -21,43 +19,43 @@ import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
 import { CURRENT_USER_ACTION } from '../../../redux/constants';
 import MobileMenuDrawer from './MobileMenuDrawer';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   grow: {
     flexGrow: 1,
   },
   appBar: {
-    padding: theme.spacing(2, 0, 2, 0),
+    padding: (theme) => theme.spacing(2, 0, 2, 0),
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: (theme) => theme.spacing(2),
   },
   title: {
     display: 'none',
-    [theme.breakpoints.up('sm')]: {
+    [(theme) => theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-    margin: theme.spacing(2, 2, 0, 2),
+    margin: (theme) => theme.spacing(2, 2, 0, 2),
     fontSize: '20px',
     fontWeight: '500',
   },
   search: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(1, 0, 1, 0),
+    [(theme) => theme.breakpoints.up('md')]: {
+      padding: (theme) => theme.spacing(1, 0, 1, 0),
       display: 'block',
       position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade('#ffffff', 0.3),
+      borderRadius: (theme) => theme.shape.borderRadius,
+      backgroundColor: alpha('#ffffff', 0.3),
       '&:hover': {
-        backgroundColor: fade('#ffffff', 0.4),
+        backgroundColor: alpha('#ffffff', 0.4),
       },
-      marginRight: theme.spacing(2),
+      marginRight: (theme) => theme.spacing(2),
       width: '90%',
-      marginLeft: theme.spacing(3),
+      marginLeft: (theme) => theme.spacing(3),
     },
   },
   searchIcon: {
-    padding: theme.spacing(-1, 2),
+    padding: (theme) => theme.spacing(-1, 2),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -72,34 +70,33 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
+    padding: (theme) => theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${(theme) => theme.spacing(4)}px)`,
+    transition: (theme) => theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('md')]: {
+    [(theme) => theme.breakpoints.up('md')]: {
       width: '100%',
     },
   },
   sectionDesktop: {
-    [theme.breakpoints.up('md')]: {
+    [(theme) => theme.breakpoints.up('md')]: {
       display: 'flex',
       flex: '1',
     },
   },
   sectionMobile: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    [(theme) => theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
   buttons: {
     fontSize: '13px',
-    margin: theme.spacing(1, 0, 1, 0),
+    margin: (theme) => theme.spacing(1, 0, 1, 0),
   },
-}));
+};
 
-const Header = ({}) => {
-  const classes = useStyles();
+const Header = () => {
   const themeType = useSelector((state) => state.currentUser.theme);
   const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
@@ -182,16 +179,16 @@ const Header = ({}) => {
   };
 
   return (
-    <div className={classes.grow}>
+    <div sx={styles.grow}>
       <MobileMenuDrawer isMobileMenuOpen={isMobileMenuOpen} toggleDrawer={toggleMobileMenu} />
-      <AppBar color="secondary" className={classes.appBar} position="static">
+      <AppBar color="secondary" sx={styles.appBar} position="static">
         <Toolbar>
           <NotificationsBox
             notificationAnchor={notificationAnchor}
             onClose={handleNotificationsMenuClose}
             onNotificationCountChange={handleNotificationCountChange}
           />
-          <div className={classes.sectionMobile}>
+          <div sx={styles.sectionMobile}>
             <IconButton
               aria-label="show more"
               aria-haspopup="true"
@@ -202,15 +199,15 @@ const Header = ({}) => {
               <MoreIcon size="small" />
             </IconButton>
           </div>
-          <div className={classes.sectionDesktop}>
+          <div sx={styles.sectionDesktop}>
             <Link prefetch={false} href={`/`}>
-              <Typography style={{ cursor: 'pointer' }} className={classes.title} variant="h2" noWrap>
+              <Typography style={{ cursor: 'pointer' }} sx={styles.title} variant="h2" noWrap>
                 {getStrings().SITE_TITLE}
               </Typography>
             </Link>
             {!user && user !== undefined && (
               <Q2aButton
-                className={classes.buttons}
+                sx={styles.buttons}
                 url={'/login'}
                 shouldShowLoading={false}
                 text={getStrings().HEADER_LOGIN_BUTTON}
@@ -219,27 +216,27 @@ const Header = ({}) => {
             )}
             {!user && user !== undefined && (
               <Q2aButton
-                className={classes.buttons}
+                sx={styles.buttons}
                 url={'/register'}
                 shouldShowLoading={false}
                 text={getStrings().HEADER_REGISTER_BUTTON}
                 backgroundColor={'secondary'}
               />
             )}
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
+            <div sx={styles.search}>
+              <div sx={styles.searchIcon}>
                 <SearchIcon />
               </div>
               <InputBase
                 placeholder={getStrings().SEARCH_HINT}
                 classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
+                  root: styles.inputRoot,
+                  input: styles.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
-            <div className={classes.grow} />
+            <div className={styles.grow} />
           </div>
           {user && (
             <IconButton edge="end" aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">

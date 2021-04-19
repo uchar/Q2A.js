@@ -58,7 +58,7 @@ const themeSettingsLight = {
   typography,
   spacing: 5,
   palette: {
-    type: 'light',
+    mode: 'light',
     primary: {
       // light: will be calculated from palette.primary.main,
       main: '#67775f',
@@ -66,13 +66,11 @@ const themeSettingsLight = {
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      light: '#0a73b7',
       main: '#ff0000',
       // dark: will be calculated from palette.secondary.main,
       // contrastText: '#ffcc00',
     },
-    textPrimary:{
-      light: '#fcfcfc',
+    textPrimary: {
       main: '#ff0000',
     },
     // Used by `getContrastText()` to maximize the contrast between
@@ -86,7 +84,7 @@ const themeSettingsLight = {
 };
 // make a deep copy of light theme
 const themeSettingsDark = JSON.parse(JSON.stringify(themeSettingsLight));
-themeSettingsDark.palette.type = 'dark';
+themeSettingsDark.palette.mode = 'dark';
 
 export const lightTheme = responsiveFontSizes(createMuiTheme(themeSettingsLight, faIR));
 export const darkTheme = responsiveFontSizes(createMuiTheme(themeSettingsDark, faIR));

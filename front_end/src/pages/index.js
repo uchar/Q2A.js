@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Layout from '../common/layouts/Layout';
@@ -10,18 +9,16 @@ import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '..
 import { wrapper } from '../redux/store';
 import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     textAlign: 'center',
-    color: theme.palette.text.secondary,
   },
-}));
+};
 
 function MainPage() {
-  const classes = useStyles();
   const questions = useSelector((state) => state.questions);
   return (
-    <Box className={classes.root}>
+    <Box sx={styles.root}>
       <LatestQuestion questions={questions} />
     </Box>
   );

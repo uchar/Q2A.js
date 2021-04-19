@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { CardContent, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Box, CardContent, makeStyles, TextField, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/core/Autocomplete';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,28 +16,32 @@ import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
 import Q2aButton from '../Q2aButton';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   section: {
-    margin: theme.spacing(0, 1, 0, 1),
+    margin: (theme) => theme.spacing(0, 1, 0, 1),
   },
   title: {
     fontSize: 26,
     textAlign: 'initial',
-    marginRight: theme.spacing(2),
-    marginTop: theme.spacing(1),
+    marginRight: (theme) => theme.spacing(2),
+    marginTop: (theme) => theme.spacing(1),
   },
-  subtitle: { marginRight: theme.spacing(2), marginBottom: theme.spacing(2), textAlign: 'initial' },
-  tagTitle: { margin: theme.spacing(6, 0, 0, 0) },
-  titleInput: { margin: theme.spacing(0, 1, 2, 1), textAlign: 'initial' },
+  subtitle: {
+    marginRight: (theme) => theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    textAlign: 'initial',
+  },
+  tagTitle: { margin: (theme) => theme.spacing(6, 0, 0, 0) },
+  titleInput: { margin: (theme) => theme.spacing(0, 1, 2, 1), textAlign: 'initial' },
   autoComplete: {
-    margin: theme.spacing(2, 0, 0, 0),
+    margin: (theme) => theme.spacing(2, 0, 0, 0),
   },
   button: {
-    margin: theme.spacing(2, 0, 6, 4),
-    padding: theme.spacing(2, 12, 2, 12),
+    margin: (theme) => theme.spacing(2, 0, 6, 4),
+    padding: (theme) => theme.spacing(2, 12, 2, 12),
   },
   error: {
-    margin: theme.spacing(2, 0, 0, 3),
+    margin: (theme) => theme.spacing(2, 0, 0, 3),
   },
   submitButtonsParent: {
     display: 'flex',
@@ -45,10 +49,9 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     flexDirection: 'row',
   },
-}));
+};
 
 const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEditFinished }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();
   const [tags, setTags] = React.useState([
@@ -117,16 +120,16 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
         return (
           <form onSubmit={handleSubmit}>
             <CardContent>
-              <div className={classes.section}>
-                <Typography className={classes.title} gutterBottom>
+              <Box sx={styles.section}>
+                <Typography sx={styles.title} gutterBottom>
                   {getStrings().ASK_TITLE}
                 </Typography>
-                <Typography variant="body2" className={classes.subtitle}>
+                <Typography variant="body2" sx={styles.subtitle}>
                   {getStrings().ASK_SUBTITLE}
                 </Typography>
                 <div>
                   <TextField
-                    className={classes.titleInput}
+                    sx={styles.titleInput}
                     fullWidth
                     id="title"
                     name="title"
@@ -139,12 +142,12 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     <ErrorMessage style={{ margin: '10px 15px 0px 0px' }} text={errors.title} />
                   )}
                 </div>
-              </div>
-              <div className={classes.section}>
-                <Typography className={classes.title} gutterBottom>
+              </Box>
+              <Box sx={styles.section}>
+                <Typography sx={styles.title} gutterBottom>
                   {getStrings().ASK_DESCRIPTION_TITLE}
                 </Typography>
-                <Typography variant="body2" className={classes.subtitle}>
+                <Typography variant="body2" sx={styles.subtitle}>
                   {getStrings().ASK_DESCRIPTION_SUBTITLE}
                 </Typography>
                 <CKEditor
@@ -154,15 +157,15 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     setValues({ ...values, content: data });
                   }}
                 />
-                {errors.content && <ErrorMessage className={classes.error} text={errors.content} />}
-              </div>
-              <div className={classes.section}>
-                <Typography variant="body2" className={classes.tagTitle}>
+                {errors.content && <ErrorMessage sx={styles.error} text={errors.content} />}
+              </Box>
+              <div sx={styles.section}>
+                <Typography variant="body2" sx={styles.tagTitle}>
                   {getStrings().ASK_TAGS}
                 </Typography>
                 <Autocomplete
                   fullWidth
-                  className={classes.autoComplete}
+                  sx={styles.autoComplete}
                   options={tags}
                   value={values.tags}
                   multiple
@@ -181,13 +184,13 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
               </div>
             </CardContent>
             {
-              <div className={classes.submitButtonsParent}>
+              <div sx={styles.submitButtonsParent}>
                 <Q2aButton
                   type="submit"
                   onSubmit={handleSubmit}
                   variant="contained"
                   color="primary"
-                  className={classes.button}
+                  sx={styles.button}
                   loading={isSubmitting}
                   shouldShowLoading={!(errors.title && errors.content && errors.tags)}
                   text={editMode ? getStrings().ASK_BUTTON_EDIT_SUBMIT : getStrings().ASK_BUTTON_SEND_SUBMIT}
@@ -197,7 +200,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     onSubmit={onEditFinished}
                     variant="contained"
                     color="secondary"
-                    className={classes.button}
+                    sx={styles.button}
                     loading={isSubmitting}
                     shouldShowLoading={!(errors.title && errors.content && errors.tags)}
                     text={getStrings().ASK_BUTTON_CANCEL}

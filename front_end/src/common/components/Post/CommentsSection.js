@@ -1,32 +1,29 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import CommentItem from './CommentItem';
 
-const useStyles = makeStyles((theme) => ({
-  item: { marginTop: theme.spacing(2) },
-}));
+const styles = {
+  item: { marginTop: (theme) => theme.spacing(2) },
+};
 
-const CommentsSection = ({ className, comments }) => {
-  const classes = useStyles();
-
+const CommentsSection = ({ comments, sx }) => {
   return (
-    <div className={className}>
+    <Box sx={{ ...sx, ...styles.item }}>
       {comments &&
         comments.map((comment) => {
           return (
-            <div className={classes.item} key={comment.id}>
+            <div sx={styles.item} key={comment.id}>
               <Divider />
               <CommentItem {...comment} />
             </div>
           );
         })}
-    </div>
+    </Box>
   );
 };
 CommentsSection.propTypes = {
-  className: PropTypes.string,
   comments: PropTypes.array.isRequired,
 };
 export default CommentsSection;

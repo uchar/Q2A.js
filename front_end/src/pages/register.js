@@ -12,7 +12,7 @@ import { login, signUp } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   form: {
     width: '220%',
     marginTop: theme.spacing(1),
@@ -23,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '15px 0px 15px 0px',
     color: '#ffffff',
   },
-}));
+};
 
 const Register = () => {
-  const classes = useStyles();
   const router = useRouter();
 
   const makerFormError = (errors) => {
@@ -42,7 +41,7 @@ const Register = () => {
   };
   return (
     <div>
-      <GoogleLoginButton buttonText={getStrings().SIGN_IN_GOOGLE}  />
+      <GoogleLoginButton buttonText={getStrings().SIGN_IN_GOOGLE} />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
 
       <Formik
@@ -104,7 +103,7 @@ const Register = () => {
                 text={getStrings().Register_TITLE}
                 fullWidth={true}
                 onSubmit={handleSubmit}
-                className={classes.submit}
+                sx={styles.submit}
                 loading={isSubmitting}
                 shouldShowLoading={!(errors.name && touched.name && errors.email && touched.email)}
               />

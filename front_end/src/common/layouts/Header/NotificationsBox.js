@@ -11,7 +11,7 @@ import { parseContent } from '../../parsers/parser';
 import { timeAgo } from '../../utlities/generalUtilities';
 import { getLanguage, getStrings } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     maxWidth: '800px',
     minWidth: '500px',
@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   notificationBox: {
     padding: '10px',
     minWidth: '400px',
-    margin: theme.spacing(1, 2, 2, 2),
+    margin: (theme)=> theme.spacing(1, 2, 2, 2),
   },
   notificationBoxNameDate: {
     fontSize: '13px',
   },
   notificationBoxName: {
-    margin: theme.spacing(1, 0, 0, 0),
+    margin:(theme)=>  theme.spacing(1, 0, 0, 0),
     fontSize: '10px',
   },
   notificationBoxTitle: {
@@ -49,10 +49,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     display: 'flex',
   },
-}));
+};
 
 const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChange }) => {
-  const classes = useStyles();
   const limit = 15;
   let offset = 0;
   const [notifications, setNotifications] = React.useState([]);
@@ -124,13 +123,13 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
         })}
       </InfiniteScroll>
     ) : (
-      <div className={classes.noNotifications}>
+      <div sx={styles.noNotifications}>
         <Typography variant={'body1'}>{getStrings().NOTIFICATION_BOX_NO_NEW_NOTIFICATION}</Typography>,
       </div>
     );
   return (
     <Menu
-      className={classes.root}
+      sx={styles.root}
       id="long-menu"
       anchorEl={notificationAnchor}
       transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}

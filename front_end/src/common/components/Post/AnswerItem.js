@@ -10,7 +10,6 @@ import PostToolbar from './PostToolbar';
 import {
   doGraphQLMutation,
   doGraphQLQuery,
-  getCurrentUserId,
   isAccessLevelEnough,
   USER_ACTIONS,
 } from '../../../API/utilities';
@@ -23,13 +22,13 @@ import { GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
 import { getLanguage } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    margin: theme.spacing(5),
-    paddingBottom: theme.spacing(2),
+    margin: (theme)=>theme.spacing(5),
+    paddingBottom:(theme)=> theme.spacing(2),
     textAlign: 'center',
   },
-}));
+};
 
 const AnswerItem = DeepMemo(function AnswerItem({
   id,
@@ -40,7 +39,6 @@ const AnswerItem = DeepMemo(function AnswerItem({
   comments,
   rootId,
 }) {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { publicName, profileImage, score } = user;
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
@@ -55,7 +53,6 @@ const AnswerItem = DeepMemo(function AnswerItem({
     };
     getUser();
   }, []);
-  const userWhoAnsweredId = user.id;
   const parsedContent = parseContent(content, getLanguage());
 
   const handleEditDataChanged = (event, editor) => {
@@ -101,7 +98,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
     setIsCommentMode(false);
   };
   return (
-    <Box boxShadow={4} className={classes.root}>
+    <Box boxShadow={4} sx={styles.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <ProfileImageWithName
@@ -116,7 +113,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
       </CardContent>
       {isEditMode ? (
         <div>
-          <CKEditor className={classes.margin} data={content} onChange={handleEditDataChanged} />
+          <CKEditor sx={styles.margin} data={content} onChange={handleEditDataChanged} />
           <SaveCancelButtons error={apiError} onSave={handleEditSave} onCancel={handleEditCancel} />
         </div>
       ) : (

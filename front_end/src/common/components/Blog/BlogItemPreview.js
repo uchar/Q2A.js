@@ -1,17 +1,17 @@
 import React from 'react';
 import { Box, CardContent, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { parseContent} from '../../parsers/parser';
+import { parseContent } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from '../Post/PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import { getLanguage } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    margin: theme.spacing(5, 0, 5, 0),
-    paddingBottom: theme.spacing(3),
+    margin: (theme) => theme.spacing(5, 0, 5, 0),
+    paddingBottom: (theme) => theme.spacing(3),
     textAlign: 'center',
   },
   topSection: {
@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
-    margin: theme.spacing(0, 1, 0, 3),
+    margin: (theme) => theme.spacing(0, 1, 0, 3),
   },
   tagsSection: {
-    margin: theme.spacing(1.5, 2, 0.5, 2),
+    margin: (theme) => theme.spacing(1.5, 2, 0.5, 2),
   },
   title: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(0),
+    marginTop: (theme)=>theme.spacing(3),
+    marginBottom:(theme)=> theme.spacing(0),
     textAlign: 'initial ',
     wordWrap: 'break-word',
     cursor: 'pointer',
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
       textDecorationLine: 'underline',
     },
   },
-}));
+};
 
 const BlogItemPreview = DeepMemo(function ({
   id,
@@ -58,9 +58,8 @@ const BlogItemPreview = DeepMemo(function ({
   createdAt,
   updatedAt,
 }) {
-  const classes = useStyles();
   if (user === null) {
-    return <div></div>;
+    return <div />;
   }
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
@@ -70,9 +69,9 @@ const BlogItemPreview = DeepMemo(function ({
   parsedContent = parseContent(content, getLanguage());
 
   return (
-    <Box boxShadow={2} className={classes.root}>
+    <Box boxShadow={2} sx={styles.root}>
       <CardContent>
-        <div className={classes.topSection}>
+        <Box sx={styles.topSection}>
           <ProfileImageWithName
             href={`/user/${publicName}`}
             profileImage={profileImage}
@@ -81,13 +80,13 @@ const BlogItemPreview = DeepMemo(function ({
             score={score}
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={commentsCount} />
-        </div>
-        <Typography color="textPrimary" variant="h1" className={classes.title}>
+        </Box>
+        <Typography color="textPrimary" variant="h1" sx={styles.title}>
           {title}
         </Typography>
       </CardContent>
-      <div className={classes.detailSection}>{parsedContent}</div>
-      <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
+      <Box sx={styles.detailSection}>{parsedContent}</Box>
+      <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
     </Box>
   );
 });

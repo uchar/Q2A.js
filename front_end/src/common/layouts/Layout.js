@@ -13,7 +13,7 @@ import BlogBox from '../components/MainPageColumns/BlogBox';
 import Loading from '../components/Loading';
 import Navigation from '../components/MainPageColumns/Navigation';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   layoutStyle: {
     display: 'flex',
     flexDirection: 'column',
@@ -28,23 +28,21 @@ const useStyles = makeStyles((theme) => ({
     padding: '0px 2% 0px 0.5%',
   },
   tagBox: {
-    marginTop: theme.spacing(3),
+    marginTop: (theme) => theme.spacing(3),
   },
   newsBox: {},
-}));
+};
 
 const Layout = (props) => {
-  const classes = useStyles();
-
   const tags = useSelector((state) => state.tags);
   const blogPosts = useSelector((state) => state.blogPosts);
   const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
   return (
     <JssStylesProvider>
-      <div className={classes.layoutStyle}>
+      <Box sx={styles.layoutStyle}>
         <Header />
-        <Box className={classes.contentStyle}>
+        <Box sx={styles.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
               {!noSideBar && <Navigation></Navigation>}
@@ -55,13 +53,11 @@ const Layout = (props) => {
             <Grid item md={2} xs={12}>
               {!noSideBar && (
                 <div>
-                  <BlogBox className={classes.newsBox} blogPosts={blogPosts} />
-                  <Box className={classes.tagBox} boxShadow={2}>
-                    <Grid container>
-                      <BrowserView>
-                        <TagsList tags={tags} />
-                      </BrowserView>
-                    </Grid>
+                  <BlogBox sx={styles.newsBox} blogPosts={blogPosts} />
+                  <Box sx={styles.tagBox} boxShadow={2}>
+                    <BrowserView>
+                      <TagsList tags={tags} />
+                    </BrowserView>
                   </Box>
                 </div>
               )}
@@ -69,7 +65,7 @@ const Layout = (props) => {
           </Grid>
         </Box>
         <Footer />
-      </div>
+      </Box>
     </JssStylesProvider>
   );
 };
