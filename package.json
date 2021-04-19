@@ -13,8 +13,8 @@
     "lint-staged": "^10.5.4"
   },
   "lint-staged": {
-    "*.test.js": "cd back_end && ./node_modules/.bin/jest --passWithNoTests",
-    "*.js": "cd back_end && npm run lint"
+    "*.test.js": "cd back_end && yarn test",
+    "*.js": "cd back_end && yarn lint"
   },
   "husky": {
     "hooks": {
