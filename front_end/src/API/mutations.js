@@ -91,9 +91,10 @@ export const UPLOAD_FILE = gql`
   }
 `;
 
+//    updateUser(id: String!, input: UpdateUserInput!): Result
 export const UPDATE_USER = gql`
-  mutation($input: UpdateUserInput!) {
-    updateUser(input: $input) {
+  mutation($id: String!, $input: UpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
       statusCode
       message
     }

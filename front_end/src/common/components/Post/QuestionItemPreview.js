@@ -51,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1.5),
     textAlign: 'initial ',
     wordWrap: 'break-word',
-    color: '#3f51b5',
     cursor: 'pointer',
+    // color: theme.palette.questionTitles,
     '&:hover': {
-      color: '#314285',
+      color: '#2d4bbe',
       textDecorationLine: 'underline',
     },
   },

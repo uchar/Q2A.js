@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
   box: {
     padding: theme.spacing(1, 2, 1, 1),
     cursor: 'pointer',
-    background: '#e1ecf4',
-    borderColor: '#f2f2f2',
+    // background: '#e1ecf4',
+    // borderColor: '#f2f2f2',
     '&:hover': {
       background: '#3f51b5',
       color: 'white',
@@ -29,7 +29,7 @@ const Tag = DeepMemo(function Tag(props) {
   const label = count ? `${tag} x${count}` : tag;
   return (
     <Link prefetch={false} href={`/tag/${encodeURIComponent(tag)}`}>
-      <Box boxShadow={1} border={1} className={classes.box}>
+      <Box boxShadow={1}  className={classes.box}>
         <Typography className={classes.tagText}>{label}</Typography>
       </Box>
     </Link>

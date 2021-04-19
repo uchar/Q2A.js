@@ -105,7 +105,7 @@ const getCurrentUserId = async () => {
   return '';
 };
 const updateCurrentUser = async (params) => {
-  await doGraphQLMutation(UPDATE_USER, { input: { ...params } }, false);
+  await doGraphQLMutation(UPDATE_USER, { id: await getCurrentUserId(), input: { ...params } }, false);
   await localStorage.removeItem('USER');
   return getCurrentUser();
 };
