@@ -7,12 +7,7 @@ import CommentsSection from './CommentsSection';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import PostToolbar from './PostToolbar';
-import {
-  doGraphQLMutation,
-  doGraphQLQuery,
-  isAccessLevelEnough,
-  USER_ACTIONS,
-} from '../../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { UPDATE_ANSWER } from '../../../API/mutations';
@@ -24,8 +19,8 @@ import { getLanguage } from '../../utlities/languageUtilities';
 
 const styles = {
   root: {
-    margin: (theme)=>theme.spacing(5),
-    paddingBottom:(theme)=> theme.spacing(2),
+    margin: (theme) => theme.spacing(5),
+    paddingBottom: (theme) => theme.spacing(2),
     textAlign: 'center',
   },
 };

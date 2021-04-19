@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Tooltip } from '@material-ui/core';
 
 import Link from 'next/link';

@@ -3,7 +3,6 @@ import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { BrowserView } from 'react-device-detect';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Header from './Header/Header';
 import Footer from './Footer';

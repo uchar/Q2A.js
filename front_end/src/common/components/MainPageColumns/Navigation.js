@@ -10,6 +10,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { Announcement, Home, Loyalty,  Settings } from '@material-ui/icons';
 import Link from 'next/link';
 import { getStrings } from '../../utlities/languageUtilities';
+import {Box} from "@material-ui/core";
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -122,7 +123,7 @@ const styles = {
 
 export default function NavigationMenu() {
   return (
-    <div sx={styles.root}>
+    <Box sx={styles.root}>
       <TreeView
         sx={styles.treeView}
         defaultExpanded={['3']}
@@ -160,6 +161,6 @@ export default function NavigationMenu() {
           />
         </StyledTreeItem>
       </TreeView>
-    </div>
+    </Box>
   );
 }

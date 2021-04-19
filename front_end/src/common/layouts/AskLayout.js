@@ -19,7 +19,10 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    padding: '0px 2% 0px 2%',
+    padding: '2% 0% 1% 0%',
+    justifyContent: 'center',
+    justifySelf: 'center',
+    alignSelf: 'center',
   },
 };
 const AskLayout = (props) => {
@@ -28,7 +31,7 @@ const AskLayout = (props) => {
       <Box sx={styles.layoutStyle}>
         <Header />
         <Box sx={styles.contentStyle}>
-          <Grid direction="row" justify={'center'} container spacing={2}>
+          <Grid direction="row" container spacing={2}>
             <Grid item display={{ md: 'none', xs: 'none' }} xs={12}></Grid>
             <Grid item md={8} xs={12}>
               {props.children}

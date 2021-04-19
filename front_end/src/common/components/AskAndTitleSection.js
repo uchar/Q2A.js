@@ -32,6 +32,5 @@ const AskAndTitleSection = DeepMemo(function AskAndTitleSection({ sx, title }) {
 AskAndTitleSection.propTypes = {
   sx: PropTypes.object,
   title: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
 export default AskAndTitleSection;

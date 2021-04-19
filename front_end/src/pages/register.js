@@ -8,15 +8,15 @@ import { Divider } from '@material-ui/core';
 import LoginLayout from '../common/layouts/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage';
 import Q2aButton from '../common/components/Q2aButton';
-import { login, signUp } from '../API/utilities';
+import { signUp } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
 
 const styles = {
   form: {
     width: '220%',
-    marginTop: theme.spacing(1),
-    padding: theme.spacing(4, 10, 4, 10),
+    marginTop: (theme)=>theme.spacing(1),
+    padding: (theme)=>theme.spacing(4, 10, 4, 10),
   },
   submit: {
     marginTop: '10px',

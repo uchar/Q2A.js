@@ -39,7 +39,7 @@ const styles = {
     marginLeft: 'auto',
     transition: (theme) =>
       theme.transitions.create('transform', {
-        duration: (theme) => theme.transitions.duration.shortest,
+        duration: 100,
       }),
   },
   expandOpen: {
@@ -113,9 +113,12 @@ const QuestionItemPreview = DeepMemo(function ({
             </Typography>
           </Link>
           <IconButton
-            sx={clsx(styles.expand, {
-              [styles.expandOpen]: expanded,
-            })}
+            sx={{
+              ...styles.expand,
+              ...{
+                [styles.expandOpen]: expanded,
+              },
+            }}
             onClick={handleExpandClick}
           >
             <ExpandMoreIcon />

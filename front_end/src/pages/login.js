@@ -2,7 +2,6 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Link from 'next/link';
 import { Divider } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
@@ -15,9 +14,9 @@ import { getStrings } from '../common/utlities/languageUtilities';
 
 const styles = {
   submit: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(3, 0, 3, 0),
-    color: theme.backgroundColor,
+    margin: (theme) => theme.spacing(1, 0),
+    padding: (theme) => theme.spacing(2, 5),
+    color: (theme) => theme.backgroundColor,
   },
 };
 

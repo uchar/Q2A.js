@@ -84,7 +84,7 @@ const LatestQuestions = ({ tag, questions }) => {
           value={currentTab}
           onChange={handleCurrentTabChange}
           variant="scrollable"
-          scrollButtons="on"
+          scrollButtons={true}
           indicatorColor="primary"
           textColor="primary"
         >

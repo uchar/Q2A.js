@@ -1,6 +1,6 @@
 import React from 'react';
 import { parse } from 'node-html-parser';
-import { Typography } from '@material-ui/core';
+import {Box, Typography} from '@material-ui/core';
 import renderHTML from 'react-render-html';
 import * as lodash from 'lodash';
 import List from '@material-ui/core/List';
@@ -101,9 +101,9 @@ const convertNodeToReactElements = (node, typoGraphyTypes = []) => {
 const handlePTag = (node) => {
   const reactElements = convertNodeToReactElements(node);
   return (
-    <div style={{ textAlign: isRTL ? 'right' : 'left', flex: 1 }}>
+    <Box style={{ textAlign: isRTL ? 'right' : 'left', flex: 1 }}>
       {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
-    </div>
+    </Box>
   );
 };
 
@@ -113,9 +113,9 @@ const unescapeCode = (escapedHTML) => {
 
 const handleCodeTag = (node) => {
   if (node.childNodes.length === 0) {
-    return <div />;
+    return <Box />;
   }
-  const codeNode = parse(lodash.get(node, 'childNodes[0].rawText', '<div/>'));
+  const codeNode = parse(lodash.get(node, 'childNodes[0].rawText', '<Box/>'));
   const language = lodash.get(codeNode, 'childNodes[0].classNames[0]', 'cpp');
   const code = lodash.get(codeNode, 'rawText', '');
   return <CodeBlock lang={language} code={unescapeCode(code)} />;
@@ -167,9 +167,9 @@ const handleImageTag = (node) => {
     if (tagName === 'figcaption') {
       const captionElements = convertNodeToReactElements(childNode);
       reactElements.push(
-        <div style={{ flex: 1, textAlign: 'center' }}>
+        <Box style={{ flex: 1, textAlign: 'center' }}>
           {captionElements.map((element, index) => React.cloneElement(element, { key: index }))}
-        </div>
+        </Box>
       );
     }
   });
@@ -181,16 +181,16 @@ const handleQuoteTag = (node) => {
   node.childNodes.forEach((childNode) => {
     const tagName = getTagName(childNode);
     if (childNode.nodeType === 3) {
-      reactElements.push(<div style={{ flex: 1 }}> {makeInlineTypoGraphy(childNode.rawText)}</div>);
+      reactElements.push(<Box style={{ flex: 1 }}> {makeInlineTypoGraphy(childNode.rawText)}</Box>);
     } else if (tagName === 'p') {
-      reactElements = reactElements.concat(<div style={{ flex: 1 }}>{handlePTag(childNode)}</div>);
+      reactElements = reactElements.concat(<Box style={{ flex: 1 }}>{handlePTag(childNode)}</Box>);
     } else if (tagName === 'ul') {
       reactElements = reactElements.concat(
-        <div style={{ flex: 1 }}>{handleListTag(childNode, 'bullet')}</div>
+        <Box style={{ flex: 1 }}>{handleListTag(childNode, 'bullet')}</Box>
       );
     } else if (tagName === 'ol') {
       reactElements = reactElements.concat(
-        <div style={{ flex: 1 }}>{handleListTag(childNode, 'number')}</div>
+        <Box style={{ flex: 1 }}>{handleListTag(childNode, 'number')}</Box>
       );
     }
   });
@@ -238,11 +238,11 @@ export const parseContent = (content, language, textStyle = {}, isPrimary = true
   isTextPrimary = true;
   isRTL = false;
   return (
-    <div
+    <Box
       style={{ flex: 1, margin: '10px 10px 5px 10px', textAlign: isLanguageRtl(language) ? 'right' : 'left' }}
     >
       {reactElements.map((element, index) => React.cloneElement(element, { key: index }))}
-    </div>
+    </Box>
   );
 };
 

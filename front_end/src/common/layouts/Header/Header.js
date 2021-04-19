@@ -1,23 +1,18 @@
 import React, { useEffect } from 'react';
-import { alpha, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Badge, IconButton, InputBase, Toolbar, Typography } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import Translate from '@material-ui/icons/Translate';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import NotificationIcon from '@material-ui/icons/Notifications';
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { AppBar, Box, Toolbar } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { isMobile } from 'react-device-detect';
-import Link from 'next/link';
-import Q2aButton from '../../components/Q2aButton';
 import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
-import ProfileImage from '../../components/ProfileImage';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
-import { getLanguage, getStrings } from '../../utlities/languageUtilities';
+import { getLanguage } from '../../utlities/languageUtilities';
 import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
 import { CURRENT_USER_ACTION } from '../../../redux/constants';
-import MobileMenuDrawer from './MobileMenuDrawer';
+import Drawer from './Mobile/Drawer';
+import MobileHeader from './Mobile/MobileHeader';
+import BrowserHeader from './Browser/BrowserHeader';
+import { isInClientBrowser } from '../../utlities/generalUtilities';
 
 const styles = {
   grow: {
@@ -26,74 +21,7 @@ const styles = {
   appBar: {
     padding: (theme) => theme.spacing(2, 0, 2, 0),
   },
-  menuButton: {
-    marginRight: (theme) => theme.spacing(2),
-  },
-  title: {
-    display: 'none',
-    [(theme) => theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-    margin: (theme) => theme.spacing(2, 2, 0, 2),
-    fontSize: '20px',
-    fontWeight: '500',
-  },
-  search: {
-    display: 'none',
-    [(theme) => theme.breakpoints.up('md')]: {
-      padding: (theme) => theme.spacing(1, 0, 1, 0),
-      display: 'block',
-      position: 'relative',
-      borderRadius: (theme) => theme.shape.borderRadius,
-      backgroundColor: alpha('#ffffff', 0.3),
-      '&:hover': {
-        backgroundColor: alpha('#ffffff', 0.4),
-      },
-      marginRight: (theme) => theme.spacing(2),
-      width: '90%',
-      marginLeft: (theme) => theme.spacing(3),
-    },
-  },
-  searchIcon: {
-    padding: (theme) => theme.spacing(-1, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    left: '5px',
-    top: '0%',
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-  },
-  inputInput: {
-    padding: (theme) => theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${(theme) => theme.spacing(4)}px)`,
-    transition: (theme) => theme.transitions.create('width'),
-    width: '100%',
-    [(theme) => theme.breakpoints.up('md')]: {
-      width: '100%',
-    },
-  },
-  sectionDesktop: {
-    [(theme) => theme.breakpoints.up('md')]: {
-      display: 'flex',
-      flex: '1',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [(theme) => theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  buttons: {
-    fontSize: '13px',
-    margin: (theme) => theme.spacing(1, 0, 1, 0),
-  },
+  headerParent: { flex: 1 },
 };
 
 const Header = () => {
@@ -118,7 +46,7 @@ const Header = () => {
     })();
   }, []);
 
-  const handleProfileMenuOpen = async (event) => {
+  const handleProfileMenuOpen = async () => {
     return router.push(`/${getLanguage()}/user/${user.publicName}`);
   };
   const handleNotificationMenuOpen = async (event) => {
@@ -179,94 +107,35 @@ const Header = () => {
   };
 
   return (
-    <div sx={styles.grow}>
-      <MobileMenuDrawer isMobileMenuOpen={isMobileMenuOpen} toggleDrawer={toggleMobileMenu} />
+    <Box sx={styles.grow}>
+      <Drawer isMobileMenuOpen={isMobileMenuOpen} toggleDrawer={toggleMobileMenu} />
       <AppBar color="secondary" sx={styles.appBar} position="static">
-        <Toolbar>
+        <Toolbar sx={styles.grow}>
           <NotificationsBox
             notificationAnchor={notificationAnchor}
             onClose={handleNotificationsMenuClose}
             onNotificationCountChange={handleNotificationCountChange}
           />
-          <div sx={styles.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-haspopup="true"
-              onClick={toggleMobileMenu(true)}
-              color="inherit"
-              size="small"
-            >
-              <MoreIcon size="small" />
-            </IconButton>
-          </div>
-          <div sx={styles.sectionDesktop}>
-            <Link prefetch={false} href={`/`}>
-              <Typography style={{ cursor: 'pointer' }} sx={styles.title} variant="h2" noWrap>
-                {getStrings().SITE_TITLE}
-              </Typography>
-            </Link>
-            {!user && user !== undefined && (
-              <Q2aButton
-                sx={styles.buttons}
-                url={'/login'}
-                shouldShowLoading={false}
-                text={getStrings().HEADER_LOGIN_BUTTON}
-                backgroundColor={'secondary'}
-              />
-            )}
-            {!user && user !== undefined && (
-              <Q2aButton
-                sx={styles.buttons}
-                url={'/register'}
-                shouldShowLoading={false}
-                text={getStrings().HEADER_REGISTER_BUTTON}
-                backgroundColor={'secondary'}
-              />
-            )}
-            <div sx={styles.search}>
-              <div sx={styles.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder={getStrings().SEARCH_HINT}
-                classes={{
-                  root: styles.inputRoot,
-                  input: styles.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-            <div className={styles.grow} />
-          </div>
-          {user && (
-            <IconButton edge="end" aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
-              <ProfileImage showMedal={false} size={32} profileImage={user.profileImage}></ProfileImage>
-              <Typography style={{ marginTop: 8, marginRight: 2, fontSize: isMobile ? 12 : 14 }}>
-                {user.publicName}
-              </Typography>
-            </IconButton>
-          )}
-          <IconButton color="inherit" onClick={handleLanguageMenuOpen}>
-            <Translate />
-          </IconButton>
-          <IconButton color="inherit" onClick={handleThemeChange}>
-            <img
-              style={{ width: '21px', height: '21px' }}
-              src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
+          <MobileView style={styles.headerParent}>
+            <MobileHeader
+              user={user}
+              handleLanguageMenuOpen={handleLanguageMenuOpen}
+              handleNotificationMenuOpen={handleNotificationMenuOpen}
+              handleProfileMenuOpen={handleProfileMenuOpen}
+              handleThemeChange={handleThemeChange}
+              notificationCount={notificationCount}
             />
-          </IconButton>
-          {user && (
-            <IconButton
-              edge="end"
-              onClick={handleNotificationMenuOpen}
-              color="inherit"
-              style={{ marginRight: '2px' }}
-            >
-              <Badge badgeContent={notificationCount} max={9} color="secondary" style={{ fontSize: '12px' }}>
-                <NotificationIcon />
-              </Badge>
-            </IconButton>
-          )}
+          </MobileView>
+          <BrowserView style={styles.headerParent}>
+            <BrowserHeader
+              user={user}
+              handleLanguageMenuOpen={handleLanguageMenuOpen}
+              handleNotificationMenuOpen={handleNotificationMenuOpen}
+              handleProfileMenuOpen={handleProfileMenuOpen}
+              handleThemeChange={handleThemeChange}
+              notificationCount={notificationCount}
+            />
+          </BrowserView>
         </Toolbar>
       </AppBar>
       <Menu
@@ -276,7 +145,7 @@ const Header = () => {
         onItemClick={handleMenuLanguageItemClick}
         items={[{ name: 'English' }, { name: 'Persian' }]}
       />
-    </div>
+    </Box>
   );
 };
 

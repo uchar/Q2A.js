@@ -24,21 +24,21 @@ const styles = {
     alignItems: 'center',
     textAlign: 'center',
   },
-  grid: { margin: '70px 0px 110px 0px' },
+  grid: { margin: '70px 0px 110px 0px', justifyContent: 'center', textAlign: 'center' },
+  title: { paddingBottom: '2.3rem', marginTop: '2rem' },
 };
 const LoginLayout = (props) => {
   return (
     <Layout noSideBar>
-      <Grid container justify="center" alignItems={'center'} className={classes.grid}>
+      <Grid container sx={styles.grid}>
         <Grid item display={{ xs: 'none' }} sm={3} />
         <Grid item xs={12} sm={6}>
           <Box boxShadow={3} sx={styles.paper}>
             <Box boxShadow={1} sx={styles.box}>
-              <Typography component="h3" variant="h3" style={{ paddingBottom: '2.3rem', marginTop: '2rem' }}>
+              <Typography component="h3" variant="h3" style={styles.title}>
                 {props.pageTitle}
               </Typography>
             </Box>
-
             <Box sx={styles.form}>{props.children}</Box>
           </Box>
         </Grid>

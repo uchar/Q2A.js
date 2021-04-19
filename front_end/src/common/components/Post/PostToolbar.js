@@ -13,9 +13,9 @@ const styles = {
   },
 };
 
-const getItem = (title, onClick, className) => {
+const getItem = (title, onClick, style) => {
   return (
-    <Typography variant="button" color="textSecondary" sx={className} onClick={onClick}>
+    <Typography variant="button" color="textSecondary" sx={style} onClick={onClick}>
       {title}
     </Typography>
   );

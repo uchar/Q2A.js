@@ -28,7 +28,7 @@ const styles = {
   },
   subtitle: {
     marginRight: (theme) => theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginBottom: (theme) => theme.spacing(2),
     textAlign: 'initial',
   },
   tagTitle: { margin: (theme) => theme.spacing(6, 0, 0, 0) },
@@ -51,6 +51,7 @@ const styles = {
   },
 };
 
+// eslint-disable-next-line max-lines-per-function
 const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEditFinished }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -159,7 +160,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                 />
                 {errors.content && <ErrorMessage sx={styles.error} text={errors.content} />}
               </Box>
-              <div sx={styles.section}>
+              <Box sx={styles.section}>
                 <Typography variant="body2" sx={styles.tagTitle}>
                   {getStrings().ASK_TAGS}
                 </Typography>
@@ -181,7 +182,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                   )}
                 />
                 {errors.tags && <ErrorMessage className={classes.error} text={errors.tags} />}
-              </div>
+              </Box>
             </CardContent>
             {
               <div sx={styles.submitButtonsParent}>

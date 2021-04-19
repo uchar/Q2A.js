@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import {  isSiteRTL } from '../../utlities/languageUtilities';
+import {  isSiteRTL } from '../../../utlities/languageUtilities';
 import {Box} from "@material-ui/core";
 
 const styles = {
@@ -14,7 +14,7 @@ const styles = {
   },
 };
 
-const MobileMenuDrawer = ({ isMobileMenuOpen, toggleDrawer }) => {
+const Drawer = ({ isMobileMenuOpen, toggleDrawer }) => {
   const anchor = isSiteRTL() ? 'right' : 'left';
   const list = () => (
     <Box
@@ -41,4 +41,4 @@ const MobileMenuDrawer = ({ isMobileMenuOpen, toggleDrawer }) => {
   );
 };
 
-export default MobileMenuDrawer;
+export default Drawer;

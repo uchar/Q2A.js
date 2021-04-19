@@ -6,7 +6,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
 import EditIcon from '@material-ui/icons/Edit';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
 import AnswerItem from '../../common/components/Post/AnswerItem';
@@ -91,6 +93,7 @@ const styles = {
 
 const User = () => {
   const user = useSelector((state) => state.selectedUser);
+  const router = useRouter();
   const dispatch = useDispatch();
   const theme = useTheme();
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
@@ -218,11 +221,12 @@ const User = () => {
             />
           </Box>
         )}
+
         <EditIcon
           color="primary"
           style={{
             position: 'absolute',
-            left: '15',
+            right: '15',
             top: '15',
             cursor: 'pointer',
           }}
@@ -230,8 +234,22 @@ const User = () => {
             setDescriptionEditMode(!isDescriptionEditMode);
           }}
         />
+        <LogoutIcon
+          color="primary"
+          style={{
+            position: 'absolute',
+            right: '50',
+            top: '15',
+            cursor: 'pointer',
+          }}
+          onClick={async () => {
+            await localStorage.removeItem('JWT_TOKEN');
+            await localStorage.removeItem('USER');
+            dispatch({ type: CURRENT_USER_ACTION, payload: null });
+            return router.replace('/');
+          }}
+        />
       </Box>
-
       <AppBar position="static" color="default">
         <Tabs
           value={currentTabIndex}

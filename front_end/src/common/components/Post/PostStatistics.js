@@ -12,11 +12,11 @@ const styles = {
   text: {},
 };
 
-const getItem = (icon, text, itemClassName, textClassName) => {
+const getItem = (icon, text, parentStyle, textStyle) => {
   return (
-    <Box sx={itemClassName}>
+    <Box sx={parentStyle}>
       <IconButton size="small">{icon}</IconButton>
-      <Typography variant="button" color="textPrimary" className={textClassName}>
+      <Typography variant="button" color="textPrimary" sx={textStyle}>
         {text}
       </Typography>
     </Box>
