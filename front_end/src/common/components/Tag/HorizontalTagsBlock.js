@@ -1,27 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import Tag from './Tag';
 import { DeepMemo } from '../../utlities/generalUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: { display: 'flex', flexDirection: 'row' },
   tag: {
-    marginLeft: theme.spacing(1),
+    marginLeft: (theme) => theme.spacing(1),
   },
-}));
+};
 
-const HorizontalTagsBlock = DeepMemo(function HorizontalTagsBlock({ className, tags }) {
-  const classes = useStyles();
-
+const HorizontalTagsBlock = DeepMemo(function HorizontalTagsBlock({ sx, tags }) {
   return (
-    <div className={`${classes.root} ${className}`}>
+    <Box sx={{ ...sx, ...styles.root }}>
       {tags.map((tag) => (
-        <div className={classes.tag} key={tag}>
-          <Tag tag={tag} />
-        </div>
+        <Tag tag={tag} sx={styles.tag} key={tag} />
       ))}
-    </div>
+    </Box>
   );
 });
 HorizontalTagsBlock.propTypes = {

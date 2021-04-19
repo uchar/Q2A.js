@@ -35,17 +35,16 @@ class Expansion extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { expanded } = this.state;
     return (
-      <div className={classes.root}>
-        <Typography className={classes.heading}>{getStrings().ASK_Expansion_TITLE}</Typography>
-        <Typography className={classes.secondaryHeading} style={{ marginBottom: '25px', marginTop: '5px' }}>
+      <div>
+        <Typography>{getStrings().ASK_Expansion_TITLE}</Typography>
+        <Typography style={{ marginBottom: '25px', marginTop: '5px' }}>
           {getStrings().ASK_Expansion_SUBTITLE}
         </Typography>
         <Accordion expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL1_TITLE}</Typography>
+            <Typography> {getStrings().ASK_Expansion_PANEL1_TITLE}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
@@ -59,7 +58,7 @@ class Expansion extends React.Component {
         </Accordion>
         <Accordion expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL2_TITLE}</Typography>
+            <Typography> {getStrings().ASK_Expansion_PANEL2_TITLE}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>{getStrings().ASK_Expansion_PANEL2_SUBTITLE1}</Typography>
@@ -67,7 +66,7 @@ class Expansion extends React.Component {
         </Accordion>
         <Accordion expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}> {getStrings().ASK_Expansion_PANEL3_TITLE}</Typography>
+            <Typography> {getStrings().ASK_Expansion_PANEL3_TITLE}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>{getStrings().ASK_Expansion_PANEL3_SUBTITLE1}</Typography>

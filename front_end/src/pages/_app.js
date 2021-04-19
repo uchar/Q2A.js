@@ -6,6 +6,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NProgress from 'nprogress';
 import Router, { useRouter } from 'next/router';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import { wrapper } from '../redux/store';
 import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
@@ -29,6 +31,7 @@ Router.onRouteChangeError = () => {
 export function reportWebVitals(metric) {
   console.log(metric);
 }
+export const cache = createCache({ key: 'css', prepend: true });
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
@@ -45,6 +48,7 @@ const Q2aApp = (props) => {
   }, []);
   const getLayout = Component.getLayout || ((page) => page);
   return (
+    // <CacheProvider value={cache}>
     <React.Fragment>
       <Head>
         <title>{getStrings().SITE_TITLE}</title>
@@ -55,6 +59,7 @@ const Q2aApp = (props) => {
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
     </React.Fragment>
+    // </CacheProvider>
   );
 };
 

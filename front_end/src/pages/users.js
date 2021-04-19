@@ -10,18 +10,17 @@ import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '..
 import { wrapper } from '../redux/store';
 import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
-}));
+};
 
 function UsersPage() {
-  const classes = useStyles();
   const questions = useSelector((state) => state.questions);
   return (
-    <Box className={classes.root}>
+    <Box sx={styles.root}>
       <LatestQuestion questions={questions} />
     </Box>
   );

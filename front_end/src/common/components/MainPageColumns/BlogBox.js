@@ -1,13 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, CardContent, Divider, Typography } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import { Box, Divider, Typography } from '@material-ui/core';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import LatestBlogPosts from '../Blog/LatestBlogPosts';
-import {getStrings} from "../../utlities/languageUtilities";
+import { getStrings } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     justifyContent: 'center',
     textAlign: 'center',
@@ -39,28 +36,24 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     padding: '0px 12px 0px 12px',
   },
-}));
+};
 
 export default function BlogBox({ blogPosts }) {
-  const classes = useStyles();
-
   return (
-    <div>
-      <Box boxShadow={2} className={classes.root}>
-        <Link href={`/blog`}>
-          <Typography className={classes.title}>{getStrings().NEWS_BOX_TITLE}</Typography>
-        </Link>
-        {blogPosts &&
-          blogPosts.map((blogPost) => (
-            <div key={blogPost.id}>
-              <Link href={`/blog`}>
-                <Typography className={classes.blogPost}>{blogPost.title}</Typography>
-              </Link>
-              <Divider className={classes.divider} />
-            </div>
-          ))}
-      </Box>
-    </div>
+    <Box boxShadow={2} sx={styles.root}>
+      <Link href={`/blog`}>
+        <Typography sx={styles.title}>{getStrings().NEWS_BOX_TITLE}</Typography>
+      </Link>
+      {blogPosts &&
+        blogPosts.map((blogPost) => (
+          <Box key={blogPost.id}>
+            <Link href={`/blog`}>
+              <Typography sx={styles.blogPost}>{blogPost.title}</Typography>
+            </Link>
+            <Divider sx={styles.divider} />
+          </Box>
+        ))}
+    </Box>
   );
 }
 BlogBox.propTypes = {

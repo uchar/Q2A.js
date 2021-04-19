@@ -1,25 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
 import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION } from '../../../redux/constants';
-import BlogBox from '../MainPageColumns/BlogBox';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     flex: 1,
-    padding: theme.spacing(7, 5, 0, 5),
+    padding:(theme)=> theme.spacing(7, 5, 0, 5),
     justifyContent: 'left',
   },
-}));
+};
 
-const AddComment = ({ className, enable, onClose, postId, rootId }) => {
-  const classes = useStyles();
+const AddComment = ({ enable, onClose, postId, rootId }) => {
   const dispatch = useDispatch();
   const [commentData, setCommentData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
@@ -52,7 +50,7 @@ const AddComment = ({ className, enable, onClose, postId, rootId }) => {
   };
   if (!enable) return <div />;
   return (
-    <div className={`${classes.root} ${className}`} style={{}}>
+    <Box sx={styles.root}>
       <CKEditor
         onChange={(event, editor) => {
           const data = editor.getData();
@@ -61,11 +59,10 @@ const AddComment = ({ className, enable, onClose, postId, rootId }) => {
         toolbar={['bold', 'italic', 'code', 'link']}
       />
       <SaveCancelButtons onSave={submitComment} onCancel={onClose} error={APIError} />
-    </div>
+    </Box>
   );
 };
 AddComment.propTypes = {
-  className: PropTypes.string,
   enable: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,

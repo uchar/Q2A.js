@@ -1,20 +1,19 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
 import { isMobile } from 'react-device-detect';
-import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { Box } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   button: {
     color: '#ffffff',
     padding: '10px 28px 10px 28px',
     fontSize: isMobile ? 15 : 18,
   },
   wrapper: {
-    margin: theme.spacing(1),
+    margin: (theme) => theme.spacing(1),
     position: 'relative',
   },
   buttonSucecss: {
@@ -32,12 +31,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
-}));
-const SButton = (props) => {
-  const classes = useStyles();
-
+};
+// eslint-disable-next-line complexity
+const SButton = ({ text, shouldShowLoading, type, onClick, loading, style, sx }) => {
   const timer = React.useRef();
-  const { text, shouldShowLoading, type, onClick, fullWidth, loading, style, className } = props;
   React.useEffect(() => {
     return () => {
       clearTimeout(timer.current);
@@ -50,19 +47,15 @@ const SButton = (props) => {
   const buttonText = shouldShowLoading && loading ? 'Sending' : text;
 
   const loadingComponent =
-    shouldShowLoading && loading ? (
-      <CircularProgress size={24} className={classes.buttonProgress} />
-    ) : (
-      <div />
-    );
+    shouldShowLoading && loading ? <CircularProgress size={24} style={styles.buttonProgress} /> : <div />;
   return (
-    <div className={classes.wrapper}>
+    <Box sx={styles.wrapper}>
       <Button
         type={type}
         variant="contained"
         color={'primary'}
         component="span"
-        className={clsx(classes.button, className)}
+        sx={{ ...styles.button, ...sx }}
         style={style}
         disabled={shouldShowLoading && loading ? loading : false}
         onClick={shouldShowLoading ? handleButtonClick : onClick}
@@ -70,14 +63,14 @@ const SButton = (props) => {
         {buttonText}
       </Button>
       {loadingComponent}
-    </div>
+    </Box>
   );
 };
 
 // eslint-disable-next-line complexity
 const Q2aButton = (props) => {
   const router = useRouter();
-  const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading, style, className } = props;
+  const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading, style, sx } = props;
   return (
     <div>
       {url && url.length > 0 ? (
@@ -90,8 +83,8 @@ const Q2aButton = (props) => {
           shouldShowLoading={shouldShowLoading}
           loading={loading}
           fullWidth={fullWidth}
-          className={className}
-        ></SButton>
+          sx={sx}
+        />
       ) : (
         <SButton
           onClick={onSubmit}
@@ -101,7 +94,7 @@ const Q2aButton = (props) => {
           loading={loading}
           type={type || ''}
           fullWidth={fullWidth}
-          className={className}
+          sx={sx}
         />
       )}
     </div>

@@ -6,28 +6,32 @@ import PropTypes from 'prop-types';
 import TagDetailBox from './TagDetailBox';
 import { getStrings } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
-  root: { padding: theme.spacing(2) },
-  pageTitle: { textAlign: 'initial', margin: theme.spacing(5, 2, 0, 2), fontSize: '25px', fontWeight: 700 },
+const styles = {
+  root: { padding: (theme) => theme.spacing(2) },
+  pageTitle: {
+    textAlign: 'initial',
+    margin: (theme) => theme.spacing(5, 2, 0, 2),
+    fontSize: '25px',
+    fontWeight: 700,
+  },
   pageSubTitle: {
     textAlign: 'initial',
-    margin: theme.spacing(1, 2, 0, 2),
+    margin: (theme) => theme.spacing(1, 2, 0, 2),
     fontSize: '14px',
     fontWeight: 500,
   },
-}));
+};
 
 export default function TagDetailsList({ tags }) {
-  const classes = useStyles();
   return (
     <div>
-      <Typography className={classes.pageTitle} variant={'h1'}>
+      <Typography sx={styles.pageTitle} variant={'h1'}>
         {getStrings().TAGS_PAGE_TITLE}
       </Typography>
-      <Typography className={classes.pageSubTitle} variant={'subtitle1'}>
+      <Typography sx={styles.pageSubTitle} variant={'subtitle1'}>
         {getStrings().TAGS_PAGE_DESCRIPTION}
       </Typography>
-      <Grid container justify={'center'} border={1} spacing={2} className={classes.root}>
+      <Grid container justify={'center'} spacing={2} sx={styles.root}>
         {tags &&
           tags.map((tag) => (
             <Grid item key={tag.id} md={4} xs={6}>

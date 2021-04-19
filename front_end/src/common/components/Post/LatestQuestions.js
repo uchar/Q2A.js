@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -9,41 +8,40 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewsIcon from '@material-ui/icons/Visibility';
 import HelpIcon from '@material-ui/icons/Help';
 import { isMobile } from 'react-device-detect';
+import Box from '@material-ui/core/Box';
 import QuestionItemPreview from './QuestionItemPreview';
 import AskAndTitleSection from '../AskAndTitleSection';
 import { getStrings } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     textAlign: 'center',
   },
   askAndTitleSection: {
-    margin: theme.spacing(6),
+    margin: (theme) => theme.spacing(6),
   },
   appBar: {
     alignItems: 'center',
     justifyItems: 'center',
     justifyContent: 'center',
-    margin: theme.spacing(3, '5%', 1, '5%'),
+    margin: (theme) => theme.spacing(3, '5%', 1, '5%'),
     width: 'auto',
     textAlign: 'center',
   },
-}));
+};
 
-const usePanelStyle = makeStyles((theme) => ({
+const panelStyle = {
   root: {
-    padding: theme.spacing(3),
+    padding: (theme) => theme.spacing(3),
   },
-}));
+};
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  const classes = usePanelStyle();
-
   return (
-    <div className={classes.root} role="tabpanel" hidden={value !== index} {...other}>
+    <Box sx={panelStyle.root} role="tabpanel" hidden={value !== index} {...other}>
       {children}
-    </div>
+    </Box>
   );
 }
 
@@ -61,7 +59,6 @@ const getQuestionsList = (questions) => {
 };
 
 const LatestQuestions = ({ tag, questions }) => {
-  const classes = useStyles();
   const [currentTab, setCurrentTab] = React.useState(0);
 
   const handleCurrentTabChange = (_, tabIndex) => {
@@ -80,14 +77,14 @@ const LatestQuestions = ({ tag, questions }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <AskAndTitleSection className={classes.askAndTitleSection} title={getTitle()} />
-      <AppBar position="static" color="default" className={classes.appBar}>
+    <Box sx={styles.root}>
+      <AskAndTitleSection sx={styles.askAndTitleSection} title={getTitle()} />
+      <AppBar position="static" color="default" sx={styles.appBar}>
         <Tabs
           value={currentTab}
           onChange={handleCurrentTabChange}
           variant="scrollable"
-          scrollButtons="on"
+          scrollButtons={true}
           indicatorColor="primary"
           textColor="primary"
         >
@@ -109,7 +106,7 @@ const LatestQuestions = ({ tag, questions }) => {
       <TabPanel value={currentTab} index={3}>
         {getQuestionsList(noAnswersQuestions)}
       </TabPanel>
-    </div>
+    </Box>
   );
 };
 LatestQuestions.propTypes = {

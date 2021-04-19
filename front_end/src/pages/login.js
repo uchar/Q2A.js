@@ -2,7 +2,6 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Link from 'next/link';
 import { Divider } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
@@ -13,22 +12,20 @@ import { login } from '../API/utilities';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   submit: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(3, 0, 3, 0),
-    color: theme.backgroundColor,
+    margin: (theme) => theme.spacing(1, 0),
+    padding: (theme) => theme.spacing(2, 5),
+    color: (theme) => theme.backgroundColor,
   },
-}));
+};
 
 const Login = () => {
-  const classes = useStyles();
   const router = useRouter();
   return (
     <div>
       <GoogleLoginButton buttonText={getStrings().SIGN_IN_GOOGLE} />
       <Divider style={{ margin: '25px 0px 25px 0px', height: '3px' }} />
-
       <Formik
         initialValues={{ username: '', password: '' }}
         onSubmit={async (values, { setErrors }) => {
@@ -80,7 +77,7 @@ const Login = () => {
                 type="submit"
                 text={getStrings().SIGN_IN_TITLE}
                 onSubmit={handleSubmit}
-                className={classes.submit}
+                sx={styles.submit}
                 fullWidth={true}
                 loading={isSubmitting}
                 shouldShowLoading={!(errors.password && errors.username)}

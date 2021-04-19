@@ -14,18 +14,18 @@ import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../A
 import { getLanguage } from '../../utlities/languageUtilities';
 import { increaseViewCount } from '../../../API/mutations';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    margin: theme.spacing(5, 1, 5, 1),
-    padding: theme.spacing(1, 1.5, 1, 1.5),
-    paddingBottom: theme.spacing(3),
+    margin:(theme)=> theme.spacing(5, 1, 5, 1),
+    padding: (theme)=>theme.spacing(1, 1.5, 1, 1.5),
+    paddingBottom: (theme)=>theme.spacing(3),
   },
   tagsSection: {
-    margin: theme.spacing(4, 0, 1, 2),
+    margin:(theme)=> theme.spacing(4, 0, 1, 2),
   },
   title: {
-    marginTop: theme.spacing(6),
-    marginBottom: theme.spacing(2),
+    marginTop: (theme)=>theme.spacing(6),
+    marginBottom: (theme)=>theme.spacing(2),
     textAlign: 'initial ',
     cursor: 'pointer',
     wordWrap: 'break-word',
@@ -35,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   titleSection: {
-    margin: theme.spacing(5, 2, 0, 3),
+    margin:(theme)=> theme.spacing(5, 2, 0, 3),
   },
   contentDiv: {
-    marginTop: theme.spacing(2),
+    marginTop:(theme)=> theme.spacing(2),
   },
-}));
+};
 
 const QuestionItem = DeepMemo(function QuestionItem({
   id,
@@ -58,7 +58,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   tag4,
   tag5,
 }) {
-  const classes = useStyles();
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
@@ -85,7 +84,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   };
 
   return (
-    <Box boxShadow={2} className={classes.root}>
+    <Box boxShadow={2} sx={styles.root}>
       <Grid container direction="row" justify="space-between" alignItems="center">
         <ProfileImageWithName
           href={`/user/${publicName}`}
@@ -98,11 +97,11 @@ const QuestionItem = DeepMemo(function QuestionItem({
       </Grid>
 
       {!isEditMode ? (
-        <div className={classes.titleSection}>
-          <Typography color="textPrimary" variant="h1" className={classes.title}>
+        <div sx={styles.titleSection}>
+          <Typography color="textPrimary" variant="h1" sx={styles.title}>
             {title}
           </Typography>
-          <div className={classes.contentDiv}> {parsedContent}</div>
+          <div sx={styles.contentDiv}> {parsedContent}</div>
         </div>
       ) : (
         <EditQuestion
@@ -118,7 +117,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
           onEditFinished={handleEditFinished}
         />
       )}
-      <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
+      <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
       <PostToolbar
         showShare
         shareTitle={`${title} - q2a`}

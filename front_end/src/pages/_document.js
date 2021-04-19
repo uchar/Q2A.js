@@ -1,7 +1,10 @@
 import React from 'react';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
+import createEmotionServer from '@emotion/server/create-instance';
+import { cache } from './_app';
 
+const { extractCritical } = createEmotionServer(cache);
 export default class Q2aDocument extends Document {
   render() {
     return (
@@ -9,6 +12,10 @@ export default class Q2aDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <link rel="stylesheet" href="/fonts/fonts.css" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
         </Head>
         <body>
           <Main />
@@ -45,7 +52,6 @@ Q2aDocument.getInitialProps = async (ctx) => {
   // 4. page.render
 
   // Render app and page and get the context of the page with collected side effects.
-
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
@@ -55,10 +61,20 @@ Q2aDocument.getInitialProps = async (ctx) => {
     });
 
   const initialProps = await Document.getInitialProps(ctx);
+  const styles = extractCritical(initialProps.html);
 
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      sheets.getStyleElement(),
+      <style
+        key="emotion-style-tag"
+        data-emotion={`css ${styles.ids.join(' ')}`}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: styles.css }}
+      />,
+    ],
   };
 };
