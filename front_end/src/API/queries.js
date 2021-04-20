@@ -144,6 +144,16 @@ export const GET_MY_USER = gql`
   }
 `;
 
+export const GET_STATISTICS = gql`
+  query($language: Language!) {
+    getStatistics(language: $language) {
+      tagsCount
+      allQuestionsCount
+      usersCount
+    }
+  }
+`;
+
 export const GET_USER = gql`
   query($language:Language,$id: String) {
     getUser(language:$language,id: $id) {

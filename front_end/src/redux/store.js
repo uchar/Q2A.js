@@ -9,6 +9,7 @@ import {
   CURRENT_USER_ACTION,
   SELECTED_QUESTION,
   ALL_BLOG_POSTS_ACTION,
+  STATISTICS_ACTION,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -74,6 +75,11 @@ const reducer = (
       return {
         ...state,
         selectedQuestion: action.payload,
+      };
+    case STATISTICS_ACTION:
+      return {
+        ...state,
+        statistics: action.payload,
       };
     default:
       return state;

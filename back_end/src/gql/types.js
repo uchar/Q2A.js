@@ -144,6 +144,12 @@ export default gql`
     updatedAt: String!
   }
 
+  type Statistics {
+    tagsCount: Int!
+    allQuestionsCount: Int!
+    usersCount: Int!
+  }
+
   type Query {
     latestQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
     popularQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
@@ -155,6 +161,7 @@ export default gql`
     getUser(language: Language, id: String): User
     getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
     getBlogPosts(language: Language!, limit: Int!, offset: Int!): [BlogPost]
+    getStatistics(language: Language!): Statistics
   }
 
   type Mutation {
