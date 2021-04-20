@@ -14,7 +14,7 @@ import { UPDATE_ANSWER } from '../../../API/mutations';
 import AddComment from './AddComment';
 import { DeepMemo } from '../../utlities/generalUtilities';
 import { GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION } from '../../../redux/constants';
+import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
 import { getLanguage } from '../../utlities/languageUtilities';
 
 const styles = {
@@ -57,7 +57,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
 
   const refreshQuestion = async () => {
     const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
-    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
   };
 
   const handleEditSave = async () => {

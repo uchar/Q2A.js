@@ -68,11 +68,20 @@ export const getPageCount = (totalCount, perPageCount = 12) => {
   return Math.ceil((totalCount * 1.0) / perPageCount);
 };
 
-export const getItemsWithOffsetAndDispatch = async (page, data, store, limit = 12) => {
-  const response = await doGraphQLQuery(data.gql, { limit, offset: (page - 1) * limit });
-  store.dispatch({ type: data.reduxAction, payload: response[data.responseName] });
+export const getItemsWithOffsetAndDispatch = async (page, data, store, otherParams = {}, limit = 12) => {
+  const response = await doGraphQLQuery(data.gql, {
+    ...otherParams,
+    ...{ limit, offset: (page - 1) * limit },
+  });
+  store.dispatch({
+    type: data.reduxAction,
+    payload: data.responseName ? response[data.responseName] : response,
+  });
 };
 export const getItemsAndDispatch = async (data, params, store) => {
   const response = await doGraphQLQuery(data.gql, params);
-  store.dispatch({ type: data.reduxAction, payload: response[data.responseName] });
+  store.dispatch({
+    type: data.reduxAction,
+    payload: data.responseName ? response[data.responseName] : response,
+  });
 };

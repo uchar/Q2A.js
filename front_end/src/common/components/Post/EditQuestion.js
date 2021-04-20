@@ -13,7 +13,7 @@ import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
 import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION } from '../../../redux/constants';
+import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
 import Q2aButton from '../Q2aButton';
 
 const styles = {
@@ -72,7 +72,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
 
   const refreshQuestion = async () => {
     const questionData = await doGraphQLQuery(GET_QUESTION, { id: editId });
-    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
   };
 
   return (

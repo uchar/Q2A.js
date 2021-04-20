@@ -10,7 +10,7 @@ import {
 } from '../../common/utlities/generalUtilities';
 import LatestBlogPosts from '../../common/components/Blog/LatestBlogPosts';
 import BlogLayout from '../../common/layouts/BlogLayout';
-import { ALL_BLOG_POSTS_DATA, GET_ALL_TAG_DATA, GET_STATISTICS_DATA } from '../../common/constants';
+import { ALL_BLOG_POSTS_DATA, GET_ALL_TAGS_DATA, GET_STATISTICS_DATA } from '../../common/constants';
 import Pagination from '../../common/components/Pagination';
 
 const styles = {
@@ -41,7 +41,7 @@ export const getStaticProps = async (props) =>
     props,
     wrapper.getStaticProps(async ({ store }) => {
       await getItemsWithOffsetAndDispatch(1, ALL_BLOG_POSTS_DATA, store);
-      await getItemsAndDispatch(GET_ALL_TAG_DATA, { limit: 50, offset: 0 }, store);
+      await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
       await getItemsAndDispatch(GET_STATISTICS_DATA, {}, store);
     })
   );

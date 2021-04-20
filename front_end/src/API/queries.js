@@ -24,12 +24,36 @@ const QUESTION = `{
     tag5
   }`;
 
-export const ALL_QUESTIONS = gql`
-  query($language:Language!,$tag: String) {
-    latestQuestions(language: $language,tag: $tag,limit: 20,offset: 0) ${QUESTION}
-    popularQuestions(language: $language,tag: $tag,limit: 20,offset: 0)  ${QUESTION}
-    mostViewsQuestions(language: $language,tag: $tag,limit: 20,offset: 0)  ${QUESTION}
-    noAnswersQuestions(language: $language,tag: $tag,limit: 20,offset: 0)  ${QUESTION}
+export const GET_ALL_QUESTIONS = gql`
+  query($language:Language!,$tag: String,$limit: Int) {
+    latestQuestions(language: $language,tag: $tag,limit: $limit,offset: 0) ${QUESTION}
+    popularQuestions(language: $language,tag: $tag,limit: $limit,offset: 0)  ${QUESTION}
+    mostViewsQuestions(language: $language,tag: $tag,limit: $limit,offset: 0)  ${QUESTION}
+    noAnswersQuestions(language: $language,tag: $tag,limit: $limit,offset: 0)  ${QUESTION}
+  }
+`;
+
+export const GET_LATEST_QUESTIONS = gql`
+  query($language:Language!,$tag: String,$limit: Int,$offset: Int) {
+    latestQuestions(language: $language,tag: $tag,limit: $limit,offset: $offset) ${QUESTION}
+  }
+`;
+
+export const GET_POPULAR_QUESTIONS = gql`
+  query($language:Language!,$tag: String,$limit: Int,$offset: Int) {
+    popularQuestions(language: $language,tag: $tag,limit: $limit,offset: $offset)  ${QUESTION}
+  }
+`;
+
+export const GET_MOST_VIEW_QUESTIONS = gql`
+  query($language:Language!,$tag: String,$limit: Int,$offset: Int) {
+    mostViewsQuestions(language: $language,tag: $tag,limit: $limit,offset: $offset)  ${QUESTION}
+  }
+`;
+
+export const GET_NO_ANSWERS_QUESTIONS = gql`
+  query($language:Language!,$tag: String,$limit: Int,$offset: Int) {
+    noAnswersQuestions(language: $language,tag: $tag,limit: $limit,offset: $offset)  ${QUESTION}
   }
 `;
 
