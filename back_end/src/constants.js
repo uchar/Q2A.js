@@ -7,6 +7,7 @@ const TABLES = {
   NOTIFICATION_TABLE: 'notification',
   Medal_TABLE: 'medal',
   POST_TAG_TABLE: 'posttag',
+  STATISTICS_TABLE: 'statistic',
 };
 const BLOG_POST_TYPES = {
   POST: 'POST',

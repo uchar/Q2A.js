@@ -7,7 +7,7 @@ import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION } from '../../../redux/constants';
+import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
 
 const styles = {
   root: {
@@ -24,7 +24,7 @@ const AddComment = ({ enable, onClose, postId, rootId }) => {
 
   const refreshQuestion = async () => {
     const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
-    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
   };
 
   const submitComment = async () => {

@@ -26,7 +26,7 @@ const databaseUtils = () => {
 
     try {
       await sequelize.authenticate();
-      console.log('Connection established successfully.');
+      // console.log('Connection established successfully.');
     } catch (err) {
       console.error('Unable to connect to the database:', err);
       sequelize.close();

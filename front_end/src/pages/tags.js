@@ -1,37 +1,45 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { css } from '@emotion/react';
+import { useSelector, useStore } from 'react-redux';
 import Layout from '../common/layouts/Layout';
-import { ALL_BLOG_POSTS, ALL_TAGS } from '../API/queries';
-import { doGraphQLQuery } from '../API/utilities';
-import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';
 import { wrapper } from '../redux/store';
-import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
+import {
+  addRevalidateAndRedux,
+  getItemsAndDispatch,
+  getItemsWithOffsetAndDispatch,
+  getPageCount,
+} from '../common/utlities/generalUtilities';
 import TagDetailsList from '../common/components/Tag/TagDetailsList';
+import Pagination from '../common/components/Pagination';
+import { GET_ALL_BLOG_POSTS_DATA, GET_ALL_TAGS_DATA, GET_STATISTICS_DATA } from '../common/constants';
 
 const root = {
   marginTop: (theme) => theme.spacing(5),
 };
 
-function TagsPage() {
-  const tags = useSelector((state) => state.tags);
+const TagsPage = () => {
+  const { tags, statistics } = useSelector((state) => state);
+  const store = useStore();
+  const handlePageChange = async (page) => {
+    return getItemsWithOffsetAndDispatch(page, GET_ALL_TAGS_DATA, store);
+  };
   return (
     <Box sx={root}>
       <TagDetailsList tags={tags} />
+      {statistics && (
+        <Pagination pageCount={getPageCount(statistics.tagsCount)} onChange={handlePageChange} />
+      )}
     </Box>
   );
-}
+};
 
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
     wrapper.getStaticProps(async ({ store }) => {
-      const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
-      const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });
-      store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
-      store.dispatch({ type: ALL_BLOG_POSTS_ACTION, payload: blogPostsResponse.getBlogPosts });
+      await getItemsWithOffsetAndDispatch(1, GET_ALL_TAGS_DATA, store);
+      await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
+      await getItemsAndDispatch(GET_STATISTICS_DATA, {}, store);
     })
   );
 

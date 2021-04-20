@@ -26,6 +26,7 @@ import {
   updateQuestion,
   increaseQuestionViewCount,
 } from '../mutations/post.js';
+import { getStatistics } from '../queries/statistic.js';
 // import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts } from '../queries/blog.js';
 
@@ -41,6 +42,7 @@ export default {
     getUser,
     getNotifications,
     getBlogPosts,
+    getStatistics,
   },
   Mutation: {
     login,

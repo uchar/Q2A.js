@@ -7,6 +7,7 @@ import TagModel from '../models/Tag.js';
 import ClapModel from '../models/Clap.js';
 import NotificationModel from '../models/Notification.js';
 import MedalModel from '../models/Medal.js';
+import StatisticsModel from '../models/Statistics.js';
 
 const prepareDatabase = async () => {
   const sequelize = await databaseUtils().getSequelize();
@@ -18,6 +19,7 @@ const prepareDatabase = async () => {
   const Clap = sequelize.define(tables.CLAP_TABLE, ClapModel);
   const Notification = sequelize.define(tables.NOTIFICATION_TABLE, NotificationModel);
   const Medal = sequelize.define(tables.Medal_TABLE, MedalModel);
+  const Statistics = sequelize.define(tables.STATISTICS_TABLE, StatisticsModel);
 
   BlogPost.belongsTo(User);
   Post.belongsTo(User);
@@ -38,10 +40,10 @@ const prepareDatabase = async () => {
   databaseUtils().cacheModel(tables.NOTIFICATION_TABLE, Notification);
   databaseUtils().cacheModel(tables.Medal_TABLE, Medal);
   databaseUtils().cacheModel(tables.BLOG_POST_TABLE, BlogPost);
+  databaseUtils().cacheModel(tables.STATISTICS_TABLE, Statistics);
 };
 
 const createDatabasePromise = prepareDatabase().then(() => {
-  console.log('PREPARE FINISHED');
   return { result: 'SUCCESS' };
 });
 

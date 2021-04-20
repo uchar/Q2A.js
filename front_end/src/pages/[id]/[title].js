@@ -4,17 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import QuestionItem from '../../common/components/Post/QuestionItem';
 import Layout from '../../common/layouts/Layout';
 import CKEditor from '../../common/components/Editor/CKEditor';
-import { ALL_BLOG_POSTS, ALL_TAGS, GET_QUESTION } from '../../API/queries';
+import { GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
 import { getStrings } from '../../common/utlities/languageUtilities';
 import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
+import { addRevalidateAndRedux, getItemsAndDispatch } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
-import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
+import {  SELECTED_QUESTION_ACTION } from '../../redux/constants';
 import Q2aButton from '../../common/components/Q2aButton';
+import {
+  GET_ALL_BLOG_POSTS_DATA,
+  GET_ALL_TAGS_DATA,
+} from '../../common/constants';
 
 const styles = {
   paper: {
@@ -40,7 +44,7 @@ const Post = () => {
 
   const refreshQuestion = async () => {
     const questionData = await doGraphQLQuery(GET_QUESTION, { id: question.id });
-    dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
   };
 
   const submitAnswer = async () => {
@@ -106,12 +110,9 @@ export const getStaticProps = async (props) =>
     props,
     wrapper.getStaticProps(async ({ store }) => {
       const { id } = props.params;
-      const questionData = await doGraphQLQuery(GET_QUESTION, { id });
-      const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
-      const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });
-      store.dispatch({ type: ALL_BLOG_POSTS_ACTION, payload: blogPostsResponse.getBlogPosts });
-      store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
-      store.dispatch({ type: SELECTED_QUESTION, payload: questionData.getQuestion });
+      await getItemsAndDispatch(SELECTED_QUESTION_ACTION, { id }, store);
+      await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
+      await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
     })
   );
 
