@@ -1,26 +1,37 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { ALL_BLOG_POSTS, ALL_TAGS } from '../../API/queries';
-import { doGraphQLQuery } from '../../API/utilities';
-import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '../../redux/constants';
+import { useSelector, useStore } from 'react-redux';
 import { wrapper } from '../../redux/store';
-import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
+import {
+  addRevalidateAndRedux,
+  getItemsAndDispatch,
+  getItemsWithOffsetAndDispatch,
+  getPageCount,
+} from '../../common/utlities/generalUtilities';
 import LatestBlogPosts from '../../common/components/Blog/LatestBlogPosts';
 import BlogLayout from '../../common/layouts/BlogLayout';
+import { ALL_BLOG_POSTS_DATA, GET_ALL_TAGS_DATA, GET_STATISTICS_DATA } from '../../common/constants';
+import Pagination from '../../common/components/Pagination';
 
-const styles ={
+const styles = {
   root: {
     textAlign: 'center',
-    color:(theme)=> theme.palette.text.secondary,
+    color: (theme) => theme.palette.text.secondary,
   },
 };
 
 function BlogMainPage() {
-  const blogPosts = useSelector((state) => state.blogPosts);
+  const { blogPosts, statistics } = useSelector((state) => state);
+  const store = useStore();
+  const handlePageChange = async (page) => {
+    return getItemsWithOffsetAndDispatch(page, ALL_BLOG_POSTS_DATA, store);
+  };
   return (
     <Box sx={styles.root}>
       <LatestBlogPosts blogPosts={blogPosts} />
+      {statistics && (
+        <Pagination pageCount={getPageCount( statistics.blogPostsCount)} onChange={handlePageChange} />
+      )}
     </Box>
   );
 }
@@ -29,10 +40,9 @@ export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
     wrapper.getStaticProps(async ({ store }) => {
-      const response = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 30, offset: 0 });
-      const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
-      store.dispatch({ type: ALL_BLOG_POSTS_ACTION, payload: response.getBlogPosts });
-      store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
+      await getItemsWithOffsetAndDispatch(1, ALL_BLOG_POSTS_DATA, store);
+      await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
+      await getItemsAndDispatch(GET_STATISTICS_DATA, {}, store);
     })
   );
 

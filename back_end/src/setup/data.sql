@@ -80,6 +80,11 @@ INSERT INTO `tags` (`id`, `title`, `content`, `language`, `used`, `createdAt`, `
 (14, 'docker', 'Docker is a tool to build and run containers. ', 'en', 1, '2021-04-17 11:27:30', '2021-04-17 11:27:30'),
 (15, 'yaml', 'YAML (/ˈjæməl/, rhymes with camel) is a human-readable data serialization language that takes concepts from programming languages such as C, Perl, and Python, and ideas from XML and the data format of electronic mail (RFC 2822). YAML was first proposed by Clark Evans in 2001, who designed it together with Ingy döt Net and Oren Ben-Kiki. It is available for several programming languages.', 'en', 1, '2021-04-17 11:27:30', '2021-04-17 11:27:30'),
 (16, 'جاوااسکریپت', '', 'fa', 1, '2021-04-17 11:27:30', '2021-04-17 11:27:30');
+
+INSERT INTO `statistics` (`id`, `language`, `tagsCount`,`blogPostsCount`, `allQuestionsCount`, `usersCount`, `createdAt`, `updatedAt`) VALUES
+(1, 'en', 15,3, 6, 4, '2021-04-20 12:51:37', '2021-04-20 12:51:37'),
+(2, 'fa', 1,0, 0, 4, '2021-04-20 12:52:12', '2021-04-20 12:52:12');
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

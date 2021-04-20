@@ -7,8 +7,13 @@ import {
   CURRENT_TAG_ACTION,
   SELECTED_USER_ACTION,
   CURRENT_USER_ACTION,
-  SELECTED_QUESTION,
+  SELECTED_QUESTION_ACTION,
   ALL_BLOG_POSTS_ACTION,
+  STATISTICS_ACTION,
+  POPULAR_QUESTIONS_ACTION,
+  LATEST_QUESTIONS_ACTION,
+  MOST_VIEWS_QUESTIONS_ACTION,
+  NO_ANSWERS_QUESTIONS_ACTION,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -55,6 +60,26 @@ const reducer = (
         ...state,
         questions: action.payload,
       };
+    case LATEST_QUESTIONS_ACTION:
+      return {
+        ...state,
+        questions: { ...state.questions, ...{ latestQuestions: action.payload } },
+      };
+    case POPULAR_QUESTIONS_ACTION:
+      return {
+        ...state,
+        questions: { ...state.questions, ...{ popularQuestions: action.payload } },
+      };
+    case MOST_VIEWS_QUESTIONS_ACTION:
+      return {
+        ...state,
+        questions: { ...state.questions, ...{ mostViewsQuestions: action.payload } },
+      };
+    case NO_ANSWERS_QUESTIONS_ACTION:
+      return {
+        ...state,
+        questions: { ...state.questions, ...{ noAnswersQuestions: action.payload } },
+      };
     case ALL_BLOG_POSTS_ACTION:
       return {
         ...state,
@@ -70,10 +95,15 @@ const reducer = (
         ...state,
         currentUser: action.payload,
       };
-    case SELECTED_QUESTION:
+    case SELECTED_QUESTION_ACTION:
       return {
         ...state,
         selectedQuestion: action.payload,
+      };
+    case STATISTICS_ACTION:
+      return {
+        ...state,
+        statistics: action.payload,
       };
     default:
       return state;

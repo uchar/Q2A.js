@@ -1,10 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Layout from '../common/layouts/Layout';
 import LatestQuestion from '../common/components/Post/LatestQuestions';
-import { ALL_BLOG_POSTS, ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
+import { ALL_BLOG_POSTS, GET_ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
 import { doGraphQLQuery } from '../API/utilities';
 import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';
 import { wrapper } from '../redux/store';
@@ -30,7 +29,7 @@ export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
     wrapper.getStaticProps(async ({ store }) => {
-      const questionsResponse = await doGraphQLQuery(ALL_QUESTIONS);
+      const questionsResponse = await doGraphQLQuery(GET_ALL_QUESTIONS);
       const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
       const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });
       store.dispatch({ type: ALL_QUESTIONS_ACTION, payload: questionsResponse });

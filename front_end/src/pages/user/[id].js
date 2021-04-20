@@ -13,9 +13,13 @@ import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utilities';
-import { ALL_BLOG_POSTS, ALL_TAGS, GET_USER } from '../../API/queries';
+import { GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
-import { addRevalidateAndRedux, getFullUrl } from '../../common/utlities/generalUtilities';
+import {
+  addRevalidateAndRedux,
+  getFullUrl,
+  getItemsAndDispatch,
+} from '../../common/utlities/generalUtilities';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { UPDATE_USER } from '../../API/mutations';
 import CKEditor from '../../common/components/Editor/CKEditor';
@@ -23,12 +27,17 @@ import { parseContent } from '../../common/parsers/parser';
 import SaveCancelButtons from '../../common/components/SaveCancelButtons';
 import { wrapper } from '../../redux/store';
 import {
-  ALL_BLOG_POSTS_ACTION,
-  ALL_TAGS_ACTION,
   CURRENT_USER_ACTION,
   SELECTED_USER_ACTION,
 } from '../../redux/constants';
 import { getStrings } from '../../common/utlities/languageUtilities';
+import {
+  ALL_QUESTIONS_DATA,
+  GET_ALL_BLOG_POSTS_DATA,
+  GET_ALL_TAGS_DATA,
+  GET_STATISTICS_DATA,
+  GET_USER_DATA,
+} from '../../common/constants';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -328,12 +337,9 @@ export const getStaticProps = async (props) =>
     props,
     wrapper.getStaticProps(async ({ store }) => {
       const { id } = props.params;
-      const userData = await doGraphQLQuery(GET_USER, { id });
-      const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });
-      const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
-      store.dispatch({ type: ALL_TAGS_ACTION, payload: tagsResponse.getTags });
-      store.dispatch({ type: SELECTED_USER_ACTION, payload: userData.getUser });
-      store.dispatch({ type: ALL_BLOG_POSTS_ACTION, payload: blogPostsResponse.getBlogPosts });
+      await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
+      await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
+      await getItemsAndDispatch(GET_USER_DATA, { id }, store);
     })
   );
 
