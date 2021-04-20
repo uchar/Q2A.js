@@ -1,58 +1,68 @@
 import React from 'react';
-import { Box, Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Link from 'next/link';
-import { makeStyles } from '@material-ui/core/styles';
-import Image from 'next/image';
 
-const useStyles = makeStyles(() => ({
+const styles = {
   root: {
-    justifyContent: 'center',
+    display: 'flex',
+    marginBottom: '80px',
+  },
+  content: {
+    flex: 1,
+    alignSelf: 'center',
     textAlign: 'center',
-    marginBottom: '35px',
+    [(theme) => theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
   },
   title: {
+    color: 'textSecondary',
+    lineHeight: 1.26,
     textAlign: 'center',
-    maxWidth: 660,
-    marginTop: '10px',
     marginBottom: '20px',
-    fontFamily: 'DM Sans',
-    fontWeight: 600,
-    fontSize: '20px',
-    lineHeight: 1.28,
-    color: '#000000',
+    [(theme) => theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+      marginBottom: '30px',
+    },
   },
   description: {
-    textAlign: 'center',
-    margin: '0 auto 10px',
-    justifyContent: 'center',
-    maxWidth: 450,
-    fontFamily: 'DM Sans',
-    fontWeight: 'normal',
-    fontSize: '18px',
     lineHeight: 1.87,
-    color: '#000000',
+    textAlign: 'center',
+    maxWidth: '295px',
+    [(theme) => theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+      maxWidth: '280px',
+    },
   },
-}));
+  image: {
+    maxWidth: '100%',
+  },
+};
 
 const Feature = ({ data }) => {
-  const classes = useStyles();
   return (
-    <Box className={classes.root}>
-      <Image width={48} height={48} src={data?.icon} alt={data?.title} />
-      <Box>
-        <Typography variant="h3" className={classes.title}>
-          {data?.title}
-        </Typography>
-        <Typography variant="h4" className={classes.description}>
-          {data?.description}
-        </Typography>
-        {data?.path && (
-          <Link href="/">
-            <a href={data?.path}>LearnMore</a>
-          </Link>
-        )}
-      </Box>
+    <Box sx={styles.root}>
+      <Grid container spacing={2} direction="column">
+        <Grid item xs>
+          <img style={styles.image} src={`/images/icons/${data?.icon}`} alt={data?.title} />
+        </Grid>
+        <Grid item xs sx={styles.content}>
+          <Typography variant="h3" sx={styles.title}>
+            {data?.title}
+          </Typography>
+          <Typography variant="h4" sx={styles.description}>
+            {data?.description}
+          </Typography>
+        </Grid>
+        <Grid item xs>
+          {data?.path && (
+            <Link href="/">
+              <a href={data?.path}>LearnMore</a>
+            </Link>
+          )}
+        </Grid>
+      </Grid>
     </Box>
   );
 };

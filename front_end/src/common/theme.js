@@ -61,12 +61,12 @@ const themeSettingsLight = {
     mode: 'light',
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#67775f',
+      main: 'rgba(103,119,95,0.18)',
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      main: '#ff0000',
+      main: '#ffa600',
       // dark: will be calculated from palette.secondary.main,
       // contrastText: '#ffcc00',
     },

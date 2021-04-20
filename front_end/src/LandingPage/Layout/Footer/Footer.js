@@ -1,18 +1,20 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Typography } from '@material-ui/core';
-import { getStrings } from '../../../common/utlities/languageUtilities';
+import { getStrings } from '../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
+    flexGrow: 1,
+    padding: (theme) => theme.spacing(10, 5, 5, 5),
+    marginTop: (theme) => theme.spacing(20),
+  },
+  grid: {
     flexGrow: 1,
     justifyContent: 'center',
     textAlign: 'center',
     alignItems: 'center',
-    padding: theme.spacing(10, 5, 5, 5),
-    marginTop: theme.spacing(20),
   },
-}));
+};
 
 const getFooterText = (text) => {
   return (
@@ -29,13 +31,11 @@ const getFooterTitle = (text) => {
   );
 };
 
-export default function Footer() {
-  const classes = useStyles();
-
+export default function Footer(props) {
   return (
-    <Paper className={classes.root}>
-      <Grid direction="row" justify={'center'} container spacing={2}>
-        <Grid item md={2} display={{ xs: 'none' }}></Grid>
+    <Paper sx={{ ...props.sx, ...styles.root }}>
+      <Grid sx={{ ...styles.grid }} container spacing={2}>
+        <Grid item md={2} display={{ xs: 'none' }} />
         <Grid item md={2} xs={7}>
           {getFooterTitle(getStrings().FOOTER_TITLE)}
           {getFooterText(getStrings().FOOTER_LINK1)}

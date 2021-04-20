@@ -1,12 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { Box } from '@material-ui/core';
 import Header from './Header/Header';
 import JssStylesProvider from '../../common/layouts/JssStylesProvider';
 import Footer from '../../common/layouts/Footer';
 
-const useStyles = makeStyles(() => ({
+const styles = {
   layoutStyle: {
     display: 'flex',
     flexDirection: 'column',
@@ -14,17 +13,16 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     overflowX: 'hidden',
   },
-}));
+}
 
 const Layout = (props) => {
-  const classes = useStyles();
   return (
     <JssStylesProvider>
-      <div className={classes.layoutStyle}>
+      <Box sx={styles.layoutStyle}>
         <Header />
         <Box>{props.children}</Box>
         <Footer />
-      </div>
+      </Box>
     </JssStylesProvider>
   );
 };

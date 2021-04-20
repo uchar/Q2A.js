@@ -7,49 +7,54 @@ import Feature from '../../common/components/LandingPage/Feature';
 const data = [
   {
     id: 1,
-    icon: '/images/icons/1.png',
+    icon: '1.png',
     path: '#!',
     title: 'ultimate Email  subscription',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 2,
-    icon: '/images/icons/2.png',
+    icon: '2.png',
     path: '#!',
     title: 'Bolt Performance',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 3,
-    icon: '/images/icons/3.png',
+    icon: '3.png',
     path: '#!',
     title: 'Secure Transaction',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 4,
-    icon: '/images/icons/4.png',
+    icon: '4.png',
     path: '#!',
     title: 'Multiple Options',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 5,
-    icon: '/images/icons/5.png',
+    icon: '5.png',
     path: '#!',
     title: '5 Star Rating service',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 6,
-    icon: '/images/icons/6.png',
+    icon: '6.png',
     path: '#!',
     title: 'Integrated with Shopify',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
 ];
-const useStyles = makeStyles((theme) => ({
-  root: { padding: theme.spacing(2), textAlign: 'center', backgroundColor: '#F9FAFC' },
+const styles = {
+  root: {
+    padding: (theme) => theme.spacing(2),
+    textAlign: 'center',
+    backgroundColor: '#F9FAFC',
+    marginTop: '150px',
+  },
   grid: {
     justifyContent: 'center',
   },
@@ -72,19 +77,18 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.87,
     color: '#000000',
   },
-}));
-const Services = () => {
-  const classes = useStyles();
+};
+const Services = (props) => {
   return (
-    <Grid className={classes.root}>
-      <Grid container className={classes.grid} border={1} spacing={2}>
+    <Grid sx={styles.root} id="services">
+      <Grid container sx={styles.grid} boxShadow={3} spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h1" className={classes.title}>
+          <Typography variant="h1" sx={styles.title}>
             Ultimate features you must appreciate
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h3" className={classes.description}>
+          <Typography variant="h3" sx={styles.description}>
             Get your blood tests delivered at let home collect sample from the victory of the managements that
             supplies best design system guidelines ever. Email
           </Typography>

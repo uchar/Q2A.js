@@ -5,21 +5,27 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
+import Box from '@material-ui/core/Box';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     flexGrow: 1,
   },
-  paper: {
-    padding: theme.spacing(5),
-    textAlign: 'center',
-    color: theme.palette.text.primary,
+  grid: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-}));
+  paper: {
+    padding: (theme) => theme.spacing(5),
+    textAlign: 'center',
+    color: (theme) => theme.palette.text.primary,
+  },
+  a: {
+    textDecoration: 'none',
+  },
+};
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -31,7 +37,7 @@ function ElevationScroll(props) {
 
   return React.cloneElement(children, {
     elevation: trigger ? 4 : 0,
-    color: trigger ? 'primary' : 'secondary',
+    color: trigger ? 'secondary' : 'primary',
   });
 }
 
@@ -40,20 +46,44 @@ ElevationScroll.propTypes = {
   ow: PropTypes.func,
 };
 
-export default function Header(props) {
-  const classes = useStyles();
+export default function Header() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ElevationScroll {...props}>
+      <ElevationScroll>
         <AppBar>
           <Toolbar>
-            <Grid container direction="row" justify="center" alignItems="center">
-              <Typography className={classes.paper}>Home</Typography>
-              <Typography className={classes.paper}>Services</Typography>
-              <Typography className={classes.paper}>Feature</Typography>
-              <Typography className={classes.paper}>Blog</Typography>
-            </Grid>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container direction="row" sx={styles.grid}>
+                <Link href="#home">
+                  <a style={styles.a}>
+                    <Typography sx={styles.paper}>Home</Typography>
+                  </a>
+                </Link>
+
+                <Link href="#services">
+                  <a style={styles.a}>
+                    <Typography sx={styles.paper}>Services</Typography>
+                  </a>
+                </Link>
+
+                <Link href="#features">
+                  <a style={styles.a}>
+                    <Typography sx={styles.paper}>Feature</Typography>
+                  </a>
+                </Link>
+                <Link href="#download">
+                  <a style={styles.a}>
+                    <Typography sx={styles.paper}>Download</Typography>
+                  </a>
+                </Link>
+                <Link href="#">
+                  <a style={styles.a}>
+                    <Typography sx={styles.paper}>Blog</Typography>
+                  </a>
+                </Link>
+              </Grid>
+            </Box>
           </Toolbar>
         </AppBar>
       </ElevationScroll>

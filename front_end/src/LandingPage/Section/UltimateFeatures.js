@@ -1,52 +1,54 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Image from 'next/image';
 
-const useStyles = makeStyles(() => ({
+const styles = {
+  root: {
+    display: 'flex',
+  },
   content: {
-    // maxWidth: '80%',
-    marginTop: '80px',
-    textAlign: 'center',
+    flex: 1,
+    alignSelf: 'center',
+    textAlign: 'initial',
+    [(theme) => theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
   },
   title: {
     color: 'textSecondary',
-    fontFamily: 'Crimson Text, Serif',
-    fontWeight: 600,
-    fontSize: '34px',
     lineHeight: 1.26,
+    textAlign: 'initial',
+    [(theme) => theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
   },
   description: {
-    maxWidth: '800px',
-    fontSize: '20px',
     lineHeight: 1.87,
-    marginTop: '30px',
   },
-}));
+  image: {
+    maxWidth: '100%',
+  },
+};
 
 const UltimateFeatures = (props) => {
-  const classes = useStyles();
   return (
-    <div {...props}>
-      <Grid container>
+    <Box sx={props.sx} id="features">
+      <Grid container sx={styles.root}>
         <Grid item xs={12} sm={6} direction="row" alignItems="center">
-          <img src="/images/banner.png" alt="Picture of the author" />
+          <img style={styles.image} src="/images/banner.png" alt="Picture of the author" />
         </Grid>
-        <Grid item xs={12} sm={6} style={{ marginTop: '100px' }}>
-          <Box className={classes.content}>
-            <Typography className={classes.title} variant="h1">
-              Build your audience &amp;
-              <br /> grow your business online smarter
-            </Typography>
-            <Typography className={classes.description} variant="h2">
-              Get your blood tests delivered at let home collect sample from the victory of the managements
-              that supplies best design system guidelines ever. Email
-            </Typography>
-          </Box>
+        <Grid item xs={12} sm={6} sx={styles.content}>
+          <Typography sx={styles.title} variant="h1">
+            Build your audience &amp;
+            <br /> grow your business online smarter
+          </Typography>
+          <Typography sx={styles.description} variant="h2">
+            Get your blood tests delivered at let home collect sample from the victory of the managements that
+            supplies best design system guidelines ever. Email
+          </Typography>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 
