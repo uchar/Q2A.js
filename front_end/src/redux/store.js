@@ -34,7 +34,6 @@ const reducer = (
       } else {
         newState.currentUser = false;
       }
-
       return newState;
     case THEME_ACTION:
       return {

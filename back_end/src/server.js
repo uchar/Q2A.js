@@ -15,7 +15,6 @@ const path = '/graphql';
 
 createDatabasePromise.then(() => {
   const { Strategy, ExtractJwt } = passportJWT;
-
   const jwtPasswordStrategy = new Strategy(
     {
       secretOrKey: process.env.JWT_SECRET,

@@ -1,8 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({}));
 
 const Q2AMenu = ({ open, onClose, items, onItemClick, anchorEl }) => {
   return (

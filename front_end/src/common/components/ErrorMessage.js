@@ -1,20 +1,18 @@
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles((theme) => ({
+const styles ={
   text: {
     color: 'red',
   },
-}));
+};
 
 const ErrorMessage = (props) => {
   const { text, ...rest } = props;
-  const classes = useStyles();
   return (
     <div {...rest}>
-      <Typography variant="body1" className={classes.text}>
+      <Typography variant="body1" sx={styles.text}>
         {text}
       </Typography>
     </div>

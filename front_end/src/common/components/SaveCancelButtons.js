@@ -1,43 +1,41 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     flex: 1,
     flexDirection: 'row',
     textAlign: 'center',
     justifyContent: 'center',
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: (theme) => theme.spacing(4),
+    paddingBottom: (theme) => theme.spacing(4),
   },
   button: {
-    padding: theme.spacing(1, 6, 1, 6),
-    marginRight: theme.spacing(3),
+    padding: (theme) => theme.spacing(1, 6, 1, 6),
+    marginRight: (theme) => theme.spacing(3),
   },
   error: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(3),
+    marginTop: (theme) => theme.spacing(2),
+    marginBottom: (theme) => theme.spacing(3),
   },
-}));
+};
 
-const SaveCancelButtons = ({ className, onSave, onCancel, error }) => {
-  const classes = useStyles();
-
+const SaveCancelButtons = ({ onSave, onCancel, error }) => {
   return (
-    <div className={className}>
-      <div className={`${classes.root}`}>
-        <Button onClick={onSave} variant="contained" color="primary" className={classes.button}>
+    <Box>
+      <Box sx={styles.root}>
+        <Button onClick={onSave} variant="contained" color="primary" sx={styles.button}>
           {'ذخیره'}
         </Button>
-        <Button onClick={onCancel} variant="contained" color="secondary" className={classes.button}>
+        <Button onClick={onCancel} variant="contained" color="secondary" sx={styles.button}>
           {'لغو'}
         </Button>
-      </div>
-      {error && <ErrorMessage className={classes.error} text={error} />}
-    </div>
+      </Box>
+      {error && <ErrorMessage sx={styles.error} text={error} />}
+    </Box>
   );
 };
 SaveCancelButtons.propTypes = {

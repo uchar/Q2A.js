@@ -7,15 +7,14 @@ import PropTypes from 'prop-types';
 import { loginWithGoogle } from '../../API/utilities';
 import ErrorMessage from './ErrorMessage';
 
-const useStyles = makeStyles(() => ({
+const styles = {
   root: {
     padding: '5px 10px 5px 10px',
     cursor: 'pointer',
   },
-}));
+};
 
 const GoogleLoginButton = ({ buttonText }) => {
-  const classes = useStyles();
   const [error, setError] = useState(false);
 
   const router = useRouter();
@@ -31,7 +30,7 @@ const GoogleLoginButton = ({ buttonText }) => {
               style={{ width: '65%', justifyContent: 'space-between', fontSize: '18px' }}
               onClick={renderProps.onClick}
               disabled={renderProps.disabled}
-              className={classes.button}
+              sx={styles.button}
               endIcon={
                 <img
                   src={'/images/google.png'}

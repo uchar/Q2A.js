@@ -7,18 +7,19 @@
   "engines": {
     "node": "14.16.x"
   },
-  "dependencies": {
-
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^6.0.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "install_packages": "cd front_end && yarn && cd ../back_end && yarn",
+    "install_packages": "yarn && cd front_end && yarn && cd ../back_end && yarn",
     "api_tests": "cd back_end && yarn test",
     "api_setup": "cd back_end && yarn setup",
     "api_run_dev": "cd back_end && yarn dev",
     "frontend_run_dev": "cd front_end && yarn dev",
     "deploy_docker": "docker-compose up -d",
     "docker_rebuild_frontend": " docker-compose up -d --no-deps --build frontend",
-    "docker_rebuild_api": " docker-compose up -d --no-deps --build api"
+    "docker_rebuild_api": " docker-compose up -d --no-deps --build api",
+    "prepare": "husky install"
   }
 }

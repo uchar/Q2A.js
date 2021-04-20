@@ -1,20 +1,20 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Box, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { parseContent, replacePTagWithTypoGraphy } from '../../parsers/parser';
+import { parseContent } from '../../parsers/parser';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
 import { getLanguage } from '../../utlities/languageUtilities';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    margin: theme.spacing(5, 0, 5, 0),
-    paddingBottom: theme.spacing(3),
+    margin: (theme) => theme.spacing(1, 0, 2, 0),
+    paddingBottom: (theme) => theme.spacing(3),
     textAlign: 'center',
   },
   topSection: {
@@ -23,37 +23,43 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  detailSection: {
+  titleSection: {
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
-    margin: theme.spacing(0, 1, 0, 3),
+    marginTop: (theme) => theme.spacing(4),
   },
   tagsSection: {
-    margin: theme.spacing(1.5, 2, 0.5, 2),
+    margin: (theme) => theme.spacing(0, 2, 0, 2),
   },
   expand: {
+    width: '1em',
+    height: '1em',
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
+    transition: (theme) =>
+      theme.transitions.create('transform', {
+        duration: 100,
+      }),
   },
   expandOpen: {
     transform: 'rotate(180deg)',
   },
+  content: {
+    paddingBottom: (theme) => theme.spacing(1),
+  },
   title: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(0),
+    paddingTop: (theme) => theme.spacing(1.5),
     textAlign: 'initial ',
     wordWrap: 'break-word',
     cursor: 'pointer',
+    // color: theme.palette.questionTitles,
     '&:hover': {
-      color: '#314285',
+      color: '#2d4bbe',
       textDecorationLine: 'underline',
     },
   },
-}));
+};
 
 const QuestionItemPreview = DeepMemo(function ({
   id,
@@ -71,10 +77,9 @@ const QuestionItemPreview = DeepMemo(function ({
   tag4,
   tag5,
 }) {
-  const classes = useStyles();
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
-    return <div></div>;
+    return <div />;
   }
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
@@ -83,21 +88,15 @@ const QuestionItemPreview = DeepMemo(function ({
     setExpanded(!expanded);
   };
 
-  let parsedContent = <div />;
+  let parsedContent = <Box />;
 
-  if (expanded || content.length < 600) {
+  if (expanded) {
     parsedContent = parseContent(content, getLanguage());
-  } else {
-    parsedContent = (
-      <div style={{ marginTop: '5px' }}>
-        {replacePTagWithTypoGraphy(`${content.substring(0, 600)}...`, 'textSecondary')}
-      </div>
-    );
   }
   return (
-    <Box boxShadow={2} className={classes.root}>
+    <Box boxShadow={2} sx={styles.root}>
       <CardContent>
-        <div className={classes.topSection}>
+        <Box sx={styles.topSection}>
           <ProfileImageWithName
             href={`/user/${publicName}`}
             profileImage={profileImage}
@@ -106,30 +105,28 @@ const QuestionItemPreview = DeepMemo(function ({
             score={score}
           />
           <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
-        </div>
-        <Link href={`/${id}/${encodeURIComponent(title)}`}>
-          <Typography color="textPrimary" variant="h1" className={classes.title}>
-            {title}
-          </Typography>
-        </Link>
+        </Box>
+        <Box sx={styles.titleSection}>
+          <Link href={`/${id}/${encodeURIComponent(title)}`}>
+            <Typography color="textPrimary" variant="h1" sx={styles.title}>
+              {title}
+            </Typography>
+          </Link>
+          <IconButton
+            sx={{
+              ...styles.expand,
+              ...{
+                [styles.expandOpen]: expanded,
+              },
+            }}
+            onClick={handleExpandClick}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </Box>
       </CardContent>
-      <div className={classes.detailSection}>
-        {parsedContent}
-        <CardActions disableSpacing>
-          {content.length >= 400 && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-        </CardActions>
-      </div>
-
-      <HorizontalTagsBlock className={classes.tagsSection} tags={tags} />
+      <Box sx={styles.content}>{parsedContent}</Box>
+      <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
     </Box>
   );
 });

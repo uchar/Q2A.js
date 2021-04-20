@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { Button, Tab, Tabs, AppBar, Typography, Box, Avatar, CircularProgress } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
 import EditIcon from '@material-ui/icons/Edit';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
 import AnswerItem from '../../common/components/Post/AnswerItem';
@@ -61,38 +63,38 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    backgroundColor: theme.palette.background.paper,
-    marginTop: theme.spacing(8),
+    backgroundColor: (theme) => theme.palette.background.paper,
+    marginTop: (theme) => theme.spacing(8),
   },
   avatar: {
-    width: theme.spacing(32),
-    height: theme.spacing(32),
-    marginRight: theme.spacing(4),
-    marginLeft: theme.spacing(4),
-    marginTop: theme.spacing(4),
+    width: (theme) => theme.spacing(32),
+    height: (theme) => theme.spacing(32),
+    marginRight: (theme) => theme.spacing(4),
+    marginLeft: (theme) => theme.spacing(4),
+    marginTop: (theme) => theme.spacing(4),
   },
   button: {
-    padding: theme.spacing(1, 6, 1, 6),
+    padding: (theme) => theme.spacing(1, 6, 1, 6),
   },
   topSection: {
     display: 'flex',
     flexDirection: 'row',
   },
   title: {
-    marginTop: theme.spacing(10),
-    marginBottom: theme.spacing(4),
-    marginLeft: theme.spacing(4),
+    marginTop: (theme) => theme.spacing(10),
+    marginBottom: (theme) => theme.spacing(4),
+    marginLeft: (theme) => theme.spacing(4),
     fontSize: 19,
     whiteSpace: 'pre-line',
   },
-}));
+};
 
 const User = () => {
   const user = useSelector((state) => state.selectedUser);
+  const router = useRouter();
   const dispatch = useDispatch();
-  const classes = useStyles();
   const theme = useTheme();
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [uploadError, setUploadError] = React.useState(undefined);
@@ -118,11 +120,11 @@ const User = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <div style={{ position: 'relative' }} className={classes.topSection}>
-        <div style={{ textAlign: 'center' }}>
+    <Box sx={styles.root}>
+      <Box style={{ position: 'relative' }} sx={styles.topSection}>
+        <Box style={{ textAlign: 'center' }}>
           {loadingNewImage ? (
-            <div className={classes.avatar}>
+            <div sx={styles.avatar}>
               <CircularProgress color="secondary" style={{ marginTop: '35%' }} />
               <Typography> در حال بارگذاری</Typography>
             </div>
@@ -132,15 +134,15 @@ const User = () => {
               name="myImage"
               onChange={() => {}}
               aria-label="recipe"
-              className={classes.avatar}
+              sx={styles.avatar}
               src={getFullUrl(profileImage)}
             >
-              <Avatar aria-label="recipe" className={classes.avatar} src={'/images/default_profile.jpg'} />
+              <Avatar aria-label="recipe" sx={styles.avatar} src={'/images/default_profile.jpg'} />
             </Avatar>
           )}
           <input
             accept="image/*"
-            className={classes.input}
+            sx={styles.input}
             style={{ display: 'none' }}
             id="raised-button-file"
             multiple
@@ -181,18 +183,18 @@ const User = () => {
             </Button>
           </label>
           {uploadError && <ErrorMessage style={{ margin: '-30px 0px 25px 0px' }} text={uploadError} />}
-        </div>
+        </Box>
 
-        {!isDescriptionEditMode && <div className={classes.title}>{parseContent(about, language)}</div>}
+        {!isDescriptionEditMode && <div sx={styles.title}>{parseContent(about, language)}</div>}
         {isDescriptionEditMode && (
-          <div style={{ margin: '65px 0px 0px 15px', flex: 1 }}>
+          <Box style={{ margin: '65px 0px 0px 15px', flex: 1 }}>
             <CKEditor
               data={about}
               onChange={(event, editor) => {
                 aboutEditData = editor.getData();
               }}
               toolbar={['bold', 'italic', 'code', 'link']}
-            ></CKEditor>
+            />
 
             <SaveCancelButtons
               error={apiError}
@@ -217,13 +219,14 @@ const User = () => {
                 setDescriptionEditMode(false);
               }}
             />
-          </div>
+          </Box>
         )}
+
         <EditIcon
           color="primary"
           style={{
             position: 'absolute',
-            left: '15',
+            right: '15',
             top: '15',
             cursor: 'pointer',
           }}
@@ -231,8 +234,22 @@ const User = () => {
             setDescriptionEditMode(!isDescriptionEditMode);
           }}
         />
-      </div>
-
+        <LogoutIcon
+          color="primary"
+          style={{
+            position: 'absolute',
+            right: '50',
+            top: '15',
+            cursor: 'pointer',
+          }}
+          onClick={async () => {
+            await localStorage.removeItem('JWT_TOKEN');
+            await localStorage.removeItem('USER');
+            dispatch({ type: CURRENT_USER_ACTION, payload: null });
+            return router.replace('/');
+          }}
+        />
+      </Box>
       <AppBar position="static" color="default">
         <Tabs
           value={currentTabIndex}
@@ -269,7 +286,7 @@ const User = () => {
               alteredAnswer.user.publicName = publicName;
               alteredAnswer.user.profileImage = profileImage;
               alteredAnswer.comments = [];
-              return <AnswerItem key={answer.id} {...alteredAnswer}/>;
+              return <AnswerItem key={answer.id} {...alteredAnswer} />;
             })}
         </div>
       </TabPanel>
@@ -290,12 +307,12 @@ const User = () => {
                 answer.user.publicName = publicName;
                 answer.user.profileImage = profileImage;
                 answer.comments = [];
-                return <AnswerItem key={answer.id} {...answer}/>;
+                return <AnswerItem key={answer.id} {...answer} />;
               }
             })}
         </div>
       </TabPanel>
-    </div>
+    </Box>
   );
 };
 

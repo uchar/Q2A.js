@@ -7,9 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { Announcement, Home, Loyalty, Reorder, Settings } from '@material-ui/icons';
+import { Announcement, Home, Loyalty,  Settings } from '@material-ui/icons';
 import Link from 'next/link';
 import { getStrings } from '../../utlities/languageUtilities';
+import {Box} from "@material-ui/core";
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -106,27 +107,25 @@ StyledTreeItem.propTypes = {
   labelText: PropTypes.string.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   treeView: {
     flexGrow: 1,
   },
   root: {
-    margin: theme.spacing(5, 0),
+    margin: (theme)=>theme.spacing(5, 0),
   },
   title: {
     fontSize: '25px',
     fontWeight: '700',
-    margin: theme.spacing(5, 0),
+    margin: (theme)=>theme.spacing(5, 0),
   },
-}));
+};
 
 export default function NavigationMenu() {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <Box sx={styles.root}>
       <TreeView
-        className={classes.treeView}
+        sx={styles.treeView}
         defaultExpanded={['3']}
         defaultCollapseIcon={<ArrowDropDownIcon />}
         defaultExpandIcon={<ArrowRightIcon />}
@@ -162,6 +161,6 @@ export default function NavigationMenu() {
           />
         </StyledTreeItem>
       </TreeView>
-    </div>
+    </Box>
   );
 }

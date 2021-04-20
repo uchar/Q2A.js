@@ -1,14 +1,13 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Header from './Header/Header';
 import Footer from './Footer';
 import JssStylesProvider from './JssStylesProvider';
 import Expansion from '../components/Expansion';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   layoutStyle: {
     display: 'flex',
     flexDirection: 'column',
@@ -20,18 +19,19 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    padding: '0px 2% 0px 2%',
+    padding: '2% 0% 1% 0%',
+    justifyContent: 'center',
+    justifySelf: 'center',
+    alignSelf: 'center',
   },
-}));
+};
 const AskLayout = (props) => {
-  const classes = useStyles();
-
   return (
     <JssStylesProvider>
-      <div className={classes.layoutStyle}>
+      <Box sx={styles.layoutStyle}>
         <Header />
-        <Box className={classes.contentStyle}>
-          <Grid direction="row" justify={'center'} container spacing={2}>
+        <Box sx={styles.contentStyle}>
+          <Grid direction="row" container spacing={2}>
             <Grid item display={{ md: 'none', xs: 'none' }} xs={12}></Grid>
             <Grid item md={8} xs={12}>
               {props.children}
@@ -42,7 +42,7 @@ const AskLayout = (props) => {
           </Grid>
         </Box>
         <Footer />
-      </div>
+      </Box>
     </JssStylesProvider>
   );
 };

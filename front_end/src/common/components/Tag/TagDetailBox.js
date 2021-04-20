@@ -1,23 +1,34 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import { DeepMemo } from '../../utlities/generalUtilities';
 import Tag from './Tag';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    padding: theme.spacing(1, 2, 0, 1),
+    padding: (theme) => theme.spacing(1, 1, 1, 1),
     display: 'flex',
     flex: 1,
-    marginTop: theme.spacing(3),
+    marginTop: (theme) => theme.spacing(3),
     flexDirection: 'column',
     height: '200px',
+    overflow: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '0.4em',
+    },
+    '&::-webkit-scrollbar-track': {
+      boxShadow: 'inset 0 0 0px rgba(0,0,0,0.00)',
+      webkitBoxShadow: 'inset 0 0 0px rgba(0,0,0,0.00)',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.1)',
+      outline: '0px solid slategrey',
+    },
   },
   description: {
     flex: 1,
-    margin: theme.spacing(1, 2, 0, 2),
+    margin: (theme) => theme.spacing(1, 2, 0, 2),
     textAlign: 'initial ',
     fontWeight: 500,
     fontSize: 12,
@@ -27,21 +38,18 @@ const useStyles = makeStyles((theme) => ({
   tagParent: {
     display: 'flex',
     alignItems: 'flex-start',
-    margin: theme.spacing(1, 2, 1, 2),
+    margin: (theme) => theme.spacing(1, 2, 1, 2),
   },
-}));
+};
 
 const TagDetailBox = DeepMemo(function TagDetailBox(props) {
-  const classes = useStyles();
   const { tag, count, description } = props;
   return (
-    <Box boxShadow={2} className={classes.root}>
-      <div className={classes.tagParent}>
-        <Tag className={classes.tag} tag={tag} count={count} />
-      </div>
-      <Typography className={classes.description}>
-        {description}
-      </Typography>
+    <Box boxShadow={2} sx={styles.root}>
+      <Box sx={styles.tagParent}>
+        <Tag sx={styles.tag} tag={tag} count={count} />
+      </Box>
+      <Typography sx={styles.description}>{description}</Typography>
     </Box>
   );
 });

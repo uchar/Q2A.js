@@ -4,7 +4,6 @@ import ClipLoader2 from 'react-spinners/CircleLoader';
 import { isBrowser } from 'react-device-detect';
 import PropTypes from 'prop-types';
 
-
 const Loading = ({ style, browserSize, mobileSize, type }) => {
   return (
     <div className="sweet-loading">

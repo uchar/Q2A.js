@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import QuestionItem from '../../common/components/Post/QuestionItem';
 import Layout from '../../common/layouts/Layout';
@@ -10,17 +9,17 @@ import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utilities';
 import { getStrings } from '../../common/utlities/languageUtilities';
-import { ADD_ANSWER, increaseQuestionViewCount } from '../../API/mutations';
+import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { addRevalidateAndRedux, isInClientBrowser } from '../../common/utlities/generalUtilities';
+import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
 import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION, SELECTED_QUESTION } from '../../redux/constants';
 import Q2aButton from '../../common/components/Q2aButton';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   paper: {
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: (theme) => theme.palette.text.secondary,
   },
   button: {
     margin: '0px 52px 30px 20px',
@@ -29,12 +28,11 @@ const useStyles = makeStyles((theme) => ({
   answerBox: { margin: '25px 25px 0px 25px', paddingTop: '20px' },
   answerBoxTitle: { fontSize: 22, textAlign: 'initial', marginBottom: '20px' },
   submitAnswerButtonParent: { textAlign: 'initial', marginTop: '25px' },
-}));
+};
 
 const Post = () => {
   const dispatch = useDispatch();
   const question = useSelector((state) => state.selectedQuestion);
-  const classes = useStyles();
   const [answerData, setAnswerData] = useState('');
   const [APIError, setAPIError] = React.useState(null);
 
@@ -68,30 +66,30 @@ const Post = () => {
   };
 
   return (
-    <Box className={classes.paper}>
+    <Box sx={styles.paper}>
       <QuestionItem {...question} />
       {question.answers.map((answer) => {
         return <AnswerItem style={{ width: '80%' }} key={answer.id} rootId={question.id} {...answer} />;
       })}
-      <div className={classes.answerBox}>
-        <Typography className={classes.answerBoxTitle}>{getStrings().YOUR_ANSWER}</Typography>
+      <Box sx={styles.answerBox}>
+        <Typography sx={styles.answerBoxTitle}>{getStrings().YOUR_ANSWER}</Typography>
         <CKEditor
           data={answerData}
           onChange={(event, editor) => {
             setAnswerData(editor.getData());
           }}
         />
-      </div>
-      <div className={classes.submitAnswerButtonParent}>
+      </Box>
+      <Box sx={styles.submitAnswerButtonParent}>
         <Q2aButton
           onSubmit={submitAnswer}
           variant="contained"
           color="primary"
-          className={classes.button}
+          sx={styles.button}
           loading={false}
           text={getStrings().ASK_BUTTON_SEND_SUBMIT}
         />
-      </div>
+      </Box>
       {APIError && <ErrorMessage text={APIError} />}
     </Box>
   );

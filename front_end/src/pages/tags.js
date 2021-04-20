@@ -2,27 +2,23 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { css } from '@emotion/react';
 import Layout from '../common/layouts/Layout';
-import LatestQuestion from '../common/components/Post/LatestQuestions';
-import { ALL_BLOG_POSTS, ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
+import { ALL_BLOG_POSTS, ALL_TAGS } from '../API/queries';
 import { doGraphQLQuery } from '../API/utilities';
-import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';
+import { ALL_BLOG_POSTS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';
 import { wrapper } from '../redux/store';
 import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
-import TagDetailsList from "../common/components/Tag/TagDetailsList";
+import TagDetailsList from '../common/components/Tag/TagDetailsList';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+const root = {
+  marginTop: (theme) => theme.spacing(5),
+};
 
 function TagsPage() {
-  const classes = useStyles();
   const tags = useSelector((state) => state.tags);
   return (
-    <Box className={classes.root}>
+    <Box sx={root}>
       <TagDetailsList tags={tags} />
     </Box>
   );

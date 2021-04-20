@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { ALL_BLOG_POSTS, ALL_TAGS } from '../../API/queries';
@@ -10,18 +9,17 @@ import { addRevalidateAndRedux } from '../../common/utlities/generalUtilities';
 import LatestBlogPosts from '../../common/components/Blog/LatestBlogPosts';
 import BlogLayout from '../../common/layouts/BlogLayout';
 
-const useStyles = makeStyles((theme) => ({
+const styles ={
   root: {
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color:(theme)=> theme.palette.text.secondary,
   },
-}));
+};
 
 function BlogMainPage() {
-  const classes = useStyles();
   const blogPosts = useSelector((state) => state.blogPosts);
   return (
-    <Box className={classes.root}>
+    <Box sx={styles.root}>
       <LatestBlogPosts blogPosts={blogPosts} />
     </Box>
   );

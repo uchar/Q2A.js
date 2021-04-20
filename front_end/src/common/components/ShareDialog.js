@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Menu } from '@material-ui/core';
+import { Box, Menu } from '@material-ui/core';
 import {
   EmailIcon,
   EmailShareButton,
@@ -17,7 +17,7 @@ import {
 } from 'react-share';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     maxWidth: '200px',
     minWidth: '500px',
@@ -25,15 +25,14 @@ const useStyles = makeStyles((theme) => ({
   container: {
     width: '150px',
     flexDirection: 'row',
-    padding: theme.spacing(0, 3, 0, 3),
+    padding: (theme) => theme.spacing(0, 3, 0, 3),
   },
   margin: {
-    marginRight: theme.spacing(1),
+    marginRight: (theme) => theme.spacing(1),
   },
-}));
+};
 
 const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
-  const classes = useStyles();
   const [currentUrl, setCurrentUrl] = React.useState('');
   useEffect(() => {
     setCurrentUrl(window.location.href);
@@ -41,7 +40,7 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
   const titleToShare = shareTitle;
   return (
     <Menu
-      className={classes.root}
+      sx={styles.root}
       id="long-menu"
       anchorEl={anchor}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -50,7 +49,7 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
       open={Boolean(anchor)}
       onClose={handleClose}
     >
-      <div className={classes.container}>
+      <Box sx={styles.container}>
         <WhatsappShareButton
           url={currentUrl}
           quote={'test'}
@@ -97,7 +96,7 @@ const ShareDialog = ({ shareTitle, shareBody, anchor, handleClose }) => {
         <FacebookShareButton url={currentUrl} quote={shareTitle} className="Demo__some-network__share-button">
           <FacebookIcon size={32} round />
         </FacebookShareButton>
-      </div>
+      </Box>
     </Menu>
   );
 };

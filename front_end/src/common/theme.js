@@ -54,28 +54,37 @@ const typography = {
     fontSize: '0.8rem',
   },
 };
-// Create a theme instance.
-export const lightTheme = responsiveFontSizes(
-  createMuiTheme(
-    {
-      typography,
-      palette: {
-        type: 'light',
-      },
-      spacing: 5,
+const themeSettingsLight = {
+  typography,
+  spacing: 5,
+  palette: {
+    mode: 'light',
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: '#67775f',
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
     },
-    faIR
-  )
-);
-export const darkTheme = responsiveFontSizes(
-  createMuiTheme(
-    {
-      typography,
-      palette: {
-        type: 'dark',
-      },
-      spacing: 5,
+    secondary: {
+      main: '#ff0000',
+      // dark: will be calculated from palette.secondary.main,
+      // contrastText: '#ffcc00',
     },
-    faIR
-  )
-);
+    textPrimary: {
+      main: '#ff0000',
+    },
+    // Used by `getContrastText()` to maximize the contrast between
+    // the background and the text.
+    contrastThreshold: 3,
+    // Used by the functions below to shift a color's luminance by approximately
+    // two indexes within its tonal palette.
+    // E.g., shift from Red 500 to Red 300 or Red 700.
+    tonalOffset: 0.2,
+  },
+};
+// make a deep copy of light theme
+const themeSettingsDark = JSON.parse(JSON.stringify(themeSettingsLight));
+themeSettingsDark.palette.mode = 'dark';
+
+export const lightTheme = responsiveFontSizes(createMuiTheme(themeSettingsLight, faIR));
+export const darkTheme = responsiveFontSizes(createMuiTheme(themeSettingsDark, faIR));
