@@ -150,6 +150,7 @@ export const GET_STATISTICS = gql`
       tagsCount
       allQuestionsCount
       usersCount
+      blogPostsCount
     }
   }
 `;

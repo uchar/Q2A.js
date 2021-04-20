@@ -18,3 +18,8 @@ export const GET_STATISTICS_DATA = {
   reduxAction: STATISTICS_ACTION,
   responseName: 'getStatistics',
 };
+export const ALL_BLOG_POSTS_DATA = {
+  gql: ALL_BLOG_POSTS,
+  reduxAction: ALL_BLOG_POSTS_ACTION,
+  responseName: 'getBlogPosts',
+};

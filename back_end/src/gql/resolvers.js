@@ -42,7 +42,7 @@ export default {
     getUser,
     getNotifications,
     getBlogPosts,
-    getStatistics
+    getStatistics,
   },
   Mutation: {
     login,

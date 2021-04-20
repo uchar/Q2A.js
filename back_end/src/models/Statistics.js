@@ -17,6 +17,12 @@ export default {
     defaultValue: 0,
     validate: { min: 0 },
   },
+  blogPostsCount: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    validate: { min: 0 },
+  },
   usersCount: {
     type: Sequelize.INTEGER,
     allowNull: false,

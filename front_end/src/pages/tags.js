@@ -27,7 +27,7 @@ const TagsPage = () => {
     <Box sx={root}>
       <TagDetailsList tags={tags} />
       {statistics && (
-        <Pagination pageCount={getPageCount(12, statistics.tagsCount)} onChange={handlePageChange} />
+        <Pagination pageCount={getPageCount(statistics.tagsCount)} onChange={handlePageChange} />
       )}
     </Box>
   );

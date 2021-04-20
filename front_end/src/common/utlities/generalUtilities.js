@@ -64,7 +64,7 @@ export const isInClientBrowser = () => {
   return typeof window !== 'undefined';
 };
 
-export const getPageCount = (perPageCount, totalCount) => {
+export const getPageCount = (totalCount, perPageCount = 12) => {
   return Math.ceil((totalCount * 1.0) / perPageCount);
 };
 

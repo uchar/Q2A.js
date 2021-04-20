@@ -148,6 +148,7 @@ export default gql`
     tagsCount: Int!
     allQuestionsCount: Int!
     usersCount: Int!
+    blogPostsCount: Int!
   }
 
   type Query {
