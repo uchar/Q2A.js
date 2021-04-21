@@ -7,6 +7,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Box } from '@material-ui/core';
 import AccordionActions from '@material-ui/core/AccordionActions';
 import Button from '@material-ui/core/Button';
+import { parse } from 'node-html-parser';
+import * as lodash from 'lodash';
+import CodeBlock from '../CodeBlock';
 
 const styles = {
   root: {
@@ -19,45 +22,65 @@ const styles = {
     fontWeight: '600',
   },
   secondaryHeading: {},
-  accordionGroup: {
-    // backgroundColor: '#F6F8FB',
-  },
+  accordionGroup: {},
   bottomAccordion: { marginTop: (theme) => theme.spacing(5) },
 };
 
-export default function ControlledAccordion() {
+const data = [
+  {
+    id: 1,
+    text: 'Clone code from git:',
+    code: 'git clone https://github.com/uchar/Q2A.js.git',
+  },
+  {
+    id: 2,
+    text:
+      'In backend folder Rename .sample to .env and fill the following fields ' +
+      'and In frontend folder Rename .sample to .env and fill the following fields',
+    code: 'yarn install_packages',
+  },
+  {
+    id: 3,
+    text: '(Optional) Add test datas',
+    code: 'yarn api_setup',
+  },
+  {
+    id: 4,
+    text: 'Run API',
+    code: 'yarn api_run_dev',
+  },
+  {
+    id: 5,
+    text: 'RUN Q2A',
+    code: 'yarn frontend_run_dev',
+  },
+];
+const unescapeCode = (escapedHTML) => {
+  return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+};
+export default function ControlledAccordion(props) {
   const [expanded, setExpanded] = React.useState('panel1');
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   return (
-    <Box sx={styles.root}>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+    <Box sx={{ ...styles.root, ...props.sx }}>
+      <Accordion boxShadow={12} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary
           sx={styles.accordionGroup}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={styles.heading}>Install - The easy way (for non programmers) </Typography>
+          <Typography sx={styles.heading}>Run Q2A - The Simple Way</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {[1, 2].map((item, index) => (
+          {[1].map((item, index) => (
             <Typography key={index}>
-              {` CDN
-              You can start using Material-UI with minimal Front-end infrastructure, which is great for prototyping.
-
-              Two Universal Module Definition (UMD) files are provided:
-
-              one for development: https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js
-              one for production: https://unpkg.com/@material-ui/core@latest/umd/material-ui.production.min.js
-              You can follow this CDN example to quickly get started.
-
-              ⚠️ Using this approach in production is discouraged though - the client has to download the entire library, regardless of which components are actually used, affecting performance and bandwidth utilization.
-
-              ⚠️ The UMD links are using the latest tag to point to the latest version of the library. This pointer is unstable, it shifts as we release new versions. You should consider pointing to a specific version, such as v4.4.0.
-              `}
+              Download setup script from <a href="#">LINK</a> and run it as adminstrator. This will install
+              necessary applications including mysql/php/apache/phpMyAdmin/node.js/npm/yarn for you This
+              script only works on windows, if you use other OS, Check Install - Advance method
             </Typography>
           ))}
         </AccordionDetails>
@@ -75,13 +98,36 @@ export default function ControlledAccordion() {
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography sx={styles.heading}>Install - The hard way (for e.g programmers )</Typography>
+          <Typography sx={styles.heading}>Run Q2A - The Advance Way</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar diam eros
-            in elit. Pellentesque convallis laoreet laoreet.
-          </Typography>
+          <ul>
+            <li>
+              <Typography>Install MySQL</Typography>
+            </li>
+            <li>
+              <Typography>
+                Install node/js 14.16.x (better to use{' '}
+                <a href="https://github.com/coreybutler/nvm-windows/releases">nvm</a>)
+              </Typography>
+            </li>
+            <li>
+              <Typography>Install yarn</Typography>
+            </li>
+            <li>
+              <Typography>Create your database (Set encoding to utf8mb4)</Typography>
+            </li>
+          </ul>
+          {data?.map((item) => (
+            <Box key={item.id}>
+              <ul>
+                <li>
+                  <Typography> {item.text}</Typography>
+                  <CodeBlock lang={'git'} code={unescapeCode(item.code)} showLineNumbers={false} />
+                </li>
+              </ul>
+            </Box>
+          ))}
         </AccordionDetails>
         <AccordionActions>
           <Button size="small">More</Button>

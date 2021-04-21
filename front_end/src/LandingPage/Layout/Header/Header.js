@@ -8,6 +8,8 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Grid from '@material-ui/core/Grid';
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = {
   root: {
@@ -84,6 +86,11 @@ export default function Header() {
                 </Link>
               </Grid>
             </Box>
+            <Link href="https://github.com/uchar/Q2A.js">
+              <a style={styles.a}>
+                <GitHubIcon />
+              </a>
+            </Link>
           </Toolbar>
         </AppBar>
       </ElevationScroll>

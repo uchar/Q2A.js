@@ -1,47 +1,73 @@
 import React from 'react';
-import { Box, Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Feature from '../../common/components/LandingPage/Feature';
 
 const data = [
   {
-    id: 1,
+    id: 0,
     icon: '1.png',
     path: '#!',
-    title: 'ultimate Email  subscription',
-    description: `Get your info tests delivered at home collect a sample from the your task.`,
+    title: 'What is a Question & Answer site?',
+    description: `A Q&A site helps your online community to share knowledge. People with questions get the answers they need. 
+    The community is enriched by commenting, voting, notifications, points and rankings.`,
+  },
+  {
+    id: 1,
+    icon: '2.png',
+    path: '#!',
+    title: 'Why offer Q&A on my site?',
+    description: `Your members will enjoy the interaction that Q&A enables, and will visit your site more regularly. In addition,
+     many web searches are questions, so Q&A content will attract search engine traffic.`,
   },
   {
     id: 2,
-    icon: '2.png',
+    icon: '3.png',
     path: '#!',
-    title: 'Bolt Performance',
-    description: `Get your info tests delivered at home collect a sample from the your task.`,
+    title: 'How do I get Q2A?',
+    description: `Download Question2Answer, then read how to install. Version 1.8.6 was released on April 20th, 2021. Also on GitHub.`,
   },
   {
     id: 3,
-    icon: '3.png',
+    icon: '4.png',
     path: '#!',
-    title: 'Secure Transaction',
+    title: 'What does Q2A need?',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 4,
-    icon: '4.png',
+    icon: '5.png',
     path: '#!',
-    title: 'Multiple Options',
-    description: `Get your info tests delivered at home collect a sample from the your task.`,
+    title: 'Core Q&A features',
+    description: `Fast integrated search engine.
+Categories (up to 4 levels deep) and/or tagging.
+Voting, comments, follow-on and closed questions.
+Points-based reputation management.`,
   },
   {
     id: 5,
-    icon: '5.png',
+    icon: '6.png',
     path: '#!',
-    title: '5 Star Rating service',
+    title: 'Fast and secure',
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
   {
     id: 6,
+    icon: '6.png',
+    path: '#!',
+    title: 'How can I help?',
+    description: `Get your info tests delivered at home collect a sample from the your task.`,
+  },
+  {
+    id: 7,
+    icon: '6.png',
+    path: '#!',
+    title: 'Integrated with Shopify',
+    description: `Get your info tests delivered at home collect a sample from the your task.`,
+  },
+  {
+    id: 8,
     icon: '6.png',
     path: '#!',
     title: 'Integrated with Shopify',
@@ -50,14 +76,11 @@ const data = [
 ];
 const styles = {
   root: {
-    padding: (theme) => theme.spacing(2),
+    padding: (theme) => theme.spacing(2, 2, 15, 2),
     textAlign: 'center',
-    backgroundColor: '#F9FAFC',
-    marginTop: '150px',
+    backgroundColor: '#96b1ad0d',
   },
-  grid: {
-    justifyContent: 'center',
-  },
+  grid: {},
   title: {
     textAlign: 'center',
     maxWidth: 660,
@@ -78,29 +101,25 @@ const styles = {
     color: '#000000',
   },
 };
+
 const Services = (props) => {
   return (
-    <Grid sx={styles.root} id="services">
-      <Grid container sx={styles.grid} boxShadow={3} spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h1" sx={styles.title}>
-            Ultimate features you must appreciate
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h3" sx={styles.description}>
-            Get your blood tests delivered at let home collect sample from the victory of the managements that
-            supplies best design system guidelines ever. Email
-          </Typography>
-        </Grid>
-
+    <Box sx={{ ...styles.root, ...props.sx }} id="services">
+      <Typography variant="h1" sx={styles.title}>
+        Ultimate features you must appreciate
+      </Typography>
+      <Typography variant="h3" sx={styles.description}>
+        Get your blood tests delivered at let home collect sample from the victory of the managements that
+        supplies best design system guidelines ever. Email
+      </Typography>
+      <Grid sx={styles.grid} spacing={6} container>
         {data?.map((service) => (
           <Grid item key={service.id} md={4} xs={12}>
             <Feature key={service.id} data={service} />
           </Grid>
         ))}
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 

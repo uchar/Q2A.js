@@ -37,7 +37,7 @@ const UltimateFeatures = (props) => {
         <Grid item xs={12} sm={6} direction="row" alignItems="center">
           <img style={styles.image} src="/images/banner.png" alt="Picture of the author" />
         </Grid>
-        <Grid item xs={12} sm={6} sx={styles.content}>
+          <Grid item xs={12} sm={6} sx={styles.content}>
           <Typography sx={styles.title} variant="h1">
             Build your audience &amp;
             <br /> grow your business online smarter
