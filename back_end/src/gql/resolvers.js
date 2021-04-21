@@ -25,6 +25,7 @@ import {
   updateComment,
   updateQuestion,
   increaseQuestionViewCount,
+  togglePostActiveStatus,
 } from '../mutations/post.js';
 import { getStatistics } from '../queries/statistic.js';
 // import { uploadFile } from '../mutations/upload.js';
@@ -59,6 +60,7 @@ export default {
     setReadAllNotifications,
     addBlogPost,
     increaseViewCount: increaseQuestionViewCount,
+    togglePostActiveStatus,
   },
   Question: {
     answers: getAnswers,

@@ -23,7 +23,7 @@ describe('post mutations api', () => {
 
   const getStatistics = async (language) => {
     const Statistics = databaseUtils().loadModel(TABLES.STATISTICS_TABLE);
-    return  Statistics.findOne({
+    return Statistics.findOne({
       where: { language },
     });
   };

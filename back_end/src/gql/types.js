@@ -186,5 +186,6 @@ export default gql`
     updateUser(id: String!, input: UpdateUserInput!): Result
     setReadAllNotifications(language: Language!): Result
     increaseViewCount(language: Language!, id: String!): Result
+    togglePostActiveStatus(language: Language!, id: String!): Result
   }
 `;
