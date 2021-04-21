@@ -18,7 +18,13 @@ module.exports = {
       version: 'detect',
     },
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'airbnb-base', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'airbnb-base',
+    'plugin:prettier/recommended',
+    'plugin:cypress/recommended',
+  ],
   parser: 'babel-eslint',
   env: {
     jest: true,
