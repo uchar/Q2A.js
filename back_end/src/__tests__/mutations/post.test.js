@@ -6,18 +6,26 @@ import {
   addComment,
   updateComment,
   increaseQuestionViewCount,
+  togglePostActiveStatus,
 } from '../../mutations/post.js';
 import { STATUS_CODE, TABLES } from '../../constants.js';
 import { makeContext, questionData, questionUpdatedData } from '../../testUtility';
 import databaseUtils from '../../db/database';
 
 describe('post mutations api', () => {
-  const testCount = async (id, column, value) => {
+  const testPostColumn = async (id, columnToCheck, valueToBe) => {
     const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
     const questionAfterIncrease = await Post.findOne({
       where: { id },
     });
-    expect(questionAfterIncrease[column]).toBe(value);
+    expect(questionAfterIncrease[columnToCheck]).toBe(valueToBe);
+  };
+
+  const getStatistics = async (language) => {
+    const Statistics = databaseUtils().loadModel(TABLES.STATISTICS_TABLE);
+    return  Statistics.findOne({
+      where: { language },
+    });
   };
 
   const testAddQuestionWrongInput = async (language, title, content, tags) => {
@@ -77,7 +85,6 @@ describe('post mutations api', () => {
       if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
     }
-    console.log('result:', result);
     if (result) expect(`Update Answer should give error with:' ${answerId},${content}`).toBe(false);
   };
 
@@ -102,8 +109,13 @@ describe('post mutations api', () => {
     if (result) expect(`Update Answer should give error with:' ${commentId},${content}`).toBe(false);
   };
   // AddQuestion
-  test('if correct input for addQuestion give success', async () => {
+  test('if correct input for addQuestion works', async () => {
+    const statisticsBefore = await getStatistics(questionData.language);
     const result = await addNewQuestion();
+    const statisticsAfter = await getStatistics(questionData.language);
+    expect(statisticsBefore.allQuestionsCount + 1).toBe(statisticsAfter.allQuestionsCount);
+    await testPostColumn(result.id, 'title', questionData.title);
+    await testPostColumn(result.id, 'content', questionData.content);
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 
@@ -191,7 +203,7 @@ describe('post mutations api', () => {
       { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
       makeContext()
     );
-    await testCount(questionId, 'answersCount', 1);
+    await testPostColumn(questionId, 'answersCount', 1);
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
   test("if wrong input for addAnswer shouldn't work", async () => {
@@ -288,6 +300,7 @@ describe('post mutations api', () => {
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
+
   test("if wrong input for updateComment shouldn't work", async () => {
     const question = await addNewQuestion();
     const questionId = question.id;
@@ -304,8 +317,17 @@ describe('post mutations api', () => {
   test('if increaseQuestionViewCount works', async () => {
     const question = await addNewQuestion();
     await increaseQuestionViewCount(null, { id: question.id });
-    await testCount(question.id, 'viewsCount', 1);
+    await testPostColumn(question.id, 'viewsCount', 1);
     await increaseQuestionViewCount(null, { id: question.id });
-    await testCount(question.id, 'viewsCount', 2);
+    await testPostColumn(question.id, 'viewsCount', 2);
+  });
+
+  test('if toggleActiveStatus works', async () => {
+    const question = await addNewQuestion();
+    await testPostColumn(question.id, 'active', true);
+    await togglePostActiveStatus(null, { id: question.id });
+    await testPostColumn(question.id, 'active', false);
+    await togglePostActiveStatus(null, { id: question.id });
+    await testPostColumn(question.id, 'active', true);
   });
 });

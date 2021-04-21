@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { Sequelize } from 'sequelize';
 import databaseUtils from '../db/database.js';
 import { POST_TYPES, TABLES, STATUS_CODE, LANGUAGE } from '../constants.js';
 import {
@@ -6,6 +7,7 @@ import {
   findUserByName,
   checkInputValidation,
   createAddSuccessResponse,
+  updateStatistics,
 } from '../utility.js';
 
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
@@ -87,6 +89,7 @@ const addQuestion = async (_, { language, title, content, tags }, context) => {
     context
   );
   const newPost = resultOfPost.dataValues;
+  await updateStatistics(language, 'allQuestionsCount');
   return createAddSuccessResponse(newPost.id, `/${newPost.id}/${encodeURIComponent(title)}`);
 };
 
@@ -206,6 +209,18 @@ const increaseQuestionViewCount = async (_, { id }) => {
   return createSuccessResponse();
 };
 
+const togglePostActiveStatus = async (_, { id }) => {
+  await checkInputValidation(
+    yup.object().shape({
+      id: yup.string().required(),
+    }),
+    { id }
+  );
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  await Post.update({ active: Sequelize.literal('NOT active') }, { where: { id } });
+  return createSuccessResponse();
+};
+
 export {
   addComment,
   addAnswer,
@@ -214,4 +229,5 @@ export {
   updateAnswer,
   addQuestion,
   increaseQuestionViewCount,
+  togglePostActiveStatus,
 };
