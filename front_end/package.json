@@ -46,7 +46,7 @@
     "react-dom": "17.0.2",
     "react-fast-compare": "3.2.0",
     "react-google-login": "5.2.2",
-    "react-infinite-scroll-component": "6.0.0",
+    "react-infinite-scroll-component": "6.1.0",
     "react-jss": "10.6.0",
     "react-redux": "7.2.3",
     "react-render-html": "0.6.0",
