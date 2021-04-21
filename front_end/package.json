@@ -16,7 +16,7 @@
     "ckeditor5-build-q2a.js": "1.0.3",
     "@ckeditor/ckeditor5-react": "3.0.2",
     "@material-ui/core": "5.0.0-alpha.30",
-    "@material-ui/icons": "5.0.0-alpha.28",
+    "@material-ui/icons": "5.0.0-alpha.29",
     "@material-ui/lab": "5.0.0-alpha.30",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.3.0",
