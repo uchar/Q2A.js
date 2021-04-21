@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import databaseUtils from './db/database.js';
 import { TABLES, STATUS_CODE } from './constants.js';
@@ -81,15 +80,16 @@ const checkInputValidation = async (schema, schemaParams) => {
   await schema.validate(schemaParams);
   return true;
 };
-const legacyHash = (password, salt) => {
-  return crypto
-    .createHash('sha1')
-    .update(salt.substr(0, 8) + password + salt.substr(8, salt.length))
-    .digest();
-};
 
 const isInTestMode = () => {
   return process.env.JEST_WORKER_ID;
+};
+
+const updateStatistics = (language, columnToChange, isIncrease = true) => {
+  const Statistics = databaseUtils().loadModel(TABLES.STATISTICS_TABLE);
+  const incrPart = {};
+  incrPart[columnToChange] = isIncrease ? 1 : -1;
+  return Statistics.increment(incrPart, { where: { language } });
 };
 
 export {
@@ -99,10 +99,10 @@ export {
   findUserByEmail,
   createValidationResponse,
   createSuccessResponse,
-  legacyHash,
   isInTestMode,
   createAuthorizationErrorResponse,
   createInputErrorResponse,
   findUserById,
   createAddSuccessResponse,
+  updateStatistics,
 };

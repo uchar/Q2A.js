@@ -31,6 +31,7 @@ const PostToolbar = ({
   commentCallback,
   showDisable,
   disableCallback,
+  active,
 }) => {
   const [shareAnchor, setShareAnchor] = React.useState(null);
 
@@ -72,9 +73,9 @@ const PostToolbar = ({
         )}
       {showDisable &&
         getItem(
-          getStrings().POST_TOOLBAR_DEACTIVE,
-          (event) => {
-            disableCallback(event);
+          active ? getStrings().POST_TOOLBAR_DEACTIVE : getStrings().POST_TOOLBAR_ACTIVE,
+          async (event) => {
+            return disableCallback(event);
           },
           styles.item
         )}
@@ -99,5 +100,6 @@ PostToolbar.propTypes = {
   commentCallback: PropTypes.func.isRequired,
   showDisable: PropTypes.bool.isRequired,
   disableCallback: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
 };
 export default PostToolbar;

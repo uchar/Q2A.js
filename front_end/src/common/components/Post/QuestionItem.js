@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { useStore } from 'react-redux';
 import { parseContent } from '../../parsers/parser';
-import { DeepMemo, getTagsArray, isInClientBrowser } from '../../utlities/generalUtilities';
+import {
+  DeepMemo,
+  getItemsAndDispatch,
+  getTagsArray,
+  isInClientBrowser,
+} from '../../utlities/generalUtilities';
 import EditQuestion from './EditQuestion';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
@@ -12,20 +18,21 @@ import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
 import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
 import { getLanguage } from '../../utlities/languageUtilities';
-import { increaseViewCount } from '../../../API/mutations';
+import { increaseViewCount, togglePostActiveStatus } from '../../../API/mutations';
+import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';
 
 const styles = {
   root: {
-    margin:(theme)=> theme.spacing(5, 1, 5, 1),
-    padding: (theme)=>theme.spacing(1, 1.5, 1, 1.5),
-    paddingBottom: (theme)=>theme.spacing(3),
+    margin: (theme) => theme.spacing(5, 1, 5, 1),
+    padding: (theme) => theme.spacing(1, 1.5, 1, 1.5),
+    paddingBottom: (theme) => theme.spacing(3),
   },
   tagsSection: {
-    margin:(theme)=> theme.spacing(4, 0, 1, 2),
+    margin: (theme) => theme.spacing(4, 0, 1, 2),
   },
   title: {
-    marginTop: (theme)=>theme.spacing(6),
-    marginBottom: (theme)=>theme.spacing(2),
+    marginTop: (theme) => theme.spacing(6),
+    marginBottom: (theme) => theme.spacing(2),
     textAlign: 'initial ',
     cursor: 'pointer',
     wordWrap: 'break-word',
@@ -35,10 +42,10 @@ const styles = {
     },
   },
   titleSection: {
-    margin:(theme)=> theme.spacing(5, 2, 0, 3),
+    margin: (theme) => theme.spacing(5, 2, 0, 3),
   },
   contentDiv: {
-    marginTop:(theme)=> theme.spacing(2),
+    marginTop: (theme) => theme.spacing(2),
   },
 };
 
@@ -57,6 +64,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   tag3,
   tag4,
   tag5,
+  active,
 }) {
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
@@ -64,7 +72,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
   const parsedContent = parseContent(content, getLanguage());
-
+  const store = useStore();
   useEffect(() => {
     const getUserId = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_POST);
@@ -83,8 +91,13 @@ const QuestionItem = DeepMemo(function QuestionItem({
     setIsEditMode(false);
   };
 
+  const handleDisable = async () => {
+    await doGraphQLMutation(togglePostActiveStatus, { id });
+    return getItemsAndDispatch(SELECTED_QUESTION_QUESTIONS_DATA, { id }, store);
+  };
+
   return (
-    <Box boxShadow={2} sx={styles.root}>
+    <Box bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
       <Grid container direction="row" justify="space-between" alignItems="center">
         <ProfileImageWithName
           href={`/user/${publicName}`}
@@ -127,11 +140,12 @@ const QuestionItem = DeepMemo(function QuestionItem({
         editCallBack={() => {
           setIsEditMode(true);
         }}
+        active={active}
         showComment
         commentCallback={() => {
           setIsCommentMode(!isCommentMode);
         }}
-        disableCallback={() => {}}
+        disableCallback={handleDisable}
       />
 
       <AddComment
@@ -161,6 +175,7 @@ QuestionItem.propTypes = {
   tag3: PropTypes.string,
   tag4: PropTypes.string,
   tag5: PropTypes.string,
+  active: PropTypes.bool,
   createdAt: PropTypes.string.isRequired,
 };
 export default QuestionItem;

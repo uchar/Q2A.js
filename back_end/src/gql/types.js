@@ -64,8 +64,8 @@ export default gql`
   }
   type Question {
     id: String!
-    title: String
-    content: String
+    title: String!
+    content: String!
     user: User
     createdAt: String
     viewsCount: Int
@@ -78,31 +78,34 @@ export default gql`
     tag5: String
     answers: [Answer]
     comments: [Comment]
+    active: Boolean!
   }
 
   type Answer {
     id: String!
-    content: String
+    content: String!
     user: User
     votesCount: Int
     isLegacyContent: Boolean
     createdAt: String
     comments: [Comment]
+    active: Boolean!
   }
 
   type Comment {
     id: String!
-    content: String
+    content: String!
     user: User
     isLegacyContent: Boolean
     createdAt: String
+    active: Boolean!
   }
 
   type Tag {
     id: String!
-    title: String
+    title: String!
     content: String
-    used: Int
+    used: Int!
   }
 
   type Notification {
@@ -186,5 +189,6 @@ export default gql`
     updateUser(id: String!, input: UpdateUserInput!): Result
     setReadAllNotifications(language: Language!): Result
     increaseViewCount(language: Language!, id: String!): Result
+    togglePostActiveStatus(language: Language!, id: String!): Result
   }
 `;

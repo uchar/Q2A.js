@@ -65,6 +65,7 @@ const STRINGS = {
   NAVIGATION_QUESTIONS_LIST: 'Questions List',
   NAVIGATION_TAGS_LIST: 'Tags List',
   POST_TOOLBAR_DEACTIVE: 'Deactivate ',
+  POST_TOOLBAR_ACTIVE: 'Activate ',
   POST_TOOLBAR_COMMENT: 'Comment',
   POST_TOOLBAR_EDIT: 'Edit',
   POST_TOOLBAR_SHARE: 'Share',

@@ -18,6 +18,16 @@ export const increaseViewCount = gql`
     }
   }
 `;
+
+export const togglePostActiveStatus = gql`
+  mutation($language: Language!, $id: String!) {
+    togglePostActiveStatus(language: $language, id: $id) {
+      statusCode
+      message
+    }
+  }
+`;
+
 export const ADD_ANSWER = gql`
   mutation($language: Language!, $postId: String!, $content: String!) {
     addAnswer(language: $language, postId: $postId, content: $content) {

@@ -22,6 +22,7 @@ const QUESTION = `{
     tag3
     tag4
     tag5
+    active
   }`;
 
 export const GET_ALL_QUESTIONS = gql`
@@ -74,17 +75,20 @@ export const GET_QUESTION = gql`
       tag3
       tag4
       tag5
+      active
       answers {
         id
         content
         ${userType}
         votesCount
         createdAt
+        active
         comments {
           id
           content
           ${userType}
           createdAt
+          active
         }
       }
       comments {
@@ -92,6 +96,7 @@ export const GET_QUESTION = gql`
         content
         ${userType}
         createdAt
+        active
       }
     }
   }
@@ -193,6 +198,7 @@ export const GET_USER = gql`
         content
         votesCount
         createdAt
+        active
       }
       questions {
         id
@@ -207,6 +213,7 @@ export const GET_USER = gql`
         tag3
         tag4
         tag5
+        active
       }
       clapItems {
         type
@@ -216,6 +223,7 @@ export const GET_USER = gql`
           ${userType}
           votesCount
           createdAt
+          active
         }
         question {
           id
@@ -231,6 +239,7 @@ export const GET_USER = gql`
           tag3
           tag4
           tag5
+          active
         }
       }
     }

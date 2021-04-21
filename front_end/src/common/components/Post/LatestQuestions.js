@@ -111,7 +111,7 @@ const LatestQuestions = ({ tag, questions, statistics }) => {
         {getQuestionsList(latestQuestions)}
         {statistics && (
           <Pagination
-            pageCount={getPageCount(statistics.allQuestionsCount, 2)}
+            pageCount={getPageCount(statistics.allQuestionsCount)}
             onChange={handlePageChange(LATEST_QUESTIONS_DATA)}
           />
         )}
@@ -120,7 +120,7 @@ const LatestQuestions = ({ tag, questions, statistics }) => {
         {getQuestionsList(popularQuestions)}
         {statistics && (
           <Pagination
-            pageCount={getPageCount(statistics.allQuestionsCount, 2)}
+            pageCount={getPageCount(statistics.allQuestionsCount)}
             onChange={handlePageChange(POPULAR_QUESTIONS_DATA)}
           />
         )}
@@ -129,7 +129,7 @@ const LatestQuestions = ({ tag, questions, statistics }) => {
         {getQuestionsList(mostViewsQuestions)}
         {statistics && (
           <Pagination
-            pageCount={getPageCount(statistics.allQuestionsCount, 2)}
+            pageCount={getPageCount(statistics.allQuestionsCount)}
             onChange={handlePageChange(MOST_VIEWS_QUESTIONS_DATA)}
           />
         )}
@@ -138,7 +138,7 @@ const LatestQuestions = ({ tag, questions, statistics }) => {
         {getQuestionsList(noAnswersQuestions)}
         {statistics && (
           <Pagination
-            pageCount={getPageCount(statistics.allQuestionsCount, 2)}
+            pageCount={getPageCount(statistics.allQuestionsCount)}
             onChange={handlePageChange(NO_ANSWERS_QUESTIONS_DATA)}
           />
         )}
