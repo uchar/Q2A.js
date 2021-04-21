@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, CardContent, Grid, makeStyles } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { Box, CardContent, Grid } from '@material-ui/core';
+import { useDispatch, useStore } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parseContent } from '../../parsers/parser';
 import CommentsSection from './CommentsSection';
@@ -10,12 +10,13 @@ import PostToolbar from './PostToolbar';
 import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
-import { UPDATE_ANSWER } from '../../../API/mutations';
+import { togglePostActiveStatus, UPDATE_ANSWER } from '../../../API/mutations';
 import AddComment from './AddComment';
-import { DeepMemo } from '../../utlities/generalUtilities';
+import { DeepMemo, getItemsAndDispatch } from '../../utlities/generalUtilities';
 import { GET_QUESTION } from '../../../API/queries';
 import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
 import { getLanguage } from '../../utlities/languageUtilities';
+import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';
 
 const styles = {
   root: {
@@ -33,6 +34,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
   votesCount,
   comments,
   rootId,
+  active,
 }) {
   const dispatch = useDispatch();
   const { publicName, profileImage, score } = user;
@@ -41,6 +43,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
   const [editData, setEditData] = React.useState(false);
   const [isCommentMode, setIsCommentMode] = React.useState(false);
   const [apiError, setAPIError] = React.useState(undefined);
+  const store = useStore();
   useEffect(() => {
     const getUser = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_POST);
@@ -92,8 +95,14 @@ const AnswerItem = DeepMemo(function AnswerItem({
   const handleAddCommentCancel = () => {
     setIsCommentMode(false);
   };
+
+  const handleDisable = async () => {
+    await doGraphQLMutation(togglePostActiveStatus, { id });
+    return getItemsAndDispatch(SELECTED_QUESTION_QUESTIONS_DATA, { id: rootId }, store);
+  };
+
   return (
-    <Box boxShadow={4} sx={styles.root}>
+    <Box bgcolor={active ? 'default' : 'text.disabled'} boxShadow={4} sx={styles.root}>
       <CardContent>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <ProfileImageWithName
@@ -121,7 +130,8 @@ const AnswerItem = DeepMemo(function AnswerItem({
         showEdit={isAccessEnough}
         showDisable={isAccessEnough}
         editCallBack={handleEditCallback}
-        disableCallback={() => {}}
+        disableCallback={handleDisable}
+        active={active}
         showComment
         commentCallback={handleCommentCallback}
       />

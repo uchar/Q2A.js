@@ -8,11 +8,12 @@ const getTypeTagWhereClause = (language, type, tag) => {
   if (tag) {
     return {
       type,
+      active: 1,
       language,
       [Op.or]: [{ tag1: tag }, { tag2: tag }, { tag3: tag }, { tag4: tag }, { tag5: tag }],
     };
   }
-  return { type, language };
+  return { type, language, active: 1 };
 };
 
 const getQuestionsOrderBy = async (language, tag, order, limit, offset, augmentWhereClause = undefined) => {
@@ -23,6 +24,7 @@ const getQuestionsOrderBy = async (language, tag, order, limit, offset, augmentW
   if (augmentWhereClause) {
     tagWhereClause = augmentWhereClause(tagWhereClause);
   }
+
   return Post.findAll({
     where: tagWhereClause,
     order,
