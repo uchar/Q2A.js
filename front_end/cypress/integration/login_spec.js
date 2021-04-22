@@ -1,6 +1,6 @@
 import user from '../fixtures/login_user.json';
 
-describe('Login test', () => {
+describe('Login Page', () => {
   it('login with wrong inputs', () => {
     cy.visit('/login');
     cy.get('input[id="username"]').type('wrong_user');
