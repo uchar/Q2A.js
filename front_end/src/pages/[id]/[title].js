@@ -13,11 +13,12 @@ import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { addRevalidateAndRedux, getItemsAndDispatch } from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
-import {  SELECTED_QUESTION_ACTION } from '../../redux/constants';
+import { SELECTED_QUESTION_ACTION } from '../../redux/constants';
 import Q2aButton from '../../common/components/Q2aButton';
 import {
   GET_ALL_BLOG_POSTS_DATA,
   GET_ALL_TAGS_DATA,
+  SELECTED_QUESTION_QUESTIONS_DATA,
 } from '../../common/constants';
 
 const styles = {
@@ -110,7 +111,7 @@ export const getStaticProps = async (props) =>
     props,
     wrapper.getStaticProps(async ({ store }) => {
       const { id } = props.params;
-      await getItemsAndDispatch(SELECTED_QUESTION_ACTION, { id }, store);
+      await getItemsAndDispatch(SELECTED_QUESTION_QUESTIONS_DATA, { id }, store);
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
       await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
     })

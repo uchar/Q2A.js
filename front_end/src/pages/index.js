@@ -31,7 +31,7 @@ export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
     wrapper.getStaticProps(async ({ store }) => {
-      await getItemsAndDispatch(ALL_QUESTIONS_DATA, { limit: 2, offset: 0 }, store);
+      await getItemsAndDispatch(ALL_QUESTIONS_DATA, { limit: 12, offset: 0 }, store);
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
       await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
       await getItemsAndDispatch(GET_STATISTICS_DATA, {}, store);

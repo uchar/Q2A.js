@@ -26,18 +26,9 @@ import CKEditor from '../../common/components/Editor/CKEditor';
 import { parseContent } from '../../common/parsers/parser';
 import SaveCancelButtons from '../../common/components/SaveCancelButtons';
 import { wrapper } from '../../redux/store';
-import {
-  CURRENT_USER_ACTION,
-  SELECTED_USER_ACTION,
-} from '../../redux/constants';
+import { CURRENT_USER_ACTION, SELECTED_USER_ACTION } from '../../redux/constants';
 import { getStrings } from '../../common/utlities/languageUtilities';
-import {
-  ALL_QUESTIONS_DATA,
-  GET_ALL_BLOG_POSTS_DATA,
-  GET_ALL_TAGS_DATA,
-  GET_STATISTICS_DATA,
-  GET_USER_DATA,
-} from '../../common/constants';
+import { GET_ALL_BLOG_POSTS_DATA, GET_ALL_TAGS_DATA, GET_USER_DATA } from '../../common/constants';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

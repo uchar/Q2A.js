@@ -74,6 +74,7 @@ const permissions = shield({
     updateUser: or(isAdmin, isSuperAdmin, isSelf),
     setReadAllNotifications: isAuthenticated,
     increaseViewCount: isPublic,
+    togglePostActiveStatus: or(isAdmin, isSuperAdmin, isSelf),
   },
   User: isPublic,
   Question: isPublic,
