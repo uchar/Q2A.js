@@ -9,6 +9,7 @@ import createDatabasePromise from './db/createDatabase.js';
 import resolvers from './gql/resolvers.js';
 import typeDefs from './gql/types.js';
 import { permissions } from './gql/permissions.js';
+import routerV1 from './rest_api/routerV1.js';
 
 const port = 4000;
 const path = '/graphql';
@@ -50,7 +51,11 @@ createDatabasePromise.then(() => {
     context: ({ req }) => ({
       user: req.user,
     }),
+    uploads: false,
   });
   server.applyMiddleware({ app, path });
+
+  app.use('/api/v1', routerV1);
+
   app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));
 });

@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  scalar Upload
+
   enum Role {
     USER_CONFIRMED
     USER_NOT_CONFIRMED
@@ -153,6 +155,10 @@ export default gql`
     usersCount: Int!
     blogPostsCount: Int!
   }
+  type UploadLink {
+    fileName: Int!
+    expireIn: Int!
+  }
 
   type Query {
     latestQuestions(language: Language!, tag: String, limit: Int, offset: Int): [Question]
@@ -166,6 +172,7 @@ export default gql`
     getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
     getBlogPosts(language: Language!, limit: Int!, offset: Int!): [BlogPost]
     getStatistics(language: Language!): Statistics
+    getUploadLink: String
   }
 
   type Mutation {
@@ -185,7 +192,6 @@ export default gql`
     ): Result
     updateAnswer(language: Language!, id: String!, content: String!): Result
     updateComment(language: Language!, id: String!, content: String!): Result
-    #    uploadFile(language: Language!, file: Upload!): File!
     updateUser(id: String!, input: UpdateUserInput!): Result
     setReadAllNotifications(language: Language!): Result
     increaseViewCount(language: Language!, id: String!): Result

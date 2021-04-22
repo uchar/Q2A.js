@@ -58,6 +58,7 @@ const permissions = shield({
     getNotifications: isSelf,
     getBlogPosts: isPublic,
     getStatistics: isPublic,
+    getUploadLink: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
   },
   Mutation: {
     login: isPublic,
@@ -70,7 +71,6 @@ const permissions = shield({
     updateQuestion: or(isAdmin, isSuperAdmin, isSelf),
     updateAnswer: or(isAdmin, isSuperAdmin, isSelf),
     updateComment: or(isAdmin, isSuperAdmin, isSelf),
-    // uploadFile: not(isAuthenticated),
     updateUser: or(isAdmin, isSuperAdmin, isSelf),
     setReadAllNotifications: isAuthenticated,
     increaseViewCount: isPublic,

@@ -28,8 +28,8 @@ import {
   togglePostActiveStatus,
 } from '../mutations/post.js';
 import { getStatistics } from '../queries/statistic.js';
-// import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts } from '../queries/blog.js';
+import { getUploadLink } from '../queries/upload.js';
 
 export default {
   Query: {
@@ -44,13 +44,13 @@ export default {
     getNotifications,
     getBlogPosts,
     getStatistics,
+    getUploadLink,
   },
   Mutation: {
     login,
     signUp,
     addQuestion,
     googleLogin,
-    // uploadFile,
     updateUser,
     updateQuestion,
     updateAnswer,
