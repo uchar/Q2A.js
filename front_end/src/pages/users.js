@@ -12,7 +12,7 @@ import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
 const styles = {
   root: {
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: (theme) => theme.palette.text.secondary,
   },
 };
 

@@ -1,8 +1,9 @@
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Box } from '@material-ui/core';
 
-const styles ={
+const styles = {
   text: {
     color: 'red',
   },
@@ -11,11 +12,11 @@ const styles ={
 const ErrorMessage = (props) => {
   const { text, ...rest } = props;
   return (
-    <div {...rest}>
+    <Box type={'error'} {...rest}>
       <Typography variant="body1" sx={styles.text}>
         {text}
       </Typography>
-    </div>
+    </Box>
   );
 };
 ErrorMessage.propTypes = {
