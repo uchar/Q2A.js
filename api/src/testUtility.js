@@ -1,6 +1,5 @@
 import databaseUtils from './db/database';
-import { LANGUAGES } from '../../front_end/src/common/utlities/languageUtilities';
-import { BLOG_POST_TYPES, POST_TYPES } from './constants';
+import { LANGUAGE, BLOG_POST_TYPES, POST_TYPES } from './constants';
 
 const notificationData = {
   language: 'en',
@@ -10,7 +9,7 @@ const notificationData = {
 };
 
 const blogData = {
-  language: LANGUAGES.ENGLISH,
+  language: LANGUAGE.ENGLISH,
   type: BLOG_POST_TYPES.POST,
   title: 'NEXT.js — The Ultimate React Framework\n',
   content: `Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, it puts you and your team in the pit of success when building React applications.
@@ -29,16 +28,16 @@ const questionData = {
     'How can I show date-time in a human-readable format in Alpine.js? I ' +
     'would add a filter in Vuejs to do the same and looking for a similar solution in Alpine.js.',
   tags: ['js', 'vue'],
-  language: LANGUAGES.ENGLISH,
+  language: LANGUAGE.ENGLISH,
 };
 const answerData = {
   type: POST_TYPES.ANSWER,
-  language: LANGUAGES.ENGLISH,
+  language: LANGUAGE.ENGLISH,
   content: 'some random test answer for some random question',
 };
 const commentData = {
   type: POST_TYPES.COMMENT,
-  language: LANGUAGES.ENGLISH,
+  language: LANGUAGE.ENGLISH,
   content: 'some random comment for some random question or answer',
 };
 const questionUpdatedData = {
@@ -48,10 +47,10 @@ const questionUpdatedData = {
     'some fixed positions and then index moves from left to right, then left again and everything but cannot wrap my head around the ' +
     'multidimensionallity and how to implement? Loop inside loop inside loop, recursion or what? I am looking for general directions.',
   tags: ['python', 'openCv'],
-  language: LANGUAGES.ENGLISH,
+  language: LANGUAGE.ENGLISH,
 };
 const tagData = {
-  language: LANGUAGES.ENGLISH,
+  language: LANGUAGE.ENGLISH,
   title: 'test_tag',
   content: `test tag description`,
   used: 1,

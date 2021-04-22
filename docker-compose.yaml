@@ -30,7 +30,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./back_end/Dockerfile
+      dockerfile: api/Dockerfile
     image: q2a-api
     links:
       - mysql
@@ -45,7 +45,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: ./front_end/Dockerfile
+      dockerfile: frontend/Dockerfile
     image: q2a-frontend
     links:
       - api
