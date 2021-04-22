@@ -28,7 +28,7 @@ Install nodejs 14.16.x (you can use [nvm](https://github.com/coreybutler/nvm-win
 
 Make a new Database.
 
-In backend and front_end folder rename .sample.env to .env and fill it's fields
+In api and frontend folder rename .sample.env to .env and fill it's fields
 
 Install packages:
 
