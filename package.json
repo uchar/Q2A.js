@@ -7,7 +7,9 @@
   "engines": {
     "node": "14.16.x"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-swipeable-views-utils": "^0.14.0-alpha.0"
+  },
   "devDependencies": {
     "husky": "^6.0.0"
   },

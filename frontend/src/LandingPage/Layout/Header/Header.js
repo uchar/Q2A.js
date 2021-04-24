@@ -14,12 +14,9 @@ const styles = {
   root: {
     flexGrow: 1,
   },
-  grid: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  grid: { justifyContent: 'center', alignItems: 'center' },
   paper: {
-    padding: (theme) => theme.spacing(5),
+    padding: (theme) => theme.spacing(0, 5),
     textAlign: 'center',
     color: (theme) => theme.palette.text.primary,
   },
@@ -27,7 +24,7 @@ const styles = {
     textDecoration: 'none',
   },
   gitIcon: {
-    margin: (theme) => theme.spacing(0,5, 0, 0),
+    margin: (theme) => theme.spacing(0, 5, 0, 0),
   },
 };
 
@@ -41,7 +38,7 @@ function ElevationScroll(props) {
 
   return React.cloneElement(children, {
     elevation: trigger ? 4 : 0,
-    color: trigger ? 'primary' : 'secondary',
+    color: trigger ? 'secondary' : 'background',
   });
 }
 

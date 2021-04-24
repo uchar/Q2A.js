@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import Layout from '../LandingPage/Layout/Layout';
 import { wrapper } from '../redux/store';
 import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';
@@ -7,10 +7,11 @@ import Home from '../LandingPage/Section/Home';
 import Features from '../LandingPage/Section/Features';
 import Blog from '../LandingPage/Section/Blog';
 import Download from '../LandingPage/Section/Download';
+import Carousel from '../common/components/LandingPage/Carousel';
 
 const styles = {
   root: {
-    backgroundColor: '#96b1ad0d',
+    backgroundColor: (theme) => theme.palette.background.main,
   },
   innerBox: {
     padding: (theme) => theme.spacing(5, 15, 0, 15),
@@ -32,6 +33,7 @@ function MainPage() {
       <Box sx={styles.innerBox}>
         <Home sx={styles.section} />
         <Features sx={styles.section} />
+        <Carousel />
         <Download sx={styles.section} />
         <Blog sx={styles.section} />
       </Box>
