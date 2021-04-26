@@ -11556,10 +11556,10 @@ node-html-parser@1.4.9, node-html-parser@^1.2.19:
   dependencies:
     he "1.2.0"
 
-node-html-parser@3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-3.1.6.tgz#b29581e374adefc0c8a4c14b7f21f16aa83b7df6"
-  integrity sha512-E4tXYV/gjGqowVhTKrqz0hvVGRjurANIQK5vI7djr7PdrWYKNXBBQJMV586NwBNVeERou1fGPyC+FWXBcSauyw==
+node-html-parser@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-3.2.0.tgz#2b1b81297bc6387a868b227761b35e553d5bf92c"
+  integrity sha512-fXhiFFnccwoUW92VvDACbtg1Kv7Ky0Qj9Rv7ETWpczSFLW07JWM6zQ+d523kiHNpodQHlvDhtjK2T86AclzXzQ==
   dependencies:
     css-select "^3.1.2"
     he "1.2.0"
