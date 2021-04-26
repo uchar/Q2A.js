@@ -53,7 +53,7 @@
     "react-google-login": "5.2.2",
     "react-infinite-scroll-component": "6.1.0",
     "react-jss": "10.6.0",
-    "react-redux": "7.2.3",
+    "react-redux": "7.2.4",
     "react-render-html": "0.6.0",
     "react-required-if": "1.0.3",
     "react-scripts": "4.0.3",
