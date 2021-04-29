@@ -7,7 +7,7 @@ import Home from '../LandingPage/Section/Home';
 import Features from '../LandingPage/Section/Features';
 import Blog from '../LandingPage/Section/Blog';
 import Download from '../LandingPage/Section/Download';
-import Carousel from '../common/components/LandingPage/Carousel';
+import FroumCarousel from '../common/components/LandingPage/FroumCarousel';
 
 const styles = {
   root: {
@@ -33,7 +33,7 @@ function MainPage() {
       <Box sx={styles.innerBox}>
         <Home sx={styles.section} />
         <Features sx={styles.section} />
-        <Carousel />
+        <FroumCarousel sx={styles.section} />
         <Download sx={styles.section} />
         <Blog sx={styles.section} />
       </Box>

@@ -1,93 +1,176 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Grid from '@material-ui/core/Grid';
-import Link from 'next/link';
-import Box from '@material-ui/core/Box';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import React, { useEffect } from 'react';
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { AppBar, Box, Toolbar } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
+import NotificationsBox from '../../../common/layouts/Header/NotificationsBox';
+import Menu from '../../../common/layouts/Header/Menu';
+import { getLanguage } from '../../../common/utlities/languageUtilities';
+import { SET_READ_ALL_NOTIFICATIONS } from '../../../API/mutations';
+import { CURRENT_USER_ACTION } from '../../../redux/constants';
+import Drawer from '../../../common/layouts/Header/Mobile/Drawer';
+import MobileHeader from '../../../common/layouts/Header/Mobile/MobileHeader';
+import BrowserHeader from './Browser/BrowserHeader';
 
 const styles = {
-  root: {
+  grow: {
     flexGrow: 1,
   },
-  grid: { justifyContent: 'center', alignItems: 'center' },
-  paper: {
-    padding: (theme) => theme.spacing(0, 5),
-    textAlign: 'center',
-    color: (theme) => theme.palette.text.primary,
+  appBar: {
+    padding: (theme) => theme.spacing(2, 0, 2, 0),
   },
-  a: {
-    textDecoration: 'none',
-  },
-  gitIcon: {
-    margin: (theme) => theme.spacing(0, 5, 0, 0),
-  },
+  headerParent: { flex: 1 },
 };
+const listData = [
+  {
+    id: 0,
+    path: '#home',
+    label: 'Home',
+  },
+  {
+    id: 1,
+    path: '#features',
+    label: 'Services',
+  },
 
-function ElevationScroll(props) {
-  const { children, window } = props;
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-    target: window ? window() : undefined,
-  });
+  {
+    id: 2,
+    path: '#download',
+    label: 'Download',
+  },
 
-  return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
-    color: trigger ? 'secondary' : 'background',
-  });
-}
+  {
+    id: 3,
+    path: '#blog',
+    label: 'Blog',
+  },
+];
+const Header = () => {
+  const themeType = useSelector((state) => state.currentUser.theme);
+  const user = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch();
+  const [languageAnchorEl, setLanguageAnchorEl] = React.useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [notificationCount, setNotificationCount] = React.useState(0);
+  const isLanguageMenuOpen = Boolean(languageAnchorEl);
+  const router = useRouter();
+  const [notificationAnchor, setNotificationAnchor] = React.useState(null);
 
-ElevationScroll.propTypes = {
-  children: PropTypes.element.isRequired,
-  ow: PropTypes.func,
-};
+  const refreshUser = async () => {
+    const userResult = await getCurrentUser();
+    dispatch({ type: CURRENT_USER_ACTION, payload: userResult });
+  };
 
-export default function Header() {
+  useEffect(() => {
+    (async function () {
+      return refreshUser();
+    })();
+  }, []);
+
+  const handleProfileMenuOpen = async () => {
+    return router.push(`/${getLanguage()}/user/${user.publicName}`);
+  };
+  const handleNotificationMenuOpen = async (event) => {
+    setNotificationAnchor(event.currentTarget);
+    setNotificationCount(0);
+    return doGraphQLMutation(SET_READ_ALL_NOTIFICATIONS);
+  };
+
+  const handleLanguageMenuOpen = (event) => {
+    setLanguageAnchorEl(event.currentTarget);
+  };
+
+  const handleLanguageMenuClose = () => {
+    setLanguageAnchorEl(null);
+  };
+
+  const toggleMobileMenu = (state) => () => {
+    setIsMobileMenuOpen(state);
+  };
+
+  const handleNotificationsMenuClose = () => {
+    setNotificationAnchor(null);
+  };
+
+  const handleThemeChange = async () => {
+    const newTheme = themeType === 'dark' ? 'light' : 'dark';
+    dispatch({ type: CURRENT_USER_ACTION, payload: { theme: newTheme } });
+    if ((await getCurrentUser()) !== false) {
+      await updateCurrentUser({
+        theme: newTheme,
+      });
+      return refreshUser();
+    }
+  };
+
+  const handleNotificationCountChange = (count) => {
+    setNotificationCount(count);
+  };
+
+  const handleMenuLanguageItemClick = async (newLanguage) => {
+    handleLanguageMenuClose();
+    let language = '';
+    if (newLanguage.toLowerCase() === 'english') {
+      language = 'en';
+    } else {
+      language = 'fa';
+    }
+    if (getLanguage() !== language) {
+      try {
+        await updateCurrentUser({
+          language,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+      return router.push(router.asPath, router.asPath, { locale: language });
+    }
+  };
+
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <ElevationScroll>
-        <AppBar>
-          <Toolbar>
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid container direction="row" sx={styles.grid}>
-                <Link href="#home">
-                  <a style={styles.a}>
-                    <Typography sx={styles.paper}>Home</Typography>
-                  </a>
-                </Link>
-
-                <Link href="#features">
-                  <a style={styles.a}>
-                    <Typography sx={styles.paper}>Services</Typography>
-                  </a>
-                </Link>
-                <Link href="#download">
-                  <a style={styles.a}>
-                    <Typography sx={styles.paper}>Download</Typography>
-                  </a>
-                </Link>
-                <Link href="#blog">
-                  <a style={styles.a}>
-                    <Typography sx={styles.paper}>Blog</Typography>
-                  </a>
-                </Link>
-              </Grid>
-            </Box>
-            <Link href="https://github.com/uchar/Q2A.js">
-              <a style={styles.a}>
-                <GitHubIcon sx={styles.gitIcon} />
-              </a>
-            </Link>
-          </Toolbar>
-        </AppBar>
-      </ElevationScroll>
-      <Toolbar />
-    </React.Fragment>
+    <Box sx={styles.grow}>
+      <Drawer isMobileMenuOpen={isMobileMenuOpen} toggleDrawer={toggleMobileMenu} listData={listData} />
+      <AppBar color="secondary" sx={styles.appBar} position="static">
+        <Toolbar sx={styles.grow}>
+          <NotificationsBox
+            notificationAnchor={notificationAnchor}
+            onClose={handleNotificationsMenuClose}
+            onNotificationCountChange={handleNotificationCountChange}
+          />
+          <MobileView style={styles.headerParent}>
+            <MobileHeader
+              listData={listData}
+              user={user}
+              handleLanguageMenuOpen={handleLanguageMenuOpen}
+              handleNotificationMenuOpen={handleNotificationMenuOpen}
+              handleProfileMenuOpen={handleProfileMenuOpen}
+              handleThemeChange={handleThemeChange}
+              notificationCount={notificationCount}
+            />
+          </MobileView>
+          <BrowserView style={styles.headerParent}>
+            <BrowserHeader
+              listData={listData}
+              user={user}
+              handleLanguageMenuOpen={handleLanguageMenuOpen}
+              handleNotificationMenuOpen={handleNotificationMenuOpen}
+              handleProfileMenuOpen={handleProfileMenuOpen}
+              handleThemeChange={handleThemeChange}
+              notificationCount={notificationCount}
+            />
+          </BrowserView>
+        </Toolbar>
+      </AppBar>
+      <Menu
+        open={isLanguageMenuOpen}
+        anchorEl={languageAnchorEl}
+        onClose={handleLanguageMenuClose}
+        onItemClick={handleMenuLanguageItemClick}
+        items={[{ name: 'English' }, { name: 'Persian' }]}
+      />
+    </Box>
   );
-}
+};
+
+export default Header;

@@ -24,7 +24,7 @@ const styles = {
   bottomAccordion: { marginTop: (theme) => theme.spacing(5) },
 };
 
-const data = [
+const advanceData = [
   {
     id: 1,
     text: 'Clone code from git:',
@@ -56,6 +56,14 @@ const data = [
 const unescapeCode = (escapedHTML) => {
   return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 };
+
+const simpleWayData = {
+  title: 'Run Q2A - The Simple Way',
+  description:
+    'Download setup script from link and run it as adminstrator. This will install\n' +
+    '              necessary applications including mysql/php/apache/phpMyAdmin/node.js/npm/yarn for you This\n' +
+    '              script only works on windows, if you use other OS, Check Install - Advance method',
+};
 export default function ControlledAccordion(props) {
   const [expanded, setExpanded] = React.useState('panel1');
   const handleChange = (panel) => (event, isExpanded) => {
@@ -71,15 +79,11 @@ export default function ControlledAccordion(props) {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={styles.heading}>Run Q2A - The Simple Way</Typography>
+          <Typography sx={styles.heading}>{simpleWayData.title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {[1].map((item, index) => (
-            <Typography key={index}>
-              Download setup script from <a href="#">LINK</a> and run it as adminstrator. This will install
-              necessary applications including mysql/php/apache/phpMyAdmin/node.js/npm/yarn for you This
-              script only works on windows, if you use other OS, Check Install - Advance method
-            </Typography>
+            <Typography key={index}>{simpleWayData.description}</Typography>
           ))}
         </AccordionDetails>
         <AccordionActions>
@@ -116,7 +120,7 @@ export default function ControlledAccordion(props) {
               <Typography>Create your database (Set encoding to utf8mb4)</Typography>
             </li>
           </ul>
-          {data?.map((item) => (
+          {advanceData?.map((item) => (
             <Box key={item.id}>
               <ul>
                 <li>

@@ -19,6 +19,7 @@ const styles = {
 
 // eslint-disable-next-line complexity
 const Header = ({
+  listData,
   user,
   handleProfileMenuOpen,
   handleLanguageMenuOpen,
@@ -34,7 +35,7 @@ const Header = ({
   };
   return (
     <Box sx={styles.root}>
-      <Drawer isMobileMenuOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+      <Drawer isMobileMenuOpen={isDrawerOpen} toggleDrawer={toggleDrawer} listData={listData} />
       <Box sx={styles.more}>
         <IconButton
           aria-label="show more"

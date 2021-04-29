@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-
 import Feature from '../../common/components/LandingPage/Feature';
 
 const data = [
@@ -74,6 +73,13 @@ Points-based reputation management.`,
     description: `Get your info tests delivered at home collect a sample from the your task.`,
   },
 ];
+const headerFeatureSection = {
+  title: 'Ultimate features you must appreciate',
+  description:
+    ' Get your blood tests delivered at let home collect sample from the victory of the managements that\n' +
+    '        supplies best design system guidelines ever. Email',
+};
+
 const styles = {
   root: {
     padding: (theme) => theme.spacing(2, 2, 15, 2),
@@ -106,11 +112,10 @@ const Features = (props) => {
   return (
     <Box sx={{ ...styles.root, ...props.sx }} id="features">
       <Typography variant="h1" sx={styles.title}>
-        Ultimate features you must appreciate
+        {headerFeatureSection.title}
       </Typography>
       <Typography variant="h3" sx={styles.description}>
-        Get your blood tests delivered at let home collect sample from the victory of the managements that
-        supplies best design system guidelines ever. Email
+        {headerFeatureSection.description}
       </Typography>
       <Grid sx={styles.grid} spacing={6} container>
         {data?.map((item) => (

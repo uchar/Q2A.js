@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { Box } from '@material-ui/core';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -34,29 +35,25 @@ const images = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({
+const style = {
   root: {
-    // maxWidth: 900,
     flexGrow: 1,
   },
   header: {
     display: 'flex',
     alignItems: 'center',
     height: 50,
-    paddingLeft: theme.spacing(2),
-    backgroundColor: theme.palette.background.default,
+    paddingLeft: (theme) => theme.spacing(2),
+    backgroundColor: (theme) => theme.palette.background.default,
   },
   img: {
-    // height: '10%',
     display: 'block',
-    // maxWidth: 900,
     overflow: 'hidden',
     width: '100%',
   },
-}));
+};
 
-function Carousel() {
-  const classes = useStyles();
+function FroumCarousel() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
@@ -74,8 +71,8 @@ function Carousel() {
   };
 
   return (
-    <div className={classes.root}>
-      <Paper square elevation={0} className={classes.header}>
+    <Box sx={style.root}>
+      <Paper square elevation={0} sx={style.header}>
         <Typography>{images[activeStep].label}</Typography>
       </Paper>
       <AutoPlaySwipeableViews
@@ -86,11 +83,15 @@ function Carousel() {
         interval={10000}
       >
         {images.map((step, index) => (
-          <div key={step.label}>
+          <Box key={step.label}>
             {Math.abs(activeStep - index) <= 2 ? (
-              <img className={classes.img} src={`/images/img_froum/${step.imgPath}`} alt={step.label} />
+              <img
+                style={{ display: 'block', overflow: 'hidden', width: '100%' }}
+                src={`/images/img_froum/${step.imgPath}`}
+                alt={step.label}
+              />
             ) : null}
-          </div>
+          </Box>
         ))}
       </AutoPlaySwipeableViews>
       <MobileStepper
@@ -110,8 +111,8 @@ function Carousel() {
           </Button>
         }
       />
-    </div>
+    </Box>
   );
 }
 
-export default Carousel;
+export default FroumCarousel;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import ControlledAccordion from '../../common/components/LandingPage/ControlledAccordion';
 
@@ -34,15 +34,19 @@ const styles = {
     marginLeft: '10%',
   },
 };
+const headerDownloadSection = {
+  title: 'How to use Q2A ?',
+  description: 'You are only 5 mines away from your own question/answer site',
+};
 
 export default function Download(props) {
   return (
     <Box sx={{ ...styles.root, ...props.sx }} id="download">
       <Typography variant="h1" sx={styles.title}>
-        How to use Q2A ?
+        {headerDownloadSection.title}
       </Typography>
       <Typography variant="h3" sx={styles.description}>
-        You are only 5 mines away from your own question/answer site
+        {headerDownloadSection.description}
       </Typography>
       <ControlledAccordion sx={styles.accordion} />
     </Box>

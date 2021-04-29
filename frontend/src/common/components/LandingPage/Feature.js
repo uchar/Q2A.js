@@ -1,9 +1,10 @@
 import React from 'react';
-import { Grid, Box } from '@material-ui/core';
+import { Box, Button, CardActions } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Link from 'next/link';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const styles = {
   root: {
@@ -11,13 +12,8 @@ const styles = {
     marginBottom: '20px',
     justifyContent: 'center',
   },
-  content: {
-    flex: 1,
-    alignSelf: 'center',
-    textAlign: 'center',
-    [(theme) => theme.breakpoints.down('sm')]: {
-      textAlign: 'center',
-    },
+  cardContent: {
+    height: 330,
   },
   title: {
     color: 'textSecondary',
@@ -42,29 +38,33 @@ const styles = {
   image: {
     maxWidth: '100%',
   },
+  boxAction: {
+    justifyContent: 'center',
+  },
+  button: {
+    color: 'blue',
+  },
 };
-const Item = styled(Paper)(({ theme }) => ({
-  textAlign: 'center',
-  padding: theme.spacing(5),
-  height: 350,
-}));
+
 const Feature = ({ data }) => {
   return (
     <Box sx={styles.root} container spacing={2}>
-      <Item elevation={1}>
-        <img style={styles.image} src={`/images/icons/${data?.icon}`} alt={data?.title} />
-        <Typography variant="h3" sx={styles.title}>
-          {data?.title}
-        </Typography>
-        <Typography variant="h4" sx={styles.description}>
-          {data?.description}
-        </Typography>
-        {data?.path && (
-          <Link href="/">
-            <a href={data?.path}>LearnMore</a>
-          </Link>
-        )}
-      </Item>
+      <Card sx={styles.card}>
+        <CardContent sx={styles.cardContent}>
+          <img style={styles.image} src={`/images/icons/${data?.icon}`} alt={data?.title} />
+          <Typography variant="h3" sx={styles.title}>
+            {data?.title}
+          </Typography>
+          <Typography variant="h4" sx={styles.description}>
+            {data?.description}
+          </Typography>
+        </CardContent>
+        <CardActions sx={styles.boxAction}>
+          <Button size="small" sx={styles.button}>
+            Read More
+          </Button>
+        </CardActions>
+      </Card>
     </Box>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Carousel from '../../common/components/LandingPage/Carousel';
 
 const styles = {
   root: {
@@ -47,7 +46,7 @@ const Home = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <img style={styles.image} src="/images/girl.png" alt="Picture of the author" />
+          <img style={styles.image} src="/images/img_froum/q2a5.jpg" alt="Picture of the author" />
         </Grid>
       </Grid>
     </Box>

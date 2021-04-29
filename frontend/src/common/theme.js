@@ -69,12 +69,12 @@ const themeSettingsLight = {
     },
     secondary: {
       // main: 'rgba(103,119,95,0.18)',
-      main: '#00ff06',
+      main: '#f5f5f5',
       // dark: will be calculated from palette.secondary.main,
       // contrastText: '#ffcc00',
     },
-    background: {
-      main: '#96b1ad0d',
+    background:{
+      main: 'rgba(150,177,173,0.06)',
     },
 
     // Used by `getContrastText()` to maximize the contrast between
@@ -89,6 +89,7 @@ const themeSettingsLight = {
 // make a deep copy of light theme
 const themeSettingsDark = JSON.parse(JSON.stringify(themeSettingsLight));
 themeSettingsDark.palette.mode = 'dark';
+
 
 export const lightTheme = responsiveFontSizes(createMuiTheme(themeSettingsLight, faIR));
 export const darkTheme = responsiveFontSizes(createMuiTheme(themeSettingsDark, faIR));
