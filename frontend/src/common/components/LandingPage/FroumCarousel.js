@@ -14,8 +14,8 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
-    label: 'Register Page',
-    imgPath: 'register.jpg',
+    label: 'Login Page',
+    imgPath: 'login.jpg',
   },
   {
     label: 'Question Page',
