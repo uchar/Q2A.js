@@ -64,15 +64,15 @@ const simpleWayData = {
     '              necessary applications including mysql/php/apache/phpMyAdmin/node.js/npm/yarn for you This\n' +
     '              script only works on windows, if you use other OS, Check Install - Advance method',
 };
-export default function ControlledAccordion(props) {
-  const [expanded, setExpanded] = React.useState('panel1');
+export default function InstallQ2AAccordion(props) {
+  const [expanded, setExpanded] = React.useState('panel2');
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   return (
     <Box sx={{ ...styles.root, ...props.sx }}>
-      <Accordion boxShadow={12} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary
           sx={styles.accordionGroup}
           expandIcon={<ExpandMoreIcon />}

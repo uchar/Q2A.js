@@ -3,6 +3,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { isSiteRTL } from '../../../utlities/languageUtilities';
 
 const styles = {
@@ -51,4 +52,11 @@ const Drawer = ({ isMobileMenuOpen, toggleDrawer, listData }) => {
   );
 };
 
+Drawer.defaultProps = {
+};
+Drawer.propTypes = {
+  listData: PropTypes.array.isRequired,
+  isMobileMenuOpen: PropTypes.bool.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
+};
 export default Drawer;

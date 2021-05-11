@@ -53,7 +53,7 @@ const style = {
   },
 };
 
-function FroumCarousel() {
+function ForumCarousel() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
@@ -87,7 +87,7 @@ function FroumCarousel() {
             {Math.abs(activeStep - index) <= 2 ? (
               <img
                 style={{ display: 'block', overflow: 'hidden', width: '100%' }}
-                src={`/images/img_froum/${step.imgPath}`}
+                src={`/images/landingPage/screenshots/${step.imgPath}`}
                 alt={step.label}
               />
             ) : null}
@@ -115,4 +115,4 @@ function FroumCarousel() {
   );
 }
 
-export default FroumCarousel;
+export default ForumCarousel;

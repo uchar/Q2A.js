@@ -51,7 +51,7 @@ const Feature = ({ data }) => {
     <Box sx={styles.root} container spacing={2}>
       <Card sx={styles.card}>
         <CardContent sx={styles.cardContent}>
-          <img style={styles.image} src={`/images/icons/${data?.icon}`} alt={data?.title} />
+          <img style={styles.image} src={`/images/landingPage/icons/${data?.icon}`} alt={data?.title} />
           <Typography variant="h3" sx={styles.title}>
             {data?.title}
           </Typography>

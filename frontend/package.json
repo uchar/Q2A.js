@@ -63,7 +63,9 @@
     "react-syntax-highlighter": "15.4.3",
     "recharts": "2.0.9",
     "redux": "4.0.5",
-    "yup": "0.32.9"
+    "yup": "0.32.9",
+    "react-swipeable-views-utils": "0.14.0-alpha.0"
+
   },
   "devDependencies": {
     "@types/next": "^9.0.0",

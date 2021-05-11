@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import ControlledAccordion from '../../common/components/LandingPage/ControlledAccordion';
+import InstallQ2AAccordion from '../../common/components/LandingPage/InstallQ2AAccordion';
 
 const styles = {
   root: {
@@ -48,7 +48,7 @@ export default function Download(props) {
       <Typography variant="h3" sx={styles.description}>
         {headerDownloadSection.description}
       </Typography>
-      <ControlledAccordion sx={styles.accordion} />
+      <InstallQ2AAccordion sx={styles.accordion} />
     </Box>
   );
 }
