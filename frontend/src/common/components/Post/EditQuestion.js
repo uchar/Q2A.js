@@ -181,7 +181,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
                   )}
                 />
-                {errors.tags && <ErrorMessage className={classes.error} text={errors.tags} />}
+                {errors.tags && <ErrorMessage sx={styles.error} text={errors.tags} />}
               </Box>
             </CardContent>
             {
@@ -210,7 +210,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
               </div>
             }
 
-            {errors.api && <ErrorMessage className={classes.error} text={errors.api} />}
+            {errors.api && <ErrorMessage sx={styles.error} text={errors.api} />}
           </form>
         );
       }}

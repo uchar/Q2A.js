@@ -36,42 +36,29 @@ class Expansion extends React.Component {
 
   render() {
     const { expanded } = this.state;
+    const { data } = this.props;
     return (
       <div>
         <Typography>{getStrings().ASK_Expansion_TITLE}</Typography>
         <Typography style={{ marginBottom: '25px', marginTop: '5px' }}>
           {getStrings().ASK_Expansion_SUBTITLE}
         </Typography>
-        <Accordion expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography> {getStrings().ASK_Expansion_PANEL1_TITLE}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              {getStrings().ASK_Expansion_PANEL1_SUBTITLE1}
-              <br />
-              {getStrings().ASK_Expansion_PANEL1_SUBTITLE2}
-              <br />
-              {getStrings().ASK_Expansion_PANEL1_SUBTITLE3}
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography> {getStrings().ASK_Expansion_PANEL2_TITLE}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>{getStrings().ASK_Expansion_PANEL2_SUBTITLE1}</Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography> {getStrings().ASK_Expansion_PANEL3_TITLE}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>{getStrings().ASK_Expansion_PANEL3_SUBTITLE1}</Typography>
-          </AccordionDetails>
-        </Accordion>
+        {data.map((item) => (
+          <Accordion
+            key={item.id}
+            expanded={expanded === item.typePanel}
+            onChange={this.handleChange(item.typePanel)}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography> {item.title}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {item.subtitle?.map((subtitle, index) => (
+                <Typography key={index}>{subtitle}</Typography>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+        ))}
       </div>
     );
   }

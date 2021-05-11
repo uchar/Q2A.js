@@ -6,6 +6,7 @@ import Header from './Header/Header';
 import Footer from './Footer';
 import JssStylesProvider from './JssStylesProvider';
 import Expansion from '../components/Expansion';
+import { getStrings } from '../utlities/languageUtilities';
 
 const styles = {
   layoutStyle: {
@@ -25,7 +26,32 @@ const styles = {
     alignSelf: 'center',
   },
 };
+
 const AskLayout = (props) => {
+  const expansionData = [
+    {
+      id: 1,
+      typePanel: 'panel1',
+      title: getStrings().ASK_Expansion_PANEL1_TITLE,
+      subtitle: [
+        getStrings().ASK_Expansion_PANEL1_SUBTITLE1,
+        getStrings().ASK_Expansion_PANEL1_SUBTITLE2,
+        getStrings().ASK_Expansion_PANEL1_SUBTITLE3,
+      ],
+    },
+    {
+      id: 2,
+      typePanel: 'panel2',
+      title: getStrings().ASK_Expansion_PANEL2_TITLE,
+      subtitle: [getStrings().ASK_Expansion_PANEL2_SUBTITLE1],
+    },
+    {
+      id: 3,
+      typePanel: 'panel3',
+      title: getStrings().ASK_Expansion_PANEL3_TITLE,
+      subtitle: [getStrings().ASK_Expansion_PANEL3_SUBTITLE1],
+    },
+  ];
   return (
     <JssStylesProvider>
       <Box sx={styles.layoutStyle}>
@@ -37,7 +63,7 @@ const AskLayout = (props) => {
               {props.children}
             </Grid>
             <Grid item md={3} xs={12} style={{ marginTop: '25px' }}>
-              <Expansion />
+              <Expansion data={expansionData} />
             </Grid>
           </Grid>
         </Box>
