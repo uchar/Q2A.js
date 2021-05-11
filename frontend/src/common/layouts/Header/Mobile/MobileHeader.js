@@ -19,6 +19,7 @@ const styles = {
 
 // eslint-disable-next-line complexity
 const Header = ({
+  listData,
   user,
   handleProfileMenuOpen,
   handleLanguageMenuOpen,
@@ -34,7 +35,7 @@ const Header = ({
   };
   return (
     <Box sx={styles.root}>
-      <Drawer isMobileMenuOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+      <Drawer isMobileMenuOpen={isDrawerOpen} toggleDrawer={toggleDrawer} listData={listData} />
       <Box sx={styles.more}>
         <IconButton
           aria-label="show more"
@@ -46,22 +47,27 @@ const Header = ({
           <MoreIcon size="small" />
         </IconButton>
       </Box>
-      {user && (
+      {user && handleProfileMenuOpen && (
         <IconButton edge="end" aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
           <ProfileImage showMedal={false} size={24} profileImage={user.profileImage}></ProfileImage>
           <Typography style={{ marginTop: 5, marginRight: 2, fontSize: 12 }}>{user.publicName}</Typography>
         </IconButton>
       )}
-      <IconButton color="inherit" onClick={handleLanguageMenuOpen}>
-        <Translate />
-      </IconButton>
-      <IconButton color="inherit" onClick={handleThemeChange}>
-        <img
-          style={{ width: '18px', height: '18px' }}
-          src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
-        />
-      </IconButton>
-      {user && (
+      {handleLanguageMenuOpen && (
+        <IconButton color="inherit" onClick={handleLanguageMenuOpen}>
+          <Translate />
+        </IconButton>
+      )}
+      {handleThemeChange && (
+        <IconButton color="inherit" onClick={handleThemeChange}>
+          <img
+            style={{ width: '18px', height: '18px' }}
+            src={themeType && themeType === 'dark' ? '/images/day_icon.png' : '/images/night_icon.png'}
+          />
+        </IconButton>
+      )}
+
+      {user && notificationCount && (
         <IconButton
           edge="end"
           onClick={handleNotificationMenuOpen}

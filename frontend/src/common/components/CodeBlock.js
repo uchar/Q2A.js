@@ -7,7 +7,7 @@ import {
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const CodeBlock = ({ code, lang }) => {
+const CodeBlock = ({ code, lang, showLineNumbers }) => {
   const themeType = useSelector((state) => state.currentUser.theme);
   const language = lang || 'javascript';
   let themeStyle;
@@ -22,7 +22,7 @@ const CodeBlock = ({ code, lang }) => {
       <SyntaxHighlighter
         dir="ltr"
         codeTagProps={{ style: { fontSize: '12px' } }}
-        showLineNumbers
+        showLineNumbers={showLineNumbers}
         language={language.replace('language-', '')}
         style={Object.assign(themeStyle, themeLayout)}
       >
@@ -33,9 +33,11 @@ const CodeBlock = ({ code, lang }) => {
 };
 CodeBlock.defaultProps = {
   lang: 'javascript',
+  showLineNumbers: true,
 };
 CodeBlock.propTypes = {
   code: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
+  showLineNumbers: PropTypes.bool.isRequired,
 };
 export default CodeBlock;

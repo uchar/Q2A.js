@@ -55,7 +55,7 @@ yarn api_run_dev
 #### frontend :
 
 ```
-yarn fronend_run_dev
+yarn frontend_run_dev
 ```
 ### Deploy with docker 
 

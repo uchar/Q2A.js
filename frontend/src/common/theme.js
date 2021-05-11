@@ -1,5 +1,6 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { faIR } from '@material-ui/core/locale';
+import { pink, orange } from '@material-ui/core/colors';
 
 const typography = {
   fontFamily: [
@@ -61,18 +62,21 @@ const themeSettingsLight = {
     mode: 'light',
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#67775f',
+      main: pink[500],
+      // #ffa600
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      main: '#ff0000',
+      // main: 'rgba(103,119,95,0.18)',
+      main: '#f5f5f5',
       // dark: will be calculated from palette.secondary.main,
       // contrastText: '#ffcc00',
     },
-    textPrimary: {
-      main: '#ff0000',
+    background:{
+      main: 'rgba(150,177,173,0.06)',
     },
+
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
     contrastThreshold: 3,
@@ -85,6 +89,7 @@ const themeSettingsLight = {
 // make a deep copy of light theme
 const themeSettingsDark = JSON.parse(JSON.stringify(themeSettingsLight));
 themeSettingsDark.palette.mode = 'dark';
+
 
 export const lightTheme = responsiveFontSizes(createMuiTheme(themeSettingsLight, faIR));
 export const darkTheme = responsiveFontSizes(createMuiTheme(themeSettingsDark, faIR));

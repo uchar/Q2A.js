@@ -5,8 +5,7 @@ import { getStrings } from '../utlities/languageUtilities';
 const styles = {
   root: {
     flexGrow: 1,
-    padding: (theme) => theme.spacing(10, 5, 5, 5),
-    marginTop: (theme) => theme.spacing(20),
+    padding: (theme) => theme.spacing(0, 5, 5, 5),
   },
   grid: {
     flexGrow: 1,
@@ -34,38 +33,38 @@ const getFooterTitle = (text) => {
 export default function Footer(props) {
   return (
     <Paper sx={{ ...props.sx, ...styles.root }}>
-      <Grid  sx={{  ...styles.grid }} container spacing={2}>
-        <Grid item md={2} display={{ xs: 'none' }} />
-        <Grid item md={2} xs={7}>
-          {getFooterTitle(getStrings().FOOTER_TITLE)}
-          {getFooterText(getStrings().FOOTER_LINK1)}
-          {getFooterText(getStrings().FOOTER_LINK2)}
-          {getFooterText(getStrings().FOOTER_LINK3)}
-          {getFooterText(getStrings().FOOTER_LINK4)}
-        </Grid>
-        <Grid item md={2} xs={7}>
-          {getFooterTitle(getStrings().FOOTER_TITLE)}
-          {getFooterText(getStrings().FOOTER_LINK1)}
-          {getFooterText(getStrings().FOOTER_LINK2)}
-          {getFooterText(getStrings().FOOTER_LINK3)}
-          {getFooterText(getStrings().FOOTER_LINK4)}
-        </Grid>
-        <Grid item md={2} xs={7}>
-          {getFooterTitle(getStrings().FOOTER_TITLE)}
-          {getFooterText(getStrings().FOOTER_LINK1)}
-          {getFooterText(getStrings().FOOTER_LINK2)}
-          {getFooterText(getStrings().FOOTER_LINK3)}
-          {getFooterText(getStrings().FOOTER_LINK4)}
-        </Grid>
-        <Grid item md={2} xs={7}>
-          {getFooterTitle(getStrings().FOOTER_TITLE)}
-          {getFooterText(getStrings().FOOTER_LINK1)}
-          {getFooterText(getStrings().FOOTER_LINK2)}
-          {getFooterText(getStrings().FOOTER_LINK3)}
-          {getFooterText(getStrings().FOOTER_LINK4)}
-        </Grid>
-        <Grid item md={2} display={{ xs: 'none' }}></Grid>
-      </Grid>
+      {/* <Grid  sx={{  ...styles.grid }} container spacing={2}> */}
+      {/*  <Grid item md={2} display={{ xs: 'none' }} /> */}
+      {/*  <Grid item md={2} xs={7}> */}
+      {/*    {getFooterTitle(getStrings().FOOTER_TITLE)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK1)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK2)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK3)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK4)} */}
+      {/*  </Grid> */}
+      {/*  <Grid item md={2} xs={7}> */}
+      {/*    {getFooterTitle(getStrings().FOOTER_TITLE)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK1)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK2)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK3)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK4)} */}
+      {/*  </Grid> */}
+      {/*  <Grid item md={2} xs={7}> */}
+      {/*    {getFooterTitle(getStrings().FOOTER_TITLE)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK1)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK2)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK3)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK4)} */}
+      {/*  </Grid> */}
+      {/*  <Grid item md={2} xs={7}> */}
+      {/*    {getFooterTitle(getStrings().FOOTER_TITLE)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK1)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK2)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK3)} */}
+      {/*    {getFooterText(getStrings().FOOTER_LINK4)} */}
+      {/*  </Grid> */}
+      {/*  <Grid item md={2} display={{ xs: 'none' }}></Grid> */}
+      {/* </Grid> */}
       <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center', marginTop: '50px' }}>
         {getStrings().FOOTER_LOVE}
       </Typography>
