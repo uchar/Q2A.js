@@ -19,13 +19,13 @@ const styles = {
   notificationBox: {
     padding: '10px',
     minWidth: '400px',
-    margin: (theme)=> theme.spacing(1, 2, 2, 2),
+    margin: (theme) => theme.spacing(1, 2, 2, 2),
   },
   notificationBoxNameDate: {
     fontSize: '13px',
   },
   notificationBoxName: {
-    margin:(theme)=>  theme.spacing(1, 0, 0, 0),
+    margin: (theme) => theme.spacing(1, 0, 0, 0),
     fontSize: '10px',
   },
   notificationBoxTitle: {

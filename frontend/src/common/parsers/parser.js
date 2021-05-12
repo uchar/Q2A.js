@@ -1,6 +1,6 @@
 import React from 'react';
 import { parse } from 'node-html-parser';
-import {Box, Typography} from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import renderHTML from 'react-render-html';
 import * as lodash from 'lodash';
 import List from '@material-ui/core/List';

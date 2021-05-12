@@ -25,12 +25,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     padding: '0px 2% 0px 0.5%',
+    background: (theme) => theme.palette.background.main,
   },
   tagBox: {
     marginTop: (theme) => theme.spacing(3),
   },
   newsBox: {},
 };
+
 
 const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
