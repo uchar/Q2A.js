@@ -162,6 +162,7 @@ export default gql`
     getTags(language: Language!, limit: Int, offset: Int): [Tag]
     getTagDetail(language: Language!, tag: String!): Tag
     getQuestion(language: Language!, id: String!): Question
+    getBlogPost(language: Language!, id: String!): BlogPost
     getUser(language: Language, id: String): User
     getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
     getBlogPosts(language: Language!, limit: Int!, offset: Int!): [BlogPost]
@@ -177,6 +178,13 @@ export default gql`
     addAnswer(language: Language!, postId: String!, content: String!): AddResult
     addComment(language: Language!, postId: String!, content: String!): AddResult
     updateQuestion(
+      language: Language!
+      id: String!
+      title: String!
+      content: String!
+      tags: [String]!
+    ): Result
+    updateBlogPost(
       language: Language!
       id: String!
       title: String!

@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../common/layouts/Layout';
 import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
 import AnswerItem from '../../common/components/Post/AnswerItem';
-import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utility';
 import { GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import {

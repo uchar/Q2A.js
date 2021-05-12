@@ -1,4 +1,4 @@
-import { uploadFile } from '../../../API/utilities';
+import { uploadFile } from '../../../API/utility';
 import { getFullUrl } from '../../utlities/generalUtilities';
 
 export class UploadAdapter {

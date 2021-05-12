@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, CardContent, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Box, CardContent, TextField, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Autocomplete from '@material-ui/core/Autocomplete';
@@ -8,8 +8,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import requiredIf from 'react-required-if';
 import { getStrings } from '../../utlities/languageUtilities';
-import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
-import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
+import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../../API/utility';
 import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
@@ -52,7 +51,16 @@ const styles = {
 };
 
 // eslint-disable-next-line max-lines-per-function
-const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEditFinished }) => {
+const EditQuestion = ({
+  editMode,
+  editId,
+  editTitle,
+  editTags,
+  editContent,
+  onEditFinished,
+  updatePost,
+  postType,
+}) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [tags, setTags] = React.useState([
@@ -71,8 +79,8 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
   }, []);
 
   const refreshQuestion = async () => {
-    const questionData = await doGraphQLQuery(GET_QUESTION, { id: editId });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
+    const getData = await doGraphQLQuery(GET_QUESTION, { id: editId });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: getData.getQuestion });
   };
 
   return (
@@ -93,9 +101,11 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             tags: tagsToSend,
           };
           if (editMode) params.id = editId;
-          const mutation = editMode ? UPDATE_QUESTION : ADD_QUESTION;
+          const mutation = editMode ? updatePost : postType;
           const resultObject = await doGraphQLMutation(mutation, params);
-          const result = editMode ? resultObject.updateQuestion : resultObject.addQuestion;
+          console.log('resultObject::::::::', resultObject);
+          console.log('firstItemObject::::::::', firstItemObject(resultObject));
+          const result = firstItemObject(resultObject);
           if (result.statusCode !== 'SUCCESS') {
             throw new Error(result.message);
           }
@@ -226,6 +236,7 @@ EditQuestion.propTypes = {
   editTitle: requiredIf(PropTypes.string, (props) => props.editMode),
   editTags: requiredIf(PropTypes.array, (props) => props.editMode),
   editContent: requiredIf(PropTypes.string, (props) => props.editMode),
-  onEditFinished: requiredIf(PropTypes.func, (props) => props.editMode),
+  updatePost: requiredIf(PropTypes.object, (props) => props.updatePost),
+  postType: requiredIf(PropTypes.object, (props) => props.postType),
 };
 export default EditQuestion;

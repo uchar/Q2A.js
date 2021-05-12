@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import LoginLayout from '../common/layouts/LoginLayout';
 import ErrorMessage from '../common/components/ErrorMessage';
 import Q2aButton from '../common/components/Q2aButton';
-import { login } from '../API/utilities';
+import { login } from '../API/utility';
 import GoogleLoginButton from '../common/components/GoogleLoginButton';
 import { getStrings } from '../common/utlities/languageUtilities';
 

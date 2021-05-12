@@ -9,7 +9,7 @@ import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
-import { getCurrentUserId } from '../../../API/utilities';
+import { getCurrentUserId } from '../../../API/utility';
 
 const useStyles = makeStyles((theme) => ({
   root: {

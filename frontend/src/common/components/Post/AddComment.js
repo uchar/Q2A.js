@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
-import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
 import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { AppBar, Box, Toolbar } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { getCurrentUser } from '../../../API/utilities';
+import { getCurrentUser } from '../../../API/utility';
 import { CURRENT_USER_ACTION } from '../../../redux/constants';
 import Drawer from '../../../common/layouts/Header/Mobile/Drawer';
 import MobileHeader from '../../../common/layouts/Header/Mobile/MobileHeader';

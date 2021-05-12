@@ -141,9 +141,10 @@ const isAccessLevelEnough = async (action, itemsUserId) => {
   }
   return false;
 };
-
-
-
+const firstItemObject = (obj) => {
+  const [first] = Object.values(obj);
+  return first;
+};
 export {
   updateCurrentUser,
   getCurrentUserId,
@@ -157,4 +158,5 @@ export {
   isSignedIn,
   USER_ACTIONS,
   isAccessLevelEnough,
+  firstItemObject,
 };

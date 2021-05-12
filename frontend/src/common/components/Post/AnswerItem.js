@@ -7,7 +7,7 @@ import CommentsSection from './CommentsSection';
 import ProfileImageWithName from '../ProfileImageWithName';
 import PostStatistics from './PostStatistics';
 import PostToolbar from './PostToolbar';
-import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
+import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { togglePostActiveStatus, UPDATE_ANSWER } from '../../../API/mutations';

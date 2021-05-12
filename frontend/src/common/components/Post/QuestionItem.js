@@ -16,7 +16,7 @@ import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
 import PostToolbar from './PostToolbar';
 import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
-import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
+import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
 import { getLanguage } from '../../utlities/languageUtilities';
 import { increaseViewCount, togglePostActiveStatus } from '../../../API/mutations';
 import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';

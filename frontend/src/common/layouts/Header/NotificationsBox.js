@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
 import Loading from '../../components/Loading';
-import { doGraphQLQuery, isSignedIn } from '../../../API/utilities';
+import { doGraphQLQuery, isSignedIn } from '../../../API/utility';
 import { GET_NOTIFICATIONS } from '../../../API/queries';
 import { parseContent } from '../../parsers/parser';
 import { timeAgo } from '../../utlities/generalUtilities';

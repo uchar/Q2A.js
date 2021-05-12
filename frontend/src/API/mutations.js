@@ -10,6 +10,16 @@ export const ADD_QUESTION = gql`
   }
 `;
 
+export const ADD_BLOGPOST = gql`
+  mutation($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
+    addBlogPost(language: $language, title: $title, content: $content, tags: $tags) {
+      id
+      url
+      statusCode
+    }
+  }
+`;
+
 export const increaseViewCount = gql`
   mutation($language: Language!, $id: String!) {
     increaseViewCount(language: $language, id: $id) {
@@ -55,7 +65,14 @@ export const UPDATE_QUESTION = gql`
     }
   }
 `;
-
+export const UPDATE_BLOGPOST = gql`
+  mutation($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
+    updateBlogPost(language: $language, id: $id, title: $title, content: $content, tags: $tags) {
+      statusCode
+      message
+    }
+  }
+`;
 export const UPDATE_ANSWER = gql`
   mutation($language: Language!, $id: String!, $content: String!) {
     updateAnswer(language: $language, id: $id, content: $content) {

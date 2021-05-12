@@ -3,7 +3,7 @@ import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detec
 import { AppBar, Box, Toolbar } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
+import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utility';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
 import { getLanguage } from '../../utlities/languageUtilities';

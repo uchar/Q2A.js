@@ -102,6 +102,33 @@ export const GET_QUESTION = gql`
   }
 `;
 
+export const GET_BLOGPOST = gql`
+  query($language:Language!,$id: String!) {
+    getBlogPost(language: $language,id: $id) {
+      id
+      title
+      content
+      viewsCount
+      votesCount
+      commentsCount
+      ${userType}
+      tag1
+      tag2
+      tag3
+      tag4
+      tag5
+      comments {
+        id
+        content
+        ${userType}
+        createdAt
+        active
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const ALL_TAGS = gql`
   query($language: Language!, $limit: Int, $offset: Int) {
     getTags(language: $language, limit: $limit, offset: $offset) {

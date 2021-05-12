@@ -1,6 +1,5 @@
 import persian from '../../languages/persian';
 import english from '../../languages/english';
-import { getCurrentUser } from '../../API/utilities';
 import { isLanguageRtl } from './generalUtilities';
 
 let currentLanguage;

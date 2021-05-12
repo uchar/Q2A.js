@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import databaseUtils from '../db/database.js';
 import { BLOG_POST_TYPES, LANGUAGE, TABLES } from '../constants.js';
 import { checkInputValidation } from '../utility.js';
+import {POST_TYPES} from "../constants";
 
 const getBlogPosts = async (_, { language, limit, offset }) => {
   await checkInputValidation(
@@ -24,4 +25,15 @@ const getBlogPosts = async (_, { language, limit, offset }) => {
   return posts;
 };
 
-export { getBlogPosts };
+const getBlogPost = async (_, { language, limit, offset }) => {
+  // const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
+  // const post = await Post.findAll({
+  //   where: { type: POST_TYPES.QUESTION, userId: id, language },
+  //   order: [['createdAt', 'DESC']],
+  //   limit: 30,
+  //   offset: 0,
+  // });
+  // return post;
+};
+
+export { getBlogPosts, getBlogPost };
