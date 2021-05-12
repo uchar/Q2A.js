@@ -46,8 +46,8 @@ class Expansion extends React.Component {
         {data.map((item) => (
           <Accordion
             key={item.id}
-            expanded={expanded === item.typePanel}
-            onChange={this.handleChange(item.typePanel)}
+            expanded={expanded === item.panelType}
+            onChange={this.handleChange(item.panelType)}
           >
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography> {item.title}</Typography>

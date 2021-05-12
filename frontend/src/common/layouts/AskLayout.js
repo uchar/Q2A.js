@@ -31,7 +31,7 @@ const AskLayout = (props) => {
   const expansionData = [
     {
       id: 1,
-      typePanel: 'panel1',
+      panelType: 'panel1',
       title: getStrings().ASK_Expansion_PANEL1_TITLE,
       subtitle: [
         getStrings().ASK_Expansion_PANEL1_SUBTITLE1,
@@ -41,13 +41,13 @@ const AskLayout = (props) => {
     },
     {
       id: 2,
-      typePanel: 'panel2',
+      panelType: 'panel2',
       title: getStrings().ASK_Expansion_PANEL2_TITLE,
       subtitle: [getStrings().ASK_Expansion_PANEL2_SUBTITLE1],
     },
     {
       id: 3,
-      typePanel: 'panel3',
+      panelType: 'panel3',
       title: getStrings().ASK_Expansion_PANEL3_TITLE,
       subtitle: [getStrings().ASK_Expansion_PANEL3_SUBTITLE1],
     },

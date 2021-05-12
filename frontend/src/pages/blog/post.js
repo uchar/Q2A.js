@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '@material-ui/core';
-import AskLayout from '../../common/layouts/AskLayout';
+import CreatePost from '../../common/layouts/AskLayout';
 import EditQuestion from '../../common/components/Post/EditQuestion';
 
 const Post = () => {
@@ -11,5 +11,5 @@ const Post = () => {
   );
 };
 
-Post.getLayout = (page) => <AskLayout>{page}</AskLayout>;
+Post.getLayout = (page) => <CreatePost>{page}</CreatePost>;
 export default Post;
