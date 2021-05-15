@@ -9,6 +9,7 @@ import {
   CURRENT_USER_ACTION,
   SELECTED_QUESTION_ACTION,
   ALL_BLOG_POSTS_ACTION,
+  SELECTED_BLOG_POST_ACTION,
   STATISTICS_ACTION,
   POPULAR_QUESTIONS_ACTION,
   LATEST_QUESTIONS_ACTION,
@@ -84,6 +85,11 @@ const reducer = (
       return {
         ...state,
         blogPosts: action.payload,
+      };
+    case SELECTED_BLOG_POST_ACTION:
+      return {
+        ...state,
+        selectedBlogPost: action.payload,
       };
     case SELECTED_USER_ACTION:
       return {

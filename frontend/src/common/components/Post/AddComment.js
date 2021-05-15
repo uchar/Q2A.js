@@ -2,29 +2,28 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
-import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
+import requiredIf from 'react-required-if';
+import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../../API/utility';
 import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
-import { GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
 
 const styles = {
   root: {
     flex: 1,
-    padding:(theme)=> theme.spacing(7, 5, 0, 5),
+    padding: (theme) => theme.spacing(7, 5, 0, 5),
     justifyContent: 'left',
   },
 };
 
-const AddComment = ({ enable, onClose, postId, rootId }) => {
+const AddComment = ({ enable, onClose, postId, rootId, refreshQuery, reduxRefreshAction }) => {
   const dispatch = useDispatch();
   const [commentData, setCommentData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
 
   const refreshQuestion = async () => {
-    const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
+    const getData = await doGraphQLQuery(refreshQuery, { id: rootId });
+    dispatch({ type: reduxRefreshAction, payload: firstItemObject(getData) });
   };
 
   const submitComment = async () => {
@@ -62,10 +61,16 @@ const AddComment = ({ enable, onClose, postId, rootId }) => {
     </Box>
   );
 };
+
+AddComment.defaultProps = {
+  editMode: false,
+};
 AddComment.propTypes = {
   enable: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
   rootId: PropTypes.string.isRequired,
+  refreshQuery: requiredIf(PropTypes.object, (props) => props.editMode),
+  reduxRefreshAction: requiredIf(PropTypes.object, (props) => props.editMode),
 };
 export default AddComment;

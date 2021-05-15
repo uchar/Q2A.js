@@ -2,12 +2,19 @@ import React from 'react';
 import { Card } from '@material-ui/core';
 import CreatePost from '../../common/layouts/AskLayout';
 import EditQuestion from '../../common/components/Post/EditQuestion';
-import { ADD_BLOGPOST, UPDATE_BLOGPOST } from '../../API/mutations';
+import { ADD_BLOG_POST, UPDATE_BLOG_POST } from '../../API/mutations';
+import { GET_BLOG_POST } from '../../API/queries';
+import { SELECTED_BLOG_POST_ACTION } from '../../redux/constants';
 
 const Post = () => {
   return (
     <Card>
-      <EditQuestion updatePost={UPDATE_BLOGPOST} postType={ADD_BLOGPOST} />
+      <EditQuestion
+        updateMutation={UPDATE_BLOG_POST}
+        addMutation={ADD_BLOG_POST}
+        refreshQuery={GET_BLOG_POST}
+        reduxRefreshAction={SELECTED_BLOG_POST_ACTION}
+      />
     </Card>
   );
 };

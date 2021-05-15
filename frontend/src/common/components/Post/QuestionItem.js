@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
 import { parseContent } from '../../parsers/parser';
@@ -18,8 +18,15 @@ import CommentsSection from './CommentsSection';
 import AddComment from './AddComment';
 import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
 import { getLanguage } from '../../utlities/languageUtilities';
-import { increaseViewCount, togglePostActiveStatus } from '../../../API/mutations';
+import {
+  ADD_QUESTION,
+  increaseViewCount,
+  togglePostActiveStatus,
+  UPDATE_QUESTION,
+} from '../../../API/mutations';
 import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';
+import { GET_QUESTION } from '../../../API/queries';
+import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
 
 const styles = {
   root: {
@@ -128,6 +135,10 @@ const QuestionItem = DeepMemo(function QuestionItem({
           editContent={content}
           editId={id}
           onEditFinished={handleEditFinished}
+          updateMutation={UPDATE_QUESTION}
+          addMutation={ADD_QUESTION}
+          refreshQuery={GET_QUESTION}
+          reduxRefreshAction={SELECTED_QUESTION_ACTION}
         />
       )}
       <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
@@ -155,6 +166,8 @@ const QuestionItem = DeepMemo(function QuestionItem({
         onClose={() => {
           setIsCommentMode(false);
         }}
+        refreshQuery={GET_QUESTION}
+        reduxRefreshAction={SELECTED_QUESTION_ACTION}
       />
       <CommentsSection comments={comments} />
     </Box>

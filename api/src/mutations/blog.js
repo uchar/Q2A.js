@@ -23,7 +23,7 @@ const addBlogPost = async (_, params, context) => {
   const Post = databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
   const result = await Post.create({ userId: user.id, ...inputParams });
   const newPost = result.dataValues;
-  return createAddSuccessResponse(newPost.id, `/${newPost.id}/${encodeURIComponent(params.title)}`);
+  return createAddSuccessResponse(newPost.id, `/blog/${newPost.id}/${encodeURIComponent(params.title)}`);
 };
 
 export { addBlogPost };

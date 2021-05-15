@@ -102,7 +102,7 @@ export const GET_QUESTION = gql`
   }
 `;
 
-export const GET_BLOGPOST = gql`
+export const GET_BLOG_POST = gql`
   query($language:Language!,$id: String!) {
     getBlogPost(language: $language,id: $id) {
       id

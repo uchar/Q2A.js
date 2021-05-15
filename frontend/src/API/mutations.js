@@ -10,7 +10,7 @@ export const ADD_QUESTION = gql`
   }
 `;
 
-export const ADD_BLOGPOST = gql`
+export const ADD_BLOG_POST = gql`
   mutation($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
     addBlogPost(language: $language, title: $title, content: $content, tags: $tags) {
       id
@@ -65,7 +65,7 @@ export const UPDATE_QUESTION = gql`
     }
   }
 `;
-export const UPDATE_BLOGPOST = gql`
+export const UPDATE_BLOG_POST = gql`
   mutation($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
     updateBlogPost(language: $language, id: $id, title: $title, content: $content, tags: $tags) {
       statusCode

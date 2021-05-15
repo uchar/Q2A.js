@@ -58,8 +58,10 @@ const EditQuestion = ({
   editTags,
   editContent,
   onEditFinished,
-  updatePost,
-  postType,
+  updateMutation,
+  addMutation,
+  refreshQuery,
+  reduxRefreshAction,
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -79,8 +81,8 @@ const EditQuestion = ({
   }, []);
 
   const refreshQuestion = async () => {
-    const getData = await doGraphQLQuery(GET_QUESTION, { id: editId });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: getData.getQuestion });
+    const getData = await doGraphQLQuery(refreshQuery, { id: editId });
+    dispatch({ type: reduxRefreshAction, payload: firstItemObject(getData) });
   };
 
   return (
@@ -101,14 +103,13 @@ const EditQuestion = ({
             tags: tagsToSend,
           };
           if (editMode) params.id = editId;
-          const mutation = editMode ? updatePost : postType;
+          const mutation = editMode ? updateMutation : addMutation;
           const resultObject = await doGraphQLMutation(mutation, params);
-          console.log('resultObject::::::::', resultObject);
-          console.log('firstItemObject::::::::', firstItemObject(resultObject));
           const result = firstItemObject(resultObject);
           if (result.statusCode !== 'SUCCESS') {
             throw new Error(result.message);
           }
+
           if (editMode) {
             await refreshQuestion();
             onEditFinished();
@@ -236,7 +237,9 @@ EditQuestion.propTypes = {
   editTitle: requiredIf(PropTypes.string, (props) => props.editMode),
   editTags: requiredIf(PropTypes.array, (props) => props.editMode),
   editContent: requiredIf(PropTypes.string, (props) => props.editMode),
-  updatePost: requiredIf(PropTypes.object, (props) => props.updatePost),
-  postType: requiredIf(PropTypes.object, (props) => props.postType),
+  updateMutation: requiredIf(PropTypes.object, (props) => props.editMode),
+  addMutation: requiredIf(PropTypes.object, (props) => !props.editMode),
+  refreshQuery: requiredIf(PropTypes.object, (props) => props.editMode),
+  reduxRefreshAction: requiredIf(PropTypes.object, (props) => props.editMode),
 };
 export default EditQuestion;
