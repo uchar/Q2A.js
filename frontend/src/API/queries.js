@@ -126,6 +126,7 @@ export const GET_BLOG_POST = gql`
       }
       createdAt
       updatedAt
+      active
     }
   }
 `;

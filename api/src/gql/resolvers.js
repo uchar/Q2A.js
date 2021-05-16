@@ -24,6 +24,7 @@ import {
   updateAnswer,
   updateComment,
   updateQuestion,
+  updateBlogPost,
   increaseQuestionViewCount,
   togglePostActiveStatus,
 } from '../mutations/post.js';
@@ -54,6 +55,7 @@ export default {
     // uploadFile,
     updateUser,
     updateQuestion,
+    updateBlogPost,
     updateAnswer,
     updateComment,
     addAnswer,

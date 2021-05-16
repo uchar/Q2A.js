@@ -145,6 +145,7 @@ export default gql`
     comments: [Comment]
     createdAt: String!
     updatedAt: String!
+    active: Boolean!
   }
 
   type Statistics {

@@ -78,7 +78,10 @@ const BlogItem = DeepMemo(function BlogItem({
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
+  console.log('tags:', tags);
   const parsedContent = parseContent(content, getLanguage());
+  console.log('parsedContent:', parsedContent);
+
   const store = useStore();
   useEffect(() => {
     const getUserId = async () => {
@@ -136,7 +139,6 @@ const BlogItem = DeepMemo(function BlogItem({
           editId={id}
           onEditFinished={handleEditFinished}
           updateMutation={UPDATE_BLOG_POST}
-          addMutation={ADD_BLOG_POST}
           refreshQuery={GET_BLOG_POST}
           reduxRefreshAction={SELECTED_BLOG_POST_ACTION}
         />

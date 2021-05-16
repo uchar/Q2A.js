@@ -26,7 +26,7 @@ const isSelf = rule({ cache: 'no_cache' })(async (parent, args, ctx, info) => {
   if (ctx.user === null) return false;
   const userId = ctx.user.id;
   const { fieldName } = info;
-  if (['updateAnswer', 'updateQuestion', 'updateComment'].includes(fieldName)) {
+  if (['updateAnswer', 'updateQuestion', 'updateComment', 'updateBlogPost'].includes(fieldName)) {
     const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
     const post = await Post.findOne({
       where: {

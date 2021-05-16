@@ -7,7 +7,7 @@ import CKEditor from '../../common/components/Editor/CKEditor';
 import { GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
-import { doGraphQLMutation, doGraphQLQuery } from '../../API/utility';
+import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../API/utility';
 import { getStrings } from '../../common/utlities/languageUtilities';
 import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
@@ -46,7 +46,7 @@ const Post = () => {
 
   const refreshQuestion = async () => {
     const questionData = await doGraphQLQuery(GET_QUESTION, { id: question.id });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: firstItemObject(questionData) });
   };
 
   const submitAnswer = async () => {

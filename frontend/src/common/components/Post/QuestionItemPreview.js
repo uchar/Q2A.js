@@ -76,7 +76,7 @@ const QuestionItemPreview = DeepMemo(function ({
   tag3,
   tag4,
   tag5,
-    active
+  active,
 }) {
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
@@ -95,7 +95,7 @@ const QuestionItemPreview = DeepMemo(function ({
     parsedContent = parseContent(content, getLanguage());
   }
   return (
-    <Box  bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
+    <Box bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
       <CardContent>
         <Box sx={styles.topSection}>
           <ProfileImageWithName
@@ -146,5 +146,6 @@ QuestionItemPreview.propTypes = {
   tag5: PropTypes.string,
   createdAt: PropTypes.string.isRequired,
   isExpanded: PropTypes.bool,
+  active: PropTypes.bool.isRequired,
 };
 export default QuestionItemPreview;
