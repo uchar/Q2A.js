@@ -1,7 +1,5 @@
 import React from 'react';
-import { alpha } from '@material-ui/core/styles';
-import { Badge, Box, IconButton, InputBase, Typography } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { Badge, Box, IconButton, Typography } from '@material-ui/core';
 import Translate from '@material-ui/icons/Translate';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import Link from 'next/link';

@@ -7,10 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { Announcement, Home, Loyalty,  Settings } from '@material-ui/icons';
+import { Announcement, Home, Loyalty, Settings } from '@material-ui/icons';
 import Link from 'next/link';
+import { Box } from '@material-ui/core';
 import { getStrings } from '../../utlities/languageUtilities';
-import {Box} from "@material-ui/core";
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -112,12 +112,12 @@ const styles = {
     flexGrow: 1,
   },
   root: {
-    margin: (theme)=>theme.spacing(5, 0),
+    margin: (theme) => theme.spacing(5, 0),
   },
   title: {
     fontSize: '25px',
     fontWeight: '700',
-    margin: (theme)=>theme.spacing(5, 0),
+    margin: (theme) => theme.spacing(5, 0),
   },
 };
 

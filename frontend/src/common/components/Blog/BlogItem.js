@@ -18,12 +18,7 @@ import CommentsSection from '../Post/CommentsSection';
 import AddComment from '../Post/AddComment';
 import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
 import { getLanguage } from '../../utlities/languageUtilities';
-import {
-  ADD_BLOG_POST,
-  increaseViewCount,
-  togglePostActiveStatus,
-  UPDATE_BLOG_POST,
-} from '../../../API/mutations';
+import { increaseViewCount, togglePostActiveStatus, UPDATE_BLOG_POST } from '../../../API/mutations';
 import { SELECTED_BLOG_POST_DATA } from '../../constants';
 import { GET_BLOG_POST } from '../../../API/queries';
 import { SELECTED_BLOG_POST_ACTION } from '../../../redux/constants';

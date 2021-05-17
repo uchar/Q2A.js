@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';

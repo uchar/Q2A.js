@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
@@ -15,8 +14,8 @@ import { getStrings } from '../common/utlities/languageUtilities';
 const styles = {
   form: {
     width: '220%',
-    marginTop: (theme)=>theme.spacing(1),
-    padding: (theme)=>theme.spacing(4, 10, 4, 10),
+    marginTop: (theme) => theme.spacing(1),
+    padding: (theme) => theme.spacing(4, 10, 4, 10),
   },
   submit: {
     marginTop: '10px',

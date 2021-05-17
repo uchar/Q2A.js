@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { Box } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import BlogItem from '../../../common/components/Blog/BlogItem';
 import Layout from '../../../common/layouts/Layout';
-import CKEditor from '../../../common/components/Editor/CKEditor';
-import { GET_BLOG_POST, GET_QUESTION } from '../../../API/queries';
 import Loading from '../../../common/components/Loading';
-import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../../API/utility';
-import { getStrings } from '../../../common/utlities/languageUtilities';
-import { ADD_BLOG_POST } from '../../../API/mutations';
-import ErrorMessage from '../../../common/components/ErrorMessage';
 import { addRevalidateAndRedux, getItemsAndDispatch } from '../../../common/utlities/generalUtilities';
 import { wrapper } from '../../../redux/store';
-import { SELECTED_BLOG_POST_ACTION, SELECTED_QUESTION_ACTION } from '../../../redux/constants';
-import Q2aButton from '../../../common/components/Q2aButton';
-
 import {
   GET_ALL_BLOG_POSTS_DATA,
   GET_ALL_TAGS_DATA,

@@ -39,7 +39,7 @@ const getParentPost = async (parentId) => {
 
 const getUrlFromPost = async (blogPost) => {
   if (blogPost.type === BLOG_POST_TYPES.POST) {
-    return `/${blogPost.id}/${blogPost.title}`;
+    return `/blog/${blogPost.id}/${blogPost.title}`;
   }
   if (blogPost.type === BLOG_POST_TYPES.COMMENT) {
     const parentBlogPost = await getParentPost(blogPost.parentId);
@@ -93,7 +93,7 @@ const updateBlogPost = async (_, { language, id, title, content, tags }) => {
     id,
     language
   );
-  return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
+  return createSuccessResponse(`/blog/${id}/${encodeURIComponent(title)}`);
 };
 // add Comment to blog
 const addBlogComment = async (_, { language, blogPostId, content }, context) => {
@@ -113,7 +113,6 @@ const addBlogComment = async (_, { language, blogPostId, content }, context) => 
     context
   );
   const createBlogPostId = createBlogPostResult.id;
-  console.log('createBlogPostId:', createBlogPostId);
   await saveNotification(
     language,
     NOTIFICATION_REASON.COMMENT_RECEIVED,

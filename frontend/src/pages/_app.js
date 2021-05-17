@@ -6,12 +6,11 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NProgress from 'nprogress';
 import Router, { useRouter } from 'next/router';
-import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { wrapper } from '../redux/store';
 import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
-import { updateLanguageBaseOnUrl, getStrings } from '../common/utlities/languageUtilities';
+import { getStrings, updateLanguageBaseOnUrl } from '../common/utlities/languageUtilities';
 import 'nprogress/nprogress.css';
 
 NProgress.configure({ showSpinner: true });

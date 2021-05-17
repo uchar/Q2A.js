@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Layout from '../LandingPage/Layout/Layout';
 import { wrapper } from '../redux/store';
 import { addRevalidateAndRedux } from '../common/utlities/generalUtilities';

@@ -9,7 +9,7 @@ import {
   togglePostActiveStatus,
 } from '../../mutations/post.js';
 import { STATUS_CODE, TABLES } from '../../constants.js';
-import { makeContext, questionData, questionUpdatedData } from '../../testUtility';
+import { makeContext, questionData, questionUpdateData } from '../../testUtility';
 import databaseUtils from '../../db/database';
 
 describe('post mutations api', () => {
@@ -150,9 +150,9 @@ describe('post mutations api', () => {
       {
         language: questionData.language,
         id: question.id,
-        title: questionUpdatedData.title,
-        content: questionUpdatedData.content,
-        tags: questionUpdatedData.tags,
+        title: questionUpdateData.title,
+        content: questionUpdateData.content,
+        tags: questionUpdateData.tags,
       },
       makeContext()
     );
@@ -200,7 +200,7 @@ describe('post mutations api', () => {
     const questionId = question.id;
     const result = await addAnswer(
       null,
-      { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
+      { language: questionData.language, postId: questionId, content: questionUpdateData.content },
       makeContext()
     );
     await testPostColumn(questionId, 'answersCount', 1);
@@ -212,7 +212,7 @@ describe('post mutations api', () => {
     await testAddAnswerWrongInput(
       questionData.language,
       220,
-      questionUpdatedData.content,
+      questionUpdateData.content,
       STATUS_CODE.INPUT_ERROR,
       false
     );
@@ -230,7 +230,7 @@ describe('post mutations api', () => {
     const questionId = question.id;
     const createPostResult = await addAnswer(
       null,
-      { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
+      { language: questionData.language, postId: questionId, content: questionUpdateData.content },
       makeContext()
     );
     const updateContentAnswer = 'After writing out longhand these combinations I can sense patterns';
@@ -246,7 +246,7 @@ describe('post mutations api', () => {
     const questionId = question.id;
     const { createPostResult } = await addAnswer(
       null,
-      { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
+      { language: questionData.language, postId: questionId, content: questionUpdateData.content },
       makeContext()
     );
     await testUpdateAnswerWrongInput(
@@ -264,7 +264,7 @@ describe('post mutations api', () => {
     const questionId = question.id;
     const result = await addComment(
       null,
-      { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
+      { language: questionData.language, postId: questionId, content: questionUpdateData.content },
       makeContext()
     );
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
@@ -275,7 +275,7 @@ describe('post mutations api', () => {
     await testAddCommentWrongInput(
       questionData.language,
       220,
-      questionUpdatedData.content,
+      questionUpdateData.content,
       STATUS_CODE.INPUT_ERROR,
       false
     );
@@ -289,7 +289,7 @@ describe('post mutations api', () => {
     const questionId = question.id;
     const createPostResult = await addComment(
       null,
-      { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
+      { language: questionData.language, postId: questionId, content: questionUpdateData.content },
       makeContext()
     );
     const updateContentComment = 'After writing out longhand these combinations I can sense patterns';
@@ -306,7 +306,7 @@ describe('post mutations api', () => {
     const questionId = question.id;
     const createPostResult = await addComment(
       null,
-      { language: questionData.language, postId: questionId, content: questionUpdatedData.content },
+      { language: questionData.language, postId: questionId, content: questionUpdateData.content },
       makeContext()
     );
     const { id } = createPostResult;

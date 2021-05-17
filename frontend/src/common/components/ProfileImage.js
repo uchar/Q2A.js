@@ -11,7 +11,7 @@ const styles = (size) => {
       width: size,
       height: size,
       backgroundColor: 'white',
-      marginRight:(theme)=> theme.spacing(1),
+      marginRight: (theme) => theme.spacing(1),
       cursor: 'pointer',
     },
     score: {
@@ -19,8 +19,8 @@ const styles = (size) => {
       fontWeight: '800',
       flex: 1,
       display: 'flex',
-      marginLeft:(theme)=> theme.spacing(2.2),
-      marginTop: (theme)=>theme.spacing(0.3),
+      marginLeft: (theme) => theme.spacing(2.2),
+      marginTop: (theme) => theme.spacing(0.3),
     },
   };
 };
@@ -37,9 +37,7 @@ const ProfileImage = ({ profileImage, size, href, tooltip }) => {
       </div>
     );
   } else {
-    imageComponent = (
-      <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />
-    );
+    imageComponent = <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />;
   }
   if (tooltip) {
     imageComponent = (

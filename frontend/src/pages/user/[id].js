@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/core/styles';
-import { Button, Tab, Tabs, AppBar, Typography, Box, Avatar, CircularProgress } from '@material-ui/core';
+import { AppBar, Avatar, Box, Button, CircularProgress, Tab, Tabs, Typography } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';

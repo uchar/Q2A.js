@@ -1,10 +1,7 @@
 import { addBlogPost, updateBlogPost, addBlogComment } from '../../mutations/blog.js';
 import { STATUS_CODE } from '../../constants.js';
-import {
-  blogData,
-  blogPostUpdatedData,
-  makeContext,
-} from '../../testUtility';
+import { blogData, blogPostUpdateData, makeContext } from '../../testUtility';
+import { getBlogPost } from '../../queries/blog';
 
 describe('blog mutations api', () => {
   const testAddBlogPostWrongInput = async (language, title, content, tags) => {
@@ -80,19 +77,24 @@ describe('blog mutations api', () => {
   // Update BlogPost
   test('if correct input for updateBlogPost give success', async () => {
     const blogPost = await addNewBlogPost();
-    const result = await updateBlogPost(
+    const resultUpdateBlogPost = await updateBlogPost(
       null,
       {
         language: blogData.language,
         id: blogPost.id,
-        title: blogPostUpdatedData.title,
-        content: blogPostUpdatedData.content,
-        tags: blogPostUpdatedData.tags,
+        title: blogPostUpdateData.title,
+        content: blogPostUpdateData.content,
+        tags: blogPostUpdateData.tags,
       },
       makeContext()
     );
-    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
-    expect(result.message).toBeTruthy();
+    const getUpdatedBlogPost = await getBlogPost(null, { language: blogData.language, id: blogPost.id });
+    expect(resultUpdateBlogPost.statusCode).toBe(STATUS_CODE.SUCCESS);
+    expect(resultUpdateBlogPost.message).toBeTruthy();
+    expect(blogPostUpdateData.title).toBe(getUpdatedBlogPost.title);
+    expect(blogPostUpdateData.content).toBe(getUpdatedBlogPost.content);
+    expect(blogPostUpdateData.tags).toBe(blogPostUpdateData.tags);
+    expect(blogPost.id).toBe(getUpdatedBlogPost.id);
   });
 
   test("if wrong input for updateBlogPost shouldn't work", async () => {
@@ -123,13 +125,12 @@ describe('blog mutations api', () => {
   test('if correct input for BlogComment give success', async () => {
     const blogPost = await addNewBlogPost();
     const blogPostId = blogPost.id;
-    console.log(blogPostId);
     const result = await addBlogComment(
       null,
       {
         language: blogData.language,
         blogPostId,
-        content: blogPostUpdatedData.content,
+        content: blogPostUpdateData.content,
       },
       makeContext()
     );
@@ -142,7 +143,7 @@ describe('blog mutations api', () => {
     await testAddBlogCommentWrongInput(
       blogData.language,
       220,
-      blogPostUpdatedData.content,
+      blogPostUpdateData.content,
       STATUS_CODE.INPUT_ERROR,
       false
     );

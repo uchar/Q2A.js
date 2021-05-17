@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import requiredIf from 'react-required-if';
-import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../../API/utility';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
 import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
+import { getFirstItemFromJSON } from '../../utlities/generalUtilities';
 
 const styles = {
   root: {
@@ -23,7 +24,7 @@ const AddComment = ({ enable, onClose, postId, rootId, refreshQuery, reduxRefres
 
   const refreshQuestion = async () => {
     const getData = await doGraphQLQuery(refreshQuery, { id: rootId });
-    dispatch({ type: reduxRefreshAction, payload: firstItemObject(getData) });
+    dispatch({ type: reduxRefreshAction, payload: getFirstItemFromJSON(getData) });
   };
 
   const submitComment = async () => {

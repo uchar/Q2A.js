@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Layout from '../common/layouts/Layout';
 import LatestQuestion from '../common/components/Post/LatestQuestions';
-import { ALL_BLOG_POSTS, GET_ALL_QUESTIONS, ALL_TAGS } from '../API/queries';
+import { ALL_BLOG_POSTS, ALL_TAGS, GET_ALL_QUESTIONS } from '../API/queries';
 import { doGraphQLQuery } from '../API/utility';
 import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';
 import { wrapper } from '../redux/store';

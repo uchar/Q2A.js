@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-import { ALL_TAGS, GET_MY_USER } from './queries';
+import { GET_MY_USER } from './queries';
 import { UPDATE_USER, UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
 import { getLanguage } from '../common/utlities/languageUtilities';
-import { ALL_TAGS_ACTION } from '../redux/constants';
 
 const getJwtToken = () => {
   let jwtToken;
@@ -141,10 +140,7 @@ const isAccessLevelEnough = async (action, itemsUserId) => {
   }
   return false;
 };
-const firstItemObject = (obj) => {
-  const [first] = Object.values(obj);
-  return first;
-};
+
 export {
   updateCurrentUser,
   getCurrentUserId,
@@ -158,5 +154,4 @@ export {
   isSignedIn,
   USER_ACTIONS,
   isAccessLevelEnough,
-  firstItemObject,
 };

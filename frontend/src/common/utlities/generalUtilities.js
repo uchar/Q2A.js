@@ -85,3 +85,7 @@ export const getItemsAndDispatch = async (data, params, store) => {
     payload: data.responseName ? response[data.responseName] : response,
   });
 };
+export const getFirstItemFromJSON = (obj) => {
+  const [first] = Object.values(obj);
+  return first;
+};

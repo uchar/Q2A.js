@@ -12,7 +12,7 @@ export default function TagsList({ tags }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid className={classes.grid} container justify={'center'}  spacing={2}>
+      <Grid className={classes.grid} container justify={'center'} spacing={2}>
         {tags &&
           tags.map((tag) => (
             <Grid item key={tag.id}>

@@ -1,23 +1,8 @@
 import { getBlogPosts, getBlogPost } from '../../queries/blog.js';
 import { TABLES } from '../../constants.js';
-import { blogData, clearTable, createDuplicateData, makeContext } from '../../testUtility';
-import { addBlogPost } from '../../mutations/blog';
+import { blogData, clearTable, createData, createDuplicateData } from '../../testUtility';
 
 describe('blog query api', () => {
-  const createBlogPost = async (defaultParams, newParams) => {
-    const params = { ...defaultParams, ...newParams };
-    return addBlogPost(
-      null,
-      {
-        language: params.language,
-        title: params.title,
-        content: params.content,
-        tags: params.tags,
-      },
-      makeContext()
-    );
-  };
-
   // getBlogPosts
   test('if getBlogPosts work', async () => {
     await clearTable(TABLES.BLOG_POST_TABLE);
@@ -29,9 +14,11 @@ describe('blog query api', () => {
   // getBlogPost
   test('if getBlogPost return item with correct id', async () => {
     await clearTable(TABLES.BLOG_POST_TABLE);
-    const blogPost = await createBlogPost(blogData, { title: 'blogPost_test_1' });
+    const blogPost = await createData(TABLES.BLOG_POST_TABLE, blogData, true);
     const result = await getBlogPost(null, { language: blogData.language, id: blogPost.id });
-    expect('blogPost_test_1').toBe(result.title);
+    expect(blogPost.title).toBe(result.title);
+    expect(blogPost.content).toBe(result.content);
+    expect(blogPost.tags).toBe(result.tags);
     expect(blogPost.id).toBe(result.id);
   });
 });

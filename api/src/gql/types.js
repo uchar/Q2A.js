@@ -120,8 +120,8 @@ export default gql`
     createdAt: String!
   }
   type Result {
-    statusCode: StatusCode
-    message: String
+    statusCode: StatusCode!
+    message: String!
   }
   type AddResult {
     id: String!
@@ -171,34 +171,34 @@ export default gql`
   }
 
   type Mutation {
-    login(language: Language!, username: String!, password: String!): String
-    googleLogin(language: Language!, jwtToken: String!): String
+    login(language: Language!, username: String!, password: String!): String!
+    googleLogin(language: Language!, jwtToken: String!): String!
     signUp(language: Language!, email: String!, username: String!, password: String!): String
-    addQuestion(language: Language!, title: String!, content: String!, tags: [String]!): AddResult
-    addBlogPost(language: Language!, title: String!, content: String!, tags: [String]!): AddResult
-    addAnswer(language: Language!, postId: String!, content: String!): AddResult
-    addComment(language: Language!, postId: String!, content: String!): AddResult
-    addBlogComment(language: Language!, postId: String!, content: String!): AddResult
+    addQuestion(language: Language!, title: String!, content: String!, tags: [String]!): AddResult!
+    addBlogPost(language: Language!, title: String!, content: String!, tags: [String]!): AddResult!
+    addAnswer(language: Language!, postId: String!, content: String!): AddResult!
+    addComment(language: Language!, postId: String!, content: String!): AddResult!
+    addBlogComment(language: Language!, postId: String!, content: String!): AddResult!
     updateQuestion(
       language: Language!
       id: String!
       title: String!
       content: String!
       tags: [String]!
-    ): Result
+    ): Result!
     updateBlogPost(
       language: Language!
       id: String!
       title: String!
       content: String!
       tags: [String]!
-    ): Result
-    updateAnswer(language: Language!, id: String!, content: String!): Result
-    updateComment(language: Language!, id: String!, content: String!): Result
+    ): Result!
+    updateAnswer(language: Language!, id: String!, content: String!): Result!
+    updateComment(language: Language!, id: String!, content: String!): Result!
     #    uploadFile(language: Language!, file: Upload!): File!
-    updateUser(id: String!, input: UpdateUserInput!): Result
-    setReadAllNotifications(language: Language!): Result
-    increaseViewCount(language: Language!, id: String!): Result
-    togglePostActiveStatus(language: Language!, id: String!): Result
+    updateUser(id: String!, input: UpdateUserInput!): Result!
+    setReadAllNotifications(language: Language!): Result!
+    increaseViewCount(language: Language!, id: String!): Result!
+    togglePostActiveStatus(language: Language!, id: String!): Result!
   }
 `;

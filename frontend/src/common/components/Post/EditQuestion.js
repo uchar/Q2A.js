@@ -8,12 +8,12 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import requiredIf from 'react-required-if';
 import { getStrings } from '../../utlities/languageUtilities';
-import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../../API/utility';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
 import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
-import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
+import { ALL_TAGS } from '../../../API/queries';
 import Q2aButton from '../Q2aButton';
+import { getFirstItemFromJSON } from '../../common/utlities/generalUtilities';
 
 const styles = {
   section: {
@@ -82,7 +82,7 @@ const EditQuestion = ({
 
   const refreshQuestion = async () => {
     const getData = await doGraphQLQuery(refreshQuery, { id: editId });
-    dispatch({ type: reduxRefreshAction, payload: firstItemObject(getData) });
+    dispatch({ type: reduxRefreshAction, payload: getFirstItemFromJSON(getData) });
   };
 
   return (
@@ -105,7 +105,7 @@ const EditQuestion = ({
           if (editMode) params.id = editId;
           const mutation = editMode ? updateMutation : addMutation;
           const resultObject = await doGraphQLMutation(mutation, params);
-          const result = firstItemObject(resultObject);
+          const result = getFirstItemFromJSON(resultObject);
           if (result.statusCode !== 'SUCCESS') {
             throw new Error(result.message);
           }

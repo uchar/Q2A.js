@@ -7,15 +7,18 @@ import CKEditor from '../../common/components/Editor/CKEditor';
 import { GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import AnswerItem from '../../common/components/Post/AnswerItem';
-import { doGraphQLMutation, doGraphQLQuery, firstItemObject } from '../../API/utility';
+import { doGraphQLMutation, doGraphQLQuery } from '../../API/utility';
 import { getStrings } from '../../common/utlities/languageUtilities';
 import { ADD_ANSWER } from '../../API/mutations';
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { addRevalidateAndRedux, getItemsAndDispatch } from '../../common/utlities/generalUtilities';
+import {
+  addRevalidateAndRedux,
+  getFirstItemFromJSON,
+  getItemsAndDispatch,
+} from '../../common/utlities/generalUtilities';
 import { wrapper } from '../../redux/store';
 import { SELECTED_QUESTION_ACTION } from '../../redux/constants';
 import Q2aButton from '../../common/components/Q2aButton';
-
 import {
   GET_ALL_BLOG_POSTS_DATA,
   GET_ALL_TAGS_DATA,
@@ -46,7 +49,7 @@ const Post = () => {
 
   const refreshQuestion = async () => {
     const questionData = await doGraphQLQuery(GET_QUESTION, { id: question.id });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: firstItemObject(questionData) });
+    dispatch({ type: SELECTED_QUESTION_ACTION, payload: getFirstItemFromJSON(questionData) });
   };
 
   const submitAnswer = async () => {

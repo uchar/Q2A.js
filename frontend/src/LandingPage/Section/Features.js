@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Feature from '../../common/components/LandingPage/Feature';
 

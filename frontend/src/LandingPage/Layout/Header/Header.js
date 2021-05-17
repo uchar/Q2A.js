@@ -12,8 +12,7 @@ const styles = {
   grow: {
     flexGrow: 1,
   },
-  appBar: {
-  },
+  appBar: {},
   headerParent: { flex: 1 },
 };
 const listData = [
