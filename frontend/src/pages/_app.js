@@ -48,8 +48,7 @@ const Q2aApp = (props) => {
   }, []);
   const getLayout = Component.getLayout || ((page) => page);
   return (
-    // <CacheProvider value={cache}>
-    <React.Fragment>
+    <CacheProvider value={cache}>
       <Head>
         <title>{getStrings().SITE_TITLE}</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -58,8 +57,7 @@ const Q2aApp = (props) => {
         <CssBaseline />
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
-    </React.Fragment>
-    // </CacheProvider>
+    </CacheProvider>
   );
 };
 

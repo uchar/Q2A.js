@@ -38,7 +38,6 @@
     "jalali-moment": "3.3.10",
     "jsonwebtoken": "8.5.1",
     "jss": "10.6.0",
-    "jss-rtl": "0.3.0",
     "lodash": "4.17.21",
     "moment": "2.29.1",
     "next": "10.2.0",
@@ -63,6 +62,7 @@
     "react-syntax-highlighter": "15.4.3",
     "recharts": "2.0.9",
     "redux": "4.1.0",
+    "stylis-plugin-rtl": "2.1.0",
     "yup": "0.32.9",
     "react-swipeable-views-utils": "0.14.0-alpha.0"
 
