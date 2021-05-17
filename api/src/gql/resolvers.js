@@ -10,7 +10,7 @@ import {
   getUserClapItems,
   getUserQuestions,
 } from '../queries/post.js';
-import { addBlogPost } from '../mutations/blog.js';
+import { addBlogPost, updateBlogPost, addBlogComment } from '../mutations/blog.js';
 import { getAllTags, getTagDetail } from '../queries/tag.js';
 import { getUser } from '../queries/user.js';
 import { getNotifications } from '../queries/notifications.js';
@@ -24,7 +24,6 @@ import {
   updateAnswer,
   updateComment,
   updateQuestion,
-  updateBlogPost,
   increaseQuestionViewCount,
   togglePostActiveStatus,
 } from '../mutations/post.js';
@@ -60,6 +59,7 @@ export default {
     updateComment,
     addAnswer,
     addComment,
+    addBlogComment,
     setReadAllNotifications,
     addBlogPost,
     increaseViewCount: increaseQuestionViewCount,

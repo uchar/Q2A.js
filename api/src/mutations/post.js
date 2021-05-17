@@ -19,7 +19,6 @@ const questionSchema = yup.object().shape({
   language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
 });
 
-
 const answerSchema = yup.object().shape({
   content: yup.string().required().min(20),
   language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
@@ -198,7 +197,6 @@ const updateQuestion = async (_, { language, id, title, content, tags }) => {
   );
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
 };
-
 
 const increaseQuestionViewCount = async (_, { id }) => {
   await checkInputValidation(

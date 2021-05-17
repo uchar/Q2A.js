@@ -1,6 +1,10 @@
-import { addBlogPost, updateBlogPost } from '../../mutations/blog.js';
+import { addBlogPost, updateBlogPost, addBlogComment } from '../../mutations/blog.js';
 import { STATUS_CODE } from '../../constants.js';
-import { blogData, blogPostUpdatedData, makeContext } from '../../testUtility';
+import {
+  blogData,
+  blogPostUpdatedData,
+  makeContext,
+} from '../../testUtility';
 
 describe('blog mutations api', () => {
   const testAddBlogPostWrongInput = async (language, title, content, tags) => {
@@ -40,6 +44,18 @@ describe('blog mutations api', () => {
     }
     if (result) expect(`Update BlogPost should give error with:' ${title},${content},${tags}`).toBe(false);
   };
+
+  const testAddBlogCommentWrongInput = async (language, blogPostId, content, errorMessage, typeErrorFlag) => {
+    let result;
+    try {
+      result = await addBlogComment(null, { language, blogPostId, content }, makeContext());
+    } catch (e) {
+      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
+      else expect(e.message).toBe(errorMessage);
+    }
+    if (result) expect(`add BlogComment should give error with:' ${blogPostId},${content}`).toBe(false);
+  };
+
   test('if correct input for add blog post give success', async () => {
     const result = await addNewBlogPost(blogData.language, blogData.title, blogData.content, blogData.tags);
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
@@ -101,5 +117,36 @@ describe('blog mutations api', () => {
       'c++',
     ]);
     await testUpdateBlogPostWrongInput(blogData.language, blogPostId, 'wrong', 'wrong_content', ['c++']);
+  });
+
+  // add BlogComment
+  test('if correct input for BlogComment give success', async () => {
+    const blogPost = await addNewBlogPost();
+    const blogPostId = blogPost.id;
+    console.log(blogPostId);
+    const result = await addBlogComment(
+      null,
+      {
+        language: blogData.language,
+        blogPostId,
+        content: blogPostUpdatedData.content,
+      },
+      makeContext()
+    );
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+  });
+
+  test("if wrong input for BlogComment shouldn't work", async () => {
+    const blogPost = await addNewBlogPost();
+    const blogPostId = blogPost.id;
+    await testAddBlogCommentWrongInput(
+      blogData.language,
+      220,
+      blogPostUpdatedData.content,
+      STATUS_CODE.INPUT_ERROR,
+      false
+    );
+    await testAddBlogCommentWrongInput(blogData.language, blogPostId, 'wrong', 'ValidationError', true);
+    await testAddBlogCommentWrongInput('wrong', blogPostId, blogData.content, 'ValidationError', true);
   });
 });
