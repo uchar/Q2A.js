@@ -49,6 +49,14 @@ const questionUpdatedData = {
   tags: ['python', 'openCv'],
   language: LANGUAGE.ENGLISH,
 };
+const blogPostUpdatedData = {
+  title: 'NEXT.js — The Ultimate React Framework',
+  content:
+    'Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, ' +
+    'it puts you and your team in the pit of success when building React applications.',
+  tags: ['Next.js', 'React'],
+  language: LANGUAGE.ENGLISH,
+};
 const tagData = {
   language: LANGUAGE.ENGLISH,
   title: 'test_tag',
@@ -97,6 +105,7 @@ const compartDataToBeResult = (data, result) => {
 export {
   questionData,
   questionUpdatedData,
+  blogPostUpdatedData,
   tagData,
   createData,
   blogData,

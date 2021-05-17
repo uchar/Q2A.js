@@ -1,20 +1,8 @@
-import { addBlogPost } from '../../mutations/blog.js';
+import { addBlogPost, updateBlogPost } from '../../mutations/blog.js';
 import { STATUS_CODE } from '../../constants.js';
-import { makeContext } from '../../testUtility';
+import { blogData, blogPostUpdatedData, makeContext } from '../../testUtility';
 
 describe('blog mutations api', () => {
-  const data = {
-    title: 'NEXT.js — The Ultimate React Framework\n',
-    content: `Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, it puts you and your team in the pit of success when building React applications.
-Next.js has the best-in-class “Developer Experience” and many built-in features;
-To name a few of them:
-An intuitive page-based routing system (with support for dynamic routes)
-Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are supported on a per-page basis
-`,
-    tags: ['next.js', 'react'],
-    language: 'en',
-  };
-
   const testAddBlogPostWrongInput = async (language, title, content, tags) => {
     let result;
     try {
@@ -25,22 +13,44 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
     if (result) expect(`Add blog post should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
-  const addNewBlogPost = async (language, title, content, tags) => {
-    const result = await addBlogPost(null, { language, title, content, tags }, makeContext());
-    return result;
+  const addNewBlogPost = async () => {
+    const { language } = blogData;
+    const { title } = blogData;
+    const { content } = blogData;
+    const { tags } = blogData;
+    return addBlogPost(null, { language, title, content, tags }, makeContext());
   };
 
+  const testUpdateBlogPostWrongInput = async (language, blogPostId, title, content, tags) => {
+    let result;
+    try {
+      result = await updateBlogPost(
+        null,
+        {
+          language,
+          blogPostId,
+          title,
+          content,
+          tags,
+        },
+        makeContext()
+      );
+    } catch (e) {
+      expect(e.name).toBe('ValidationError');
+    }
+    if (result) expect(`Update BlogPost should give error with:' ${title},${content},${tags}`).toBe(false);
+  };
   test('if correct input for add blog post give success', async () => {
-    const result = await addNewBlogPost(data.language, data.title, data.content, data.tags);
+    const result = await addNewBlogPost(blogData.language, blogData.title, blogData.content, blogData.tags);
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 
   test("if wrong input for addBlogPost doesn't work", async () => {
-    await testAddBlogPostWrongInput('wrong', data.title, data.content, data.tags);
-    await testAddBlogPostWrongInput(data.language, 'wrong', data.content, data.tags);
-    await testAddBlogPostWrongInput(data.language, data.title, 'wrong_content', data.tags);
-    await testAddBlogPostWrongInput(data.language, data.title, data.content, ['wrong']);
-    await testAddBlogPostWrongInput(data.language, data.title, data.content, [
+    await testAddBlogPostWrongInput('wrong', blogData.title, blogData.content, blogData.tags);
+    await testAddBlogPostWrongInput(blogData.language, 'wrong', blogData.content, blogData.tags);
+    await testAddBlogPostWrongInput(blogData.language, blogData.title, 'wrong_content', blogData.tags);
+    await testAddBlogPostWrongInput(blogData.language, blogData.title, blogData.content, ['wrong']);
+    await testAddBlogPostWrongInput(blogData.language, blogData.title, blogData.content, [
       'html',
       'c',
       'c#',
@@ -49,5 +59,47 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
       'openCv',
     ]);
     await testAddBlogPostWrongInput('wrong', 'wrong_content', ['wrong']);
+  });
+
+  // Update BlogPost
+  test('if correct input for updateBlogPost give success', async () => {
+    const blogPost = await addNewBlogPost();
+    const result = await updateBlogPost(
+      null,
+      {
+        language: blogData.language,
+        id: blogPost.id,
+        title: blogPostUpdatedData.title,
+        content: blogPostUpdatedData.content,
+        tags: blogPostUpdatedData.tags,
+      },
+      makeContext()
+    );
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+    expect(result.message).toBeTruthy();
+  });
+
+  test("if wrong input for updateBlogPost shouldn't work", async () => {
+    const blogPost = await addNewBlogPost();
+    const blogPostId = blogPost.id;
+    await testUpdateBlogPostWrongInput('wrong', blogPostId, blogData.title, blogData.content, blogData.tags);
+    await testUpdateBlogPostWrongInput(
+      blogData.language,
+      blogPostId,
+      'wrong',
+      blogData.content,
+      blogData.tags
+    );
+    await testUpdateBlogPostWrongInput(
+      blogData.language,
+      blogPostId,
+      blogData.title,
+      'wrong_content',
+      blogData.tags
+    );
+    await testUpdateBlogPostWrongInput(blogData.language, blogPostId, blogData.title, blogData.content, [
+      'c++',
+    ]);
+    await testUpdateBlogPostWrongInput(blogData.language, blogPostId, 'wrong', 'wrong_content', ['c++']);
   });
 });

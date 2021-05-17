@@ -18,12 +18,7 @@ const questionSchema = yup.object().shape({
   tags: yup.array().required().min(2).max(5),
   language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
 });
-const blogPostSchema = yup.object().shape({
-  title: yup.string().required().min(10),
-  content: yup.string().required().min(25),
-  tags: yup.array().required().min(2).max(5),
-  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
-});
+
 
 const answerSchema = yup.object().shape({
   content: yup.string().required().min(20),
@@ -204,23 +199,6 @@ const updateQuestion = async (_, { language, id, title, content, tags }) => {
   return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
 };
 
-const updateBlogPost = async (_, { language, id, title, content, tags }) => {
-  await checkInputValidation(blogPostSchema, { language, title, content, tags });
-  const blogPostTags = {};
-  tags.forEach((tag, index) => {
-    blogPostTags[`tag${index + 1}`] = tag;
-  });
-  await updatePost(
-    {
-      title,
-      content,
-      ...blogPostTags,
-    },
-    id,
-    language
-  );
-  return createSuccessResponse(`/${id}/${encodeURIComponent(title)}`);
-};
 
 const increaseQuestionViewCount = async (_, { id }) => {
   await checkInputValidation(
@@ -249,7 +227,6 @@ export {
   addComment,
   addAnswer,
   updateQuestion,
-  updateBlogPost,
   updateComment,
   updateAnswer,
   addQuestion,

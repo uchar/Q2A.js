@@ -17,6 +17,8 @@ describe('blog query api', () => {
       makeContext()
     );
   };
+
+  // getBlogPosts
   test('if getBlogPosts work', async () => {
     await clearTable(TABLES.BLOG_POST_TABLE);
     const testCount = 3;
@@ -24,6 +26,7 @@ describe('blog query api', () => {
     const posts = await getBlogPosts(null, { language: blogData.language, limit: 10, offset: 0 });
     expect(posts).toHaveLength(testCount);
   });
+  // getBlogPost
   test('if getBlogPost return item with correct id', async () => {
     await clearTable(TABLES.BLOG_POST_TABLE);
     const blogPost = await createBlogPost(blogData, { title: 'blogPost_test_1' });
