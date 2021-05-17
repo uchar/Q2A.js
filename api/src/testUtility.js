@@ -40,7 +40,7 @@ const commentData = {
   language: LANGUAGE.ENGLISH,
   content: 'some random comment for some random question or answer',
 };
-const questionUpdatedData = {
+const questionUpdateData = {
   title: 'Generate combinations from 2D array',
   content:
     'After writing out longhand these combinations I can sense patterns, like there are ' +
@@ -49,7 +49,7 @@ const questionUpdatedData = {
   tags: ['python', 'openCv'],
   language: LANGUAGE.ENGLISH,
 };
-const blogPostUpdatedData = {
+const blogPostUpdateData = {
   title: 'NEXT.js — The Ultimate React Framework',
   content:
     'Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, ' +
@@ -104,8 +104,8 @@ const compartDataToBeResult = (data, result) => {
 
 export {
   questionData,
-  questionUpdatedData,
-  blogPostUpdatedData,
+  questionUpdateData,
+  blogPostUpdateData,
   tagData,
   createData,
   blogData,
