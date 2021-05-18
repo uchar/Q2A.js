@@ -1,4 +1,4 @@
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { faIR } from '@material-ui/core/locale';
 import { pink } from '@material-ui/core/colors';
 
@@ -90,5 +90,5 @@ const themeSettingsLight = {
 const themeSettingsDark = JSON.parse(JSON.stringify(themeSettingsLight));
 themeSettingsDark.palette.mode = 'dark';
 
-export const lightTheme = responsiveFontSizes(createMuiTheme(themeSettingsLight, faIR));
-export const darkTheme = responsiveFontSizes(createMuiTheme(themeSettingsDark, faIR));
+export const lightTheme = responsiveFontSizes(createTheme(themeSettingsLight, faIR));
+export const darkTheme = responsiveFontSizes(createTheme(themeSettingsDark, faIR));
