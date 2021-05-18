@@ -1,25 +1,32 @@
 import React, { useEffect } from 'react';
-import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
-import { parseContent } from '../../parsers/parser';
+import { parseContent } from '../../../parsers/parser';
 import {
   DeepMemo,
   getItemsAndDispatch,
   getTagsArray,
   isInClientBrowser,
-} from '../../utlities/generalUtilities';
-import EditQuestion from './EditQuestion';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from './PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import PostToolbar from './PostToolbar';
-import CommentsSection from './CommentsSection';
-import AddComment from './AddComment';
-import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utilities';
-import { getLanguage } from '../../utlities/languageUtilities';
-import { increaseViewCount, togglePostActiveStatus } from '../../../API/mutations';
-import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';
+} from '../../../utlities/generalUtilities';
+import EditContent from '../EditContent';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import ToolbarSection from '../ToolbarSection';
+import CommentsSection from '../CommentsSection';
+import AddComment from '../AddComment';
+import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../../API/utility';
+import { getLanguage } from '../../../utlities/languageUtilities';
+import {
+  ADD_BLOG_POST_COMMENT,
+  increaseViewCount,
+  togglePostActiveStatus,
+  UPDATE_BLOG_POST,
+} from '../../../../API/mutations';
+import { SELECTED_BLOG_POST_DATA } from '../../../constants';
+import { GET_BLOG_POST } from '../../../../API/queries';
+import { SELECTED_BLOG_POST_ACTION } from '../../../../redux/constants';
 
 const styles = {
   root: {
@@ -49,7 +56,7 @@ const styles = {
   },
 };
 
-const QuestionItem = DeepMemo(function QuestionItem({
+const BlogItem = DeepMemo(function BlogItem({
   id,
   title,
   content,
@@ -57,7 +64,6 @@ const QuestionItem = DeepMemo(function QuestionItem({
   createdAt,
   viewsCount,
   votesCount,
-  answersCount,
   comments,
   tag1,
   tag2,
@@ -72,6 +78,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
   const parsedContent = parseContent(content, getLanguage());
+
   const store = useStore();
   useEffect(() => {
     const getUserId = async () => {
@@ -93,7 +100,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
 
   const handleDisable = async () => {
     await doGraphQLMutation(togglePostActiveStatus, { id });
-    return getItemsAndDispatch(SELECTED_QUESTION_QUESTIONS_DATA, { id }, store);
+    return getItemsAndDispatch(SELECTED_BLOG_POST_DATA, { id }, store);
   };
 
   return (
@@ -106,7 +113,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
           publicName={publicName}
           score={score}
         />
-        <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount}  />
       </Grid>
 
       {!isEditMode ? (
@@ -117,7 +124,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
           <div sx={styles.contentDiv}> {parsedContent}</div>
         </div>
       ) : (
-        <EditQuestion
+        <EditContent
           editMode
           editTitle={title}
           editTags={tags.map((tag) => {
@@ -128,10 +135,13 @@ const QuestionItem = DeepMemo(function QuestionItem({
           editContent={content}
           editId={id}
           onEditFinished={handleEditFinished}
+          updateMutation={UPDATE_BLOG_POST}
+          refreshQuery={GET_BLOG_POST}
+          reduxRefreshAction={SELECTED_BLOG_POST_ACTION}
         />
       )}
       <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
-      <PostToolbar
+      <ToolbarSection
         showShare
         shareTitle={`${title} - q2a`}
         shareBody={content}
@@ -155,20 +165,22 @@ const QuestionItem = DeepMemo(function QuestionItem({
         onClose={() => {
           setIsCommentMode(false);
         }}
+        refreshQuery={GET_BLOG_POST}
+        reduxRefreshAction={SELECTED_BLOG_POST_ACTION}
+        addCommentMutation={ADD_BLOG_POST_COMMENT}
       />
       <CommentsSection comments={comments} />
     </Box>
   );
 });
 
-QuestionItem.propTypes = {
+BlogItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   viewsCount: PropTypes.number.isRequired,
   votesCount: PropTypes.number.isRequired,
-  answersCount: PropTypes.number.isRequired,
   comments: PropTypes.array.isRequired,
   tag1: PropTypes.string.isRequired,
   tag2: PropTypes.string.isRequired,
@@ -178,4 +190,4 @@ QuestionItem.propTypes = {
   active: PropTypes.bool,
   createdAt: PropTypes.string.isRequired,
 };
-export default QuestionItem;
+export default BlogItem;

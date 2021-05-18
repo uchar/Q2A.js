@@ -11,7 +11,7 @@ const styles = (size) => {
       width: size,
       height: size,
       backgroundColor: 'white',
-      marginRight:(theme)=> theme.spacing(1),
+      marginRight: (theme) => theme.spacing(1),
       cursor: 'pointer',
     },
     score: {
@@ -19,27 +19,25 @@ const styles = (size) => {
       fontWeight: '800',
       flex: 1,
       display: 'flex',
-      marginLeft:(theme)=> theme.spacing(2.2),
-      marginTop: (theme)=>theme.spacing(0.3),
+      marginLeft: (theme) => theme.spacing(2.2),
+      marginTop: (theme) => theme.spacing(0.3),
     },
   };
 };
 
 const ProfileImage = ({ profileImage, size, href, tooltip }) => {
-  const classes = styles(size);
+  const stylesWithSize = styles(size);
   let imageComponent;
   if (profileImage) {
     imageComponent = (
       <div>
-        <Avatar aria-label="recipe" sx={classes.avatar} src={getFullUrl(profileImage)}>
-          <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />
+        <Avatar aria-label="recipe" sx={stylesWithSize.avatar} src={getFullUrl(profileImage)}>
+          <Avatar aria-label="recipe" sx={stylesWithSize.avatar} src={'/images/default_profile.jpg'} />
         </Avatar>
       </div>
     );
   } else {
-    imageComponent = (
-      <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />
-    );
+    imageComponent = <Avatar aria-label="recipe" sx={stylesWithSize.avatar} src={'/images/default_profile.jpg'} />;
   }
   if (tooltip) {
     imageComponent = (

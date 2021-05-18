@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Layout from '../../common/layouts/Layout';
-import LatestQuestion from '../../common/components/Post/LatestQuestions';
+import LatestQuestion from '../../common/components/Contents/Post/LatestQuestions';
 import { wrapper } from '../../redux/store';
 import { CURRENT_TAG_ACTION } from '../../redux/constants';
 import { addRevalidateAndRedux, getItemsAndDispatch } from '../../common/utlities/generalUtilities';

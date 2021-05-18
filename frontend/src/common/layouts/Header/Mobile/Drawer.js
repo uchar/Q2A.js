@@ -52,8 +52,7 @@ const Drawer = ({ isMobileMenuOpen, toggleDrawer, listData }) => {
   );
 };
 
-Drawer.defaultProps = {
-};
+Drawer.defaultProps = {};
 Drawer.propTypes = {
   listData: PropTypes.array.isRequired,
   isMobileMenuOpen: PropTypes.bool.isRequired,

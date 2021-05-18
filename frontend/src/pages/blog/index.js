@@ -8,15 +8,22 @@ import {
   getItemsWithOffsetAndDispatch,
   getPageCount,
 } from '../../common/utlities/generalUtilities';
-import LatestBlogPosts from '../../common/components/Blog/LatestBlogPosts';
+import LatestBlogPosts from '../../common/components/Contents/Blog/LatestBlogPosts';
 import BlogLayout from '../../common/layouts/BlogLayout';
 import { ALL_BLOG_POSTS_DATA, GET_ALL_TAGS_DATA, GET_STATISTICS_DATA } from '../../common/constants';
 import Pagination from '../../common/components/Pagination';
+import { getStrings } from '../../common/utlities/languageUtilities';
+import Q2aButton from '../../common/components/Q2aButton';
 
 const styles = {
   root: {
     textAlign: 'center',
     color: (theme) => theme.palette.text.secondary,
+  },
+  buttonAddPost: {
+    marginTop: (theme) => theme.spacing(6),
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 };
 
@@ -28,9 +35,12 @@ function BlogMainPage() {
   };
   return (
     <Box sx={styles.root}>
+      <Box sx={styles.buttonAddPost}>
+        <Q2aButton url={'/blog/post'} shouldShowLoading={false} text={getStrings().ADD_BLOG_POST_BUTTON} />
+      </Box>
       <LatestBlogPosts blogPosts={blogPosts} />
       {statistics && (
-        <Pagination pageCount={getPageCount( statistics.blogPostsCount)} onChange={handlePageChange} />
+        <Pagination pageCount={getPageCount(statistics.blogPostsCount)} onChange={handlePageChange} />
       )}
     </Box>
   );

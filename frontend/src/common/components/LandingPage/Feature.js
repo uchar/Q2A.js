@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Button, CardActions } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 

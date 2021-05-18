@@ -33,7 +33,6 @@ const styles = {
   newsBox: {},
 };
 
-
 const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
   const blogPosts = useSelector((state) => state.blogPosts);

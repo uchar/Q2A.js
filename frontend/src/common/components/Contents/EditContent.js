@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, CardContent, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Box, CardContent, TextField, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Autocomplete from '@material-ui/core/Autocomplete';
@@ -8,13 +8,12 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import requiredIf from 'react-required-if';
 import { getStrings } from '../../utlities/languageUtilities';
-import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
-import { ADD_QUESTION, UPDATE_QUESTION } from '../../../API/mutations';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
 import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
-import { ALL_TAGS, GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
+import { ALL_TAGS } from '../../../API/queries';
 import Q2aButton from '../Q2aButton';
+import { getFirstItemFromJSON } from '../../utlities/generalUtilities';
 
 const styles = {
   section: {
@@ -52,7 +51,18 @@ const styles = {
 };
 
 // eslint-disable-next-line max-lines-per-function
-const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEditFinished }) => {
+const EditContent = ({
+  editMode,
+  editId,
+  editTitle,
+  editTags,
+  editContent,
+  onEditFinished,
+  updateMutation,
+  addMutation,
+  refreshQuery,
+  reduxRefreshAction,
+}) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [tags, setTags] = React.useState([
@@ -71,8 +81,8 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
   }, []);
 
   const refreshQuestion = async () => {
-    const questionData = await doGraphQLQuery(GET_QUESTION, { id: editId });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
+    const getData = await doGraphQLQuery(refreshQuery, { id: editId });
+    dispatch({ type: reduxRefreshAction, payload: getFirstItemFromJSON(getData) });
   };
 
   return (
@@ -93,12 +103,13 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
             tags: tagsToSend,
           };
           if (editMode) params.id = editId;
-          const mutation = editMode ? UPDATE_QUESTION : ADD_QUESTION;
+          const mutation = editMode ? updateMutation : addMutation;
           const resultObject = await doGraphQLMutation(mutation, params);
-          const result = editMode ? resultObject.updateQuestion : resultObject.addQuestion;
+          const result = getFirstItemFromJSON(resultObject);
           if (result.statusCode !== 'SUCCESS') {
             throw new Error(result.message);
           }
+
           if (editMode) {
             await refreshQuestion();
             onEditFinished();
@@ -181,7 +192,7 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
                     <TextField {...params} variant="outlined" label={getStrings().ASK_TAG_LABEL} />
                   )}
                 />
-                {errors.tags && <ErrorMessage className={classes.error} text={errors.tags} />}
+                {errors.tags && <ErrorMessage sx={styles.error} text={errors.tags} />}
               </Box>
             </CardContent>
             {
@@ -210,22 +221,25 @@ const EditQuestion = ({ editMode, editId, editTitle, editTags, editContent, onEd
               </div>
             }
 
-            {errors.api && <ErrorMessage className={classes.error} text={errors.api} />}
+            {errors.api && <ErrorMessage sx={styles.error} text={errors.api} />}
           </form>
         );
       }}
     </Formik>
   );
 };
-EditQuestion.defaultProps = {
+EditContent.defaultProps = {
   editMode: false,
 };
-EditQuestion.propTypes = {
+EditContent.propTypes = {
   editMode: PropTypes.bool.isRequired,
   editId: requiredIf(PropTypes.string, (props) => props.editMode),
   editTitle: requiredIf(PropTypes.string, (props) => props.editMode),
   editTags: requiredIf(PropTypes.array, (props) => props.editMode),
   editContent: requiredIf(PropTypes.string, (props) => props.editMode),
-  onEditFinished: requiredIf(PropTypes.func, (props) => props.editMode),
+  updateMutation: requiredIf(PropTypes.object, (props) => props.editMode),
+  addMutation: requiredIf(PropTypes.object, (props) => !props.editMode),
+  refreshQuery: requiredIf(PropTypes.object, (props) => props.editMode),
+  reduxRefreshAction: requiredIf(PropTypes.string, (props) => props.editMode),
 };
-export default EditQuestion;
+export default EditContent;

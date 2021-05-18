@@ -23,7 +23,7 @@ const getItem = (icon, text, parentStyle, textStyle) => {
   );
 };
 
-const PostStatistics = DeepMemo(function PostStatistics({ votesCount, viewsCount, answersCount }) {
+const StatisticsSection = DeepMemo(function PostStatistics({ votesCount, viewsCount, answersCount }) {
   return (
     <Box sx={styles.root}>
       {votesCount !== undefined && getItem(<ViewIcon />, votesCount, styles.item, styles.text)}
@@ -32,9 +32,9 @@ const PostStatistics = DeepMemo(function PostStatistics({ votesCount, viewsCount
     </Box>
   );
 });
-PostStatistics.propTypes = {
+StatisticsSection.propTypes = {
   votesCount: PropTypes.number,
   viewsCount: PropTypes.number,
   answersCount: PropTypes.number,
 };
-export default PostStatistics;
+export default StatisticsSection;

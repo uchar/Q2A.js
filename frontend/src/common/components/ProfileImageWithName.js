@@ -1,19 +1,19 @@
 import React from 'react';
-import {Box, Typography} from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { DeepMemo, timeAgo } from '../utlities/generalUtilities';
 import { getLanguage, getStrings } from '../utlities/languageUtilities';
 import ProfileImage from './ProfileImage';
 
-const styles ={
+const styles = {
   root: { display: 'flex', flexDirection: 'row', textAlign: 'left' },
-  nameDateSection: { marginTop:(theme)=> theme.spacing(2) },
+  nameDateSection: { marginTop: (theme) => theme.spacing(2) },
   name: {
     cursor: 'pointer',
-    marginRight:(theme)=> theme.spacing(1),
+    marginRight: (theme) => theme.spacing(1),
   },
-  date: { marginRight: (theme)=>theme.spacing(1) },
+  date: { marginRight: (theme) => theme.spacing(1) },
   medalSection: {
     flexDirection: 'row',
     marginTop: '2px',
@@ -21,7 +21,7 @@ const styles ={
     display: 'flex',
   },
   medal: {
-    marginRight:(theme)=> theme.spacing(1),
+    marginRight: (theme) => theme.spacing(1),
   },
 };
 

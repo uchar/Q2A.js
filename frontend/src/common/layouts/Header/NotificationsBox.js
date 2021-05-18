@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Menu, Typography } from '@material-ui/core';
+import { Menu, Typography, Box } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
 import Loading from '../../components/Loading';
-import { doGraphQLQuery, isSignedIn } from '../../../API/utilities';
+import { doGraphQLQuery, isSignedIn } from '../../../API/utility';
 import { GET_NOTIFICATIONS } from '../../../API/queries';
 import { parseContent } from '../../parsers/parser';
 import { timeAgo } from '../../utlities/generalUtilities';
@@ -85,7 +84,7 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
         dataLength={notifications.length}
         next={fetchMoreData}
         hasMore={notifications.length > 0 && notifications.length % limit === 0}
-        loader={<Loading browserSize={45} mobileSize={45} type={'circle'} className={classes.loading} />}
+        loader={<Loading browserSize={45} mobileSize={45} type={'circle'} sx={styles.loading} />}
       >
         {notifications.map((row) => {
           let name = '';
@@ -101,15 +100,15 @@ const NotificationsBox = ({ notificationAnchor, onClose, onNotificationCountChan
 
           return (
             <Link key={row.id} prefetch={false} href={`${url}`}>
-              <Paper key={row} className={classes.notificationBox}>
-                <div className={classes.boxTop}>
-                  <Typography color={'textSecondary'} className={classes.notificationBoxNameDate}>
+              <Paper key={row} sx={styles.notificationBox}>
+                <Box sx={styles.boxTop}>
+                  <Typography color={'textSecondary'} sx={styles.notificationBoxNameDate}>
                     {timeAgo(row.createdAt)}
                   </Typography>
-                  <Typography color={'textSecondary'} className={classes.notificationBoxName}>
+                  <Typography color={'textSecondary'} sx={styles.notificationBoxName}>
                     {name}
                   </Typography>
-                </div>
+                </Box>
                 {parseContent(
                   row.title,
                   getLanguage(),

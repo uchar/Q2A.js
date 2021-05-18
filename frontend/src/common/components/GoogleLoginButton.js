@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { loginWithGoogle } from '../../API/utilities';
+import { loginWithGoogle } from '../../API/utility';
 import ErrorMessage from './ErrorMessage';
 
 const styles = {

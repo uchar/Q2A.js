@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-import { ALL_TAGS, GET_MY_USER } from './queries';
+import { GET_MY_USER } from './queries';
 import { UPDATE_USER, UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
 import getStandaloneApolloClient from '../apolloClient';
 import { getLanguage } from '../common/utlities/languageUtilities';
-import { ALL_TAGS_ACTION } from '../redux/constants';
 
 const getJwtToken = () => {
   let jwtToken;
@@ -87,7 +86,6 @@ const getCurrentUser = async () => {
       }
       const result = await doGraphQLQuery(GET_MY_USER);
       await localStorage.setItem('USER', JSON.stringify(result.getUser));
-      console.log(result);
       return result.getUser;
     } catch (error) {
       return false;
@@ -141,8 +139,6 @@ const isAccessLevelEnough = async (action, itemsUserId) => {
   }
   return false;
 };
-
-
 
 export {
   updateCurrentUser,

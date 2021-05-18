@@ -1,16 +1,18 @@
 import React from 'react';
-import { Box, CardContent, makeStyles, Typography } from '@material-ui/core';
+import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { parseContent } from '../../parsers/parser';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from '../Post/PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
-import { getLanguage } from '../../utlities/languageUtilities';
+import { parseContent } from '../../../parsers/parser';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import { DeepMemo, getTagsArray } from '../../../utlities/generalUtilities';
+import { getLanguage } from '../../../utlities/languageUtilities';
 
 const styles = {
   root: {
-    margin: (theme) => theme.spacing(5, 0, 5, 0),
+    margin: (theme) => theme.spacing(1, 0, 2, 0),
     paddingBottom: (theme) => theme.spacing(3),
     textAlign: 'center',
   },
@@ -20,23 +22,39 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  detailSection: {
+  titleSection: {
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
-    margin: (theme) => theme.spacing(0, 1, 0, 3),
+    marginTop: (theme) => theme.spacing(4),
   },
   tagsSection: {
-    margin: (theme) => theme.spacing(1.5, 2, 0.5, 2),
+    margin: (theme) => theme.spacing(0, 2, 0, 2),
+  },
+  expand: {
+    width: '1em',
+    height: '1em',
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: (theme) =>
+      theme.transitions.create('transform', {
+        duration: 100,
+      }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  content: {
+    paddingBottom: (theme) => theme.spacing(1),
   },
   title: {
-    marginTop: (theme)=>theme.spacing(3),
-    marginBottom:(theme)=> theme.spacing(0),
+    paddingTop: (theme) => theme.spacing(1.5),
     textAlign: 'initial ',
     wordWrap: 'break-word',
     cursor: 'pointer',
+    // color: theme.palette.questionTitles,
     '&:hover': {
-      color: '#314285',
+      color: '#2d4bbe',
       textDecorationLine: 'underline',
     },
   },
@@ -47,16 +65,15 @@ const BlogItemPreview = DeepMemo(function ({
   title,
   content,
   user,
+  createdAt,
   viewsCount,
   votesCount,
-  commentsCount,
   tag1,
   tag2,
   tag3,
   tag4,
   tag5,
-  createdAt,
-  updatedAt,
+  active,
 }) {
   if (user === null) {
     return <div />;
@@ -64,12 +81,9 @@ const BlogItemPreview = DeepMemo(function ({
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  let parsedContent = <div />;
-
-  parsedContent = parseContent(content, getLanguage());
-
+  const parsedContent = parseContent(content, getLanguage());
   return (
-    <Box boxShadow={2} sx={styles.root}>
+    <Box bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
       <CardContent>
         <Box sx={styles.topSection}>
           <ProfileImageWithName
@@ -79,13 +93,17 @@ const BlogItemPreview = DeepMemo(function ({
             publicName={publicName}
             score={score}
           />
-          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={commentsCount} />
+          <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} />
         </Box>
-        <Typography color="textPrimary" variant="h1" sx={styles.title}>
-          {title}
-        </Typography>
+        <Box sx={styles.titleSection}>
+          <Link href={`/blog/${id}/${encodeURIComponent(title)}`}>
+            <Typography color="textPrimary" variant="h1" sx={styles.title}>
+              {title}
+            </Typography>
+          </Link>
+        </Box>
       </CardContent>
-      <Box sx={styles.detailSection}>{parsedContent}</Box>
+      <Box sx={styles.content}>{parsedContent}</Box>
       <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
     </Box>
   );
@@ -97,13 +115,12 @@ BlogItemPreview.propTypes = {
   user: PropTypes.object.isRequired,
   viewsCount: PropTypes.number.isRequired,
   votesCount: PropTypes.number.isRequired,
-  commentsCount: PropTypes.number.isRequired,
   tag1: PropTypes.string.isRequired,
   tag2: PropTypes.string.isRequired,
   tag3: PropTypes.string,
   tag4: PropTypes.string,
   tag5: PropTypes.string,
   createdAt: PropTypes.string.isRequired,
-  updatedAt: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
 };
 export default BlogItemPreview;

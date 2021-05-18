@@ -2,29 +2,36 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
-import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utilities';
-import { ADD_COMMENT } from '../../../API/mutations';
+import requiredIf from 'react-required-if';
+import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
-import { GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
+import { getFirstItemFromJSON } from '../../utlities/generalUtilities';
 
 const styles = {
   root: {
     flex: 1,
-    padding:(theme)=> theme.spacing(7, 5, 0, 5),
+    padding: (theme) => theme.spacing(7, 5, 0, 5),
     justifyContent: 'left',
   },
 };
 
-const AddComment = ({ enable, onClose, postId, rootId }) => {
+const AddComment = ({
+  enable,
+  onClose,
+  postId,
+  rootId,
+  refreshQuery,
+  reduxRefreshAction,
+  addCommentMutation,
+}) => {
   const dispatch = useDispatch();
   const [commentData, setCommentData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
 
-  const refreshQuestion = async () => {
-    const questionData = await doGraphQLQuery(GET_QUESTION, { id: rootId });
-    dispatch({ type: SELECTED_QUESTION_ACTION, payload: questionData.getQuestion });
+  const refreshPost = async () => {
+    const getData = await doGraphQLQuery(refreshQuery, { id: rootId });
+    dispatch({ type: reduxRefreshAction, payload: getFirstItemFromJSON(getData) });
   };
 
   const submitComment = async () => {
@@ -34,15 +41,15 @@ const AddComment = ({ enable, onClose, postId, rootId }) => {
         return;
       }
       setAPIError(null);
-      const resultObject = await doGraphQLMutation(ADD_COMMENT, {
+      const resultObject = await doGraphQLMutation(addCommentMutation, {
         postId,
         content: commentData,
       });
-      const result = resultObject.addComment;
+      const result = getFirstItemFromJSON(resultObject);
       if (result.statusCode !== 'SUCCESS') {
         throw new Error(result.message);
       }
-      await refreshQuestion();
+      await refreshPost();
       onClose();
     } catch (error) {
       setAPIError(error.toString());
@@ -62,10 +69,17 @@ const AddComment = ({ enable, onClose, postId, rootId }) => {
     </Box>
   );
 };
+
+AddComment.defaultProps = {
+  editMode: false,
+};
 AddComment.propTypes = {
   enable: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
   rootId: PropTypes.string.isRequired,
+  refreshQuery: requiredIf(PropTypes.object, (props) => props.editMode),
+  reduxRefreshAction: requiredIf(PropTypes.string, (props) => props.editMode),
+  addCommentMutation: requiredIf(PropTypes.object, (props) => !props.editMode),
 };
 export default AddComment;

@@ -26,7 +26,7 @@ const isSelf = rule({ cache: 'no_cache' })(async (parent, args, ctx, info) => {
   if (ctx.user === null) return false;
   const userId = ctx.user.id;
   const { fieldName } = info;
-  if (['updateAnswer', 'updateQuestion', 'updateComment'].includes(fieldName)) {
+  if (['updateAnswer', 'updateQuestion', 'updateComment', 'updateBlogPost'].includes(fieldName)) {
     const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
     const post = await Post.findOne({
       where: {
@@ -54,6 +54,7 @@ const permissions = shield({
     getTags: isPublic,
     getTagDetail: isPublic,
     getQuestion: isPublic,
+    getBlogPost: isPublic,
     getUser: isPublic,
     getNotifications: isSelf,
     getBlogPosts: isPublic,
@@ -67,7 +68,9 @@ const permissions = shield({
     addBlogPost: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     addAnswer: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     addComment: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
+    addBlogComment: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     updateQuestion: or(isAdmin, isSuperAdmin, isSelf),
+    updateBlogPost: or(isAdmin, isSuperAdmin, isSelf),
     updateAnswer: or(isAdmin, isSuperAdmin, isSelf),
     updateComment: or(isAdmin, isSuperAdmin, isSelf),
     // uploadFile: not(isAuthenticated),

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { BrowserView, MobileView } from 'react-device-detect';
 import { AppBar, Box, Toolbar } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser, doGraphQLMutation, updateCurrentUser } from '../../../API/utilities';
+import { doGraphQLMutation, getCurrentUser, updateCurrentUser } from '../../../API/utility';
 import NotificationsBox from './NotificationsBox';
 import Menu from './Menu';
 import { getLanguage } from '../../utlities/languageUtilities';
@@ -12,7 +12,6 @@ import { CURRENT_USER_ACTION } from '../../../redux/constants';
 import Drawer from './Mobile/Drawer';
 import MobileHeader from './Mobile/MobileHeader';
 import BrowserHeader from './Browser/BrowserHeader';
-import { isInClientBrowser } from '../../utlities/generalUtilities';
 
 const styles = {
   grow: {

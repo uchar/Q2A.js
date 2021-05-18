@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/core/styles';
-import { Button, Tab, Tabs, AppBar, Typography, Box, Avatar, CircularProgress } from '@material-ui/core';
+import { AppBar, Avatar, Box, Button, CircularProgress, Tab, Tabs, Typography } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import StatsIcon from '@material-ui/icons/BarChart';
 import QuestionsIcon from '@material-ui/icons/ContactSupport';
@@ -10,9 +10,9 @@ import LogoutIcon from '@material-ui/icons/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Layout from '../../common/layouts/Layout';
-import QuestionItemPreview from '../../common/components/Post/QuestionItemPreview';
-import AnswerItem from '../../common/components/Post/AnswerItem';
-import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utilities';
+import QuestionItemPreview from '../../common/components/Contents/Post/QuestionItemPreview';
+import AnswerItem from '../../common/components/Contents/Post/AnswerItem';
+import { doGraphQLMutation, doGraphQLQuery, getCurrentUserId, uploadFile } from '../../API/utility';
 import { GET_USER } from '../../API/queries';
 import Loading from '../../common/components/Loading';
 import {

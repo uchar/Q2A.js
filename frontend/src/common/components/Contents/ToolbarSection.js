@@ -20,7 +20,7 @@ const getItem = (title, onClick, style) => {
     </Typography>
   );
 };
-const PostToolbar = ({
+const ToolbarSection = ({
   sx,
   showShare,
   shareTitle,
@@ -83,13 +83,13 @@ const PostToolbar = ({
   );
 };
 
-PostToolbar.defaultProps = {
+ToolbarSection.defaultProps = {
   showShare: true,
   showEdit: false,
   showComment: false,
   showDisable: false,
 };
-PostToolbar.propTypes = {
+ToolbarSection.propTypes = {
   sx: PropTypes.object,
   showShare: PropTypes.bool.isRequired,
   shareTitle: PropTypes.string.isRequired,
@@ -102,4 +102,4 @@ PostToolbar.propTypes = {
   disableCallback: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
 };
-export default PostToolbar;
+export default ToolbarSection;

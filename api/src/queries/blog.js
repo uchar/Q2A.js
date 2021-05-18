@@ -24,4 +24,29 @@ const getBlogPosts = async (_, { language, limit, offset }) => {
   return posts;
 };
 
-export { getBlogPosts };
+const getBlogPost = async (_, { language, id }) => {
+  await checkInputValidation(
+    yup.object().shape({
+      language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
+    }),
+    { language }
+  );
+  const BlogPost = await databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
+  const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
+  const post = await BlogPost.findOne({
+    where: { language, type: BLOG_POST_TYPES.POST, id },
+    include: [User],
+  });
+  return post;
+};
+const getBlogPostItemComments = async ({ id }) => {
+  const Post = databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+  const comments = await Post.findAll({
+    where: { type: BLOG_POST_TYPES.COMMENT, parentId: id },
+    include: [User],
+    order: [['createdAt', 'ASC']],
+  });
+  return comments;
+};
+export { getBlogPosts, getBlogPost, getBlogPostItemComments };

@@ -2,7 +2,6 @@ import * as React from 'react';
 import Pagination from '@material-ui/core/Pagination';
 import Stack from '@material-ui/core/Stack';
 import PropTypes from 'prop-types';
-import Box from '@material-ui/core/Box';
 
 const styles = {
   root: {

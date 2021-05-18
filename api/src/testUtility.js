@@ -20,6 +20,12 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
 `,
   tags: ['next.js', 'react'],
 };
+const blogCommentData = {
+  language: LANGUAGE.ENGLISH,
+  type: BLOG_POST_TYPES.COMMENT,
+  content: `This is some test comment for blog post
+`,
+};
 
 const questionData = {
   type: POST_TYPES.QUESTION,
@@ -40,13 +46,21 @@ const commentData = {
   language: LANGUAGE.ENGLISH,
   content: 'some random comment for some random question or answer',
 };
-const questionUpdatedData = {
+const questionUpdateData = {
   title: 'Generate combinations from 2D array',
   content:
     'After writing out longhand these combinations I can sense patterns, like there are ' +
     'some fixed positions and then index moves from left to right, then left again and everything but cannot wrap my head around the ' +
     'multidimensionallity and how to implement? Loop inside loop inside loop, recursion or what? I am looking for general directions.',
   tags: ['python', 'openCv'],
+  language: LANGUAGE.ENGLISH,
+};
+const blogPostUpdateData = {
+  title: 'NEXT.js — The Ultimate React Framework',
+  content:
+    'Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, ' +
+    'it puts you and your team in the pit of success when building React applications.',
+  tags: ['Next.js', 'React'],
   language: LANGUAGE.ENGLISH,
 };
 const tagData = {
@@ -93,11 +107,17 @@ const compartDataToBeResult = (data, result) => {
     expect(result[key]).toBe(data[key]);
   });
 };
+const checkIfHaveEnoughItems = async (functionToCall, dataToPass, countToBe) => {
+  const result = await functionToCall(dataToPass);
+  expect(result).toHaveLength(countToBe);
+};
 
 export {
   questionData,
-  questionUpdatedData,
+  questionUpdateData,
+  blogPostUpdateData,
   tagData,
+  blogCommentData,
   createData,
   blogData,
   answerData,
@@ -107,4 +127,5 @@ export {
   compartDataToBeResult,
   clearTable,
   makeContext,
+  checkIfHaveEnoughItems,
 };

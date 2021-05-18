@@ -40,4 +40,9 @@ export default {
     type: Sequelize.UUID,
     primaryKey: false,
   },
+  active: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 };

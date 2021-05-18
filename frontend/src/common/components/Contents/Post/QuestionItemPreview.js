@@ -1,15 +1,14 @@
 import React from 'react';
-import clsx from 'clsx';
 import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { parseContent } from '../../parsers/parser';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from './PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
-import { getLanguage } from '../../utlities/languageUtilities';
+import { parseContent } from '../../../parsers/parser';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import { DeepMemo, getTagsArray } from '../../../utlities/generalUtilities';
+import { getLanguage } from '../../../utlities/languageUtilities';
 
 const styles = {
   root: {
@@ -76,7 +75,7 @@ const QuestionItemPreview = DeepMemo(function ({
   tag3,
   tag4,
   tag5,
-    active
+  active,
 }) {
   const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
@@ -95,7 +94,7 @@ const QuestionItemPreview = DeepMemo(function ({
     parsedContent = parseContent(content, getLanguage());
   }
   return (
-    <Box  bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
+    <Box bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
       <CardContent>
         <Box sx={styles.topSection}>
           <ProfileImageWithName
@@ -105,7 +104,7 @@ const QuestionItemPreview = DeepMemo(function ({
             publicName={publicName}
             score={score}
           />
-          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+          <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </Box>
         <Box sx={styles.titleSection}>
           <Link href={`/${id}/${encodeURIComponent(title)}`}>
@@ -146,5 +145,6 @@ QuestionItemPreview.propTypes = {
   tag5: PropTypes.string,
   createdAt: PropTypes.string.isRequired,
   isExpanded: PropTypes.bool,
+  active: PropTypes.bool.isRequired,
 };
 export default QuestionItemPreview;

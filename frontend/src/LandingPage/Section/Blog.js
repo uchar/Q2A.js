@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import BlogItem from '../../common/components/LandingPage/BlogItem';
 import Q2aButton from '../../common/components/Q2aButton';
-import { getStrings } from '../../common/utlities/languageUtilities';
 
 const data = [
   {

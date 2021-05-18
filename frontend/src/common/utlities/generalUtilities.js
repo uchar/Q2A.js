@@ -4,7 +4,7 @@ import persianMoment from 'jalali-moment';
 import 'moment/locale/fa';
 import isEqual from 'react-fast-compare';
 import { getLanguage, LANGUAGES, updateLanguageBaseOnUrl } from './languageUtilities';
-import { doGraphQLQuery } from '../../API/utilities';
+import { doGraphQLQuery } from '../../API/utility';
 
 export const getFullUrl = (name) => {
   if (!name) {
@@ -84,4 +84,8 @@ export const getItemsAndDispatch = async (data, params, store) => {
     type: data.reduxAction,
     payload: data.responseName ? response[data.responseName] : response,
   });
+};
+export const getFirstItemFromJSON = (obj) => {
+  const [first] = Object.values(obj);
+  return first;
 };
