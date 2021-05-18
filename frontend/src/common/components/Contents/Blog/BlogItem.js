@@ -113,7 +113,7 @@ const BlogItem = DeepMemo(function BlogItem({
           publicName={publicName}
           score={score}
         />
-        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount}  />
       </Grid>
 
       {!isEditMode ? (
