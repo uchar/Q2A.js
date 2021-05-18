@@ -13,7 +13,7 @@ import ErrorMessage from '../ErrorMessage';
 import CKEditor from '../Editor/CKEditor';
 import { ALL_TAGS } from '../../../API/queries';
 import Q2aButton from '../Q2aButton';
-import { getFirstItemFromJSON } from '../../common/utlities/generalUtilities';
+import { getFirstItemFromJSON } from '../../utlities/generalUtilities';
 
 const styles = {
   section: {
@@ -51,7 +51,7 @@ const styles = {
 };
 
 // eslint-disable-next-line max-lines-per-function
-const EditQuestion = ({
+const EditContent = ({
   editMode,
   editId,
   editTitle,
@@ -228,10 +228,10 @@ const EditQuestion = ({
     </Formik>
   );
 };
-EditQuestion.defaultProps = {
+EditContent.defaultProps = {
   editMode: false,
 };
-EditQuestion.propTypes = {
+EditContent.propTypes = {
   editMode: PropTypes.bool.isRequired,
   editId: requiredIf(PropTypes.string, (props) => props.editMode),
   editTitle: requiredIf(PropTypes.string, (props) => props.editMode),
@@ -240,6 +240,6 @@ EditQuestion.propTypes = {
   updateMutation: requiredIf(PropTypes.object, (props) => props.editMode),
   addMutation: requiredIf(PropTypes.object, (props) => !props.editMode),
   refreshQuery: requiredIf(PropTypes.object, (props) => props.editMode),
-  reduxRefreshAction: requiredIf(PropTypes.object, (props) => props.editMode),
+  reduxRefreshAction: requiredIf(PropTypes.string, (props) => props.editMode),
 };
-export default EditQuestion;
+export default EditContent;

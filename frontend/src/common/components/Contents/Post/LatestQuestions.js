@@ -11,16 +11,16 @@ import { isMobile } from 'react-device-detect';
 import Box from '@material-ui/core/Box';
 import { useStore } from 'react-redux';
 import QuestionItemPreview from './QuestionItemPreview';
-import AskAndTitleSection from '../AskAndTitleSection';
-import { getStrings } from '../../utlities/languageUtilities';
-import Pagination from '../Pagination';
-import { getItemsWithOffsetAndDispatch, getPageCount } from '../../utlities/generalUtilities';
+import AskAndTitleSection from '../../AskAndTitleSection';
+import { getStrings } from '../../../utlities/languageUtilities';
+import Pagination from '../../Pagination';
+import { getItemsWithOffsetAndDispatch, getPageCount } from '../../../utlities/generalUtilities';
 import {
   LATEST_QUESTIONS_DATA,
   MOST_VIEWS_QUESTIONS_DATA,
   NO_ANSWERS_QUESTIONS_DATA,
   POPULAR_QUESTIONS_DATA,
-} from '../../constants';
+} from '../../../constants';
 
 const styles = {
   root: {

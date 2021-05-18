@@ -2,26 +2,31 @@ import React, { useEffect } from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
-import { parseContent } from '../../parsers/parser';
+import { parseContent } from '../../../parsers/parser';
 import {
   DeepMemo,
   getItemsAndDispatch,
   getTagsArray,
   isInClientBrowser,
-} from '../../utlities/generalUtilities';
-import EditQuestion from '../Post/EditQuestion';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from '../Post/PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import PostToolbar from '../Post/PostToolbar';
-import CommentsSection from '../Post/CommentsSection';
-import AddComment from '../Post/AddComment';
-import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
-import { getLanguage } from '../../utlities/languageUtilities';
-import { increaseViewCount, togglePostActiveStatus, UPDATE_BLOG_POST } from '../../../API/mutations';
-import { SELECTED_BLOG_POST_DATA } from '../../constants';
-import { GET_BLOG_POST } from '../../../API/queries';
-import { SELECTED_BLOG_POST_ACTION } from '../../../redux/constants';
+} from '../../../utlities/generalUtilities';
+import EditContent from '../EditContent';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import ToolbarSection from '../ToolbarSection';
+import CommentsSection from '../CommentsSection';
+import AddComment from '../AddComment';
+import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../../API/utility';
+import { getLanguage } from '../../../utlities/languageUtilities';
+import {
+  ADD_BLOG_POST_COMMENT,
+  increaseViewCount,
+  togglePostActiveStatus,
+  UPDATE_BLOG_POST,
+} from '../../../../API/mutations';
+import { SELECTED_BLOG_POST_DATA } from '../../../constants';
+import { GET_BLOG_POST } from '../../../../API/queries';
+import { SELECTED_BLOG_POST_ACTION } from '../../../../redux/constants';
 
 const styles = {
   root: {
@@ -59,7 +64,6 @@ const BlogItem = DeepMemo(function BlogItem({
   createdAt,
   viewsCount,
   votesCount,
-  answersCount,
   comments,
   tag1,
   tag2,
@@ -73,9 +77,7 @@ const BlogItem = DeepMemo(function BlogItem({
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
-  console.log('tags:', tags);
   const parsedContent = parseContent(content, getLanguage());
-  console.log('parsedContent:', parsedContent);
 
   const store = useStore();
   useEffect(() => {
@@ -111,7 +113,7 @@ const BlogItem = DeepMemo(function BlogItem({
           publicName={publicName}
           score={score}
         />
-        <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
       </Grid>
 
       {!isEditMode ? (
@@ -122,7 +124,7 @@ const BlogItem = DeepMemo(function BlogItem({
           <div sx={styles.contentDiv}> {parsedContent}</div>
         </div>
       ) : (
-        <EditQuestion
+        <EditContent
           editMode
           editTitle={title}
           editTags={tags.map((tag) => {
@@ -139,7 +141,7 @@ const BlogItem = DeepMemo(function BlogItem({
         />
       )}
       <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
-      <PostToolbar
+      <ToolbarSection
         showShare
         shareTitle={`${title} - q2a`}
         shareBody={content}
@@ -165,6 +167,7 @@ const BlogItem = DeepMemo(function BlogItem({
         }}
         refreshQuery={GET_BLOG_POST}
         reduxRefreshAction={SELECTED_BLOG_POST_ACTION}
+        addCommentMutation={ADD_BLOG_POST_COMMENT}
       />
       <CommentsSection comments={comments} />
     </Box>
@@ -178,7 +181,6 @@ BlogItem.propTypes = {
   user: PropTypes.object.isRequired,
   viewsCount: PropTypes.number.isRequired,
   votesCount: PropTypes.number.isRequired,
-  answersCount: PropTypes.number.isRequired,
   comments: PropTypes.array.isRequired,
   tag1: PropTypes.string.isRequired,
   tag2: PropTypes.string.isRequired,

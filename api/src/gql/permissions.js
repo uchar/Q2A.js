@@ -68,6 +68,7 @@ const permissions = shield({
     addBlogPost: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     addAnswer: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     addComment: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
+    addBlogComment: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     updateQuestion: or(isAdmin, isSuperAdmin, isSelf),
     updateBlogPost: or(isAdmin, isSuperAdmin, isSelf),
     updateAnswer: or(isAdmin, isSuperAdmin, isSelf),

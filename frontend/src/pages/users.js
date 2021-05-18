@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Layout from '../common/layouts/Layout';
-import LatestQuestion from '../common/components/Post/LatestQuestions';
+import LatestQuestion from '../common/components/Contents/Post/LatestQuestions';
 import { ALL_BLOG_POSTS, ALL_TAGS, GET_ALL_QUESTIONS } from '../API/queries';
 import { doGraphQLQuery } from '../API/utility';
 import { ALL_BLOG_POSTS_ACTION, ALL_QUESTIONS_ACTION, ALL_TAGS_ACTION } from '../redux/constants';

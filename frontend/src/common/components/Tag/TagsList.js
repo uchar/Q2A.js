@@ -1,18 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { Grid, Box } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Tag from './Tag';
 
-const useStyles = makeStyles((theme) => ({
-  root: { padding: theme.spacing(2), textAlign: 'center' },
-}));
+const styles = {
+  root: { padding: (theme) => theme.spacing(2), textAlign: 'center' },
+};
 
 export default function TagsList({ tags }) {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Grid className={classes.grid} container justify={'center'} spacing={2}>
+    <Box sx={styles.root}>
+      <Grid container justify={'center'} spacing={2}>
         {tags &&
           tags.map((tag) => (
             <Grid item key={tag.id}>
@@ -20,7 +18,7 @@ export default function TagsList({ tags }) {
             </Grid>
           ))}
       </Grid>
-    </div>
+    </Box>
   );
 }
 TagsList.propTypes = {

@@ -39,5 +39,14 @@ const getBlogPost = async (_, { language, id }) => {
   });
   return post;
 };
-
-export { getBlogPosts, getBlogPost };
+const getBlogPostItemComments = async ({ id }) => {
+  const Post = databaseUtils().loadModel(TABLES.BLOG_POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+  const comments = await Post.findAll({
+    where: { type: BLOG_POST_TYPES.COMMENT, parentId: id },
+    include: [User],
+    order: [['createdAt', 'ASC']],
+  });
+  return comments;
+};
+export { getBlogPosts, getBlogPost, getBlogPostItemComments };

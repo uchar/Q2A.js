@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import QuestionItem from '../../common/components/Post/QuestionItem';
+import QuestionItem from '../../common/components/Contents/Post/QuestionItem';
 import Layout from '../../common/layouts/Layout';
 import CKEditor from '../../common/components/Editor/CKEditor';
 import { GET_QUESTION } from '../../API/queries';
 import Loading from '../../common/components/Loading';
-import AnswerItem from '../../common/components/Post/AnswerItem';
+import AnswerItem from '../../common/components/Contents/Post/AnswerItem';
 import { doGraphQLMutation, doGraphQLQuery } from '../../API/utility';
 import { getStrings } from '../../common/utlities/languageUtilities';
 import { ADD_ANSWER } from '../../API/mutations';

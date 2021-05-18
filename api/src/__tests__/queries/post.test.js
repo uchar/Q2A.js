@@ -1,4 +1,4 @@
-import { answerData, clearTable, makeContext, questionData } from '../../testUtility';
+import { answerData, clearTable, makeContext, questionData, checkIfHaveEnoughItems } from '../../testUtility';
 import { POST_TYPES, TABLES } from '../../constants';
 import {
   getAnswers,
@@ -80,10 +80,6 @@ describe('post query api', () => {
     expect(posts[0].title).toBe('question_test_3');
     expect(posts[1].title).toBe('question_test_2');
     expect(posts[2].title).toBe('question_test_1');
-  };
-  const checkIfHaveEnoughItems = async (functionToCall, dataToPass, countToBe) => {
-    const result = await functionToCall(dataToPass);
-    expect(result).toHaveLength(countToBe);
   };
 
   test('if getLatestQuestions return most recent questions', async () => {

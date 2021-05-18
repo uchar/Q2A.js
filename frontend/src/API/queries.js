@@ -156,6 +156,7 @@ export const ALL_BLOG_POSTS = gql`
       tag3
       tag4
       tag5
+      active
       createdAt
       updatedAt
     }

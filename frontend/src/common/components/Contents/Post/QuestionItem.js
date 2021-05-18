@@ -2,31 +2,32 @@ import React, { useEffect } from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
-import { parseContent } from '../../parsers/parser';
+import { parseContent } from '../../../parsers/parser';
 import {
   DeepMemo,
   getItemsAndDispatch,
   getTagsArray,
   isInClientBrowser,
-} from '../../utlities/generalUtilities';
-import EditQuestion from './EditQuestion';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from './PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import PostToolbar from './PostToolbar';
-import CommentsSection from './CommentsSection';
-import AddComment from './AddComment';
-import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
-import { getLanguage } from '../../utlities/languageUtilities';
+} from '../../../utlities/generalUtilities';
+import EditContent from '../EditContent';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import ToolbarSection from '../ToolbarSection';
+import CommentsSection from '../CommentsSection';
+import AddComment from '../AddComment';
+import { doGraphQLMutation, isAccessLevelEnough, USER_ACTIONS } from '../../../../API/utility';
+import { getLanguage } from '../../../utlities/languageUtilities';
 import {
   ADD_QUESTION,
   increaseViewCount,
   togglePostActiveStatus,
   UPDATE_QUESTION,
-} from '../../../API/mutations';
-import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';
-import { GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
+  ADD_COMMENT,
+} from '../../../../API/mutations';
+import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../../constants';
+import { GET_QUESTION } from '../../../../API/queries';
+import { SELECTED_QUESTION_ACTION } from '../../../../redux/constants';
 
 const styles = {
   root: {
@@ -113,7 +114,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
           publicName={publicName}
           score={score}
         />
-        <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
       </Grid>
 
       {!isEditMode ? (
@@ -124,7 +125,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
           <div sx={styles.contentDiv}> {parsedContent}</div>
         </div>
       ) : (
-        <EditQuestion
+        <EditContent
           editMode
           editTitle={title}
           editTags={tags.map((tag) => {
@@ -142,7 +143,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
         />
       )}
       <HorizontalTagsBlock sx={styles.tagsSection} tags={tags} />
-      <PostToolbar
+      <ToolbarSection
         showShare
         shareTitle={`${title} - q2a`}
         shareBody={content}
@@ -168,6 +169,7 @@ const QuestionItem = DeepMemo(function QuestionItem({
         }}
         refreshQuery={GET_QUESTION}
         reduxRefreshAction={SELECTED_QUESTION_ACTION}
+        addCommentMutation={ADD_COMMENT}
       />
       <CommentsSection comments={comments} />
     </Box>

@@ -2,21 +2,21 @@ import React, { useEffect } from 'react';
 import { Box, CardContent, Grid } from '@material-ui/core';
 import { useDispatch, useStore } from 'react-redux';
 import PropTypes from 'prop-types';
-import { parseContent } from '../../parsers/parser';
-import CommentsSection from './CommentsSection';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from './PostStatistics';
-import PostToolbar from './PostToolbar';
-import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
-import CKEditor from '../Editor/CKEditor';
-import SaveCancelButtons from '../SaveCancelButtons';
-import { togglePostActiveStatus, UPDATE_ANSWER } from '../../../API/mutations';
-import AddComment from './AddComment';
-import { DeepMemo, getItemsAndDispatch } from '../../utlities/generalUtilities';
-import { GET_QUESTION } from '../../../API/queries';
-import { SELECTED_QUESTION_ACTION } from '../../../redux/constants';
-import { getLanguage } from '../../utlities/languageUtilities';
-import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../constants';
+import { parseContent } from '../../../parsers/parser';
+import CommentsSection from '../CommentsSection';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import ToolbarSection from '../ToolbarSection';
+import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../../API/utility';
+import CKEditor from '../../Editor/CKEditor';
+import SaveCancelButtons from '../../SaveCancelButtons';
+import { ADD_COMMENT, togglePostActiveStatus, UPDATE_ANSWER } from '../../../../API/mutations';
+import AddComment from '../AddComment';
+import { DeepMemo, getItemsAndDispatch } from '../../../utlities/generalUtilities';
+import { GET_QUESTION } from '../../../../API/queries';
+import { SELECTED_QUESTION_ACTION } from '../../../../redux/constants';
+import { getLanguage } from '../../../utlities/languageUtilities';
+import { SELECTED_QUESTION_QUESTIONS_DATA } from '../../../constants';
 
 const styles = {
   root: {
@@ -112,7 +112,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
             publicName={publicName}
             score={score}
           />
-          <PostStatistics votesCount={votesCount} />
+          <StatisticsSection votesCount={votesCount} />
         </Grid>
       </CardContent>
       {isEditMode ? (
@@ -123,7 +123,7 @@ const AnswerItem = DeepMemo(function AnswerItem({
       ) : (
         parsedContent
       )}
-      <PostToolbar
+      <ToolbarSection
         showShare
         shareTitle={`پاسخ در هفت خط کد`}
         shareBody={content}
@@ -135,7 +135,13 @@ const AnswerItem = DeepMemo(function AnswerItem({
         showComment
         commentCallback={handleCommentCallback}
       />
-      <AddComment rootId={rootId} postId={id} enable={isCommentMode} onClose={handleAddCommentCancel} />
+      <AddComment
+        rootId={rootId}
+        postId={id}
+        enable={isCommentMode}
+        onClose={handleAddCommentCancel}
+        addCommentMutation={ADD_COMMENT}
+      />
       <CommentsSection comments={comments} />
     </Box>
   );

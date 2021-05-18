@@ -96,7 +96,6 @@ export default gql`
     id: String!
     content: String!
     user: User
-    isLegacyContent: Boolean
     createdAt: String
     active: Boolean!
   }

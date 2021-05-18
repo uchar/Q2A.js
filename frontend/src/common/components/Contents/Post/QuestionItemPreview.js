@@ -3,12 +3,12 @@ import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { parseContent } from '../../parsers/parser';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from './PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
-import { getLanguage } from '../../utlities/languageUtilities';
+import { parseContent } from '../../../parsers/parser';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import { DeepMemo, getTagsArray } from '../../../utlities/generalUtilities';
+import { getLanguage } from '../../../utlities/languageUtilities';
 
 const styles = {
   root: {
@@ -104,7 +104,7 @@ const QuestionItemPreview = DeepMemo(function ({
             publicName={publicName}
             score={score}
           />
-          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+          <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
         </Box>
         <Box sx={styles.titleSection}>
           <Link href={`/${id}/${encodeURIComponent(title)}`}>

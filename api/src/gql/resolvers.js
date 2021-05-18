@@ -29,7 +29,7 @@ import {
 } from '../mutations/post.js';
 import { getStatistics } from '../queries/statistic.js';
 // import { uploadFile } from '../mutations/upload.js';
-import { getBlogPosts, getBlogPost } from '../queries/blog.js';
+import { getBlogPosts, getBlogPost, getBlogPostItemComments } from '../queries/blog.js';
 
 export default {
   Query: {
@@ -64,6 +64,9 @@ export default {
     addBlogPost,
     increaseViewCount: increaseQuestionViewCount,
     togglePostActiveStatus,
+  },
+  BlogPost: {
+    comments: getBlogPostItemComments,
   },
   Question: {
     answers: getAnswers,

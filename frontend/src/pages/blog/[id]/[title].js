@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import BlogItem from '../../../common/components/Blog/BlogItem';
+import BlogItem from '../../../common/components/Contents/Blog/BlogItem';
 import Layout from '../../../common/layouts/Layout';
 import Loading from '../../../common/components/Loading';
 import { addRevalidateAndRedux, getItemsAndDispatch } from '../../../common/utlities/generalUtilities';

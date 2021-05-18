@@ -8,7 +8,7 @@ import {
   getItemsWithOffsetAndDispatch,
   getPageCount,
 } from '../../common/utlities/generalUtilities';
-import LatestBlogPosts from '../../common/components/Blog/LatestBlogPosts';
+import LatestBlogPosts from '../../common/components/Contents/Blog/LatestBlogPosts';
 import BlogLayout from '../../common/layouts/BlogLayout';
 import { ALL_BLOG_POSTS_DATA, GET_ALL_TAGS_DATA, GET_STATISTICS_DATA } from '../../common/constants';
 import Pagination from '../../common/components/Pagination';

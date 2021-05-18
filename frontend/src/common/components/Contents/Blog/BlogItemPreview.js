@@ -3,12 +3,12 @@ import { Box, CardContent, IconButton, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { parseContent } from '../../parsers/parser';
-import ProfileImageWithName from '../ProfileImageWithName';
-import PostStatistics from '../Post/PostStatistics';
-import HorizontalTagsBlock from '../Tag/HorizontalTagsBlock';
-import { DeepMemo, getTagsArray } from '../../utlities/generalUtilities';
-import { getLanguage } from '../../utlities/languageUtilities';
+import { parseContent } from '../../../parsers/parser';
+import ProfileImageWithName from '../../ProfileImageWithName';
+import StatisticsSection from '../StatisticsSection';
+import HorizontalTagsBlock from '../../Tag/HorizontalTagsBlock';
+import { DeepMemo, getTagsArray } from '../../../utlities/generalUtilities';
+import { getLanguage } from '../../../utlities/languageUtilities';
 
 const styles = {
   root: {
@@ -68,8 +68,6 @@ const BlogItemPreview = DeepMemo(function ({
   createdAt,
   viewsCount,
   votesCount,
-  answersCount,
-  isExpanded,
   tag1,
   tag2,
   tag3,
@@ -77,22 +75,13 @@ const BlogItemPreview = DeepMemo(function ({
   tag5,
   active,
 }) {
-  const [expanded, setExpanded] = React.useState(isExpanded === true);
   if (user === null) {
     return <div />;
   }
   const { publicName, profileImage, score } = user;
   const tags = getTagsArray(tag1, tag2, tag3, tag4, tag5);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  let parsedContent = <Box />;
-
-  if (expanded) {
-    parsedContent = parseContent(content, getLanguage());
-  }
+  const parsedContent = parseContent(content, getLanguage());
   return (
     <Box bgcolor={active ? 'default' : 'text.disabled'} boxShadow={2} sx={styles.root}>
       <CardContent>
@@ -104,7 +93,7 @@ const BlogItemPreview = DeepMemo(function ({
             publicName={publicName}
             score={score}
           />
-          <PostStatistics votesCount={votesCount} viewsCount={viewsCount} answersCount={answersCount} />
+          <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} />
         </Box>
         <Box sx={styles.titleSection}>
           <Link href={`/blog/${id}/${encodeURIComponent(title)}`}>
@@ -112,17 +101,6 @@ const BlogItemPreview = DeepMemo(function ({
               {title}
             </Typography>
           </Link>
-          <IconButton
-            sx={{
-              ...styles.expand,
-              ...{
-                [styles.expandOpen]: expanded,
-              },
-            }}
-            onClick={handleExpandClick}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
         </Box>
       </CardContent>
       <Box sx={styles.content}>{parsedContent}</Box>
@@ -137,7 +115,6 @@ BlogItemPreview.propTypes = {
   user: PropTypes.object.isRequired,
   viewsCount: PropTypes.number.isRequired,
   votesCount: PropTypes.number.isRequired,
-  answersCount: PropTypes.number.isRequired,
   tag1: PropTypes.string.isRequired,
   tag2: PropTypes.string.isRequired,
   tag3: PropTypes.string,

@@ -73,6 +73,15 @@ export const UPDATE_BLOG_POST = gql`
     }
   }
 `;
+export const ADD_BLOG_POST_COMMENT = gql`
+  mutation($language: Language!, $postId: String!, $content: String!) {
+    addBlogComment(language: $language, postId: $postId, content: $content) {
+      id
+      url
+      statusCode
+    }
+  }
+`;
 export const UPDATE_ANSWER = gql`
   mutation($language: Language!, $id: String!, $content: String!) {
     updateAnswer(language: $language, id: $id, content: $content) {

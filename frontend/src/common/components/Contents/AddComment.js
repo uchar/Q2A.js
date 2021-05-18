@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import requiredIf from 'react-required-if';
 import { doGraphQLMutation, doGraphQLQuery } from '../../../API/utility';
-import { ADD_COMMENT } from '../../../API/mutations';
 import CKEditor from '../Editor/CKEditor';
 import SaveCancelButtons from '../SaveCancelButtons';
 import { getFirstItemFromJSON } from '../../utlities/generalUtilities';
@@ -17,12 +16,20 @@ const styles = {
   },
 };
 
-const AddComment = ({ enable, onClose, postId, rootId, refreshQuery, reduxRefreshAction }) => {
+const AddComment = ({
+  enable,
+  onClose,
+  postId,
+  rootId,
+  refreshQuery,
+  reduxRefreshAction,
+  addCommentMutation,
+}) => {
   const dispatch = useDispatch();
   const [commentData, setCommentData] = React.useState('');
   const [APIError, setAPIError] = React.useState(null);
 
-  const refreshQuestion = async () => {
+  const refreshPost = async () => {
     const getData = await doGraphQLQuery(refreshQuery, { id: rootId });
     dispatch({ type: reduxRefreshAction, payload: getFirstItemFromJSON(getData) });
   };
@@ -34,15 +41,15 @@ const AddComment = ({ enable, onClose, postId, rootId, refreshQuery, reduxRefres
         return;
       }
       setAPIError(null);
-      const resultObject = await doGraphQLMutation(ADD_COMMENT, {
+      const resultObject = await doGraphQLMutation(addCommentMutation, {
         postId,
         content: commentData,
       });
-      const result = resultObject.addComment;
+      const result = getFirstItemFromJSON(resultObject);
       if (result.statusCode !== 'SUCCESS') {
         throw new Error(result.message);
       }
-      await refreshQuestion();
+      await refreshPost();
       onClose();
     } catch (error) {
       setAPIError(error.toString());
@@ -72,6 +79,7 @@ AddComment.propTypes = {
   postId: PropTypes.string.isRequired,
   rootId: PropTypes.string.isRequired,
   refreshQuery: requiredIf(PropTypes.object, (props) => props.editMode),
-  reduxRefreshAction: requiredIf(PropTypes.object, (props) => props.editMode),
+  reduxRefreshAction: requiredIf(PropTypes.string, (props) => props.editMode),
+  addCommentMutation: requiredIf(PropTypes.object, (props) => !props.editMode),
 };
 export default AddComment;

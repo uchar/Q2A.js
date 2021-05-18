@@ -26,18 +26,18 @@ const styles = (size) => {
 };
 
 const ProfileImage = ({ profileImage, size, href, tooltip }) => {
-  const classes = styles(size);
+  const stylesWithSize = styles(size);
   let imageComponent;
   if (profileImage) {
     imageComponent = (
       <div>
-        <Avatar aria-label="recipe" sx={classes.avatar} src={getFullUrl(profileImage)}>
-          <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />
+        <Avatar aria-label="recipe" sx={stylesWithSize.avatar} src={getFullUrl(profileImage)}>
+          <Avatar aria-label="recipe" sx={stylesWithSize.avatar} src={'/images/default_profile.jpg'} />
         </Avatar>
       </div>
     );
   } else {
-    imageComponent = <Avatar aria-label="recipe" sx={classes.avatar} src={'/images/default_profile.jpg'} />;
+    imageComponent = <Avatar aria-label="recipe" sx={stylesWithSize.avatar} src={'/images/default_profile.jpg'} />;
   }
   if (tooltip) {
     imageComponent = (

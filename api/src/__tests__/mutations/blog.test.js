@@ -22,14 +22,14 @@ describe('blog mutations api', () => {
     return addBlogPost(null, { language, title, content, tags }, makeContext());
   };
 
-  const testUpdateBlogPostWrongInput = async (language, blogPostId, title, content, tags) => {
+  const testUpdateBlogPostWrongInput = async (language, postId, title, content, tags) => {
     let result;
     try {
       result = await updateBlogPost(
         null,
         {
           language,
-          blogPostId,
+          postId,
           title,
           content,
           tags,
@@ -42,15 +42,15 @@ describe('blog mutations api', () => {
     if (result) expect(`Update BlogPost should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
-  const testAddBlogCommentWrongInput = async (language, blogPostId, content, errorMessage, typeErrorFlag) => {
+  const testAddBlogCommentWrongInput = async (language, postId, content, errorMessage, typeErrorFlag) => {
     let result;
     try {
-      result = await addBlogComment(null, { language, blogPostId, content }, makeContext());
+      result = await addBlogComment(null, { language, postId, content }, makeContext());
     } catch (e) {
       if (typeErrorFlag) expect(e.name).toBe(errorMessage);
       else expect(e.message).toBe(errorMessage);
     }
-    if (result) expect(`add BlogComment should give error with:' ${blogPostId},${content}`).toBe(false);
+    if (result) expect(`add BlogComment should give error with:' ${postId},${content}`).toBe(false);
   };
 
   test('if correct input for add blog post give success', async () => {
@@ -99,37 +99,29 @@ describe('blog mutations api', () => {
 
   test("if wrong input for updateBlogPost shouldn't work", async () => {
     const blogPost = await addNewBlogPost();
-    const blogPostId = blogPost.id;
-    await testUpdateBlogPostWrongInput('wrong', blogPostId, blogData.title, blogData.content, blogData.tags);
+    const postId = blogPost.id;
+    await testUpdateBlogPostWrongInput('wrong', postId, blogData.title, blogData.content, blogData.tags);
+    await testUpdateBlogPostWrongInput(blogData.language, postId, 'wrong', blogData.content, blogData.tags);
     await testUpdateBlogPostWrongInput(
       blogData.language,
-      blogPostId,
-      'wrong',
-      blogData.content,
-      blogData.tags
-    );
-    await testUpdateBlogPostWrongInput(
-      blogData.language,
-      blogPostId,
+      postId,
       blogData.title,
       'wrong_content',
       blogData.tags
     );
-    await testUpdateBlogPostWrongInput(blogData.language, blogPostId, blogData.title, blogData.content, [
-      'c++',
-    ]);
-    await testUpdateBlogPostWrongInput(blogData.language, blogPostId, 'wrong', 'wrong_content', ['c++']);
+    await testUpdateBlogPostWrongInput(blogData.language, postId, blogData.title, blogData.content, ['c++']);
+    await testUpdateBlogPostWrongInput(blogData.language, postId, 'wrong', 'wrong_content', ['c++']);
   });
 
   // add BlogComment
   test('if correct input for BlogComment give success', async () => {
     const blogPost = await addNewBlogPost();
-    const blogPostId = blogPost.id;
+    const postId = blogPost.id;
     const result = await addBlogComment(
       null,
       {
         language: blogData.language,
-        blogPostId,
+        postId,
         content: blogPostUpdateData.content,
       },
       makeContext()
@@ -139,7 +131,7 @@ describe('blog mutations api', () => {
 
   test("if wrong input for BlogComment shouldn't work", async () => {
     const blogPost = await addNewBlogPost();
-    const blogPostId = blogPost.id;
+    const postId = blogPost.id;
     await testAddBlogCommentWrongInput(
       blogData.language,
       220,
@@ -147,7 +139,7 @@ describe('blog mutations api', () => {
       STATUS_CODE.INPUT_ERROR,
       false
     );
-    await testAddBlogCommentWrongInput(blogData.language, blogPostId, 'wrong', 'ValidationError', true);
-    await testAddBlogCommentWrongInput('wrong', blogPostId, blogData.content, 'ValidationError', true);
+    await testAddBlogCommentWrongInput(blogData.language, postId, 'wrong', 'ValidationError', true);
+    await testAddBlogCommentWrongInput('wrong', postId, blogData.content, 'ValidationError', true);
   });
 });

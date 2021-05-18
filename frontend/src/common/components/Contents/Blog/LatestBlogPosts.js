@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Box } from '@material-ui/core';
 import BlogItemPreview from './BlogItemPreview';
 
 const styles = {
@@ -10,9 +11,9 @@ const styles = {
 
 const LatestBlogPosts = ({ blogPosts }) => {
   return (
-    <div sx={styles.root}>
+    <Box sx={styles.root}>
       {LatestBlogPosts && blogPosts.map((post) => <BlogItemPreview key={post.id} {...post} />)}
-    </div>
+    </Box>
   );
 };
 LatestBlogPosts.propTypes = {

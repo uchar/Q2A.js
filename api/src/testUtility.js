@@ -20,6 +20,12 @@ Pre-rendering, both static generation (SSG) and server-side rendering (SSR) are 
 `,
   tags: ['next.js', 'react'],
 };
+const blogCommentData = {
+  language: LANGUAGE.ENGLISH,
+  type: BLOG_POST_TYPES.COMMENT,
+  content: `This is some test comment for blog post
+`,
+};
 
 const questionData = {
   type: POST_TYPES.QUESTION,
@@ -101,12 +107,17 @@ const compartDataToBeResult = (data, result) => {
     expect(result[key]).toBe(data[key]);
   });
 };
+const checkIfHaveEnoughItems = async (functionToCall, dataToPass, countToBe) => {
+  const result = await functionToCall(dataToPass);
+  expect(result).toHaveLength(countToBe);
+};
 
 export {
   questionData,
   questionUpdateData,
   blogPostUpdateData,
   tagData,
+  blogCommentData,
   createData,
   blogData,
   answerData,
@@ -116,4 +127,5 @@ export {
   compartDataToBeResult,
   clearTable,
   makeContext,
+  checkIfHaveEnoughItems,
 };

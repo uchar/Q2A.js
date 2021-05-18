@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '@material-ui/core';
 import CreatePost from '../../common/layouts/AskLayout';
-import EditQuestion from '../../common/components/Post/EditQuestion';
+import EditContent from '../../common/components/Contents/EditContent';
 import { ADD_BLOG_POST, UPDATE_BLOG_POST } from '../../API/mutations';
 import { GET_BLOG_POST } from '../../API/queries';
 import { SELECTED_BLOG_POST_ACTION } from '../../redux/constants';
@@ -9,7 +9,7 @@ import { SELECTED_BLOG_POST_ACTION } from '../../redux/constants';
 const Post = () => {
   return (
     <Card>
-      <EditQuestion
+      <EditContent
         updateMutation={UPDATE_BLOG_POST}
         addMutation={ADD_BLOG_POST}
         refreshQuery={GET_BLOG_POST}

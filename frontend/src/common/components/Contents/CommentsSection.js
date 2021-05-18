@@ -14,10 +14,10 @@ const CommentsSection = ({ comments, sx }) => {
       {comments &&
         comments.map((comment) => {
           return (
-            <div sx={styles.item} key={comment.id}>
+            <Box sx={styles.item} key={comment.id}>
               <Divider />
               <CommentItem {...comment} />
-            </div>
+            </Box>
           );
         })}
     </Box>
