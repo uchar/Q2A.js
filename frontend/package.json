@@ -15,7 +15,7 @@
     "node": "14.16.x"
   },
   "dependencies": {
-    "@apollo/client": "3.3.18",
+    "@apollo/client": "3.3.19",
     "@ckeditor/ckeditor5-react": "3.0.2",
     "@emotion/cache": "11.4.0",
     "@emotion/react": "11.4.0",
