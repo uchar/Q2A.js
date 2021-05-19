@@ -8,7 +8,7 @@
     "node": "14.16.x"
   },
   "dependencies": {
-    "apollo-server": "2.24.0",
+    "apollo-server": "2.24.1",
     "apollo-server-express": "2.24.0",
     "aws-sdk": "2.909.0",
     "axios": "0.21.1",
