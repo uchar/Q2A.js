@@ -4,6 +4,9 @@ import createCache from '@emotion/cache';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
 import createEmotionServer from '@emotion/server/create-instance';
+import { Box } from '@material-ui/core';
+import { NextSeo } from 'next-seo';
+import DEFAULT_SEO from './next-seo.config';
 
 const getCache = () => {
   const cache = createCache({ key: 'css', prepend: true });
@@ -18,6 +21,12 @@ export default class Q2aDocument extends Document {
       <Html lang="en">
         <Head>
           {/* PWA primary color */}
+          <title>javascript - Next seo test with react testing library - Q2A</title>
+          <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
+          />
+          <meta name="description" content="{{ site.description }}" />
           <meta name="theme-color" />
           <link rel="stylesheet" href="/fonts/fonts.css" />
           <link
@@ -70,11 +79,14 @@ Q2aDocument.getInitialProps = async (ctx) => {
     originalRenderPage({
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
       // Take precedence over the CacheProvider in our custom _app.js
-      enhanceComponent: (Component) => (props) => (
-        <CacheProvider value={cache}>
-          <Component {...props} />
-        </CacheProvider>
-      ),
+      enhanceComponent: (Component) => (props) =>
+        (
+          <CacheProvider value={cache}>
+            <NextSeo {...DEFAULT_SEO} />
+
+            <Component {...props} />
+          </CacheProvider>
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
