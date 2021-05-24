@@ -13,6 +13,7 @@ import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
 import { getStrings, updateLanguageBaseOnUrl } from '../common/utlities/languageUtilities';
 import 'nprogress/nprogress.css';
+import * as ga from '../analytics/index';
 
 NProgress.configure({ showSpinner: true });
 
@@ -40,12 +41,18 @@ const Q2aApp = (props) => {
   updateLanguageBaseOnUrl(router.locale);
 
   React.useEffect(() => {
-    // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-  }, []);
+    const handleRouteChange = (url) => {
+      ga.pageview(url);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   const getLayout = Component.getLayout || ((page) => page);
   return (

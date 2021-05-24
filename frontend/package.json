@@ -50,6 +50,7 @@
     "react-device-detect": "1.17.0",
     "react-dom": "17.0.2",
     "react-fast-compare": "3.2.0",
+    "react-ga": "^3.3.0",
     "react-google-login": "5.2.2",
     "react-infinite-scroll-component": "6.1.0",
     "react-jss": "10.6.0",
@@ -60,11 +61,11 @@
     "react-share": "4.4.0",
     "react-spinners": "0.10.6",
     "react-swipeable-views": "0.13.9",
+    "react-swipeable-views-utils": "^0.14.0-alpha.0",
     "react-syntax-highlighter": "15.4.3",
     "recharts": "2.0.9",
     "redux": "4.1.0",
-    "yup": "0.32.9",
-    "react-swipeable-views-utils": "^0.14.0-alpha.0"
+    "yup": "0.32.9"
   },
   "devDependencies": {
     "@types/next": "^9.0.0",
