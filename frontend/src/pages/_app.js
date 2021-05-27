@@ -14,7 +14,6 @@ import '../common/globalStyles.css';
 import { getStrings, updateLanguageBaseOnUrl } from '../common/utlities/languageUtilities';
 import 'nprogress/nprogress.css';
 
-
 NProgress.configure({ showSpinner: true });
 
 Router.onRouteChangeStart = () => {

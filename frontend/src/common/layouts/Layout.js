@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import { BrowserView } from 'react-device-detect';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import NextSeo from 'next-seo';
 import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../components/Tag/TagsList';
@@ -12,7 +11,6 @@ import JssStylesProvider from './JssStylesProvider';
 import BlogBox from '../components/MainPageColumns/BlogBox';
 import Loading from '../components/Loading';
 import Navigation from '../components/MainPageColumns/Navigation';
-import DEFAULT_SEO from '../../pages/next-seo.config';
 
 const styles = {
   layoutStyle: {
@@ -43,7 +41,6 @@ const Layout = (props) => {
   return (
     <JssStylesProvider>
       <Box sx={styles.layoutStyle}>
-        <NextSeo {...DEFAULT_SEO} />
         <Header />
         <Box sx={styles.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>

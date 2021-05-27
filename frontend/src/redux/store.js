@@ -15,6 +15,7 @@ import {
   SELECTED_USER_ACTION,
   STATISTICS_ACTION,
   THEME_ACTION,
+  SEO_TAG_ACTION,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -110,6 +111,11 @@ const reducer = (
       return {
         ...state,
         statistics: action.payload,
+      };
+    case SEO_TAG_ACTION:
+      return {
+        ...state,
+        seoTag: action.payload,
       };
     default:
       return state;

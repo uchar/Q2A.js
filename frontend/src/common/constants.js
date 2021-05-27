@@ -10,6 +10,7 @@ import {
   SELECTED_QUESTION_ACTION,
   SELECTED_USER_ACTION,
   STATISTICS_ACTION,
+  SEO_TAG_ACTION,
 } from '../redux/constants';
 import {
   ALL_BLOG_POSTS,
@@ -23,6 +24,7 @@ import {
   GET_QUESTION,
   GET_STATISTICS,
   GET_USER,
+  GET_SEO_TAG,
 } from '../API/queries';
 
 export const GET_ALL_TAGS_DATA = {
@@ -88,4 +90,10 @@ export const GET_USER_DATA = {
   gql: GET_USER,
   reduxAction: SELECTED_USER_ACTION,
   responseName: 'getUser',
+};
+
+export const SELECTED_GET_SEOTAG_DATA= {
+  gql: GET_SEO_TAG,
+  reduxAction: SEO_TAG_ACTION,
+  responseName: 'getSeoTag',
 };

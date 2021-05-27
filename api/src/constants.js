@@ -8,6 +8,7 @@ const TABLES = {
   Medal_TABLE: 'medal',
   POST_TAG_TABLE: 'posttag',
   STATISTICS_TABLE: 'statistic',
+  SEO_TABLE: 'seo',
 };
 const BLOG_POST_TYPES = {
   POST: 'POST',

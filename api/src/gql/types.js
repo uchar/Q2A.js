@@ -23,7 +23,16 @@ export default gql`
     ANSWER
     COMMENT
   }
-
+  enum SeoType {
+    HOME_PAGE
+    REGISTER_PAGE
+    LOGIN_PAGE
+    QUESTION_PAGE
+    ANSWER_PAGE
+    COMMENT_PAGE
+    TAGS_PAGE
+    BLOGPOST_PAGE
+  }
   enum StatusCode {
     VALIDATION_ERROR
     OTHER_ERROR
@@ -167,6 +176,7 @@ export default gql`
     getNotifications(language: Language!, limit: Int!, offset: Int!): [Notification]
     getBlogPosts(language: Language!, limit: Int!, offset: Int!): [BlogPost]
     getStatistics(language: Language!): Statistics
+    getSeoTag(language: Language!, seoType: SeoType!, metaData: String): String!
   }
 
   type Mutation {

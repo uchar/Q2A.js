@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
+import { QAPageJsonld } from 'next-seo';
+import QuestionAnswer from '../../../../pages/next-seo.config';
 import { parseContent } from '../../../parsers/parser';
 import {
   DeepMemo,
