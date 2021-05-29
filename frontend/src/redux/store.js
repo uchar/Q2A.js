@@ -26,6 +26,7 @@ const reducer = (
     questions: {},
     currentTag: '',
     blogPosts: [],
+    seoTags: '{}',
   },
   action
 ) => {
@@ -115,7 +116,7 @@ const reducer = (
     case SEO_TAG_ACTION:
       return {
         ...state,
-        seoTag: action.payload,
+        seoTags: action.payload,
       };
     default:
       return state;

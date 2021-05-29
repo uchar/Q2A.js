@@ -35,6 +35,7 @@ export const cache = createCache({ key: 'css', prepend: true });
 
 const Q2aApp = (props) => {
   const { Component, pageProps } = props;
+  console.log('Q2aApp PAGEPROPS', pageProps);
   const themeType = useSelector((state) => state.currentUser.theme);
   const router = useRouter();
   updateLanguageBaseOnUrl(router.locale);
@@ -57,7 +58,7 @@ const Q2aApp = (props) => {
         </Head>
         <ThemeProvider theme={themeType === 'dark' ? darkTheme : lightTheme}>
           <CssBaseline />
-          {getLayout(<Component {...pageProps} />)}
+          {getLayout(<Component {...pageProps} />, pageProps.seoTags)}
         </ThemeProvider>
       </React.Fragment>
     </CacheProvider>

@@ -1,7 +1,7 @@
 import { getSeoTag } from '../../queries/seo';
 import { answerData, checkIfHaveEnoughItems, clearTable, makeContext, questionData } from '../../testUtility';
 import { addAnswer, addQuestion } from '../../mutations/post';
-import { POST_TYPES, TABLES } from '../../constants';
+import { TABLES } from '../../constants';
 import { getAnswers } from '../../queries/post';
 
 describe('seo mutations api', () => {
@@ -30,18 +30,16 @@ describe('seo mutations api', () => {
     const getAnswersItem = await getAnswers({ id: questionId });
     expect(getAnswersItem).toHaveLength(0);
     await checkIfHaveEnoughItems(getAnswers, { id: questionId }, 0);
-    const addNewAnswer = await createAnswer(answerData, questionId);
+    await createAnswer(answerData, questionId);
     await checkIfHaveEnoughItems(getAnswers, { id: questionId }, 1);
-    const result = await getSeoTag(null, {
+    const getDataSeo = await getSeoTag(null, {
       language: questionData.language,
       seoType: 'QUESTION_PAGE',
-      metaData: {
+      metaData: JSON.stringify({
         questionId,
-        table: TABLES.POST_TABLE,
-        type: POST_TYPES.QUESTION,
-        answerId: addNewAnswer.id,
-      },
+      }),
     });
+    const result = JSON.parse(getDataSeo);
     expect(result.name).toBe(questionData.title);
     expect(result.text).toBe(questionData.content);
     expect(result.answerCount).toBeGreaterThanOrEqual(0);

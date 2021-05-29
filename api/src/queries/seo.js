@@ -1,9 +1,11 @@
-import databaseUtils from '../db/database';
-import { POST_TYPES, TABLES } from '../constants';
-import { getAnswers } from './post';
-import { getUrlFromPost, timeStampToIso } from '../utility';
+import databaseUtils from '../db/database.js';
+import { POST_TYPES, TABLES } from '../constants.js';
+import { getAnswers } from './post.js';
+import { getUrlFromPost, timeStampToIso } from '../utility.js';
 
 const getSeoTag = async (_, { language, seoType, metaData }) => {
+  console.log('In getSeoTag', language, seoType, metaData);
+
   if (seoType === 'HOME_PAGE') {
     return {
       title: 'page.title',
@@ -19,7 +21,7 @@ const getSeoTag = async (_, { language, seoType, metaData }) => {
     };
   }
   if (seoType === 'QUESTION_PAGE') {
-    const { questionId } = metaData;
+    const { questionId } = JSON.parse(metaData);
     const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
     const User = databaseUtils().loadModel(TABLES.USER_TABLE);
     const question = await Post.findOne({
@@ -55,8 +57,7 @@ const getSeoTag = async (_, { language, seoType, metaData }) => {
         },
       };
     }
-
-    return meta;
+    return JSON.stringify(meta);
   }
   return true;
 };

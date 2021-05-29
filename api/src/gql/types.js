@@ -28,7 +28,6 @@ export default gql`
     REGISTER_PAGE
     LOGIN_PAGE
     QUESTION_PAGE
-    ANSWER_PAGE
     COMMENT_PAGE
     TAGS_PAGE
     BLOGPOST_PAGE

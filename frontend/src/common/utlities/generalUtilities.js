@@ -5,6 +5,7 @@ import 'moment/locale/fa';
 import isEqual from 'react-fast-compare';
 import { getLanguage, LANGUAGES, updateLanguageBaseOnUrl } from './languageUtilities';
 import { doGraphQLQuery } from '../../API/utility';
+import { GET_SEO_TAG } from '../../API/queries';
 
 export const getFullUrl = (name) => {
   if (!name) {
@@ -45,11 +46,13 @@ export const getTagsArray = (tag1, tag2, tag3, tag4, tag5) => {
 };
 
 // build page every revalidateSeconds
-export const addRevalidateAndRedux = async (props, reduxStaticProps, revalidateSeconds = 120) => {
+export const addRevalidateAndRedux = async (props, reduxStaticProps, seoParams, revalidateSeconds = 120) => {
   updateLanguageBaseOnUrl(props.locale);
   const getStaticProps = await reduxStaticProps(props);
 
   getStaticProps.revalidate = revalidateSeconds;
+  const response = await doGraphQLQuery(GET_SEO_TAG, seoParams);
+  getStaticProps.props = { seoTags: JSON.parse(response.getSeoTag) };
   return getStaticProps;
 };
 
@@ -80,6 +83,7 @@ export const getItemsWithOffsetAndDispatch = async (page, data, store, otherPara
 };
 export const getItemsAndDispatch = async (data, params, store) => {
   const response = await doGraphQLQuery(data.gql, params);
+  console.log('Response', response);
   store.dispatch({
     type: data.reduxAction,
     payload: data.responseName ? response[data.responseName] : response,

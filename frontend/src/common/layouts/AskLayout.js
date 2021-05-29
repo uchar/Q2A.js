@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { NextSeo } from 'next-seo';
+import { QAPageJsonld } from 'next-seo';
 import Header from './Header/Header';
 import Footer from './Footer';
 import JssStylesProvider from './JssStylesProvider';
@@ -30,7 +30,6 @@ const styles = {
 };
 
 const AskLayout = (props) => {
-  const getSeoTag = JSON.parse(useSelector((state) => state.seoTag));
   const expansionData = [
     {
       id: 1,
@@ -57,7 +56,7 @@ const AskLayout = (props) => {
   ];
   return (
     <JssStylesProvider>
-      <NextSeo {...getSeoTag} />
+      {/* <QAPageJsonld mainEntity={{ ...getSeoTag }} /> */}
       <Box sx={styles.layoutStyle}>
         <Header />
         <Box sx={styles.contentStyle}>

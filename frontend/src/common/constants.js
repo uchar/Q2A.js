@@ -92,7 +92,7 @@ export const GET_USER_DATA = {
   responseName: 'getUser',
 };
 
-export const SELECTED_GET_SEOTAG_DATA= {
+export const GET_SEO_TAG_DATA = {
   gql: GET_SEO_TAG,
   reduxAction: SEO_TAG_ACTION,
   responseName: 'getSeoTag',

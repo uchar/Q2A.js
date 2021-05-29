@@ -35,9 +35,17 @@ export const getStaticProps = async (props) =>
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
       await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
       await getItemsAndDispatch(GET_STATISTICS_DATA, {}, store);
+      // await getItemsAndDispatch(
+      //   GET_SEO_TAG_DATA,
+      //   {
+      //     language: questionData.language,
+      //     seoType: 'HOME_PAGE',
+      //   },
+      //   store
+      // );
     })
   );
 
-MainPage.getLayout = (page) => <Layout>{page}</Layout>;
+MainPage.getLayout = (page) => <Layout pageType={'index'}>{page}</Layout>;
 
 export default MainPage;
