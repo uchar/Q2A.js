@@ -6,6 +6,10 @@ export default {
   publicName: Sequelize.STRING,
   profileImage: Sequelize.STRING,
   about: Sequelize.TEXT,
+  websiteUrl: Sequelize.STRING,
+  facebookUrl: Sequelize.STRING,
+  instagramUrl: Sequelize.STRING,
+  linkedinUrl: Sequelize.STRING,
   theme: {
     type: DataTypes.ENUM(['light', 'dark']),
     allowNull: false,

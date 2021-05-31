@@ -28,9 +28,10 @@ export default gql`
     REGISTER_PAGE
     LOGIN_PAGE
     QUESTION_PAGE
+    SOCIAL_PROFILE_PAGE
     COMMENT_PAGE
     TAGS_PAGE
-    BLOGPOST_PAGE
+    BLOG_POST_PAGE
   }
   enum StatusCode {
     VALIDATION_ERROR
