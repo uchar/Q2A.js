@@ -100,7 +100,7 @@ const getSeoTag = async (_, { language, seoType, metaData }) => {
   const getSeoFunctions = {};
   getSeoFunctions.HOME_PAGE = getHomePageTags;
   getSeoFunctions.QUESTION_PAGE = getQuestionPageTags;
-  getSeoFunctions.SOCIAL_PROFILE_PAGE = getProfilePageTags;
+  getSeoFunctions.PROFILE_PAGE = getProfilePageTags;
   getSeoFunctions.BLOG_POST_PAGE = getBlogPostPageTags;
 
   return getSeoFunctions[seoType](language, metaData);

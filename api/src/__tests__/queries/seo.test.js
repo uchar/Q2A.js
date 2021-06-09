@@ -69,7 +69,7 @@ describe('Getting seo tags', () => {
     const user = global.test_user;
     let result = await getSeoTag(null, {
       language: questionData.language,
-      seoType: 'SOCIAL_PROFILE_PAGE',
+      seoType: 'PROFILE_PAGE',
       metaData: JSON.stringify({
         id: user.id,
       }),
