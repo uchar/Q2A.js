@@ -3,5 +3,6 @@
 /.idea
 /.env
 /coverage
+/nginx
 .env
 yarn-error.log
