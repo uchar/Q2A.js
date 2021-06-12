@@ -10,5 +10,5 @@ RUN chmod +x /wait
 
 EXPOSE 4000
 
-CMD  "pm2-runtime",/wait && yarn prod
+CMD  pm2-runtime && /wait && yarn prod
 

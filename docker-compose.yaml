@@ -54,12 +54,7 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - 3000:3000
-  - nginx:
-        build: api/nginx
-        ports:
-            - 80:80
+      - 443:3000
 volumes:
   db-config:
   db-data:
-cd
