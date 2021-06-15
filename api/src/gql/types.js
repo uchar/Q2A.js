@@ -178,6 +178,8 @@ export default gql`
     addAnswer(language: Language!, postId: String!, content: String!): AddResult!
     addComment(language: Language!, postId: String!, content: String!): AddResult!
     addBlogComment(language: Language!, postId: String!, content: String!): AddResult!
+    addTag(language: Language!, title: String!, content: String!): AddResult!
+    updateTag(language: Language!, id: String!, title: String!, content: String!): Result!
     updateQuestion(
       language: Language!
       id: String!

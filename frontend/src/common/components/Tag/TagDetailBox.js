@@ -2,8 +2,12 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import { DeepMemo } from '../../utlities/generalUtilities';
+import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
+import TextField from '@material-ui/core/TextField';
 import Tag from './Tag';
+import { DeepMemo } from '../../utlities/generalUtilities';
 
 const styles = {
   root: {
@@ -37,19 +41,57 @@ const styles = {
   tag: {},
   tagParent: {
     display: 'flex',
-    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     margin: (theme) => theme.spacing(1, 2, 1, 2),
+  },
+  editSectionTag: {
+    width: '20ch',
+  },
+  editSectionDescription: {
+    margin: (theme) => theme.spacing(3, 1, 1, 1),
+  },
+  icons: {
+    margin: (theme) => theme.spacing(1, 2, 0, 2),
   },
 };
 
 const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   const { tag, count, description } = props;
+  const [isEditMode, setIsEditMode] = React.useState(false);
   return (
     <Box boxShadow={2} sx={styles.root}>
       <Box sx={styles.tagParent}>
-        <Tag sx={styles.tag} tag={tag} count={count} />
+        {!isEditMode ? (
+          <Box>
+            <TextField
+              id="outlined-basic"
+              label="Enter Tag"
+              variant="outlined"
+              size="small"
+              sx={styles.editSectionTag}
+            />
+            <CheckIcon sx={styles.icons} />
+            <CloseIcon sx={styles.icons} />
+          </Box>
+        ) : (
+          <Box>
+            <Tag sx={styles.tag} tag={tag} count={count} />
+            <EditIcon />
+          </Box>
+        )}
       </Box>
-      <Typography sx={styles.description}>{description}</Typography>
+      {!isEditMode ? (
+        <TextField
+          sx={styles.editSectionDescription}
+          id="outlined-multiline-static"
+          label="Enter Description"
+          multiline
+          rows={4}
+          variant="outlined"
+        />
+      ) : (
+        <Typography sx={styles.description}>{description}</Typography>
+      )}
     </Box>
   );
 });

@@ -65,8 +65,18 @@ const blogPostUpdateData = {
 };
 const tagData = {
   language: LANGUAGE.ENGLISH,
-  title: 'test_tag',
-  content: `test tag description`,
+  title: 'test_tag_title',
+  content: `test tag description:
+  Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, `,
+  used: 1,
+};
+
+const updateTagData = {
+  language: LANGUAGE.ENGLISH,
+  title: 'test_update_tag_title',
+  content:
+    'Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, ' +
+    'it puts you and your team in the pit of success when building React applications.',
   used: 1,
 };
 
@@ -128,4 +138,5 @@ export {
   clearTable,
   makeContext,
   checkIfHaveEnoughItems,
+  updateTagData,
 };

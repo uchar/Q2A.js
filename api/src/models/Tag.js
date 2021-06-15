@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
 export default {
-  title: Sequelize.STRING(32),
+  title: Sequelize.STRING(48),
   content: Sequelize.TEXT,
   language: {
     type: Sequelize.STRING(2),

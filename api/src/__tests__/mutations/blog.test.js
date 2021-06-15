@@ -15,11 +15,7 @@ describe('blog mutations api', () => {
   };
 
   const addNewBlogPost = async () => {
-    const { language } = blogData;
-    const { title } = blogData;
-    const { content } = blogData;
-    const { tags } = blogData;
-    return addBlogPost(null, { language, title, content, tags }, makeContext());
+    return addBlogPost(null, blogData, makeContext());
   };
 
   const testUpdateBlogPostWrongInput = async (language, postId, title, content, tags) => {

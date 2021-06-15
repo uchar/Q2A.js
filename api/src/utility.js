@@ -91,7 +91,15 @@ const updateStatistics = (language, columnToChange, isIncrease = true) => {
   incrPart[columnToChange] = isIncrease ? 1 : -1;
   return Statistics.increment(incrPart, { where: { language } });
 };
-
+const findTag = async (language, title) => {
+  const Tag = await databaseUtils().loadModel(TABLES.TAG_TABLE);
+  return Tag.findOne({
+    where: {
+      language,
+      title,
+    },
+  });
+};
 export {
   checkInputValidation,
   createJWTToken,
@@ -105,4 +113,5 @@ export {
   findUserById,
   createAddSuccessResponse,
   updateStatistics,
+  findTag,
 };

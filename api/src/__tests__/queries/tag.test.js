@@ -19,7 +19,7 @@ describe('tag queries api', () => {
   test('if getTagDetail work', async () => {
     await clearTable(TABLES.TAG_TABLE);
     await createData(TABLES.TAG_TABLE, tagData, true);
-    const result = await getTagDetail(null, { language: tagData.language, tag: tagData.title });
+    const result = await getTagDetail(null, { language: tagData.language, title: tagData.title });
     compartDataToBeResult(tagData, result);
   });
 });
