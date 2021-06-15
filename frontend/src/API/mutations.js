@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const ADD_QUESTION = gql`
-  mutation($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
+  mutation ($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
     addQuestion(language: $language, title: $title, content: $content, tags: $tags) {
       id
       url
@@ -11,7 +11,7 @@ export const ADD_QUESTION = gql`
 `;
 
 export const ADD_BLOG_POST = gql`
-  mutation($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
+  mutation ($language: Language!, $title: String!, $content: String!, $tags: [String]!) {
     addBlogPost(language: $language, title: $title, content: $content, tags: $tags) {
       id
       url
@@ -21,7 +21,7 @@ export const ADD_BLOG_POST = gql`
 `;
 
 export const increaseViewCount = gql`
-  mutation($language: Language!, $id: String!) {
+  mutation ($language: Language!, $id: String!) {
     increaseViewCount(language: $language, id: $id) {
       statusCode
       message
@@ -30,7 +30,7 @@ export const increaseViewCount = gql`
 `;
 
 export const togglePostActiveStatus = gql`
-  mutation($language: Language!, $id: String!) {
+  mutation ($language: Language!, $id: String!) {
     togglePostActiveStatus(language: $language, id: $id) {
       statusCode
       message
@@ -39,7 +39,7 @@ export const togglePostActiveStatus = gql`
 `;
 
 export const ADD_ANSWER = gql`
-  mutation($language: Language!, $postId: String!, $content: String!) {
+  mutation ($language: Language!, $postId: String!, $content: String!) {
     addAnswer(language: $language, postId: $postId, content: $content) {
       id
       url
@@ -49,7 +49,7 @@ export const ADD_ANSWER = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation($language: Language!, $postId: String!, $content: String!) {
+  mutation ($language: Language!, $postId: String!, $content: String!) {
     addComment(language: $language, postId: $postId, content: $content) {
       id
       url
@@ -58,7 +58,7 @@ export const ADD_COMMENT = gql`
   }
 `;
 export const UPDATE_QUESTION = gql`
-  mutation($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
+  mutation ($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
     updateQuestion(language: $language, id: $id, title: $title, content: $content, tags: $tags) {
       statusCode
       message
@@ -66,7 +66,7 @@ export const UPDATE_QUESTION = gql`
   }
 `;
 export const UPDATE_BLOG_POST = gql`
-  mutation($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
+  mutation ($language: Language!, $id: String!, $title: String!, $content: String!, $tags: [String]!) {
     updateBlogPost(language: $language, id: $id, title: $title, content: $content, tags: $tags) {
       statusCode
       message
@@ -74,7 +74,7 @@ export const UPDATE_BLOG_POST = gql`
   }
 `;
 export const ADD_BLOG_POST_COMMENT = gql`
-  mutation($language: Language!, $postId: String!, $content: String!) {
+  mutation ($language: Language!, $postId: String!, $content: String!) {
     addBlogComment(language: $language, postId: $postId, content: $content) {
       id
       url
@@ -83,7 +83,7 @@ export const ADD_BLOG_POST_COMMENT = gql`
   }
 `;
 export const UPDATE_ANSWER = gql`
-  mutation($language: Language!, $id: String!, $content: String!) {
+  mutation ($language: Language!, $id: String!, $content: String!) {
     updateAnswer(language: $language, id: $id, content: $content) {
       statusCode
       message
@@ -92,7 +92,7 @@ export const UPDATE_ANSWER = gql`
 `;
 
 export const UPDATE_COMMENT = gql`
-  mutation($language: Language!, $id: String!, $content: String!) {
+  mutation ($language: Language!, $id: String!, $content: String!) {
     updateComment(language: $language, id: $id, content: $content) {
       statusCode
       message
@@ -101,24 +101,24 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const USER_LOGIN = gql`
-  mutation($language: Language!, $username: String!, $password: String!) {
+  mutation ($language: Language!, $username: String!, $password: String!) {
     login(language: $language, username: $username, password: $password)
   }
 `;
 
 export const USER_GOOGLE_LOGIN = gql`
-  mutation($language: Language!, $jwtToken: String!) {
+  mutation ($language: Language!, $jwtToken: String!) {
     googleLogin(language: $language, jwtToken: $jwtToken)
   }
 `;
 
 export const USER_SIGN_UP = gql`
-  mutation($language: Language!, $email: String!, $username: String!, $password: String!) {
+  mutation ($language: Language!, $email: String!, $username: String!, $password: String!) {
     signUp(language: $language, email: $email, username: $username, password: $password)
   }
 `;
 export const UPLOAD_FILE = gql`
-  mutation($language: Language!, $file: Upload!) {
+  mutation ($language: Language!, $file: Upload!) {
     uploadFile(language: $language, file: $file) {
       filename
       mimetype
@@ -129,7 +129,7 @@ export const UPLOAD_FILE = gql`
 
 //    updateUser(id: String!, input: UpdateUserInput!): Result
 export const UPDATE_USER = gql`
-  mutation($id: String!, $input: UpdateUserInput!) {
+  mutation ($id: String!, $input: UpdateUserInput!) {
     updateUser(id: $id, input: $input) {
       statusCode
       message
@@ -138,7 +138,7 @@ export const UPDATE_USER = gql`
 `;
 
 export const SET_READ_ALL_NOTIFICATIONS = gql`
-  mutation($language: Language!) {
+  mutation ($language: Language!) {
     setReadAllNotifications(language: $language) {
       statusCode
       message

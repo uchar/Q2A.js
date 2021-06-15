@@ -59,6 +59,7 @@ const permissions = shield({
     getNotifications: isSelf,
     getBlogPosts: isPublic,
     getStatistics: isPublic,
+    getSeoTag: isPublic,
   },
   Mutation: {
     login: isPublic,

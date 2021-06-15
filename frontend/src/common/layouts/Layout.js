@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import { BrowserView } from 'react-device-detect';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NextSeo, QAPageJsonld } from 'next-seo';
+
 import Header from './Header/Header';
 import Footer from './Footer';
 import TagsList from '../components/Tag/TagsList';
@@ -34,32 +36,37 @@ const styles = {
 };
 
 const Layout = (props) => {
+  console.log('Layout props:::', props);
   const tags = useSelector((state) => state.tags);
   const blogPosts = useSelector((state) => state.blogPosts);
-  const { noSideBar } = props;
+  const { noSideBar, pageType, seoTags } = props;
   if (!tags && !noSideBar) return <Loading />;
   return (
     <JssStylesProvider>
+      {seoTags && pageType === 'index' && (
+        <NextSeo title="Simple Usage Example" description="A short description goes here." />
+      )}
+      {seoTags && pageType === 'QUESTION_PAGE' && <QAPageJsonld mainEntity={seoTags} />}
       <Box sx={styles.layoutStyle}>
         <Header />
         <Box sx={styles.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
-              {!noSideBar && <Navigation></Navigation>}
+              {!noSideBar && <Navigation />}
             </Grid>
             <Grid item md={8} xs={12}>
               {props.children}
             </Grid>
             <Grid item md={2} xs={12}>
               {!noSideBar && (
-                <div>
+                <Box>
                   <BlogBox sx={styles.newsBox} blogPosts={blogPosts} />
                   <Box sx={styles.tagBox} boxShadow={2}>
                     <BrowserView>
                       <TagsList tags={tags} />
                     </BrowserView>
                   </Box>
-                </div>
+                </Box>
               )}
             </Grid>
           </Grid>

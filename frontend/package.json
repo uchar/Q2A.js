@@ -43,6 +43,7 @@
     "moment": "2.29.1",
     "next": "10.2.0",
     "next-redux-wrapper": "6.0.2",
+    "next-seo": "^4.24.0",
     "node-html-parser": "3.3.0",
     "nprogress": "0.2.0",
     "prop-types": "15.7.2",
@@ -60,11 +61,11 @@
     "react-share": "4.4.0",
     "react-spinners": "0.10.6",
     "react-swipeable-views": "0.13.9",
+    "react-swipeable-views-utils": "^0.14.0-alpha.0",
     "react-syntax-highlighter": "15.4.3",
     "recharts": "2.0.9",
     "redux": "4.1.0",
-    "yup": "0.32.9",
-    "react-swipeable-views-utils": "^0.14.0-alpha.0"
+    "yup": "0.32.9"
   },
   "devDependencies": {
     "@types/next": "^9.0.0",

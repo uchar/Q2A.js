@@ -30,6 +30,7 @@ import {
 import { getStatistics } from '../queries/statistic.js';
 // import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts, getBlogPost, getBlogPostItemComments } from '../queries/blog.js';
+import { getSeoTag } from '../queries/seo.js';
 
 export default {
   Query: {
@@ -45,6 +46,7 @@ export default {
     getBlogPosts,
     getBlogPost,
     getStatistics,
+    getSeoTag,
   },
   Mutation: {
     login,

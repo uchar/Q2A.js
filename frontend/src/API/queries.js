@@ -131,7 +131,7 @@ export const GET_BLOG_POST = gql`
   }
 `;
 export const ALL_TAGS = gql`
-  query($language: Language!, $limit: Int, $offset: Int) {
+  query ($language: Language!, $limit: Int, $offset: Int) {
     getTags(language: $language, limit: $limit, offset: $offset) {
       id
       title
@@ -164,7 +164,7 @@ export const ALL_BLOG_POSTS = gql`
 `;
 
 export const GET_TAG = gql`
-  query($language: Language!, $tag: String!) {
+  query ($language: Language!, $tag: String!) {
     getTagDetail(language: $language, tag: $tag) {
       id
       title
@@ -175,7 +175,7 @@ export const GET_TAG = gql`
 `;
 
 export const GET_NOTIFICATIONS = gql`
-  query($language: Language!, $limit: Int!, $offset: Int!) {
+  query ($language: Language!, $limit: Int!, $offset: Int!) {
     getNotifications(language: $language, limit: $limit, offset: $offset) {
       id
       reason
@@ -203,7 +203,7 @@ export const GET_MY_USER = gql`
 `;
 
 export const GET_STATISTICS = gql`
-  query($language: Language!) {
+  query ($language: Language!) {
     getStatistics(language: $language) {
       tagsCount
       allQuestionsCount
@@ -272,5 +272,10 @@ export const GET_USER = gql`
         }
       }
     }
+  }
+  `;
+export const GET_SEO_TAG = gql`
+  query ($language: Language!, $seoType: SeoType!, $metaData: String) {
+    getSeoTag(language: $language, seoType: $seoType, metaData: $metaData)
   }
 `;

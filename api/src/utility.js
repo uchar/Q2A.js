@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import databaseUtils from './db/database.js';
-import { TABLES, STATUS_CODE } from './constants.js';
+import { TABLES, STATUS_CODE, POST_TYPES } from './constants.js';
 
 const createJWTToken = (user) => {
   const token = jwt.sign(
@@ -91,6 +91,33 @@ const updateStatistics = (language, columnToChange, isIncrease = true) => {
   incrPart[columnToChange] = isIncrease ? 1 : -1;
   return Statistics.increment(incrPart, { where: { language } });
 };
+const timeStampToIso = (timestamp) => {
+  return new Date(timestamp).toISOString();
+};
+
+const getParentPost = async (parentId, table) => {
+  const Post = await databaseUtils().loadModel(table);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+  const post = await Post.findOne({
+    where: {
+      id: parentId,
+    },
+    include: [User],
+  });
+  return post;
+};
+
+const getUrlFromPost = async (post) => {
+  if (post.type === POST_TYPES.QUESTION) {
+    return `/${post.id}/${encodeURIComponent(post.title)}`;
+  }
+  if (post.type === POST_TYPES.ANSWER || post.type === POST_TYPES.COMMENT) {
+    const parentQuestion = await getParentPost(post.parentId, TABLES.POST_TABLE);
+    return getUrlFromPost(parentQuestion);
+  }
+  console.warn('Type of post not found in getUrlFromPost');
+  return '/';
+};
 
 export {
   checkInputValidation,
@@ -105,4 +132,7 @@ export {
   findUserById,
   createAddSuccessResponse,
   updateStatistics,
+  timeStampToIso,
+  getParentPost,
+  getUrlFromPost,
 };

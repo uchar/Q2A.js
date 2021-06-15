@@ -8,6 +8,8 @@ import {
   checkInputValidation,
   createAddSuccessResponse,
   updateStatistics,
+  getUrlFromPost,
+  getParentPost,
 } from '../utility.js';
 
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
@@ -47,30 +49,6 @@ const incrementColumnInPost = async (id, column, valueToIncrease = 1) => {
   return Post.increment(incrPart, { where: { id } });
 };
 
-const getParentPost = async (parentId) => {
-  const Post = await databaseUtils().loadModel(TABLES.POST_TABLE);
-  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
-  const post = await Post.findOne({
-    where: {
-      id: parentId,
-    },
-    include: [User],
-  });
-  return post;
-};
-
-const getUrlFromPost = async (post) => {
-  if (post.type === POST_TYPES.QUESTION) {
-    return `/${post.id}/${post.title}`;
-  }
-  if (post.type === POST_TYPES.ANSWER || post.type === POST_TYPES.COMMENT) {
-    const parentQuestion = await getParentPost(post.parentId);
-    return getUrlFromPost(parentQuestion);
-  }
-  console.warn('Type of post not found in getUrlFromPost');
-  return '/';
-};
-
 const addQuestion = async (_, { language, title, content, tags }, context) => {
   await checkInputValidation(questionSchema, { language, title, content, tags });
 
@@ -95,7 +73,7 @@ const addQuestion = async (_, { language, title, content, tags }, context) => {
 
 const addAnswer = async (_, { language, postId, content }, context) => {
   await checkInputValidation(answerSchema, { content, language });
-  const parentPost = await getParentPost(postId);
+  const parentPost = await getParentPost(postId, TABLES.POST_TABLE);
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
   }
@@ -127,7 +105,7 @@ const addAnswer = async (_, { language, postId, content }, context) => {
 
 const addComment = async (_, { language, postId, content }, context) => {
   await checkInputValidation(commentSchema, { language, content });
-  const parentPost = await getParentPost(postId);
+  const parentPost = await getParentPost(postId, TABLES.POST_TABLE);
   if (parentPost === null) {
     throw new Error(STATUS_CODE.INPUT_ERROR);
   }

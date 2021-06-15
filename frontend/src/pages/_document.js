@@ -4,6 +4,7 @@ import createCache from '@emotion/cache';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
 import createEmotionServer from '@emotion/server/create-instance';
+import { Box } from '@material-ui/core';
 
 const getCache = () => {
   const cache = createCache({ key: 'css', prepend: true });
@@ -17,7 +18,6 @@ export default class Q2aDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* PWA primary color */}
           <meta name="theme-color" />
           <link rel="stylesheet" href="/fonts/fonts.css" />
           <link
@@ -70,11 +70,12 @@ Q2aDocument.getInitialProps = async (ctx) => {
     originalRenderPage({
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
       // Take precedence over the CacheProvider in our custom _app.js
-      enhanceComponent: (Component) => (props) => (
-        <CacheProvider value={cache}>
-          <Component {...props} />
-        </CacheProvider>
-      ),
+      enhanceComponent: (Component) => (props) =>
+        (
+          <CacheProvider value={cache}>
+            <Component {...props} />
+          </CacheProvider>
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);

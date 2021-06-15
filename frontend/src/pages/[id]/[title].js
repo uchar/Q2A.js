@@ -23,6 +23,7 @@ import {
   GET_ALL_BLOG_POSTS_DATA,
   GET_ALL_TAGS_DATA,
   SELECTED_QUESTION_QUESTIONS_DATA,
+  GET_SEO_TAG_DATA,
 } from '../../common/constants';
 
 const styles = {
@@ -115,11 +116,32 @@ export const getStaticProps = async (props) =>
     props,
     wrapper.getStaticProps(async ({ store }) => {
       const { id } = props.params;
+      console.log('id:::::', id);
       await getItemsAndDispatch(SELECTED_QUESTION_QUESTIONS_DATA, { id }, store);
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
       await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
-    })
+      await getItemsAndDispatch(
+        GET_SEO_TAG_DATA,
+        {
+          seoType: 'QUESTION_PAGE',
+          metaData: JSON.stringify({
+            questionId: id,
+          }),
+        },
+        store
+      );
+    }),
+    {
+      seoType: 'QUESTION_PAGE',
+      metaData: JSON.stringify({
+        questionId: props.params.id,
+      }),
+    }
   );
 
-Post.getLayout = (page) => <Layout>{page}</Layout>;
+Post.getLayout = (page, seoTags) => (
+  <Layout seoTags={seoTags} pageType={'QUESTION_PAGE'}>
+    {page}
+  </Layout>
+);
 export default Post;
