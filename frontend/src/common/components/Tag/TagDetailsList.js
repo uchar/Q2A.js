@@ -2,12 +2,12 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import TagDetailBox from './TagDetailBox';
 import { getStrings } from '../../utlities/languageUtilities';
 import Q2aButton from '../Q2aButton';
+import { ADD_TAG, EDIT_TAG } from '../../../redux/constants';
 
 const styles = {
   root: { padding: (theme) => theme.spacing(2) },
@@ -31,6 +31,11 @@ const styles = {
 };
 
 export default function TagDetailsList({ tags }) {
+  const dispatch = useDispatch();
+  const handleSubmit = () => {
+    dispatch({ type: ADD_TAG, payload: { addNewTag: true } });
+  };
+
   return (
     <div>
       <Typography sx={styles.pageTitle} variant={'h1'}>
@@ -39,11 +44,9 @@ export default function TagDetailsList({ tags }) {
       <Typography sx={styles.pageSubTitle} variant={'subtitle1'}>
         {getStrings().TAGS_PAGE_DESCRIPTION}
       </Typography>
-      {/* <Button variant="contained" color="primary" sx={styles.button} startIcon={<AddIcon />}> */}
-      {/*  Add Tag */}
-      {/* </Button> */}
       <Box sx={styles.buttonAddTag}>
         <Q2aButton
+          onSubmit={handleSubmit}
           sx={styles.buttons}
           shouldShowLoading={false}
           text={'Add Tag'}
@@ -54,7 +57,13 @@ export default function TagDetailsList({ tags }) {
         {tags &&
           tags.map((tag) => (
             <Grid item key={tag.id} md={4} xs={6}>
-              <TagDetailBox tag={tag.title} description={tag.content} count={tag.used} />
+              <TagDetailBox
+                tag={tag.title}
+                description={tag.content}
+                count={tag.used}
+                isTagEditMode={tag.isTagEditMode}
+                id={tag.id}
+              />
             </Grid>
           ))}
       </Grid>

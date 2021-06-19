@@ -72,7 +72,7 @@ const Q2aButton = (props) => {
   const router = useRouter();
   const { text, url, onSubmit, type, fullWidth, shouldShowLoading, loading, style, sx } = props;
   return (
-    <div>
+    <Box>
       {url && url.length > 0 ? (
         <SButton
           onClick={async () => {
@@ -97,7 +97,7 @@ const Q2aButton = (props) => {
           sx={sx}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

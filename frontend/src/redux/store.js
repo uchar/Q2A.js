@@ -15,6 +15,8 @@ import {
   SELECTED_USER_ACTION,
   STATISTICS_ACTION,
   THEME_ACTION,
+  EDIT_TAG,
+  ADD_TAG,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -25,9 +27,11 @@ const reducer = (
     questions: {},
     currentTag: '',
     blogPosts: [],
+    isTagEditMode: false,
   },
   action
 ) => {
+  let stateCopy = {};
   switch (action.type) {
     // Merge state of server with client
     case HYDRATE:
@@ -111,6 +115,25 @@ const reducer = (
         ...state,
         statistics: action.payload,
       };
+    case EDIT_TAG:
+      stateCopy = { ...state };
+      for (let i = 0; i < stateCopy.tags.length; i++) {
+        if (stateCopy.tags[i].id === action.payload.id) {
+          stateCopy.tags[i].isTagEditMode = action.payload.isTagEditMode;
+        }
+      }
+      return stateCopy;
+    case ADD_TAG:
+      stateCopy = { ...state };
+      stateCopy.tags.unshift({
+        id: '0',
+        title: '',
+        content: '',
+        isTagEditMode: true,
+        addNewTag: true,
+      });
+      console.log('stateCopy:', stateCopy);
+      return stateCopy;
     default:
       return state;
   }
