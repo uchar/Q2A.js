@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -7,9 +7,19 @@ import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Tag from './Tag';
-import { DeepMemo } from '../../utlities/generalUtilities';
-import { EDIT_TAG } from '../../../redux/constants';
+import { DeepMemo, getFirstItemFromJSON } from '../../utlities/generalUtilities';
+import {
+  ALL_TAGS_ACTION,
+  EDIT_TAG_ACTION,
+  ALERT_DIALOG_ACTION,
+  ADD_TAG_ACTION,
+} from '../../../redux/constants';
+import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
+import { UPDATE_TAG, ADD_TAGS } from '../../../API/mutations';
+import { ALL_TAGS } from '../../../API/queries';
+import EditContent from '../Contents/EditContent';
 
 const styles = {
   root: {
@@ -53,32 +63,86 @@ const styles = {
     margin: (theme) => theme.spacing(3, 1, 1, 1),
     width: '30ch',
   },
-  icons: {},
-  closeButton: {},
 };
 
 const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   const dispatch = useDispatch();
-  const { tag, count, description, isTagEditMode, id } = props;
+  const { tag, count, description, operationMode, id } = props;
   const [onClose, setOnClose] = React.useState(false);
-  const [value, setValue] = React.useState('');
-  const handleEditFinished = () => {
-    dispatch({ type: EDIT_TAG, payload: { isTagEditMode: true } });
-    setOnClose(true);
-    return <Tag sx={styles.tag} tag={value} count={count} />;
+  const [newTag, setNewTag] = React.useState('');
+  const [newDescription, setNewDescription] = React.useState('');
+  const [isAccessEnough, setIsAccessEnough] = React.useState(false);
+  useEffect(() => {
+    const getUserId = async () => {
+      const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_TAG);
+      setIsAccessEnough(isEnough);
+    };
+    getUserId();
+  }, []);
+
+  const refreshTags = async () => {
+    const getData = await doGraphQLQuery(ALL_TAGS, { id });
+    dispatch({ type: ALL_TAGS_ACTION, payload: getFirstItemFromJSON(getData) });
+  };
+
+  const handleSubmit = async () => {
+    const params = {
+      id,
+      title: newTag,
+      content: newDescription,
+    };
+    const mutation = operationMode === 'editMode' ? UPDATE_TAG : ADD_TAGS;
+    const resultObject = await doGraphQLMutation(mutation, params);
+    const result = getFirstItemFromJSON(resultObject);
+
+    if (operationMode === 'editMode') {
+      dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'editMode', id } });
+    } else {
+      dispatch({
+        type: ADD_TAG_ACTION,
+        payload: { id, title: newTag, content: newDescription, operationMode: 'addMode' },
+      });
+    }
+
+    if (result.statusCode !== 'SUCCESS') {
+      dispatch({
+        type: ALERT_DIALOG_ACTION,
+        payload: { showError: true, title: 'error', content: result.message },
+      });
+      return;
+    }
+    await refreshTags();
+  };
+  const handleCancel = async () => {
+    if (operationMode === 'editMode') {
+      console.log('operationMode editMode:', operationMode);
+      dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'none', id } });
+    } else {
+      dispatch({ type: ADD_TAG_ACTION, payload: { operationMode: 'none', id } });
+      console.log('operationMode addMode:', operationMode);
+    }
+    await refreshTags();
   };
 
   const handleTagChange = (event) => {
-    setValue(event.target.value);
+    setNewTag(event.target.value);
   };
-  const handleEdit = (props) => {
-    setValue(tag);
-    dispatch({ type: EDIT_TAG, payload: { isTagEditMode: true, id } });
+  const handleDescriptionChange = (event) => {
+    setNewDescription(event.target.value);
+  };
+  const handleEdit = () => {
+    setNewTag(tag);
+    setNewDescription(description);
+    dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'editMode', id } });
     setOnClose(false);
   };
+  const handleDelete = async () => {
+    // await refreshTags();
+  };
+
   return (
     <Box boxShadow={2} sx={styles.root}>
-      {isTagEditMode ? (
+      {operationMode === 'editMode' || operationMode === 'addMode' ? (
         <Box>
           <Box sx={styles.tagParent}>
             <TextField
@@ -87,15 +151,15 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
               variant="outlined"
               size="small"
               sx={styles.editSectionTag}
-              value={value}
+              value={newTag}
               onChange={handleTagChange}
             />
             {!onClose && (
               <Box sx={styles.tagParent}>
-                <Button aria-label="check" sx={styles.closeButton} onClick={handleEditFinished}>
+                <Button aria-label="check" onClick={handleSubmit}>
                   <CheckIcon />
                 </Button>
-                <Button aria-label="close" sx={styles.closeButton} onClick={handleEditFinished}>
+                <Button aria-label="close" onClick={handleCancel}>
                   <CloseIcon />
                 </Button>
               </Box>
@@ -107,16 +171,25 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
             label="Enter Description"
             multiline
             rows={4}
+            value={newDescription}
             variant="outlined"
+            onChange={handleDescriptionChange}
           />
         </Box>
       ) : (
         <Box>
           <Box sx={styles.tagParent}>
             <Tag sx={styles.tag} tag={tag} count={count} />
-            <Button aria-label="edit" sx={styles.closeButton} onClick={handleEdit} tag={tag}>
-              <EditIcon />
-            </Button>
+            {isAccessEnough && (
+              <Box sx={styles.tagParent}>
+                <Button aria-label="edit" onClick={handleEdit} tag={tag}>
+                  <EditIcon />
+                </Button>
+                <Button aria-label="delete" onClick={handleDelete}>
+                  <DeleteIcon />
+                </Button>
+              </Box>
+            )}
           </Box>
           <Typography sx={styles.description}>{description}</Typography>
         </Box>
@@ -124,7 +197,11 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
     </Box>
   );
 });
+TagDetailBox.defaultProps = {
+  editMode: false,
+};
 TagDetailBox.propTypes = {
+  editMode: PropTypes.bool.isRequired,
   tag: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,

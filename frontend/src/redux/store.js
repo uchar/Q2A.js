@@ -15,8 +15,10 @@ import {
   SELECTED_USER_ACTION,
   STATISTICS_ACTION,
   THEME_ACTION,
-  EDIT_TAG,
-  ADD_TAG,
+  EDIT_TAG_ACTION,
+  ADD_TAG_ACTION,
+  ALERT_DIALOG_ACTION,
+  ALERT_OPTIONAL_DIALOG_ACTION,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -27,7 +29,9 @@ const reducer = (
     questions: {},
     currentTag: '',
     blogPosts: [],
-    isTagEditMode: false,
+    operationMode: '',
+    alertError: { showError: false, title: '', content: '' },
+    optionalDialog: { showError: false, title: '', content: '' },
   },
   action
 ) => {
@@ -53,8 +57,14 @@ const reducer = (
     case ALL_TAGS_ACTION:
       return {
         ...state,
-        tags: action.payload,
+        tags: action.payload.map((item) => {
+          return {
+            ...item,
+            isTagEditMode: false,
+          };
+        }),
       };
+
     case CURRENT_TAG_ACTION:
       return {
         ...state,
@@ -115,25 +125,39 @@ const reducer = (
         ...state,
         statistics: action.payload,
       };
-    case EDIT_TAG:
+    case EDIT_TAG_ACTION:
       stateCopy = { ...state };
+      console.log('stateCopy1:::', stateCopy);
       for (let i = 0; i < stateCopy.tags.length; i++) {
         if (stateCopy.tags[i].id === action.payload.id) {
-          stateCopy.tags[i].isTagEditMode = action.payload.isTagEditMode;
+          stateCopy.tags[i].operationMode = action.payload.operationMode;
         }
       }
+      console.log('stateCopy2:::', stateCopy);
       return stateCopy;
-    case ADD_TAG:
+    case ADD_TAG_ACTION:
       stateCopy = { ...state };
-      stateCopy.tags.unshift({
-        id: '0',
-        title: '',
-        content: '',
-        isTagEditMode: true,
-        addNewTag: true,
-      });
-      console.log('stateCopy:', stateCopy);
+      console.log(' action.payload:::', action.payload);
+      if (action.payload.operationMode !== 'none') {
+        stateCopy.tags.unshift({
+          id: '0',
+          title: '',
+          content: '',
+          operationMode: action.payload.operationMode,
+        });
+      }
+      console.log('stateCopy2 ADD_TAG_ACTION:::', stateCopy);
       return stateCopy;
+    case ALERT_DIALOG_ACTION:
+      return {
+        ...state,
+        alertError: action.payload,
+      };
+    case ALERT_OPTIONAL_DIALOG_ACTION:
+      return {
+        ...state,
+        optionalDialog: action.payload,
+      };
     default:
       return state;
   }
