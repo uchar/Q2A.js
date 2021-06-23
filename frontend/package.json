@@ -25,7 +25,7 @@
     "@material-ui/icons": "5.0.0-alpha.34",
     "@material-ui/lab": "5.0.0-alpha.34",
     "@material-ui/styles": "^5.0.0-alpha.33",
-    "@next/bundle-analyzer": "10.2.0",
+    "@next/bundle-analyzer": "11.0.1",
     "@zeit/next-css": "1.0.1",
     "apollo-upload-client": "15.0.0",
     "ckeditor5-build-q2a.js": "1.0.3",
