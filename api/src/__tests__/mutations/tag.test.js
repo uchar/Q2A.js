@@ -1,6 +1,6 @@
-import { addTag, updateTag } from '../../mutations/tag.js';
-import { makeContext, tagData, updateTagData } from '../../testUtility.js';
-import { STATUS_CODE } from '../../constants.js';
+import { addTag, updateTag, inactiveTag } from '../../mutations/tag.js';
+import { makeContext, tagData, updateTagData, clearTable } from '../../testUtility.js';
+import { STATUS_CODE, TABLES } from '../../constants.js';
 
 import { findTag } from '../../utility.js';
 
@@ -18,7 +18,7 @@ describe('tag mutations api', () => {
   // update Tag
   test('if correct input for updateTag give success', async () => {
     const tag = await addNewTag();
-    const updateTagResult = await updateTag(
+    const result = await updateTag(
       null,
       {
         language: updateTagData.language,
@@ -28,13 +28,30 @@ describe('tag mutations api', () => {
       },
       makeContext()
     );
-    expect(updateTagResult.statusCode).toBe(STATUS_CODE.SUCCESS);
-    expect(updateTagResult.message).toBeTruthy();
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+    expect(result.message).toBeTruthy();
     const getUpdatedTag = await findTag(tagData.language, updateTagData.title);
-    expect(updateTagResult.statusCode).toBe(STATUS_CODE.SUCCESS);
-    expect(updateTagResult.message).toBeTruthy();
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
+    expect(result.message).toBeTruthy();
     expect(updateTagData.title).toBe(getUpdatedTag.title);
     expect(updateTagData.content).toBe(getUpdatedTag.content);
     expect(tag.id).toBe(getUpdatedTag.id);
+  });
+  // inactive Tag
+  test('if correct input for inactive Tag works', async () => {
+    await clearTable(TABLES.TAG_TABLE);
+    await addNewTag();
+    const getNewTag = await findTag(tagData.language, tagData.title);
+    console.log('getNewTag:', getNewTag.language);
+    const result = await inactiveTag(
+      null,
+      {
+        language: getNewTag.language,
+        id: getNewTag.id,
+      },
+      makeContext()
+    );
+    console.log('result:', result);
+    expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 });

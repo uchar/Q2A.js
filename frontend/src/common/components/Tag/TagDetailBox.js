@@ -14,7 +14,7 @@ import {
   ALL_TAGS_ACTION,
   EDIT_TAG_ACTION,
   ALERT_DIALOG_ACTION,
-  ADD_TAG_ACTION,
+  ADD_TAG_ACTION, INACTIVE_TAG_ACTION,
 } from '../../../redux/constants';
 import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
 import { UPDATE_TAG, ADD_TAGS } from '../../../API/mutations';
@@ -136,8 +136,9 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
     dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'editMode', id } });
     setOnClose(false);
   };
-  const handleDelete = async () => {
-    // await refreshTags();
+  const handleInactive = async () => {
+    dispatch({ type: INACTIVE_TAG_ACTION, payload: { operationMode: 'inactiveMode', id } });
+    await refreshTags();
   };
 
   return (
@@ -185,7 +186,7 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
                 <Button aria-label="edit" onClick={handleEdit} tag={tag}>
                   <EditIcon />
                 </Button>
-                <Button aria-label="delete" onClick={handleDelete}>
+                <Button aria-label="delete" onClick={handleInactive}>
                   <DeleteIcon />
                 </Button>
               </Box>

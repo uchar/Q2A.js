@@ -17,6 +17,7 @@ import {
   THEME_ACTION,
   EDIT_TAG_ACTION,
   ADD_TAG_ACTION,
+  INACTIVE_TAG_ACTION,
   ALERT_DIALOG_ACTION,
   ALERT_OPTIONAL_DIALOG_ACTION,
 } from './constants';
@@ -127,17 +128,14 @@ const reducer = (
       };
     case EDIT_TAG_ACTION:
       stateCopy = { ...state };
-      console.log('stateCopy1:::', stateCopy);
       for (let i = 0; i < stateCopy.tags.length; i++) {
         if (stateCopy.tags[i].id === action.payload.id) {
           stateCopy.tags[i].operationMode = action.payload.operationMode;
         }
       }
-      console.log('stateCopy2:::', stateCopy);
       return stateCopy;
     case ADD_TAG_ACTION:
       stateCopy = { ...state };
-      console.log(' action.payload:::', action.payload);
       if (action.payload.operationMode !== 'none') {
         stateCopy.tags.unshift({
           id: '0',
@@ -146,7 +144,15 @@ const reducer = (
           operationMode: action.payload.operationMode,
         });
       }
-      console.log('stateCopy2 ADD_TAG_ACTION:::', stateCopy);
+      return stateCopy;
+    case INACTIVE_TAG_ACTION:
+      stateCopy = { ...state };
+      for (let i = 0; i < stateCopy.tags.length; i++) {
+        if (stateCopy.tags[i].id === action.payload.id) {
+          stateCopy.tags[i].operationMode = action.payload.operationMode;
+        }
+      }
+      console.log('stateCopy:::', stateCopy);
       return stateCopy;
     case ALERT_DIALOG_ACTION:
       return {

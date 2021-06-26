@@ -13,7 +13,9 @@ const tagSchema = yup.object().shape({
   content: yup.string().required().min(64),
   language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
 });
-
+const languageSchema = yup.object().shape({
+  language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]).required(),
+});
 const createTag = async (inputParams, context) => {
   const user = await findUserByName(context.user.publicName);
   const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);
@@ -47,4 +49,18 @@ const updateTag = async (_, { language, id, title, content }) => {
   return createSuccessResponse(`/tag/${encodeURIComponent(title)}`);
 };
 
-export { addTag, updateTag };
+const inactiveTag = async (_, { language, id }, context) => {
+  await checkInputValidation(languageSchema, { language });
+  const Post = databaseUtils().loadModel(TABLES.TAG_TABLE);
+  const result = await Post.update(
+    {
+      active: false,
+    },
+    { where: { id, language } },
+    context
+  );
+  console.log('result:::', result);
+  return createSuccessResponse(`/tag/${encodeURIComponent(id)}`);
+};
+
+export { addTag, updateTag, inactiveTag };

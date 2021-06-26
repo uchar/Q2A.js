@@ -11,7 +11,7 @@ import {
   getUserQuestions,
 } from '../queries/post.js';
 import { addBlogPost, updateBlogPost, addBlogComment } from '../mutations/blog.js';
-import { addTag, updateTag } from '../mutations/tag.js';
+import { addTag, updateTag, inactiveTag } from '../mutations/tag.js';
 import { getAllTags, getTagDetail } from '../queries/tag.js';
 import { getUser } from '../queries/user.js';
 import { getNotifications } from '../queries/notifications.js';
@@ -62,6 +62,7 @@ export default {
     addComment,
     addBlogComment,
     addTag,
+    inactiveTag,
     updateTag,
     setReadAllNotifications,
     addBlogPost,

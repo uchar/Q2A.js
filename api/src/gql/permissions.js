@@ -71,6 +71,7 @@ const permissions = shield({
     addBlogComment: or(isSuperAdmin, isAdmin, isAuthenticatedAndEmailConfirmed),
     addTag: or(isSuperAdmin, isAdmin),
     updateTag: or(isSuperAdmin, isAdmin),
+    inactiveTag: or(isSuperAdmin, isAdmin),
     updateQuestion: or(isAdmin, isSuperAdmin, isSelf),
     updateBlogPost: or(isAdmin, isSuperAdmin, isSelf),
     updateAnswer: or(isAdmin, isSuperAdmin, isSelf),
