@@ -33,7 +33,7 @@ const questionData = {
   content:
     'How can I show date-time in a human-readable format in Alpine.js? I ' +
     'would add a filter in Vuejs to do the same and looking for a similar solution in Alpine.js.',
-  tags: ['js', 'vue'],
+  tags: ['next.js', 'vue'],
   language: LANGUAGE.ENGLISH,
 };
 const answerData = {
@@ -65,7 +65,7 @@ const blogPostUpdateData = {
 };
 const tagData = {
   language: LANGUAGE.ENGLISH,
-  title: 'test_tag_title',
+  title: 'next.js',
   content: `test tag description:
   Next.js provides a solution to all of the commonly faced problems during development with React.js. But more importantly, `,
   used: 1,

@@ -99,6 +99,13 @@ export const ADD_TAGS = gql`
     }
   }
 `;
+export const INACTIVE_TAG = gql`
+  mutation ($language: Language!, $id: String!) {
+    inactiveTag(language: $language, id: $id) {
+      statusCode
+    }
+  }
+`;
 export const UPDATE_ANSWER = gql`
   mutation ($language: Language!, $id: String!, $content: String!) {
     updateAnswer(language: $language, id: $id, content: $content) {

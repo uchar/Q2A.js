@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
+import Sequelize from 'sequelize';
 import databaseUtils from './db/database.js';
-import { TABLES, STATUS_CODE } from './constants.js';
+import { TABLES, STATUS_CODE, POST_TYPES } from './constants.js';
 
+const { Op } = Sequelize;
 const createJWTToken = (user) => {
   const token = jwt.sign(
     { id: user.id, publicName: user.publicName, role: user.role },
@@ -100,6 +102,36 @@ const findTag = async (language, title) => {
     },
   });
 };
+
+const getTypeTagWhereClause = (language, type, tag) => {
+  if (tag) {
+    return {
+      type,
+      active: 1,
+      language,
+      [Op.or]: [{ tag1: tag }, { tag2: tag }, { tag3: tag }, { tag4: tag }, { tag5: tag }],
+    };
+  }
+  return { type, language, active: 1 };
+};
+
+const getQuestionsOrderBy = async (language, tag, order, limit, offset, augmentWhereClause = undefined) => {
+  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
+  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
+
+  let tagWhereClause = getTypeTagWhereClause(language, POST_TYPES.QUESTION, tag);
+  if (augmentWhereClause) {
+    tagWhereClause = augmentWhereClause(tagWhereClause);
+  }
+
+  return Post.findAll({
+    where: tagWhereClause,
+    order,
+    include: [User],
+    limit,
+    offset,
+  });
+};
 export {
   checkInputValidation,
   createJWTToken,
@@ -114,4 +146,5 @@ export {
   createAddSuccessResponse,
   updateStatistics,
   findTag,
+  getQuestionsOrderBy,
 };

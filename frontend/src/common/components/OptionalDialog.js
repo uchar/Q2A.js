@@ -1,30 +1,39 @@
 import React from 'react';
-import { Button, Box } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { useDispatch } from 'react-redux';
-import { ALERT_OPTIONAL_DIALOG_ACTION } from '../../redux/constants';
 
-export default function OptionalDialog({ optionalDialog }) {
+export default function OptionalDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const handleClose = () => {
-    const dispatch = useDispatch();
-    dispatch({ type: ALERT_OPTIONAL_DIALOG_ACTION, payload: { showError: false } });
+    setOpen(false);
   };
 
   return (
-    <Box>
+    <div>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Open alert dialog
+      </Button>
       <Dialog
-        open={true}
+        open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{optionalDialog.title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{optionalDialog.content}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending anonymous location data to Google,
+            even when no apps are running.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -35,6 +44,6 @@ export default function OptionalDialog({ optionalDialog }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 }

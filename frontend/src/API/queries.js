@@ -137,6 +137,7 @@ export const ALL_TAGS = gql`
       title
       content
       used
+      active
     }
   }
 `;

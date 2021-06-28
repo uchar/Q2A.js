@@ -6,20 +6,24 @@ import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
 import Tag from './Tag';
 import { DeepMemo, getFirstItemFromJSON } from '../../utlities/generalUtilities';
 import {
   ALL_TAGS_ACTION,
   EDIT_TAG_ACTION,
   ALERT_DIALOG_ACTION,
-  ADD_TAG_ACTION, INACTIVE_TAG_ACTION,
+  ADD_TAG_ACTION,
 } from '../../../redux/constants';
 import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
-import { UPDATE_TAG, ADD_TAGS } from '../../../API/mutations';
-import { ALL_TAGS } from '../../../API/queries';
-import EditContent from '../Contents/EditContent';
+import { UPDATE_TAG, ADD_TAGS,INACTIVE_TAG } from '../../../API/mutations';
+import { ALL_TAGS, GET_TAG } from '../../../API/queries';
 
 const styles = {
   root: {
@@ -72,6 +76,7 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   const [newTag, setNewTag] = React.useState('');
   const [newDescription, setNewDescription] = React.useState('');
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   useEffect(() => {
     const getUserId = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_TAG);
@@ -94,15 +99,6 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
     const mutation = operationMode === 'editMode' ? UPDATE_TAG : ADD_TAGS;
     const resultObject = await doGraphQLMutation(mutation, params);
     const result = getFirstItemFromJSON(resultObject);
-
-    if (operationMode === 'editMode') {
-      dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'editMode', id } });
-    } else {
-      dispatch({
-        type: ADD_TAG_ACTION,
-        payload: { id, title: newTag, content: newDescription, operationMode: 'addMode' },
-      });
-    }
 
     if (result.statusCode !== 'SUCCESS') {
       dispatch({
@@ -136,11 +132,19 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
     dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'editMode', id } });
     setOnClose(false);
   };
-  const handleInactive = async () => {
-    dispatch({ type: INACTIVE_TAG_ACTION, payload: { operationMode: 'inactiveMode', id } });
-    await refreshTags();
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
   };
 
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+  const handleInactive = async () => {
+    setOpenDeleteDialog(false);
+    const getData = await doGraphQLMutation(INACTIVE_TAG, { id });
+    await refreshTags();
+  };
   return (
     <Box boxShadow={2} sx={styles.root}>
       {operationMode === 'editMode' || operationMode === 'addMode' ? (
@@ -186,9 +190,35 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
                 <Button aria-label="edit" onClick={handleEdit} tag={tag}>
                   <EditIcon />
                 </Button>
-                <Button aria-label="delete" onClick={handleInactive}>
+                <Button aria-label="delete" onClick={handleOpenDeleteDialog}>
                   <DeleteIcon />
                 </Button>
+                {openDeleteDialog && (
+                  <Dialog
+                    open={openDeleteDialog}
+                    onClose={handleCloseDeleteDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      Are you sure you want to delete this item?
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Let Google help apps determine location. This means sending anonymous location data to
+                        Google, even when no apps are running.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleCloseDeleteDialog} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={handleInactive} color="primary" autoFocus>
+                        OK
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                )}
               </Box>
             )}
           </Box>

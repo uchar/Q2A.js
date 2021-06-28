@@ -39,7 +39,6 @@ const Layout = (props) => {
   const tags = useSelector((state) => state.tags);
   const blogPosts = useSelector((state) => state.blogPosts);
   const alertError = useSelector((state) => state.alertError);
-  const optionalDialog = useSelector((state) => state.optionalDialog);
   const { noSideBar } = props;
   if (!tags && !noSideBar) return <Loading />;
   return (
@@ -48,7 +47,6 @@ const Layout = (props) => {
         <Header />
         <Box sx={styles.contentStyle}>
           {alertError.showError && <AlertDialog alertError={alertError} />}
-          {optionalDialog.showError && <OptionalDialog optionalDialog={optionalDialog} />}
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
               {!noSideBar && <Navigation />}

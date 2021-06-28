@@ -17,7 +17,6 @@ import {
   THEME_ACTION,
   EDIT_TAG_ACTION,
   ADD_TAG_ACTION,
-  INACTIVE_TAG_ACTION,
   ALERT_DIALOG_ACTION,
   ALERT_OPTIONAL_DIALOG_ACTION,
 } from './constants';
@@ -32,7 +31,6 @@ const reducer = (
     blogPosts: [],
     operationMode: '',
     alertError: { showError: false, title: '', content: '' },
-    optionalDialog: { showError: false, title: '', content: '' },
   },
   action
 ) => {
@@ -144,15 +142,6 @@ const reducer = (
           operationMode: action.payload.operationMode,
         });
       }
-      return stateCopy;
-    case INACTIVE_TAG_ACTION:
-      stateCopy = { ...state };
-      for (let i = 0; i < stateCopy.tags.length; i++) {
-        if (stateCopy.tags[i].id === action.payload.id) {
-          stateCopy.tags[i].operationMode = action.payload.operationMode;
-        }
-      }
-      console.log('stateCopy:::', stateCopy);
       return stateCopy;
     case ALERT_DIALOG_ACTION:
       return {

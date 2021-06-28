@@ -4,6 +4,9 @@ import {
   createAddSuccessResponse,
   findUserByName,
   createSuccessResponse,
+  getQuestionsOrderBy,
+  createInputErrorResponse,
+  findTag,
 } from '../utility.js';
 import { LANGUAGE, TABLES } from '../constants.js';
 import databaseUtils from '../db/database.js';
@@ -24,43 +27,61 @@ const createTag = async (inputParams, context) => {
 
 const addTag = async (_, { language, title, content }, context) => {
   await checkInputValidation(tagSchema, { language, title, content });
-  const resultOfPost = await createTag(
-    {
-      title,
-      content,
-      language,
-    },
-    context
-  );
-  const newTag = resultOfPost.dataValues;
-  return createAddSuccessResponse(newTag.id, `/tag/${encodeURIComponent(title)}`);
+  const tag = await findTag(language, title);
+  if (tag === null) {
+    const resultOfPost = await createTag(
+      {
+        title,
+        content,
+        language,
+      },
+      context
+    );
+    const newTag = resultOfPost.dataValues;
+    return createAddSuccessResponse(newTag.id, `/tag/${encodeURIComponent(title)}`);
+  }
+
+  return createInputErrorResponse('This tag exists.');
 };
 
 const updateTag = async (_, { language, id, title, content }) => {
   await checkInputValidation(tagSchema, { language, title, content });
-  const Post = databaseUtils().loadModel(TABLES.TAG_TABLE);
-  await Post.update(
-    {
-      title,
-      content,
-    },
-    { where: { id, language } }
-  );
-  return createSuccessResponse(`/tag/${encodeURIComponent(title)}`);
+  const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);
+  const tag = await findTag(language, title);
+  if (tag === null) {
+    await Tag.update(
+      {
+        title,
+        content,
+      },
+      { where: { id, language } }
+    );
+    return createSuccessResponse(`/tag/${encodeURIComponent(title)}`);
+  }
+  return createInputErrorResponse('This tag exists.');
 };
 
 const inactiveTag = async (_, { language, id }, context) => {
   await checkInputValidation(languageSchema, { language });
-  const Post = databaseUtils().loadModel(TABLES.TAG_TABLE);
-  const result = await Post.update(
-    {
-      active: false,
+  const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);
+  const tag = await Tag.findOne({
+    where: {
+      language,
+      id,
     },
-    { where: { id, language } },
-    context
-  );
-  console.log('result:::', result);
-  return createSuccessResponse(`/tag/${encodeURIComponent(id)}`);
+  });
+  const questions = await getQuestionsOrderBy(language, tag.title, [['createdAt', 'DESC']], 1, 0);
+  if (questions.length === 0) {
+    await Tag.update(
+      {
+        active: false,
+      },
+      { where: { id, language } },
+      context
+    );
+    return createSuccessResponse();
+  }
+  return createInputErrorResponse('There should be no this tag for the question');
 };
 
 export { addTag, updateTag, inactiveTag };
