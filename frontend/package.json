@@ -31,7 +31,7 @@
     "ckeditor5-build-q2a.js": "1.0.3",
     "clsx": "1.1.1",
     "cross-env": "7.0.3",
-    "formik": "2.2.6",
+    "formik": "2.2.9",
     "graphql": "15.5.0",
     "graphql-tag": "2.12.4",
     "html-react-parser": "1.2.6",
@@ -77,11 +77,11 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
     "gulp-sass": "^4.1.0",
-    "prettier": "^2.3.0"
+    "prettier": "^2.3.2"
   }
 }
