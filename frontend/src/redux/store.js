@@ -15,6 +15,10 @@ import {
   SELECTED_USER_ACTION,
   STATISTICS_ACTION,
   THEME_ACTION,
+  EDIT_TAG_ACTION,
+  ADD_TAG_ACTION,
+  ALERT_DIALOG_ACTION,
+  ALERT_OPTIONAL_DIALOG_ACTION,
 } from './constants';
 import { LANGUAGES } from '../common/utlities/languageUtilities';
 
@@ -25,9 +29,12 @@ const reducer = (
     questions: {},
     currentTag: '',
     blogPosts: [],
+    operationMode: '',
+    alertError: { showError: false, title: '', content: '' },
   },
   action
 ) => {
+  let stateCopy = {};
   switch (action.type) {
     // Merge state of server with client
     case HYDRATE:
@@ -49,8 +56,14 @@ const reducer = (
     case ALL_TAGS_ACTION:
       return {
         ...state,
-        tags: action.payload,
+        tags: action.payload.map((item) => {
+          return {
+            ...item,
+            isTagEditMode: false,
+          };
+        }),
       };
+
     case CURRENT_TAG_ACTION:
       return {
         ...state,
@@ -110,6 +123,35 @@ const reducer = (
       return {
         ...state,
         statistics: action.payload,
+      };
+    case EDIT_TAG_ACTION:
+      stateCopy = { ...state };
+      for (let i = 0; i < stateCopy.tags.length; i++) {
+        if (stateCopy.tags[i].id === action.payload.id) {
+          stateCopy.tags[i].operationMode = action.payload.operationMode;
+        }
+      }
+      return stateCopy;
+    case ADD_TAG_ACTION:
+      stateCopy = { ...state };
+      if (action.payload.operationMode !== 'none') {
+        stateCopy.tags.unshift({
+          id: '0',
+          title: '',
+          content: '',
+          operationMode: action.payload.operationMode,
+        });
+      }
+      return stateCopy;
+    case ALERT_DIALOG_ACTION:
+      return {
+        ...state,
+        alertError: action.payload,
+      };
+    case ALERT_OPTIONAL_DIALOG_ACTION:
+      return {
+        ...state,
+        optionalDialog: action.payload,
       };
     default:
       return state;

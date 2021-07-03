@@ -105,6 +105,7 @@ export default gql`
     title: String!
     content: String
     used: Int!
+    active: Boolean!
   }
 
   type Notification {
@@ -178,6 +179,9 @@ export default gql`
     addAnswer(language: Language!, postId: String!, content: String!): AddResult!
     addComment(language: Language!, postId: String!, content: String!): AddResult!
     addBlogComment(language: Language!, postId: String!, content: String!): AddResult!
+    addTag(language: Language!, title: String!, content: String!): AddResult!
+    inactiveTag(language: Language!, id: String!): Result!
+    updateTag(language: Language!, id: String!, title: String!, content: String!): Result!
     updateQuestion(
       language: Language!
       id: String!

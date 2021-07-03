@@ -1,38 +1,10 @@
 import Sequelize from 'sequelize';
 import databaseUtils from '../db/database.js';
 import { POST_TYPES, TABLES } from '../constants.js';
+import { getQuestionsOrderBy } from '../utility.js';
 
 const { Op } = Sequelize;
 
-const getTypeTagWhereClause = (language, type, tag) => {
-  if (tag) {
-    return {
-      type,
-      active: 1,
-      language,
-      [Op.or]: [{ tag1: tag }, { tag2: tag }, { tag3: tag }, { tag4: tag }, { tag5: tag }],
-    };
-  }
-  return { type, language, active: 1 };
-};
-
-const getQuestionsOrderBy = async (language, tag, order, limit, offset, augmentWhereClause = undefined) => {
-  const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
-  const User = databaseUtils().loadModel(TABLES.USER_TABLE);
-
-  let tagWhereClause = getTypeTagWhereClause(language, POST_TYPES.QUESTION, tag);
-  if (augmentWhereClause) {
-    tagWhereClause = augmentWhereClause(tagWhereClause);
-  }
-
-  return Post.findAll({
-    where: tagWhereClause,
-    order,
-    include: [User],
-    limit,
-    offset,
-  });
-};
 const getLatestQuestions = async (_, { language, tag, limit, offset }) => {
   return getQuestionsOrderBy(language, tag, [['createdAt', 'DESC']], limit, offset);
 };
