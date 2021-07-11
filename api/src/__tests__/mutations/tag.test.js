@@ -24,8 +24,9 @@ describe('tag mutations api', () => {
     );
   };
   // AddTag
-  test('if correct input for addTag works', async () => {    await clearTable(TABLES.TAG_TABLE);
-      const result = await addNewTag();
+  test('if correct input for addTag works', async () => {
+    await clearTable(TABLES.TAG_TABLE);
+    const result = await addNewTag();
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
     expect(result.url).toBe(`/tag/${encodeURIComponent(tagData.title)}`);
   });
@@ -58,7 +59,8 @@ describe('tag mutations api', () => {
     expect(updateTagData.content).toBe(getUpdatedTag.content);
     expect(tag.id).toBe(getUpdatedTag.id);
   });
-  test('if repeat input for updateTag give success', async () => { await clearTable(TABLES.TAG_TABLE);
+  test('if repeat input for updateTag give success', async () => {
+    await clearTable(TABLES.TAG_TABLE);
     const tag = await addNewTag();
     const result = await updateTag(
       null,
