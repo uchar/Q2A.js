@@ -78,11 +78,11 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   useEffect(() => {
-    const getUserId = async () => {
+    const getUserAccess = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_TAG);
       setIsAccessEnough(isEnough);
     };
-    getUserId();
+    getUserAccess();
   }, []);
 
   const refreshTags = async () => {

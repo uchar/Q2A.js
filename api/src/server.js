@@ -5,6 +5,7 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import { applyMiddleware } from 'graphql-middleware';
 import { makeExecutableSchema } from 'graphql-tools';
+import { graphqlUploadExpress } from 'graphql-upload';
 import createDatabasePromise from './db/createDatabase.js';
 import resolvers from './gql/resolvers.js';
 import typeDefs from './gql/types.js';
@@ -38,6 +39,8 @@ createDatabasePromise.then(() => {
       next();
     })(req, res, next);
   });
+  app.use(path, graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
+
   const schema = applyMiddleware(
     makeExecutableSchema({
       typeDefs,
@@ -50,6 +53,7 @@ createDatabasePromise.then(() => {
     context: ({ req }) => ({
       user: req.user,
     }),
+    uploads: false,
   });
   server.applyMiddleware({ app, path });
   app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));

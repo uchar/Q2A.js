@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  scalar Upload
   enum Role {
     USER_CONFIRMED
     USER_NOT_CONFIRMED
@@ -198,7 +199,7 @@ export default gql`
     ): Result!
     updateAnswer(language: Language!, id: String!, content: String!): Result!
     updateComment(language: Language!, id: String!, content: String!): Result!
-    #    uploadFile(language: Language!, file: Upload!): File!
+    uploadFile(language: Language!, file: Upload!): File!
     updateUser(id: String!, input: UpdateUserInput!): Result!
     setReadAllNotifications(language: Language!): Result!
     increaseViewCount(language: Language!, id: String!): Result!

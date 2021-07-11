@@ -76,7 +76,7 @@ const permissions = shield({
     updateBlogPost: or(isAdmin, isSuperAdmin, isSelf),
     updateAnswer: or(isAdmin, isSuperAdmin, isSelf),
     updateComment: or(isAdmin, isSuperAdmin, isSelf),
-    // uploadFile: not(isAuthenticated),
+    uploadFile: isAuthenticated,
     updateUser: or(isAdmin, isSuperAdmin, isSelf),
     setReadAllNotifications: isAuthenticated,
     increaseViewCount: isPublic,

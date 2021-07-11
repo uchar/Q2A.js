@@ -81,7 +81,7 @@ const BlogItem = DeepMemo(function BlogItem({
 
   const store = useStore();
   useEffect(() => {
-    const getUserId = async () => {
+    const getUserAccess = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_POST);
       setIsAccessEnough(isEnough);
     };
@@ -90,7 +90,7 @@ const BlogItem = DeepMemo(function BlogItem({
         await doGraphQLMutation(increaseViewCount, { id });
       }
     };
-    getUserId();
+    getUserAccess();
     incrViewCount();
   }, []);
 

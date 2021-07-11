@@ -1,3 +1,4 @@
+import { GraphQLUpload } from 'graphql-upload';
 import {
   getAnswers,
   getComments,
@@ -29,10 +30,11 @@ import {
   togglePostActiveStatus,
 } from '../mutations/post.js';
 import { getStatistics } from '../queries/statistic.js';
-// import { uploadFile } from '../mutations/upload.js';
+import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts, getBlogPost, getBlogPostItemComments } from '../queries/blog.js';
 
 export default {
+  Upload: GraphQLUpload,
   Query: {
     latestQuestions: getLatestQuestions,
     popularQuestions: getPopularQuestions,
@@ -52,7 +54,7 @@ export default {
     signUp,
     addQuestion,
     googleLogin,
-    // uploadFile,
+    uploadFile,
     updateUser,
     updateQuestion,
     updateBlogPost,
