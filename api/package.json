@@ -8,7 +8,7 @@
     "node": "14.16.x"
   },
   "dependencies": {
-    "apollo-server": "2.24.1",
+    "apollo-server": "2.25.2",
     "apollo-server-express": "2.24.1",
     "aws-sdk": "2.938.0",
     "axios": "0.21.1",
@@ -20,6 +20,7 @@
     "graphql-middleware": "6.0.10",
     "graphql-shield": "7.5.0",
     "graphql-tools": "7.0.5",
+    "graphql-upload": "12.0.0",
     "jsonwebtoken": "8.5.1",
     "mysql": "2.18.1",
     "mysql-import": "^5.0.21",
