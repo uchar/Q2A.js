@@ -82,6 +82,6 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
     "gulp-sass": "^4.1.0",
-    "prettier": "^2.3.0"
+    "prettier": "^2.3.2"
   }
 }
