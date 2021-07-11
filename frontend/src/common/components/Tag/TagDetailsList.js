@@ -38,11 +38,11 @@ export default function TagDetailsList({ tags }) {
   const [isAccessEnough, setIsAccessEnough] = React.useState(false);
 
   useEffect(() => {
-    const getUserId = async () => {
+    const getUserAccess = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_TAG);
       setIsAccessEnough(isEnough);
     };
-    getUserId();
+    getUserAccess();
   }, []);
 
   const handleSubmit = async () => {

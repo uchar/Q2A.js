@@ -9,19 +9,23 @@ const s3 = new AWS.S3({
 });
 
 const uploadFile = async (_, { file }) => {
-  const { stream, filename, mimetype, encoding } = await file;
+  const { createReadStream, filename, mimetype, encoding } = await file;
   const fileType = filename.slice(filename.lastIndexOf('.'));
   const randomName = uuidv4() + fileType;
-  await s3
-    .upload({
-      Bucket: process.env.S3_BUCKET,
-      Key: `7khatcode-${randomName}`,
-      Body: stream,
-      ContentType: mimetype,
-      ACL: 'public-read',
-      CacheControl: 'public, max-age=50',
-    })
-    .promise();
+  try {
+    await s3
+      .upload({
+        Bucket: process.env.S3_BUCKET,
+        Key: `${randomName}`,
+        Body: createReadStream(),
+        ContentType: mimetype,
+        ACL: 'public-read',
+        CacheControl: 'public, max-age=50',
+      })
+      .promise();
+  } catch (e) {
+    console.error(e);
+  }
   return { filename: randomName, mimetype, encoding };
 };
 

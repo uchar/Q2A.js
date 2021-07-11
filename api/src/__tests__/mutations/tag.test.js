@@ -36,6 +36,7 @@ describe('tag mutations api', () => {
   });
   // update Tag
   test('if correct input for updateTag give success', async () => {
+    await clearTable(TABLES.TAG_TABLE);
     const tag = await addNewTag();
     const result = await updateTag(
       null,
