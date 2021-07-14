@@ -8,9 +8,9 @@
     "node": "14.16.x"
   },
   "dependencies": {
-    "apollo-server": "2.25.2",
-    "apollo-server-express": "2.25.2",
-    "aws-sdk": "2.943.0",
+    "apollo-server": "3.0.0",
+    "apollo-server-express": "3.0.0",
+    "aws-sdk": "2.945.0",
     "axios": "0.21.1",
     "bcrypt": "5.0.1",
     "crypto": "1.0.1",
@@ -32,9 +32,9 @@
     "yup": "0.32.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
+    "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.14.6",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.6",
     "eslint": "^7.30.0",
