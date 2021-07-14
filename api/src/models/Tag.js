@@ -1,8 +1,13 @@
 import Sequelize from 'sequelize';
 
 export default {
-  title: Sequelize.STRING(32),
+  title: Sequelize.STRING(48),
   content: Sequelize.TEXT,
+  active: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
   language: {
     type: Sequelize.STRING(2),
     allowNull: false,

@@ -115,7 +115,11 @@ const User = () => {
   const refreshSelectedUser = async () => {
     const userData = await doGraphQLQuery(GET_USER, { id: publicName });
     const currentUserId = await getCurrentUserId();
-    if (user.id === currentUserId) dispatch({ type: CURRENT_USER_ACTION, payload: userData.getUser });
+    if (user.id === currentUserId) {
+      console.log('SETTING USER ', JSON.stringify(userData.getUser));
+      await localStorage.setItem('USER', JSON.stringify(userData.getUser));
+      dispatch({ type: CURRENT_USER_ACTION, payload: userData.getUser });
+    }
     dispatch({ type: SELECTED_USER_ACTION, payload: userData.getUser });
   };
 
@@ -154,7 +158,9 @@ const User = () => {
                 if (uploadError) setUploadError(undefined);
                 const uploadResult = await uploadFile(img);
                 try {
+                  const id = await getCurrentUserId();
                   const resultObject = await doGraphQLMutation(UPDATE_USER, {
+                    id,
                     input: {
                       profileImage: uploadResult.uploadFile.filename,
                     },
@@ -200,7 +206,9 @@ const User = () => {
               error={apiError}
               onSave={async () => {
                 try {
+                  const id = await getCurrentUserId();
                   const resultObject = await doGraphQLMutation(UPDATE_USER, {
+                    id,
                     input: {
                       about: aboutEditData,
                     },
@@ -326,7 +334,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
-    wrapper.getStaticProps(async ({ store }) => {
+    wrapper.getStaticProps((store) => async (ctx) => {
       const { id } = props.params;
       await getItemsAndDispatch(GET_ALL_BLOG_POSTS_DATA, { limit: 5, offset: 0 }, store);
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);

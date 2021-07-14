@@ -39,11 +39,7 @@ describe('post mutations api', () => {
   };
 
   const addNewQuestion = async () => {
-    const { language } = questionData;
-    const { title } = questionData;
-    const { content } = questionData;
-    const { tags } = questionData;
-    return addQuestion(null, { language, title, content, tags }, makeContext());
+    return addQuestion(null, questionData, makeContext());
   };
 
   const testUpdateQuestionWrongInput = async (language, questionId, title, content, tags) => {

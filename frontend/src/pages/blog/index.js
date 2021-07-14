@@ -49,7 +49,7 @@ function BlogMainPage() {
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
-    wrapper.getStaticProps(async ({ store }) => {
+    wrapper.getStaticProps((store) => async (ctx) => {
       await getItemsWithOffsetAndDispatch(1, ALL_BLOG_POSTS_DATA, store);
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
       await getItemsAndDispatch(GET_STATISTICS_DATA, {}, store);

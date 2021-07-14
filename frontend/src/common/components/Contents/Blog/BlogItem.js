@@ -81,7 +81,7 @@ const BlogItem = DeepMemo(function BlogItem({
 
   const store = useStore();
   useEffect(() => {
-    const getUserId = async () => {
+    const getUserAccess = async () => {
       const isEnough = await isAccessLevelEnough(USER_ACTIONS.EDIT_POST);
       setIsAccessEnough(isEnough);
     };
@@ -90,7 +90,7 @@ const BlogItem = DeepMemo(function BlogItem({
         await doGraphQLMutation(increaseViewCount, { id });
       }
     };
-    getUserId();
+    getUserAccess();
     incrViewCount();
   }, []);
 
@@ -113,16 +113,16 @@ const BlogItem = DeepMemo(function BlogItem({
           publicName={publicName}
           score={score}
         />
-        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount}  />
+        <StatisticsSection votesCount={votesCount} viewsCount={viewsCount} />
       </Grid>
 
       {!isEditMode ? (
-        <div sx={styles.titleSection}>
+        <Box sx={styles.titleSection}>
           <Typography color="textPrimary" variant="h1" sx={styles.title}>
             {title}
           </Typography>
-          <div sx={styles.contentDiv}> {parsedContent}</div>
-        </div>
+          <Box sx={styles.contentDiv}> {parsedContent}</Box>
+        </Box>
       ) : (
         <EditContent
           editMode

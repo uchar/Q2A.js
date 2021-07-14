@@ -1,3 +1,4 @@
+import { GraphQLUpload } from 'graphql-upload';
 import {
   getAnswers,
   getComments,
@@ -11,6 +12,7 @@ import {
   getUserQuestions,
 } from '../queries/post.js';
 import { addBlogPost, updateBlogPost, addBlogComment } from '../mutations/blog.js';
+import { addTag, updateTag, inactiveTag } from '../mutations/tag.js';
 import { getAllTags, getTagDetail } from '../queries/tag.js';
 import { getUser } from '../queries/user.js';
 import { getNotifications } from '../queries/notifications.js';
@@ -28,10 +30,11 @@ import {
   togglePostActiveStatus,
 } from '../mutations/post.js';
 import { getStatistics } from '../queries/statistic.js';
-// import { uploadFile } from '../mutations/upload.js';
+import { uploadFile } from '../mutations/upload.js';
 import { getBlogPosts, getBlogPost, getBlogPostItemComments } from '../queries/blog.js';
 
 export default {
+  Upload: GraphQLUpload,
   Query: {
     latestQuestions: getLatestQuestions,
     popularQuestions: getPopularQuestions,
@@ -51,7 +54,7 @@ export default {
     signUp,
     addQuestion,
     googleLogin,
-    // uploadFile,
+    uploadFile,
     updateUser,
     updateQuestion,
     updateBlogPost,
@@ -60,6 +63,9 @@ export default {
     addAnswer,
     addComment,
     addBlogComment,
+    addTag,
+    inactiveTag,
+    updateTag,
     setReadAllNotifications,
     addBlogPost,
     increaseViewCount: increaseQuestionViewCount,
