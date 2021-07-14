@@ -28,7 +28,7 @@ function UsersPage() {
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
-    wrapper.getStaticProps(async ({ store }) => {
+    wrapper.getStaticProps((store) => async (ctx) => {
       const questionsResponse = await doGraphQLQuery(GET_ALL_QUESTIONS);
       const tagsResponse = await doGraphQLQuery(ALL_TAGS, { limit: 50, offset: 0 });
       const blogPostsResponse = await doGraphQLQuery(ALL_BLOG_POSTS, { limit: 5, offset: 0 });

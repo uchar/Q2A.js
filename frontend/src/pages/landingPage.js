@@ -44,7 +44,7 @@ function MainPage() {
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
-    wrapper.getStaticProps(async ({ store }) => {})
+    wrapper.getStaticProps((store) => async (ctx) => {})
   );
 
 MainPage.getLayout = (page) => <Layout>{page}</Layout>;
