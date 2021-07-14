@@ -13,7 +13,8 @@ import { darkTheme, lightTheme } from '../common/theme';
 import '../common/globalStyles.css';
 import { getStrings, updateLanguageBaseOnUrl } from '../common/utlities/languageUtilities';
 import 'nprogress/nprogress.css';
-import * as ga from '../analytics/index';
+// import * as ga from '../analytics/index';
+import * as gtag from '../libs/gtag';
 
 NProgress.configure({ showSpinner: true });
 
@@ -46,7 +47,7 @@ const Q2aApp = (props) => {
       jssStyles.parentElement.removeChild(jssStyles);
     }
     const handleRouteChange = (url) => {
-      ga.pageview(url);
+      gtag.pageview(url);
     };
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
