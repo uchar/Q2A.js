@@ -14,7 +14,7 @@ import { permissions } from './gql/permissions.js';
 const port = 4000;
 const path = '/graphql';
 
-createDatabasePromise.then(() => {
+createDatabasePromise.then(async () => {
   const { Strategy, ExtractJwt } = passportJWT;
   const jwtPasswordStrategy = new Strategy(
     {
@@ -55,6 +55,7 @@ createDatabasePromise.then(() => {
     }),
     uploads: false,
   });
+  await server.start();
   server.applyMiddleware({ app, path });
   app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));
 });
