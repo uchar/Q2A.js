@@ -113,7 +113,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (props) =>
   addRevalidateAndRedux(
     props,
-    wrapper.getStaticProps(async ({ store }) => {
+    wrapper.getStaticProps((store) => async (ctx) => {
       const { id } = props.params;
       await getItemsAndDispatch(SELECTED_QUESTION_QUESTIONS_DATA, { id }, store);
       await getItemsAndDispatch(GET_ALL_TAGS_DATA, { limit: 50, offset: 0 }, store);
