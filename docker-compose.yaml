@@ -29,14 +29,13 @@ services:
       - 8081:80
   api:
     build:
-      context: .
-      dockerfile: api/Dockerfile
+      context: ./api/
+      dockerfile: Dockerfile
     image: q2a-api
     links:
       - mysql
     depends_on:
       - mysql
-      - nginx
     environment:
       WAIT_HOSTS: mysql:3306
     stdin_open: true
@@ -45,22 +44,24 @@ services:
       - 4000:4000
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./frontend/
+      dockerfile: Dockerfile
     image: q2a-frontend
     links:
       - api
     depends_on:
       - api
-      - nginx
     stdin_open: true
     tty: true
     ports:
       - 3000:3000
   nginx:
     build:
-      context: .
-      dockerfile: api/nginx/Dockerfile
+      context: api/nginx/
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+      - frontend
     ports:
       - 80:80
 volumes:
