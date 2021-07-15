@@ -29,8 +29,8 @@ services:
       - 8081:80
   api:
     build:
-      context: .
-      dockerfile: api/Dockerfile
+      context: ./api/
+      dockerfile: Dockerfile
     image: q2a-api
     links:
       - mysql
@@ -44,8 +44,8 @@ services:
       - 4000:4000
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./frontend/
+      dockerfile: Dockerfile
     image: q2a-frontend
     links:
       - api
@@ -54,7 +54,16 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - 80:3000
+      - 3000:3000
+  nginx:
+    build:
+      context: api/nginx/
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+      - frontend
+    ports:
+      - 80:80
 volumes:
   db-config:
   db-data:

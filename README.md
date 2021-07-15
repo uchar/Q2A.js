@@ -72,7 +72,7 @@ yarn docker_rebuild_api
 If there is no error you can access your site with followings:
 - Your site :  server_ip 
 - PhpMyAdmin : server_ip:8081
-- PhpMyAdmin : server_ip:4000
+- API : server_ip:4000
 
 #### Installing docker,yarn ,... on linux (Debian 10.x)
 

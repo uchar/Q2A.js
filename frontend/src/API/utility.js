@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { GET_MY_USER } from './queries';
 import { UPDATE_USER, UPLOAD_FILE, USER_GOOGLE_LOGIN, USER_LOGIN, USER_SIGN_UP } from './mutations';
 
-import getStandaloneApolloClient from '../apolloClient';
+import getStandaloneApolloClient from '../libs/apolloClient';
 import { getLanguage } from '../common/utlities/languageUtilities';
 
 const getJwtToken = () => {
