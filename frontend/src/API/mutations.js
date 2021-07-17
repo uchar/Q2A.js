@@ -6,6 +6,7 @@ export const ADD_QUESTION = gql`
       id
       url
       statusCode
+      message
     }
   }
 `;
@@ -16,6 +17,7 @@ export const ADD_BLOG_POST = gql`
       id
       url
       statusCode
+      message
     }
   }
 `;
@@ -44,6 +46,7 @@ export const ADD_ANSWER = gql`
       id
       url
       statusCode
+      message
     }
   }
 `;
@@ -54,6 +57,7 @@ export const ADD_COMMENT = gql`
       id
       url
       statusCode
+      message
     }
   }
 `;
@@ -87,6 +91,7 @@ export const ADD_BLOG_POST_COMMENT = gql`
       id
       url
       statusCode
+      message
     }
   }
 `;
@@ -96,6 +101,7 @@ export const ADD_TAGS = gql`
       id
       url
       statusCode
+      message
     }
   }
 `;

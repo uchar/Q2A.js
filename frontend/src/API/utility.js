@@ -75,8 +75,8 @@ const signUp = async (email, username, password) => {
 // load locally if USER key exist in asyncstorage nad force refresh is false
 const getCurrentUser = async () => {
   // for logout
-  // localStorage.removeItem('JWT_TOKEN');
-  // localStorage.removeItem('USER');
+  //   localStorage.removeItem('JWT_TOKEN');
+  //   localStorage.removeItem('USER');
   const jwtToken = getJwtToken();
   if (jwtToken) {
     try {

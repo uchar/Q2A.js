@@ -4,8 +4,9 @@ import {
   createAddSuccessResponse,
   findUserByName,
   createSuccessResponse,
+  createInputErrorResponse,
 } from '../utility.js';
-import { BLOG_POST_TYPES, LANGUAGE, TABLES, STATUS_CODE } from '../constants.js';
+import { BLOG_POST_TYPES, LANGUAGE, TABLES } from '../constants.js';
 import databaseUtils from '../db/database.js';
 
 const blogPostSchema = yup.object().shape({
@@ -44,7 +45,7 @@ const createBlogPost = async (inputParams, context) => {
 
 const addBlogPost = async (_, params, context) => {
   const inputParams = { ...params };
-  await checkInputValidation(
+  const validationResult = await checkInputValidation(
     yup.object().shape({
       title: yup.string().required().min(10),
       content: yup.string().required().min(100),
@@ -53,6 +54,9 @@ const addBlogPost = async (_, params, context) => {
     }),
     inputParams
   );
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const questionTags = {};
   inputParams.tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -66,7 +70,10 @@ const addBlogPost = async (_, params, context) => {
 };
 // updated BlogPost
 const updateBlogPost = async (_, { language, id, title, content, tags }) => {
-  await checkInputValidation(blogPostSchema, { language, title, content, tags });
+  const validationResult = await checkInputValidation(blogPostSchema, { language, title, content, tags });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const blogPostTags = {};
   tags.forEach((tag, index) => {
     blogPostTags[`tag${index + 1}`] = tag;
@@ -84,10 +91,13 @@ const updateBlogPost = async (_, { language, id, title, content, tags }) => {
 };
 // add Comment to blog
 const addBlogComment = async (_, { language, postId, content }, context) => {
-  await checkInputValidation(commentSchema, { language, content });
+  const validationResult = await checkInputValidation(commentSchema, { language, content });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const parentBlogPost = await getParentPost(postId);
   if (parentBlogPost === null) {
-    throw new Error(STATUS_CODE.INPUT_ERROR);
+    return createInputErrorResponse('Post not found');
   }
   const createBlogPostResult = await createBlogPost(
     {

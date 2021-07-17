@@ -125,9 +125,10 @@ export default gql`
     message: String!
   }
   type AddResult {
-    id: String!
+    id: String
     url: String
     statusCode: StatusCode!
+    message: String!
   }
 
   type BlogPost {

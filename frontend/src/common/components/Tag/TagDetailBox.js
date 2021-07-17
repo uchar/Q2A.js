@@ -22,7 +22,7 @@ import {
   ADD_TAG_ACTION,
 } from '../../../redux/constants';
 import { doGraphQLMutation, doGraphQLQuery, isAccessLevelEnough, USER_ACTIONS } from '../../../API/utility';
-import { UPDATE_TAG, ADD_TAGS,INACTIVE_TAG } from '../../../API/mutations';
+import { UPDATE_TAG, ADD_TAGS, INACTIVE_TAG } from '../../../API/mutations';
 import { ALL_TAGS, GET_TAG } from '../../../API/queries';
 
 const styles = {
@@ -142,7 +142,7 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   };
   const handleInactive = async () => {
     setOpenDeleteDialog(false);
-    const getData = await doGraphQLMutation(INACTIVE_TAG, { id });
+    await doGraphQLMutation(INACTIVE_TAG, { id });
     await refreshTags();
   };
   return (
@@ -161,12 +161,12 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
             />
             {!onClose && (
               <Box sx={styles.tagParent}>
-                <Button aria-label="check" onClick={handleSubmit}>
-                  <CheckIcon />
-                </Button>
-                <Button aria-label="close" onClick={handleCancel}>
+                <Box aria-label="close" onClick={handleCancel}>
                   <CloseIcon />
-                </Button>
+                </Box>
+                <Box aria-label="check" onClick={handleSubmit}>
+                  <CheckIcon />
+                </Box>
               </Box>
             )}
           </Box>

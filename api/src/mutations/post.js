@@ -1,13 +1,14 @@
 import * as yup from 'yup';
 import { Sequelize } from 'sequelize';
 import databaseUtils from '../db/database.js';
-import { POST_TYPES, TABLES, STATUS_CODE, LANGUAGE } from '../constants.js';
+import { POST_TYPES, TABLES, LANGUAGE } from '../constants.js';
 import {
   createSuccessResponse,
   findUserByName,
   checkInputValidation,
   createAddSuccessResponse,
   updateStatistics,
+  createInputErrorResponse,
 } from '../utility.js';
 
 import { NOTIFICATION_REASON, saveNotification } from './notifications.js';
@@ -72,8 +73,10 @@ const getUrlFromPost = async (post) => {
 };
 
 const addQuestion = async (_, { language, title, content, tags }, context) => {
-  await checkInputValidation(questionSchema, { language, title, content, tags });
-
+  const validationResult = await checkInputValidation(questionSchema, { language, title, content, tags });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const questionTags = {};
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -94,10 +97,13 @@ const addQuestion = async (_, { language, title, content, tags }, context) => {
 };
 
 const addAnswer = async (_, { language, postId, content }, context) => {
-  await checkInputValidation(answerSchema, { content, language });
+  const validationResult = await checkInputValidation(answerSchema, { content, language });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const parentPost = await getParentPost(postId);
   if (parentPost === null) {
-    throw new Error(STATUS_CODE.INPUT_ERROR);
+    return createInputErrorResponse('Parent post not found');
   }
   await incrementColumnInPost(parentPost.id, 'answersCount');
   const url = await getUrlFromPost(parentPost);
@@ -126,10 +132,13 @@ const addAnswer = async (_, { language, postId, content }, context) => {
 };
 
 const addComment = async (_, { language, postId, content }, context) => {
-  await checkInputValidation(commentSchema, { language, content });
+  const validationResult = await checkInputValidation(commentSchema, { language, content });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const parentPost = await getParentPost(postId);
   if (parentPost === null) {
-    throw new Error(STATUS_CODE.INPUT_ERROR);
+    return createInputErrorResponse('Post not found');
   }
   const url = await getUrlFromPost(parentPost);
   const createPostResult = await createPost(
@@ -157,7 +166,10 @@ const addComment = async (_, { language, postId, content }, context) => {
 };
 
 const updateAnswer = async (_, { language, id, content }) => {
-  await checkInputValidation(answerSchema, { language, content });
+  const validationResult = await checkInputValidation(answerSchema, { language, content });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   await updatePost(
     {
       content,
@@ -169,7 +181,10 @@ const updateAnswer = async (_, { language, id, content }) => {
 };
 
 const updateComment = async (_, { language, id, content }) => {
-  await checkInputValidation(commentSchema, { language, content });
+  const validationResult = await checkInputValidation(commentSchema, { language, content });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   await updatePost(
     {
       content,
@@ -181,7 +196,10 @@ const updateComment = async (_, { language, id, content }) => {
 };
 
 const updateQuestion = async (_, { language, id, title, content, tags }) => {
-  await checkInputValidation(questionSchema, { language, title, content, tags });
+  const validationResult = await checkInputValidation(questionSchema, { language, title, content, tags });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const questionTags = {};
   tags.forEach((tag, index) => {
     questionTags[`tag${index + 1}`] = tag;
@@ -199,23 +217,29 @@ const updateQuestion = async (_, { language, id, title, content, tags }) => {
 };
 
 const increaseQuestionViewCount = async (_, { id }) => {
-  await checkInputValidation(
+  const validationResult = await checkInputValidation(
     yup.object().shape({
       id: yup.string().required(),
     }),
     { id }
   );
+  if (validationResult !== true) {
+    return validationResult;
+  }
   await incrementColumnInPost(id, 'viewsCount');
   return createSuccessResponse();
 };
 
 const togglePostActiveStatus = async (_, { id }) => {
-  await checkInputValidation(
+  const validationResult = await checkInputValidation(
     yup.object().shape({
       id: yup.string().required(),
     }),
     { id }
   );
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const Post = databaseUtils().loadModel(TABLES.POST_TABLE);
   await Post.update({ active: Sequelize.literal('NOT active') }, { where: { id } });
   return createSuccessResponse();

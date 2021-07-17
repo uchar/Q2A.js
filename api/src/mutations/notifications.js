@@ -38,6 +38,8 @@ const saveNotification = async (language, reason, creatorId, receiverId, title, 
       language,
       metaData: JSON.stringify(metaData),
     });
+  } else {
+    console.error(validationResult);
   }
 };
 
