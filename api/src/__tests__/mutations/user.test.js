@@ -33,13 +33,9 @@ describe('user mutation api (updateUser,..)', () => {
       updateData[fieldName] = fieldValues[index];
     });
     const { oldUser } = await createUser();
-    let updateResult;
-    try {
-      updateResult = await callUpdateUser(oldUser.id, updateData);
-    } catch (e) {
-      expect(e.name).toBe('ValidationError');
-    }
-    expect(updateResult).toBeFalsy();
+    const updateResult = await callUpdateUser(oldUser.id, updateData);
+
+    expect(updateResult.statusCode).toBe(STATUS_CODE.VALIDATION_ERROR);
     const updatedUser = await findUserById(oldUser.id);
     fieldNames.forEach((fieldName) => {
       expect(updatedUser[fieldName]).toBe(oldUser[fieldName]);

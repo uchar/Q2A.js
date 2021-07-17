@@ -24,7 +24,7 @@ describe('login workflow', () => {
     try {
       user = await userSignUp(email, username, password, language);
     } catch (e) {
-      expect(e.name).toBe('ValidationError');
+      expect(e.message).toBe(LOGIN_ERRORS.INVALID_LOGIN);
     }
     if (user)
       expect(`Sign up should give error with:' ${email},${username},${password},${language}`).toBe(false);

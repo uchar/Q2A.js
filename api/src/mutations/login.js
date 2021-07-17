@@ -18,11 +18,14 @@ const signUp = async (_, { email, username, password }) => {
       .matches(/^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/),
     password: yup.string().required().min(6),
   });
-  await checkInputValidation(loginUserSchema, {
+  const validationResult = await checkInputValidation(loginUserSchema, {
     email,
     username,
     password,
   });
+  if (validationResult !== true) {
+    throw new Error(LOGIN_ERRORS.INVALID_LOGIN);
+  }
   let user = await findUserByName(username);
   if (user) {
     throw new Error(LOGIN_ERRORS.EXIST_USER);

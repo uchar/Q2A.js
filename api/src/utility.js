@@ -79,7 +79,11 @@ const createInputErrorResponse = (message = '') => {
 };
 
 const checkInputValidation = async (schema, schemaParams) => {
-  await schema.validate(schemaParams);
+  try {
+    await schema.validate(schemaParams);
+  } catch (e) {
+    return createValidationResponse(e.errors[0]);
+  }
   return true;
 };
 

@@ -4,11 +4,11 @@ import { ROLE, LANGUAGE } from '../constants.js';
 const getUsersData = async () => {
   return [
     {
-      publicName: process.env.SUPER_ADMIN_USERNAME,
+      publicName: process.env.ADMIN_USERNAME,
       profileImage: 'q2a_admin.png',
       about: 'Some descriptions about q2a_admin',
       theme: 'light',
-      role: ROLE.SUPER_ADMIN,
+      role: ROLE.ADMIN,
       score: 0,
       language: LANGUAGE.ENGLISH,
       email: process.env.SUPER_ADMIN_EMAIL,

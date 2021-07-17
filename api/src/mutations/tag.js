@@ -26,7 +26,10 @@ const createTag = async (inputParams, context) => {
 };
 
 const addTag = async (_, { language, title, content }, context) => {
-  await checkInputValidation(tagSchema, { language, title, content });
+  const validationResult = await checkInputValidation(tagSchema, { language, title, content });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const tag = await findTag(language, title);
   if (tag === null) {
     const resultOfPost = await createTag(
@@ -40,12 +43,14 @@ const addTag = async (_, { language, title, content }, context) => {
     const newTag = resultOfPost.dataValues;
     return createAddSuccessResponse(newTag.id, `/tag/${encodeURIComponent(title)}`);
   }
-
-  return createInputErrorResponse('This tag exists.');
+  return createInputErrorResponse('Tag already exists.');
 };
 
 const updateTag = async (_, { language, id, title, content }) => {
-  await checkInputValidation(tagSchema, { language, title, content });
+  const validationResult = await checkInputValidation(tagSchema, { language, title, content });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);
   const tag = await findTag(language, title);
   if (tag === null) {
@@ -62,7 +67,10 @@ const updateTag = async (_, { language, id, title, content }) => {
 };
 
 const inactiveTag = async (_, { language, id }, context) => {
-  await checkInputValidation(languageSchema, { language });
+  const validationResult = await checkInputValidation(languageSchema, { language });
+  if (validationResult !== true) {
+    return validationResult;
+  }
   const Tag = databaseUtils().loadModel(TABLES.TAG_TABLE);
   const tag = await Tag.findOne({
     where: {

@@ -22,12 +22,15 @@ const updateUser = async (_, { id, input }) => {
     language: yup.mixed().oneOf([LANGUAGE.PERSIAN, LANGUAGE.ENGLISH]),
   });
 
-  await checkInputValidation(updateUserSchema, {
+  const validationResult = await checkInputValidation(updateUserSchema, {
     profileImage: input.profileImage,
     about: input.about,
     theme: input.theme,
     language: input.language,
   });
+  if (validationResult !== true) {
+    return validationResult;
+  }
 
   const User = await databaseUtils().loadModel(TABLES.USER_TABLE);
   await User.update(input, {

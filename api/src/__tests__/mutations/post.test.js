@@ -29,13 +29,10 @@ describe('post mutations api', () => {
   };
 
   const testAddQuestionWrongInput = async (language, title, content, tags) => {
-    let result;
-    try {
-      result = await addQuestion(null, { title, content, tags }, makeContext());
-    } catch (e) {
-      expect(e.name).toBe('ValidationError');
-    }
-    if (result) expect(`Add Question should give error with:' ${title},${content},${tags}`).toBe(false);
+    const result = await addQuestion(null, { title, content, tags }, makeContext());
+
+    if (result.statusCode !== STATUS_CODE.VALIDATION_ERROR)
+      expect(`Add Question should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
   const addNewQuestion = async () => {
@@ -43,66 +40,45 @@ describe('post mutations api', () => {
   };
 
   const testUpdateQuestionWrongInput = async (language, questionId, title, content, tags) => {
-    let result;
-    try {
-      result = await updateQuestion(
-        null,
-        {
-          language,
-          questionId,
-          title,
-          content,
-          tags,
-        },
-        makeContext()
-      );
-    } catch (e) {
-      expect(e.name).toBe('ValidationError');
-    }
-    if (result) expect(`Update Question should give error with:' ${title},${content},${tags}`).toBe(false);
+    const result = await updateQuestion(
+      null,
+      {
+        language,
+        questionId,
+        title,
+        content,
+        tags,
+      },
+      makeContext()
+    );
+    if (result.statusCode !== STATUS_CODE.VALIDATION_ERROR)
+      expect(`Update Question should give error with:' ${title},${content},${tags}`).toBe(false);
   };
 
-  const testAddAnswerWrongInput = async (language, postId, content, errorMessage, typeErrorFlag) => {
-    let result;
-    try {
-      result = await addAnswer(null, { language, postId, content }, makeContext());
-    } catch (e) {
-      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
-      else expect(e.message).toBe(errorMessage);
-    }
-    if (result) expect(`add Answer Question should give error with:' ${postId},${content}`).toBe(false);
+  const testAddAnswerWrongInput = async (language, postId, content, statusCode) => {
+    const result = await addAnswer(null, { language, postId, content }, makeContext());
+    if (result.statusCode !== statusCode)
+      expect(`add Answer Question should give error with:' ${postId},${content}`).toBe(false);
   };
 
-  const testUpdateAnswerWrongInput = async (language, answerId, content, errorMessage, typeErrorFlag) => {
-    let result;
-    try {
-      result = await updateAnswer(null, { language, id: answerId, content }, makeContext());
-    } catch (e) {
-      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
-      else expect(e.message).toBe(errorMessage);
-    }
-    if (result) expect(`Update Answer should give error with:' ${answerId},${content}`).toBe(false);
+  const testUpdateAnswerWrongInput = async (language, answerId, content, statusCode) => {
+    const result = await updateAnswer(null, { language, id: answerId, content }, makeContext());
+
+    if (result.statusCode !== statusCode)
+      expect(`Update Answer should give error with:' ${answerId},${content}`).toBe(false);
   };
 
-  const testAddCommentWrongInput = async (language, postId, content, errorMessage, typeErrorFlag) => {
-    let result;
-    try {
-      result = await addComment(null, { language, postId, content }, makeContext());
-    } catch (e) {
-      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
-      else expect(e.message).toBe(errorMessage);
-    }
-    if (result) expect(`add comment Question should give error with:' ${postId},${content}`).toBe(false);
+  const testAddCommentWrongInput = async (language, postId, content, statusCode) => {
+    const result = await addComment(null, { language, postId, content }, makeContext());
+
+    if (result.statusCode !== statusCode)
+      expect(`add comment Question should give error with:' ${postId},${content}`).toBe(false);
   };
-  const testUpdateCommentWrongInput = async (language, commentId, content, errorMessage, typeErrorFlag) => {
-    let result;
-    try {
-      result = await updateComment(null, { language, id: commentId, content }, makeContext());
-    } catch (e) {
-      if (typeErrorFlag) expect(e.name).toBe(errorMessage);
-      else expect(e.message).toBe(errorMessage);
-    }
-    if (result) expect(`Update Answer should give error with:' ${commentId},${content}`).toBe(false);
+  const testUpdateCommentWrongInput = async (language, commentId, content, statusCode) => {
+    const result = await updateComment(null, { language, id: commentId, content }, makeContext());
+
+    if (result.statusCode !== statusCode)
+      expect(`Update Answer should give error with:' ${commentId},${content}`).toBe(false);
   };
   // AddQuestion
   test('if correct input for addQuestion works', async () => {
@@ -209,15 +185,13 @@ describe('post mutations api', () => {
       questionData.language,
       220,
       questionUpdateData.content,
-      STATUS_CODE.INPUT_ERROR,
-      false
+      STATUS_CODE.INPUT_ERROR
     );
     await testAddAnswerWrongInput(
       questionData.language,
       questionId,
       'wrong_content',
-      'ValidationError',
-      true
+      STATUS_CODE.VALIDATION_ERROR
     );
   });
   // updateAnswer
@@ -249,8 +223,7 @@ describe('post mutations api', () => {
       questionData.language,
       createPostResult,
       'wrong_updateAnswer',
-      'ValidationError',
-      true
+      STATUS_CODE.VALIDATION_ERROR
     );
   });
 
@@ -272,11 +245,10 @@ describe('post mutations api', () => {
       questionData.language,
       220,
       questionUpdateData.content,
-      STATUS_CODE.INPUT_ERROR,
-      false
+      STATUS_CODE.INPUT_ERROR
     );
-    await testAddCommentWrongInput(questionData.language, questionId, 'wrong', 'ValidationError', true);
-    await testAddCommentWrongInput('wrong', questionId, questionData.content, 'ValidationError', true);
+    await testAddCommentWrongInput(questionData.language, questionId, 'wrong', STATUS_CODE.VALIDATION_ERROR);
+    await testAddCommentWrongInput('wrong', questionId, questionData.content, STATUS_CODE.VALIDATION_ERROR);
   });
 
   // updateComment
@@ -297,7 +269,7 @@ describe('post mutations api', () => {
     expect(result.statusCode).toBe(STATUS_CODE.SUCCESS);
   });
 
-  test("if wrong input for updateComment shouldn't work", async () => {
+  test('if wrong input for updateComment not work', async () => {
     const question = await addNewQuestion();
     const questionId = question.id;
     const createPostResult = await addComment(
@@ -306,8 +278,8 @@ describe('post mutations api', () => {
       makeContext()
     );
     const { id } = createPostResult;
-    await testUpdateCommentWrongInput('wrong', id, questionData.content, 'ValidationError', true);
-    await testUpdateCommentWrongInput(questionData.language, id, 'wrong', 'ValidationError', true);
+    await testUpdateCommentWrongInput('wrong', id, questionData.content, STATUS_CODE.VALIDATION_ERROR);
+    await testUpdateCommentWrongInput(questionData.language, id, 'wrong', STATUS_CODE.VALIDATION_ERROR);
   });
 
   test('if increaseQuestionViewCount works', async () => {
