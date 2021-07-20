@@ -48,24 +48,32 @@ const styles = {
   },
   description: {
     flex: 1,
-    margin: (theme) => theme.spacing(1, 2, 0, 2),
-    textAlign: 'initial ',
+    margin: (theme) => theme.spacing(2, 2, 0, 2),
+    textAlign: 'justify ',
     fontWeight: 500,
     fontSize: 12,
-    alignSelf: 'flex-start',
+    // alignSelf: 'flex-start',
   },
-  tag: {},
   tagParent: {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: (theme) => theme.spacing(1, 2, 1, 2),
+    margin: (theme) => theme.spacing(2, 2, 0, 2),
   },
   editSectionTag: {
-    width: '20ch',
+    width: 'auto',
   },
   editSectionDescription: {
-    margin: (theme) => theme.spacing(3, 1, 1, 1),
-    width: '30ch',
+    margin: (theme) => theme.spacing(4, 2, 0, 2),
+    width: '92%',
+  },
+  icon: {
+    cursor: 'pointer',
+    margin: (theme) => theme.spacing(0, 2, 0, 2),
+  },
+  boxIcon: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 };
 
@@ -111,11 +119,9 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
   };
   const handleCancel = async () => {
     if (operationMode === 'editMode') {
-      console.log('operationMode editMode:', operationMode);
       dispatch({ type: EDIT_TAG_ACTION, payload: { operationMode: 'none', id } });
     } else {
       dispatch({ type: ADD_TAG_ACTION, payload: { operationMode: 'none', id } });
-      console.log('operationMode addMode:', operationMode);
     }
     await refreshTags();
   };
@@ -160,13 +166,9 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
               onChange={handleTagChange}
             />
             {!onClose && (
-              <Box sx={styles.tagParent}>
-                <Box aria-label="close" onClick={handleCancel}>
-                  <CloseIcon />
-                </Box>
-                <Box aria-label="check" onClick={handleSubmit}>
-                  <CheckIcon />
-                </Box>
+              <Box sx={styles.boxIcon}>
+                <CloseIcon onClick={handleCancel} sx={styles.icon} color="primary" />
+                <CheckIcon onClick={handleSubmit} style={{ cursor: 'pointer' }} color="primary" />
               </Box>
             )}
           </Box>
@@ -175,7 +177,6 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
             id="outlined-multiline-static"
             label="Enter Description"
             multiline
-            rows={4}
             value={newDescription}
             variant="outlined"
             onChange={handleDescriptionChange}
@@ -186,13 +187,9 @@ const TagDetailBox = DeepMemo(function TagDetailBox(props) {
           <Box sx={styles.tagParent}>
             <Tag sx={styles.tag} tag={tag} count={count} />
             {isAccessEnough && (
-              <Box sx={styles.tagParent}>
-                <Button aria-label="edit" onClick={handleEdit} tag={tag}>
-                  <EditIcon />
-                </Button>
-                <Button aria-label="delete" onClick={handleOpenDeleteDialog}>
-                  <DeleteIcon />
-                </Button>
+              <Box sx={styles.boxIcon}>
+                <DeleteIcon onClick={handleOpenDeleteDialog} sx={styles.icon} color="primary" />
+                <EditIcon style={{ cursor: 'pointer' }} onClick={handleEdit} tag={tag} color="primary" />
                 {openDeleteDialog && (
                   <Dialog
                     open={openDeleteDialog}
