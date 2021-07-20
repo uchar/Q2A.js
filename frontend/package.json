@@ -70,7 +70,7 @@
     "@types/react": "^17.0.14",
     "babel-eslint": "^10.1.0",
     "babel-plugin-styled-components": "^1.13.2",
-    "cypress": "^7.1.0",
+    "cypress": "^8.0.0",
     "eslint": "^7.30.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
