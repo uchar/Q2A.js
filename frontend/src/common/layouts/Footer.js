@@ -5,7 +5,13 @@ import { getStrings } from '../utlities/languageUtilities';
 const styles = {
   root: {
     flexGrow: 1,
-    padding: (theme) => theme.spacing(0, 5, 5, 5),
+    display: 'flex',
+    justifyContent: 'center',
+    padding: (theme) => theme.spacing(5, 5, 5, 5),
+    margin: (theme) => theme.spacing(5, 0, 0, 0),
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
   },
   grid: {
     flexGrow: 1,
@@ -65,7 +71,7 @@ export default function Footer(props) {
       {/*  </Grid> */}
       {/*  <Grid item md={2} display={{ xs: 'none' }}></Grid> */}
       {/* </Grid> */}
-      <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center', marginTop: '50px' }}>
+      <Typography color="textPrimary" style={{ fontSize: 13, textAlign: 'center'}}>
         {getStrings().FOOTER_LOVE}
       </Typography>
     </Paper>

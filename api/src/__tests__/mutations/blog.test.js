@@ -123,12 +123,7 @@ describe('blog mutations api', () => {
       blogPostUpdateData.content,
       STATUS_CODE.INPUT_ERROR
     );
-    await testAddBlogCommentWrongInput(
-      blogData.language,
-      postId,
-      'wrong',
-      STATUS_CODE.VALIDATION_ERROR
-    );
+    await testAddBlogCommentWrongInput(blogData.language, postId, 'wrong', STATUS_CODE.VALIDATION_ERROR);
     await testAddBlogCommentWrongInput('wrong', postId, blogData.content, STATUS_CODE.VALIDATION_ERROR);
   });
 });

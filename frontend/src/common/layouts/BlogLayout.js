@@ -22,7 +22,8 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    padding: '0px 2% 0px 0.5%',
+    // padding: '0px 2% 0px 0.5%',
+    padding: (theme) => theme.spacing(15, 10, 0, 10),
   },
   tagBox: {
     marginTop: (theme) => theme.spacing(3),
@@ -38,7 +39,7 @@ const BlogLayout = (props) => {
         <Box sx={styles.contentStyle}>
           <Grid direction="row" justify={'center'} container spacing={2}>
             <Grid item md={2} xs={12}>
-              {<Navigation></Navigation>}
+              {<Navigation />}
             </Grid>
             <Grid item md={8} xs={12}>
               {props.children}

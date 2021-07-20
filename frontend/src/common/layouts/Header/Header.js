@@ -108,7 +108,7 @@ const Header = () => {
   return (
     <Box sx={styles.grow}>
       <Drawer isMobileMenuOpen={isMobileMenuOpen} toggleDrawer={toggleMobileMenu} />
-      <AppBar color="secondary" sx={styles.appBar} position="static">
+      <AppBar color="secondary" sx={styles.appBar} position="fixed">
         <Toolbar sx={styles.grow}>
           <NotificationsBox
             notificationAnchor={notificationAnchor}
