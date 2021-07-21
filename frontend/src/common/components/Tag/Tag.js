@@ -7,8 +7,10 @@ import { DeepMemo } from '../../utlities/generalUtilities';
 
 const styles = {
   box: {
-    padding: (theme) => theme.spacing(1, 2, 1, 1),
+    padding: (theme) => theme.spacing(0, 2, 0, 2),
     cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
     // background: '#e1ecf4',
     // borderColor: '#f2f2f2',
     '&:hover': {

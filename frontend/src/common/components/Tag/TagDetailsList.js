@@ -61,10 +61,9 @@ export default function TagDetailsList({ tags }) {
         <Box sx={styles.buttonAddTag}>
           <Q2aButton
             onSubmit={handleSubmit}
-            sx={styles.buttons}
             shouldShowLoading={false}
             text={'Add Tag'}
-            backgroundColor={'secondary'}
+            // backgroundColor={'primary'}
           />
         </Box>
       )}
